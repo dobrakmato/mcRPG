@@ -2,3 +2,9 @@ name: RPG
 version: 1.4.1
 author: matejkormuth
 main: eu.matejkormuth.rpgdavid.RpgPlugin
+
+commands: 
+  party:
+    description: Party command.
+  playerhead:
+    description: Gives you player head.
