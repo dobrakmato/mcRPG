@@ -19,6 +19,8 @@ package eu.matejkormuth.rpgdavid.inventorymenu;
  */
 //@formatter:on
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,17 @@ import org.bukkit.inventory.InventoryHolder;
  * 
  */
 public class InventoryMenu implements InventoryHolder {
+	private static List<WeakReference<InventoryMenu>> menus = new ArrayList<WeakReference<InventoryMenu>>();
+	
+	public static InventoryMenu getInventoryMenu(Inventory invetory) {
+		for(WeakReference<InventoryMenu> menu : menus) {
+			if(menu.get().getInventory() == invetory) {
+				return menu.get();
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Inventory of this menu.
 	 */
@@ -79,6 +92,8 @@ public class InventoryMenu implements InventoryHolder {
 		this.inventory = Bukkit.createInventory(this, type, title);
 		for (InventoryMenuItem item : this.items.values())
 			this.inventory.setItem(item.getSlot(), item.getItemStack());
+		
+		menus.add(new WeakReference<InventoryMenu>(this));
 	}
 
 	/**
@@ -113,6 +128,8 @@ public class InventoryMenu implements InventoryHolder {
 		this.inventory = Bukkit.createInventory(this, size, title);
 		for (InventoryMenuItem item : this.items.values())
 			this.inventory.setItem(item.getSlot(), item.getItemStack());
+		
+		menus.add(new WeakReference<InventoryMenu>(this));
 	}
 
 	/**

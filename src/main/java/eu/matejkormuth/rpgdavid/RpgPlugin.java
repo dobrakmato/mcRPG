@@ -20,6 +20,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -111,7 +112,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 			Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 				@Override
 				public void run() {
-					RpgPlugin.this.characterChooserMenu.showTo(event.getPlayer());
+					RpgPlugin.this.characterChooserMenu.showTo(event
+							.getPlayer());
 				}
 			}, 20L);
 		} else {
@@ -134,6 +136,17 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 		this.saveProfile(event.getPlayer().getUniqueId());
 	}
 
+	@EventHandler
+	private void onInventoryClick(final InventoryClickEvent event) {
+		InventoryMenu menu = InventoryMenu.getInventoryMenu(event
+				.getClickedInventory());
+		if (menu != null) {
+			if(event.getWhoClicked() instanceof Player) {
+				menu.inventoryClick((Player) event.getWhoClicked(), event.getSlot());
+			}
+		}
+	}
+
 	private Path getDataFolderPath(final String... more) {
 		return Paths.get(this.dataFolder, more);
 	}
@@ -142,15 +155,17 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 		if (this.profileExists(uniqueId)) {
 			this.log.info("Loading profile for " + uniqueId.toString());
 			try {
-				Profile profile = new Profile(); 
-				YamlConfiguration conf = YamlConfiguration.loadConfiguration(this.getDataFolderPath("profiles",
+				Profile profile = new Profile();
+				YamlConfiguration conf = YamlConfiguration
+						.loadConfiguration(this.getDataFolderPath("profiles",
 								uniqueId.toString() + ".yml").toFile());
 				profile.setUniqueId(uniqueId);
-				profile.setCharacter(Characters.fromId(conf.getString("character")));
+				profile.setCharacter(Characters.fromId(conf
+						.getString("character")));
 				profile.setXp(conf.getLong("xp"));
-				
+
 				this.loadedProfiles.put(uniqueId, profile);
-				
+
 				if (profile != null) {
 					this.loadedProfiles.put(profile.getUniqueId(), profile);
 				}
