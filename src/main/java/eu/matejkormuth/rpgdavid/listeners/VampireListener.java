@@ -32,7 +32,10 @@ public class VampireListener implements Listener {
 						}
 					} else {
 						event.setCancelled(true);
-						((Player)event.getDamager()).sendMessage(ChatColor.RED + "You can bite again after XX seconds!");
+						
+						long time = p.getLastBitten() + 60000 - System.currentTimeMillis();
+						
+						((Player)event.getDamager()).sendMessage(ChatColor.RED + "You can bite again after " + (time / 1000) + " seconds!");
 					}
 				}
 			}

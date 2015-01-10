@@ -6,6 +6,6 @@ import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 
 public class Werewolf extends Character {
 	public Werewolf() {
-		super("Vlkodlak", new Modifiers(1, 1, 1, 1, 1), Armor.EMPTY); // Modifiers handler differently
+		super("Vlkodlak", "Speed potion in night. Night vision in night.", Modifiers.DEFAULT, Armor.EMPTY); // Modifiers handler differently
 	}
 }

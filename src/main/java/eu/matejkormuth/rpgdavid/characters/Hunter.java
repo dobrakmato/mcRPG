@@ -9,6 +9,6 @@ import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 
 public class Hunter extends Character {
 	public Hunter() {
-		super("Lovec", new Modifiers(1, 1.1F, 1, 1, 1), Armor.EMPTY, new ItemStack(Material.BOW), new ItemStack(Material.ARROW, 5));
+		super("Lovec", "Arrow has +1,5 HP DMG.", new Modifiers(1, 1.1F, 1, 1, 1), Armor.EMPTY, new ItemStack(Material.BOW), new ItemStack(Material.ARROW, 5));
 	}
 }

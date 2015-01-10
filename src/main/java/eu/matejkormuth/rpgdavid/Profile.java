@@ -57,4 +57,8 @@ public class Profile implements Serializable {
 	public boolean canBite() {
 		return System.currentTimeMillis()  > this.vampire_lastBitten + 1000 * 60;
 	}
+
+	public long getLastBitten() {
+		return this.vampire_lastBitten;
+	}
 }

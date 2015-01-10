@@ -2,7 +2,6 @@ package eu.matejkormuth.rpgdavid;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
 import eu.matejkormuth.rpgdavid.inventorymenu.Action;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
-import eu.matejkormuth.rpgdavid.inventoryutils.ItemStackBuilder;
 import eu.matejkormuth.rpgdavid.listeners.AdventurerListener;
 import eu.matejkormuth.rpgdavid.listeners.HunterListener;
 import eu.matejkormuth.rpgdavid.listeners.KnightListener;
@@ -130,7 +128,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 					.getCharacter();
 			// Apply walk speed modifier.
 			event.getPlayer().setWalkSpeed(
-					0.1F * character.getModifiers().getWalkSpeedModifier());
+					0.2F * character.getModifiers().getWalkSpeedModifier());
 		}
 	}
 

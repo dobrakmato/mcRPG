@@ -8,23 +8,29 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.google.common.base.Strings;
+
 import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 import eu.matejkormuth.rpgdavid.inventoryutils.ItemStackBuilder;
 
 public class Character {
 	private final String name;
 	private final String id;
+	private final String special;
 
 	private final Modifiers modifiers;
 	private final Armor armor;
 	private final ItemStack[] items;
 
-	public Character(String name, Modifiers modifiers, Armor armor,
-			ItemStack... items) {
+	public Character(final String name, final String special,
+			final Modifiers modifiers, final Armor armor,
+			final ItemStack... items) {
 		this.name = name;
 		this.modifiers = modifiers;
 		this.items = items;
 		this.armor = armor;
+
+		this.special = special;
 
 		this.id = this.getClass().getSimpleName();
 	}
@@ -71,18 +77,29 @@ public class Character {
 	}
 
 	public ItemStack getIcon(Material material) {
-		List<String> lore = new ArrayList<String>(6);
-		
-		lore.add(ChatColor.GREEN + "Health: " + ChatColor.GOLD + + (int) (20D * this.modifiers.getHealthModifier()) + " HP");
-		lore.add(ChatColor.YELLOW + "Health regain: " + ChatColor.GOLD + + (int) (100D * this.modifiers.getHealthRegainModifier()) + " %");
-		lore.add(ChatColor.RED + "Criticals chance: " + ChatColor.GOLD + + (int) (100D * this.modifiers.getCriticalModifier()) + " %");
-		lore.add(ChatColor.RED + "Damage: " + ChatColor.GOLD + + (int) (100D * this.modifiers.getDamageModifier()) + " %");
-		lore.add(ChatColor.BLUE + "Walk speed: " + ChatColor.GOLD + + (int) (100D * this.modifiers.getWalkSpeedModifier()) + " %");
-		
+		List<String> lore = new ArrayList<String>(8);
+
+		lore.add(ChatColor.GREEN + "Health: " + ChatColor.GOLD
+				+ +(int) (20D * this.modifiers.getHealthModifier()) + " HP");
+		lore.add(ChatColor.YELLOW + "Health regain: " + ChatColor.GOLD
+				+ +(int) (100D * this.modifiers.getHealthRegainModifier())
+				+ "%");
+		lore.add(ChatColor.RED + "Criticals chance: " + ChatColor.GOLD
+				+ +(int) (100D * this.modifiers.getCriticalModifier()) + "%");
+		lore.add(ChatColor.RED + "Damage: " + ChatColor.GOLD
+				+ +(int) (100D * this.modifiers.getDamageModifier()) + "%");
+		lore.add(ChatColor.BLUE + "Walk speed: " + ChatColor.GOLD
+				+ +(int) (100D * this.modifiers.getWalkSpeedModifier()) + "%");
+
 		lore.add("");
-		// lore.add("Special: " + this.special); TODO: Add special things
-		
-		return new ItemStackBuilder(material).name(
-				ChatColor.RESET + this.getName()).lore(lore).build();
+		if(Strings.isNullOrEmpty(this.special)) {
+			lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE + "nothing");
+		} else {
+			lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE + this.special);
+		}
+		lore.add("");
+
+		return new ItemStackBuilder(material)
+				.name(ChatColor.RESET + this.getName()).lore(lore).build();
 	}
 }

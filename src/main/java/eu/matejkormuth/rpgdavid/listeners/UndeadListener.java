@@ -24,7 +24,7 @@ public class UndeadListener implements Listener {
 				if(p != null) {
 					Character character = p.getCharacter();
 					if(character == Characters.UNDEAD) {
-						
+						// TODO: Something
 					}
 				}
 			}

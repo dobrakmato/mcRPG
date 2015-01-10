@@ -10,6 +10,6 @@ import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 
 public class Killer extends Character {
 	public Killer() {
-		super("Vrah", new Modifiers(1, 1, 1, 1.5F, 1), Armor.createLether(Color.BLACK), new Potion(PotionType.INSTANT_DAMAGE, 1).toItemStack(4));
+		super("Vrah", null, new Modifiers(1, 1, 1, 1.5F, 1), Armor.createLether(Color.BLACK), new Potion(PotionType.INSTANT_DAMAGE, 1).toItemStack(4));
 	}
 }

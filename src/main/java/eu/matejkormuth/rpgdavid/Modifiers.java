@@ -1,6 +1,8 @@
 package eu.matejkormuth.rpgdavid;
 
 public class Modifiers {
+	public static final Modifiers DEFAULT = new Modifiers(1, 1, 1, 1, 1);
+	
 	private final float healthModifier;
 	private final float speedModifier;
 	private final float dmgModifier;
