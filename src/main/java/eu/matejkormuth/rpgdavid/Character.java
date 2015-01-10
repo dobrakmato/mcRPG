@@ -7,6 +7,7 @@ import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 
 public class Character {
 	private final String name;
+	private final String id;
 	
 	private final Modifiers modifiers;
 	private final Armor armor;
@@ -17,6 +18,8 @@ public class Character {
 		this.modifiers = modifiers;
 		this.items = items;
 		this.armor = armor;
+		
+		this.id = this.getClass().getSimpleName();
 	}
 	
 	public Modifiers getModifiers() {
@@ -33,6 +36,10 @@ public class Character {
 	
 	public Armor getArmor() {
 		return armor;
+	}
+	
+	public String getId() {
+		return id;
 	}
 	
 	public void applyTo(Player p) {

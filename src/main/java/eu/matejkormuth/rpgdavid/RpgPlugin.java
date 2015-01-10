@@ -1,9 +1,6 @@
 package eu.matejkormuth.rpgdavid;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,13 +16,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.yaml.snakeyaml.Yaml;
 
 import eu.matejkormuth.rpgdavid.commands.PartyCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
@@ -72,13 +69,15 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 		this.createCharacterChooser();
 
 		// Register commands.
-		this.getCommand("playerhead").setExecutor(new PlayerHeadCommandExecutor());
+		this.getCommand("playerhead").setExecutor(
+				new PlayerHeadCommandExecutor());
 		this.getCommand("party").setExecutor(new PartyCommandExecutor());
 
 		// Register event handlers.
 		Bukkit.getPluginManager().registerEvents(this, this);
 		Bukkit.getPluginManager().registerEvents(new ModifiersListener(), this);
-		Bukkit.getPluginManager().registerEvents(new AdventurerListener(), this);
+		Bukkit.getPluginManager()
+				.registerEvents(new AdventurerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new HunterListener(), this);
 		Bukkit.getPluginManager().registerEvents(new UndeadListener(), this);
 		Bukkit.getPluginManager().registerEvents(new KnightListener(), this);
@@ -94,23 +93,27 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
 	}
 
-	public Profile getProfile(UUID uuid) {
+	public Profile getProfile(final UUID uuid) {
 		return this.loadedProfiles.get(uuid);
 	}
 
-	public Profile getProfile(OfflinePlayer player) {
+	public Profile getProfile(final OfflinePlayer player) {
 		return getProfile(player.getUniqueId());
 	}
 
 	@EventHandler
-	private void onJoin(PlayerJoinEvent event) {
+	private void onJoin(final PlayerJoinEvent event) {
 		this.loadOrCreateProfile(event.getPlayer().getUniqueId());
 
 		if (!this.getProfile(event.getPlayer()).hasCharacter()) {
 			// Hasn't character
-
 			// Show character chooser.
-			this.characterChooserMenu.showTo(event.getPlayer());
+			Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+				@Override
+				public void run() {
+					RpgPlugin.this.characterChooserMenu.showTo(event.getPlayer());
+				}
+			}, 20L);
 		} else {
 			// Has character.
 			Character character = this.getProfile(event.getPlayer())
@@ -122,31 +125,36 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 	}
 
 	@EventHandler
-	private void onLeave(PlayerQuitEvent event) {
+	private void onLeave(final PlayerQuitEvent event) {
 		// Remove him from party if needed.
-		if(Party.getParty(event.getPlayer()) != null) {
+		if (Party.getParty(event.getPlayer()) != null) {
 			Party.getParty(event.getPlayer()).removePlayer(event.getPlayer());
 		}
-		
+
 		this.saveProfile(event.getPlayer().getUniqueId());
 	}
 
-	private Path getDataFolderPath(String... more) {
+	private Path getDataFolderPath(final String... more) {
 		return Paths.get(this.dataFolder, more);
 	}
 
-	private void loadOrCreateProfile(UUID uniqueId) {
+	private void loadOrCreateProfile(final UUID uniqueId) {
 		if (this.profileExists(uniqueId)) {
 			this.log.info("Loading profile for " + uniqueId.toString());
 			try {
-				Profile profile = new Yaml().loadAs(
-						new FileReader(this.getDataFolderPath("profiles",
-								uniqueId.toString() + ".yml").toFile()),
-						Profile.class);
+				Profile profile = new Profile(); 
+				YamlConfiguration conf = YamlConfiguration.loadConfiguration(this.getDataFolderPath("profiles",
+								uniqueId.toString() + ".yml").toFile());
+				profile.setUniqueId(uniqueId);
+				profile.setCharacter(Characters.fromId(conf.getString("character")));
+				profile.setXp(conf.getLong("xp"));
+				
+				this.loadedProfiles.put(uniqueId, profile);
+				
 				if (profile != null) {
 					this.loadedProfiles.put(profile.getUniqueId(), profile);
 				}
-			} catch (FileNotFoundException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
@@ -155,20 +163,23 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 		}
 	}
 
-	private void saveProfile(UUID uniqueId) {
+	private void saveProfile(final UUID uniqueId) {
 		this.log.info("Saving profile for " + uniqueId.toString());
 		try {
-			new Yaml().dump(
-					this.loadedProfiles.get(uniqueId),
-					new FileWriter(this.getDataFolderPath("profiles",
-							uniqueId.toString() + ".yml").toFile()));
+			Profile profile = this.loadedProfiles.get(uniqueId);
+			YamlConfiguration conf = new YamlConfiguration();
+			conf.set("uuid", profile.getUniqueId().toString());
+			conf.set("character", profile.getCharacter().getId());
+			conf.set("xp", profile.getXp());
+			conf.save(this.getDataFolderPath("profiles",
+					uniqueId.toString() + ".yml").toFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private boolean profileExists(UUID uniqueId) {
+	private boolean profileExists(final UUID uniqueId) {
 		return Files.exists(this.getDataFolderPath("profiles",
 				uniqueId.toString() + ".yml"));
 	}
