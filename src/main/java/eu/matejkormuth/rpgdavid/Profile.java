@@ -1,12 +1,14 @@
 package eu.matejkormuth.rpgdavid;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Profile {
+public class Profile implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private UUID uuid;
 	private Character character;
-	
-	
+	private long xp = 0L;
 	
 	private long vampire_lastBitten;
 	
@@ -29,18 +31,30 @@ public class Profile {
 	public UUID getUniqueId() {
 		return uuid;
 	}
+	
+	public void setUniqueId(UUID uuid) {
+		this.uuid = uuid;
+	}
 
 	public boolean hasCharacter() {
 		return this.character != null;
 	}
+	
+	public long getXp() {
+		return xp;
+	}
+	
+	public void setXp(long xp) {
+		this.xp = xp;
+	}
 
 	// -------------------- VAMPIRE METHODS
 	
-	public void vampire_SetLastBitten() {
+	public void setLastBittenNow() {
 		this.vampire_lastBitten = System.currentTimeMillis();
 	}
 	
-	public boolean vampire_CanBite() {
+	public boolean canBite() {
 		return System.currentTimeMillis()  > this.vampire_lastBitten + 1000 * 60;
 	}
 }

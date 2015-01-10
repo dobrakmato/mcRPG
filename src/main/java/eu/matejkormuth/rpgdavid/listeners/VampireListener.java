@@ -23,12 +23,12 @@ public class VampireListener implements Listener {
 				Character character = p.getCharacter();
 				if(character == Characters.VAMPIRE) {
 					// If can bite now.
-					if(p.vampire_CanBite()) {
+					if(p.canBite()) {
 						if(event.getEntity() instanceof LivingEntity) {
 							event.setDamage(3D);
 							((LivingEntity)event.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * 4, 0));
 
-							p.vampire_SetLastBitten();
+							p.setLastBittenNow();
 						}
 					} else {
 						event.setCancelled(true);
