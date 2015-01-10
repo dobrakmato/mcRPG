@@ -8,3 +8,6 @@ commands:
     description: Party command.
   playerhead:
     description: Gives you player head.
+  character:
+    description: Kills you and shows character select menu.
+    aliases: [characters, suicide]

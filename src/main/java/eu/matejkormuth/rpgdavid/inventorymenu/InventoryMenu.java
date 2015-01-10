@@ -40,9 +40,9 @@ import org.bukkit.inventory.InventoryHolder;
 public class InventoryMenu implements InventoryHolder {
 	private static List<WeakReference<InventoryMenu>> menus = new ArrayList<WeakReference<InventoryMenu>>();
 	
-	public static InventoryMenu getInventoryMenu(Inventory invetory) {
+	public static InventoryMenu getInventoryMenu(final Inventory inventory) {
 		for(WeakReference<InventoryMenu> menu : menus) {
-			if(menu.get().getInventory() == invetory) {
+			if(menu.get().getInventory().equals(inventory)) {
 				return menu.get();
 			}
 		}
@@ -139,18 +139,6 @@ public class InventoryMenu implements InventoryHolder {
 	 *            player to show menu to
 	 */
 	public void showTo(final Player player) {
-		player.openInventory(this.getInventory());
-	}
-
-	/**
-	 * Same as calling {@link InventoryMenu#showTo(Player)}.
-	 * 
-	 * @see InventoryMenu#showTo(Player)
-	 * 
-	 * @param player
-	 *            player to show menu to
-	 */
-	public void openInventory(final Player player) {
 		player.openInventory(this.getInventory());
 	}
 

@@ -23,8 +23,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.matejkormuth.rpgdavid.commands.CharacterCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PartyCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
 import eu.matejkormuth.rpgdavid.inventorymenu.Action;
@@ -73,6 +75,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 		this.getCommand("playerhead").setExecutor(
 				new PlayerHeadCommandExecutor());
 		this.getCommand("party").setExecutor(new PartyCommandExecutor());
+		this.getCommand("character")
+				.setExecutor(new CharacterCommandExecutor());
 
 		// Register event handlers.
 		Bukkit.getPluginManager().registerEvents(this, this);
@@ -102,6 +106,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 		return getProfile(player.getUniqueId());
 	}
 
+	public InventoryMenu getCharacterChoser() {
+		return this.characterChooserMenu;
+	}
+
 	@EventHandler
 	private void onJoin(final PlayerJoinEvent event) {
 		this.loadOrCreateProfile(event.getPlayer().getUniqueId());
@@ -115,7 +123,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 					RpgPlugin.this.characterChooserMenu.showTo(event
 							.getPlayer());
 				}
-			}, 20L);
+			}, 5L);
 		} else {
 			// Has character.
 			Character character = this.getProfile(event.getPlayer())
@@ -137,12 +145,20 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 	}
 
 	@EventHandler
+	public void onRespawn(final PlayerRespawnEvent event) {
+		// Show character selection after respawn.
+		this.characterChooserMenu.showTo(event.getPlayer());
+	}
+
+	@EventHandler
 	private void onInventoryClick(final InventoryClickEvent event) {
 		InventoryMenu menu = InventoryMenu.getInventoryMenu(event
-				.getClickedInventory());
+				.getInventory());
 		if (menu != null) {
-			if(event.getWhoClicked() instanceof Player) {
-				menu.inventoryClick((Player) event.getWhoClicked(), event.getSlot());
+			if (event.getWhoClicked() instanceof Player) {
+				menu.inventoryClick((Player) event.getWhoClicked(),
+						event.getSlot());
+				event.setCancelled(true);
 			}
 		}
 	}
@@ -195,8 +211,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 	}
 
 	private boolean profileExists(final UUID uniqueId) {
-		return Files.exists(this.getDataFolderPath("profiles",
-				uniqueId.toString() + ".yml"));
+		return this.getDataFolderPath("profiles", uniqueId.toString() + ".yml")
+				.toFile().exists();
 	}
 
 	private void expandDirectoryStructure() {
@@ -225,36 +241,40 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 		}
 
 		List<InventoryMenuItem> items = new ArrayList<InventoryMenuItem>();
-		items.add(new InventoryMenuItem(new ItemStackBuilder(
-				Material.IRON_CHESTPLATE).name("Adventurer").build(),
-				new SelectCharacterAction(Characters.ADVENTURER), 0, true));
-		items.add(new InventoryMenuItem(new ItemStackBuilder(
-				Material.IRON_CHESTPLATE).name("Hunter").build(),
-				new SelectCharacterAction(Characters.ADVENTURER), 1, true));
-		items.add(new InventoryMenuItem(new ItemStackBuilder(
-				Material.IRON_CHESTPLATE).name("Killer").build(),
-				new SelectCharacterAction(Characters.ADVENTURER), 2, true));
-		items.add(new InventoryMenuItem(new ItemStackBuilder(
-				Material.IRON_CHESTPLATE).name("Knight").build(),
-				new SelectCharacterAction(Characters.ADVENTURER), 3, true));
-		items.add(new InventoryMenuItem(new ItemStackBuilder(
-				Material.IRON_CHESTPLATE).name("Magican").build(),
-				new SelectCharacterAction(Characters.ADVENTURER), 4, true));
-		items.add(new InventoryMenuItem(new ItemStackBuilder(
-				Material.IRON_CHESTPLATE).name("Soldier").build(),
-				new SelectCharacterAction(Characters.ADVENTURER), 5, true));
 
-		items.add(new InventoryMenuItem(new ItemStackBuilder(
-				Material.GOLD_CHESTPLATE).name("[VIP] Undead").build(),
-				new SelectCharacterAction(Characters.ADVENTURER), 6, true));
-		items.add(new InventoryMenuItem(new ItemStackBuilder(
-				Material.GOLD_CHESTPLATE).name("[VIP] Vampire").build(),
-				new SelectCharacterAction(Characters.ADVENTURER), 7, true));
-		items.add(new InventoryMenuItem(new ItemStackBuilder(
-				Material.GOLD_CHESTPLATE).name("[VIP] Werewofl").build(),
-				new SelectCharacterAction(Characters.ADVENTURER), 8, true));
+		// Standart characters.
+		items.add(new InventoryMenuItem(Characters.ADVENTURER
+				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				Characters.ADVENTURER), 0, true));
+		items.add(new InventoryMenuItem(Characters.HUNTER
+				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				Characters.HUNTER), 1, true));
+		items.add(new InventoryMenuItem(Characters.KILLER
+				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				Characters.KILLER), 2, true));
+		items.add(new InventoryMenuItem(Characters.KNIGHT
+				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				Characters.KNIGHT), 3, true));
+		items.add(new InventoryMenuItem(Characters.MAGICAN
+				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				Characters.MAGICAN), 4, true));
+		items.add(new InventoryMenuItem(Characters.SOLDIER
+				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				Characters.SOLDIER), 5, true));
 
-		this.characterChooserMenu = new InventoryMenu(9, ChatColor.GREEN
-				+ "Choose a character:", items);
+		// VIP Characters.
+		items.add(new InventoryMenuItem(Characters.UNDEAD
+				.getIcon(Material.GOLD_CHESTPLATE), new SelectCharacterAction(
+				Characters.UNDEAD), 6, true));
+		items.add(new InventoryMenuItem(Characters.VAMPIRE
+				.getIcon(Material.GOLD_CHESTPLATE), new SelectCharacterAction(
+				Characters.VAMPIRE), 7, true));
+		items.add(new InventoryMenuItem(Characters.WEREWOLF
+				.getIcon(Material.GOLD_CHESTPLATE), new SelectCharacterAction(
+				Characters.WEREWOLF), 8, true));
+
+		this.characterChooserMenu = new InventoryMenu(9,
+				ChatColor.BOLD.toString() + ChatColor.WHITE
+						+ "Choose a character:", items);
 	}
 }
