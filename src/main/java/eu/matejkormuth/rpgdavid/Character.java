@@ -77,7 +77,7 @@ public class Character {
 
 	public ItemStack getIcon(Material material) {
 		List<String> lore;
-		if (this.special.contains("\n")) {
+		if (this.special != null && this.special.contains("\n")) {
 			lore = new ArrayList<String>(20);
 		} else {
 			lore = new ArrayList<String>(8);
