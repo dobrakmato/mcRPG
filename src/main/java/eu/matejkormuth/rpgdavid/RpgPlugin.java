@@ -129,6 +129,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 			// Apply walk speed modifier.
 			event.getPlayer().setWalkSpeed(
 					0.2F * character.getModifiers().getWalkSpeedModifier());
+			
+			
 		}
 	}
 
@@ -144,8 +146,16 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onRespawn(final PlayerRespawnEvent event) {
+		// Remove character.
+		this.getProfile(event.getPlayer()).setCharacter(null);
 		// Show character selection after respawn.
-		this.characterChooserMenu.showTo(event.getPlayer());
+		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			@Override
+			public void run() {
+				RpgPlugin.this.characterChooserMenu.showTo(event.getPlayer());
+			}
+		}, 20L);
+		
 	}
 
 	@EventHandler
@@ -198,7 +208,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 			Profile profile = this.loadedProfiles.get(uniqueId);
 			YamlConfiguration conf = new YamlConfiguration();
 			conf.set("uuid", profile.getUniqueId().toString());
-			conf.set("character", profile.getCharacter().getId());
+			if(profile.hasCharacter()) {
+				conf.set("character", profile.getCharacter().getId());
+			}
 			conf.set("xp", profile.getXp());
 			conf.save(this.getDataFolderPath("profiles",
 					uniqueId.toString() + ".yml").toFile());

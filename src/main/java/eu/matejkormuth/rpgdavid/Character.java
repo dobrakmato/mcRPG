@@ -2,7 +2,6 @@ package eu.matejkormuth.rpgdavid;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -77,7 +76,12 @@ public class Character {
 	}
 
 	public ItemStack getIcon(Material material) {
-		List<String> lore = new ArrayList<String>(8);
+		List<String> lore;
+		if (this.special.contains("\n")) {
+			lore = new ArrayList<String>(20);
+		} else {
+			lore = new ArrayList<String>(8);
+		}
 
 		lore.add(ChatColor.GREEN + "Health: " + ChatColor.GOLD
 				+ +(int) (20D * this.modifiers.getHealthModifier()) + " HP");
@@ -92,10 +96,21 @@ public class Character {
 				+ +(int) (100D * this.modifiers.getWalkSpeedModifier()) + "%");
 
 		lore.add("");
-		if(Strings.isNullOrEmpty(this.special)) {
-			lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE + "nothing");
+		if (Strings.isNullOrEmpty(this.special)) {
+			lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE
+					+ "nothing");
 		} else {
-			lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE + this.special);
+			if (this.special.contains("\n")) {
+				String[] specials = this.special.split("\n");
+				lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE
+						+ specials[0]);
+				for (int i = 1; i < specials.length; i++) {
+					lore.add("    " + ChatColor.WHITE + specials[i]);
+				}
+			} else {
+				lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE
+						+ this.special);
+			}
 		}
 		lore.add("");
 
