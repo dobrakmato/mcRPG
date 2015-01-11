@@ -129,8 +129,12 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 			// Apply walk speed modifier.
 			event.getPlayer().setWalkSpeed(
 					0.2F * character.getModifiers().getWalkSpeedModifier());
-			
-			
+
+			event.getPlayer().sendMessage(
+					"Welcome back! You character is: " + ChatColor.GOLD
+							+ character.getName() + ChatColor.WHITE
+							+ ". Your xp: " + ChatColor.RED + 
+							+ this.getProfile(event.getPlayer()).getXp());
 		}
 	}
 
@@ -155,7 +159,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 				RpgPlugin.this.characterChooserMenu.showTo(event.getPlayer());
 			}
 		}, 20L);
-		
+
 	}
 
 	@EventHandler
@@ -208,7 +212,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 			Profile profile = this.loadedProfiles.get(uniqueId);
 			YamlConfiguration conf = new YamlConfiguration();
 			conf.set("uuid", profile.getUniqueId().toString());
-			if(profile.hasCharacter()) {
+			if (profile.hasCharacter()) {
 				conf.set("character", profile.getCharacter().getId());
 			}
 			conf.set("xp", profile.getXp());
