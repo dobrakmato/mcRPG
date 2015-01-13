@@ -25,6 +25,10 @@ public final class Characters {
 	public static final Character WEREWOLF = new Werewolf();
 
 	public static Character fromId(String id) {
+		if(id == null) {
+			return null;
+		}
+		
 		switch (id) {
 			case "Soldier":
 				return Characters.SOLDIER;

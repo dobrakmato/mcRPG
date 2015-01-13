@@ -19,7 +19,7 @@ public class PlayerHeadCommandExecutor implements CommandExecutor {
 					}
 					
 					// Fallback to vanilla / essentials command.
-					((Player) sender).performCommand("/give " + sender.getName() + " minecraft:skull 1 3 {SkullOwner:" + args[0] + "}");
+					((Player) sender).performCommand("give " + sender.getName() + " minecraft:skull 1 3 {SkullOwner:" + args[0] + "}");
 					
 				} else {
 					sender.sendMessage(ChatColor.RED + "Invalid usage! Usage: /playerhead <name>");
