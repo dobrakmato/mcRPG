@@ -24,7 +24,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionType;
 
+import eu.matejkormuth.rpgdavid.bukkitfixes.WorkingPotion;
 import eu.matejkormuth.rpgdavid.commands.CharacterCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PartyCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
@@ -114,7 +116,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
 		if (!this.getProfile(event.getPlayer()).hasCharacter()) {
 			// Hasn't character
-			
+
 			// Clear display name.
 			event.getPlayer().setDisplayName(event.getPlayer().getName());
 			// Show character chooser.
@@ -136,8 +138,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 			event.getPlayer().sendMessage(
 					"Welcome back! You character is: " + ChatColor.GOLD
 							+ character.getName() + ChatColor.WHITE
-							+ ". Your xp: " + ChatColor.RED + 
-							+ this.getProfile(event.getPlayer()).getXp());
+							+ ". Your xp: " + ChatColor.RED
+							+ +this.getProfile(event.getPlayer()).getXp());
 		}
 	}
 
@@ -263,9 +265,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 		items.add(new InventoryMenuItem(Characters.ADVENTURER
 				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
 				Characters.ADVENTURER), 0, true));
-		items.add(new InventoryMenuItem(Characters.HUNTER
-				.getIcon(Material.BOW), new SelectCharacterAction(
-				Characters.HUNTER), 1, true));
+		items.add(new InventoryMenuItem(
+				Characters.HUNTER.getIcon(Material.BOW),
+				new SelectCharacterAction(Characters.HUNTER), 1, true));
 		items.add(new InventoryMenuItem(Characters.KILLER
 				.getIcon(Material.SKULL_ITEM), new SelectCharacterAction(
 				Characters.KILLER), 2, true));
@@ -280,11 +282,12 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 				Characters.SOLDIER), 5, true));
 
 		// VIP Characters.
-		items.add(new InventoryMenuItem(Characters.UNDEAD
-				.getIcon(Material.GOLD_CHESTPLATE), new SelectCharacterAction(
+		items.add(new InventoryMenuItem(Characters.UNDEAD.getIcon(
+				Material.SKULL_ITEM, (byte) 2), new SelectCharacterAction(
 				Characters.UNDEAD), 6, true));
 		items.add(new InventoryMenuItem(Characters.VAMPIRE
-				.getIcon(Material.POTION), new SelectCharacterAction( //TODO: Make potion healing potion
+				.getIcon(new WorkingPotion(PotionType.INSTANT_HEAL)
+						.toItemStack(1)), new SelectCharacterAction(
 				Characters.VAMPIRE), 7, true));
 		items.add(new InventoryMenuItem(Characters.WEREWOLF
 				.getIcon(Material.BONE), new SelectCharacterAction(
