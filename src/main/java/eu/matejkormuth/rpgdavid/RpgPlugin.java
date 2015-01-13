@@ -261,19 +261,19 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
 				Characters.ADVENTURER), 0, true));
 		items.add(new InventoryMenuItem(Characters.HUNTER
-				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				.getIcon(Material.BOW), new SelectCharacterAction(
 				Characters.HUNTER), 1, true));
 		items.add(new InventoryMenuItem(Characters.KILLER
-				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				.getIcon(Material.SKULL_ITEM), new SelectCharacterAction(
 				Characters.KILLER), 2, true));
 		items.add(new InventoryMenuItem(Characters.KNIGHT
-				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				.getIcon(Material.DIAMOND_SWORD), new SelectCharacterAction(
 				Characters.KNIGHT), 3, true));
 		items.add(new InventoryMenuItem(Characters.MAGICAN
-				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				.getIcon(Material.BOOK), new SelectCharacterAction(
 				Characters.MAGICAN), 4, true));
 		items.add(new InventoryMenuItem(Characters.SOLDIER
-				.getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
+				.getIcon(Material.IRON_AXE), new SelectCharacterAction(
 				Characters.SOLDIER), 5, true));
 
 		// VIP Characters.
@@ -281,10 +281,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 				.getIcon(Material.GOLD_CHESTPLATE), new SelectCharacterAction(
 				Characters.UNDEAD), 6, true));
 		items.add(new InventoryMenuItem(Characters.VAMPIRE
-				.getIcon(Material.GOLD_CHESTPLATE), new SelectCharacterAction(
+				.getIcon(Material.POTION), new SelectCharacterAction( //TODO: Make potion healing potion
 				Characters.VAMPIRE), 7, true));
 		items.add(new InventoryMenuItem(Characters.WEREWOLF
-				.getIcon(Material.GOLD_CHESTPLATE), new SelectCharacterAction(
+				.getIcon(Material.BONE), new SelectCharacterAction(
 				Characters.WEREWOLF), 8, true));
 
 		this.characterChooserMenu = new InventoryMenu(9,
