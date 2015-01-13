@@ -114,6 +114,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
 		if (!this.getProfile(event.getPlayer()).hasCharacter()) {
 			// Hasn't character
+			
+			// Clear display name.
+			event.getPlayer().setDisplayName(event.getPlayer().getName());
 			// Show character chooser.
 			Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 				@Override
