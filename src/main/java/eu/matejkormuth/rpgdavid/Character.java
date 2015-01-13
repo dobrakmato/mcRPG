@@ -2,6 +2,7 @@ package eu.matejkormuth.rpgdavid;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -58,6 +59,9 @@ public class Character {
 		// Clear player.
 		p.getInventory().clear();
 
+		// Apply character name before player name.
+		p.setDisplayName("[" + this.name + "]" + p.getName());
+		
 		// Apply armor.
 		p.getInventory().setHelmet(this.armor.getHelmet());
 		p.getInventory().setChestplate(this.armor.getChestplate());
@@ -76,6 +80,11 @@ public class Character {
 	}
 
 	public ItemStack getIcon(Material material) {
+		return this.getIcon(material, (byte) 0);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public ItemStack getIcon(Material material, byte dataId) {
 		List<String> lore;
 		if (this.special != null && this.special.contains("\n")) {
 			lore = new ArrayList<String>(20);
@@ -115,6 +124,6 @@ public class Character {
 		lore.add("");
 
 		return new ItemStackBuilder(material)
-				.name(ChatColor.RESET + this.getName()).lore(lore).build();
+				.name(ChatColor.RESET + this.getName()).lore(lore).data(dataId).build();
 	}
 }
