@@ -62,12 +62,20 @@ public class TimeModifiersUpdater implements Runnable {
 				p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 65 * 5, 1));
 			}
 			
+			if(!p.hasPotionEffect(PotionEffectType.JUMP)) {
+				p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * 65 * 5, 1));
+			}
+			
 			if(!p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
 				p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20 * 65 * 5, 0));
 			}
 		} else {
 			if(p.hasPotionEffect(PotionEffectType.SPEED)) {
 				p.removePotionEffect(PotionEffectType.SPEED);
+			}
+			
+			if(p.hasPotionEffect(PotionEffectType.JUMP)) {
+				p.removePotionEffect(PotionEffectType.JUMP);
 			}
 			
 			if(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
