@@ -7,11 +7,11 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class MagicStick extends ItemStack {
-	public MagicStick() {
-		super(Material.STICK, 1);
+public class MagicBook extends ItemStack {
+	public MagicBook() {
+		super(Material.BOOK, 1);
 		ItemMeta im = this.getItemMeta();
-		im.setDisplayName(ChatColor.RESET.toString() + ChatColor.YELLOW + "Magic Stick");
+		im.setDisplayName(ChatColor.RESET.toString() + ChatColor.YELLOW + "Magic Book");
 		im.setLore(Arrays.asList(ChatColor.RESET.toString() + "Level 1"));
 		this.setItemMeta(im);
 	}
@@ -22,11 +22,11 @@ public class MagicStick extends ItemStack {
 	}
 	
 	public void setLevel(int level) {
-		// After level 5 stick is blaze rod; before level 5 stick is wooden stick.
+		// Now it is book on every level. OLD: After level 5 stick is blaze rod; before level 5 stick is wooden stick.
 		if(level >= 5) {
-			this.setType(Material.BLAZE_ROD);
+			this.setType(Material.BOOK);
 		} else {
-			this.setType(Material.STICK);
+			this.setType(Material.BOOK);
 		}
 		
 		// Update meta.
