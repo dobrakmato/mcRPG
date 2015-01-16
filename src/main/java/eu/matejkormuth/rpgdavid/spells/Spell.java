@@ -42,11 +42,11 @@ public abstract class Spell {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Sound getCastSound() {
-        return castSound;
+        return this.castSound;
     }
 
     public void cast(final Player invoker) {

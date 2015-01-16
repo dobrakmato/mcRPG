@@ -37,8 +37,10 @@ public class MagicBook extends ItemStack {
     // Initialize spells.
     private static Spell[] spells;
     static {
-        spells = new Spell[5];
+        spells = new Spell[1];
         spells[0] = new FireSpell();
+        
+        // TODO: More spells.
     }
 
     public MagicBook() {
@@ -50,8 +52,6 @@ public class MagicBook extends ItemStack {
         im.setAuthor(BOOK_AUTHOR);
         im.setTitle(BOOK_TITLE);
         this.setItemMeta(im);
-
-        // TODO: Make spells.
     }
 
     @Override

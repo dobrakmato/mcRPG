@@ -53,6 +53,7 @@ import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
 import eu.matejkormuth.rpgdavid.listeners.MagicBookListener;
 import eu.matejkormuth.rpgdavid.listeners.QuestsBookListener;
+import eu.matejkormuth.rpgdavid.listeners.SpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.AdventurerListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.HunterListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.KnightListener;
@@ -102,6 +103,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         // Register event handlers.
         Bukkit.getPluginManager().registerEvents(this, this);
+        
+        Bukkit.getPluginManager().registerEvents(new SpellsListener(), this);
 
         Bukkit.getPluginManager().registerEvents(new ModifiersListener(), this);
         Bukkit.getPluginManager()
