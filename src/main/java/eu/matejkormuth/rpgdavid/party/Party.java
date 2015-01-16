@@ -41,7 +41,11 @@ public class Party {
 
         return null;
     }
-
+    
+    public static void clearParties() {
+       parties.clear();
+    }
+    
     private final Set<Player> players;
     private Player leader;
     private final Set<Player> invited;

@@ -132,6 +132,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         // Clear map and disable componenets.
         this.loadedProfiles.clear();
         this.questManager.shutdown();
+        Party.clearParties();
     }
 
     public Profile getProfile(final UUID uuid) {

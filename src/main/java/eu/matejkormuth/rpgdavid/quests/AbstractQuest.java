@@ -30,6 +30,10 @@ public abstract class AbstractQuest implements Quest {
      * Quest name.
      */
     public String name = "Quest #" + this.hashCode();
+    /**
+     * Quest ID.
+     */
+    public String id = "quest_" + this.hashCode();
     
     public NPCRegistry getNPCRegistry() {
         return CitizensAPI.getNPCRegistry();
@@ -38,5 +42,9 @@ public abstract class AbstractQuest implements Quest {
     @Override
     public String getName() {
         return this.name;
+    }
+    
+    public String getId() {
+        return id;
     }
 }

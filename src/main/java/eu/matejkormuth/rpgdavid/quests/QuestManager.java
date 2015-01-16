@@ -46,12 +46,30 @@ public class QuestManager {
         // Release all objects from lists.
         this.quests.clear();
     }
-    
+
+    public Quest getQuestById(final String id) {
+        for (Quest q : this.quests) {
+            if (q.getId().equals(id)) {
+                return q;
+            }
+        }
+        return null;
+    }
+
+    public Quest getQuestByName(final String name) {
+        for (Quest q : this.quests) {
+            if (q.getName().equals(name)) {
+                return q;
+            }
+        }
+        return null;
+    }
+
     public void loadAll() {
-        if(this.loadedAll) {
+        if (this.loadedAll) {
             throw new RuntimeException("Reloading quests is not yet supported!");
         }
-        
+
         this.log.info("Loading all quests...");
 
         for (String file : questsDirectory.list()) {
@@ -110,8 +128,8 @@ public class QuestManager {
                 script += "\n\nmanager.addQuest(quest);";
             }
 
-           ctx.evaluateString(scope, script, fullName, 1, null);
-           
+            ctx.evaluateString(scope, script, fullName, 1, null);
+
         } catch (Exception e) {
             this.log.severe("Falied to load file " + fullName);
             e.printStackTrace();
