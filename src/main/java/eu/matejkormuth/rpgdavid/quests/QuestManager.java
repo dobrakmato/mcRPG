@@ -35,80 +35,81 @@ import com.google.common.io.Files;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class QuestManager {
-	private final Logger log = Logger.getLogger(this.getClass().getName());
-	private File questsDirectory;
-	private List<Quest> quests;
-	
-	private ScriptEngineManager scriptEngineManager;
-	private ScriptEngine engine;
-	private Bindings bindings;
+    private final Logger log = Logger.getLogger(this.getClass().getName());
+    private File questsDirectory;
+    private List<Quest> quests;
 
-	public QuestManager() {
-		this.quests = new ArrayList<Quest>();
-		this.questsDirectory = RpgPlugin.getInstance().getFile("quests");
-	}
+    private ScriptEngineManager scriptEngineManager;
+    private ScriptEngine engine;
+    private Bindings bindings;
 
-	public void loadAll() {
-		this.log.info("Loading all quests...");
-		if (!questsDirectory.isDirectory()) {
-			throw new IllegalArgumentException("scriptsDir must be a directory");
-		}
+    public QuestManager() {
+        this.quests = new ArrayList<Quest>();
+        this.questsDirectory = RpgPlugin.getInstance().getFile("quests");
+    }
 
-		for (String file : questsDirectory.list()) {
-			this.prepeareOne(file);
-		}
-		
-		this.log.info("Loaded and prepeared " + quests.size() + " quests!");
-	}
-	
-	public void addQuest(final Quest quest) {
-		this.quests.add(quest);
-	}
+    public void loadAll() {
+        this.log.info("Loading all quests...");
+        if (!questsDirectory.isDirectory()) {
+            throw new IllegalArgumentException("scriptsDir must be a directory");
+        }
 
-	private void prepeareOne(final String fullName) {
-		switch (Files.getFileExtension(fullName)) {
-		case "js":
-			this.prepeareJs(fullName);
-			break;
-		case "java":
-			this.prepeareJava(fullName);
-			break;
-		case "groovy":
-			this.prepeareGoovy(fullName);
-			break;
-		default:
-			this.log.severe("File " + fullName
-					+ " is not supported quest script file!");
-			break;
-		}
-	}
-	
-	private void loadJSEngine() {
-		if(this.engine == null) {
-			this.scriptEngineManager = new ScriptEngineManager();
-			this.engine = this.scriptEngineManager.getEngineByName("JavaScript");
-			this.bindings = this.engine.createBindings();
-			this.bindings.put("manager", this);
-		}
-	}
+        for (String file : questsDirectory.list()) {
+            this.prepeareOne(file);
+        }
 
-	private void prepeareGoovy(final String fullName) {
-		this.log.severe("Groovy script files are not supported yet!");
-	}
+        this.log.info("Loaded and prepeared " + quests.size() + " quests!");
+    }
 
-	private void prepeareJava(final String fullName) {
-		this.log.severe("Java script files are not supported yet!");
-	}
+    public void addQuest(final Quest quest) {
+        this.quests.add(quest);
+    }
 
-	private void prepeareJs(final String fullName) {
-		// Initialize JS engine.
-		this.loadJSEngine();
-		// Evaluate script.
-		try {
-			this.engine.eval(new FileReader(fullName), this.bindings);
-		} catch (FileNotFoundException | ScriptException e) {
-			this.log.severe("Falied to load quest " +  fullName);
-			e.printStackTrace();
-		}
-	}
+    private void prepeareOne(final String fullName) {
+        switch (Files.getFileExtension(fullName)) {
+        case "js":
+            this.prepeareJs(fullName);
+            break;
+        case "java":
+            this.prepeareJava(fullName);
+            break;
+        case "groovy":
+            this.prepeareGoovy(fullName);
+            break;
+        default:
+            this.log.severe("File " + fullName
+                    + " is not supported quest script file!");
+            break;
+        }
+    }
+
+    private void loadJSEngine() {
+        if (this.engine == null) {
+            this.scriptEngineManager = new ScriptEngineManager();
+            this.engine = this.scriptEngineManager
+                    .getEngineByName("JavaScript");
+            this.bindings = this.engine.createBindings();
+            this.bindings.put("manager", this);
+        }
+    }
+
+    private void prepeareGoovy(final String fullName) {
+        this.log.severe("Groovy script files are not supported yet!");
+    }
+
+    private void prepeareJava(final String fullName) {
+        this.log.severe("Java script files are not supported yet!");
+    }
+
+    private void prepeareJs(final String fullName) {
+        // Initialize JS engine.
+        this.loadJSEngine();
+        // Evaluate script.
+        try {
+            this.engine.eval(new FileReader(fullName), this.bindings);
+        } catch (FileNotFoundException | ScriptException e) {
+            this.log.severe("Falied to load quest " + fullName);
+            e.printStackTrace();
+        }
+    }
 }

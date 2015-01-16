@@ -21,5 +21,5 @@ package eu.matejkormuth.rpgdavid.quests.concrete;
 import eu.matejkormuth.rpgdavid.quests.AbstractQuest;
 
 public abstract class JavascriptQuest extends AbstractQuest {
-	
+
 }

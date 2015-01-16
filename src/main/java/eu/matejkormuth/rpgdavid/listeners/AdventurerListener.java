@@ -35,40 +35,44 @@ import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class AdventurerListener implements Listener {
-	private Random random = new Random();
-	
-	@EventHandler
-	private void onFoodLevelChange(FoodLevelChangeEvent event) {
-		if(event.getEntity() instanceof Player) {
-			Profile p = RpgPlugin.getInstance().getProfile((Player) event.getEntity());
-			if(p != null) {
-				Character character = p.getCharacter();
-				if(character == Characters.ADVENTURER) {
-					// Adventurer has 2 times slower food level lowering.
-					event.setCancelled(this.random.nextBoolean());
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	private void onHitByPotion(PotionSplashEvent event) {
-		if(event.getPotion().getShooter() instanceof Player) {
-			Profile p = RpgPlugin.getInstance().getProfile((Player) event.getPotion().getShooter());
-			if(p != null) {
-				Character character = p.getCharacter();
-				if(character == Characters.ADVENTURER) {
-					// Adventurers potions last 2 time long.
-					Potion potion = Potion.fromItemStack(event.getPotion().getItem());
-					// Nice hack follows:
-					event.setCancelled(true);
-					// Potions in Minecraft have more then one effect?
-					PotionEffect pe = potion.getEffects().iterator().next();
-					for(LivingEntity e : event.getAffectedEntities()) {
-						e.addPotionEffect(new PotionEffect(pe.getType(), pe.getDuration() * 2, pe.getAmplifier()));
-					}
-				}
-			}
-		}
-	}
+    private Random random = new Random();
+
+    @EventHandler
+    private void onFoodLevelChange(FoodLevelChangeEvent event) {
+        if (event.getEntity() instanceof Player) {
+            Profile p = RpgPlugin.getInstance().getProfile(
+                    (Player) event.getEntity());
+            if (p != null) {
+                Character character = p.getCharacter();
+                if (character == Characters.ADVENTURER) {
+                    // Adventurer has 2 times slower food level lowering.
+                    event.setCancelled(this.random.nextBoolean());
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    private void onHitByPotion(PotionSplashEvent event) {
+        if (event.getPotion().getShooter() instanceof Player) {
+            Profile p = RpgPlugin.getInstance().getProfile(
+                    (Player) event.getPotion().getShooter());
+            if (p != null) {
+                Character character = p.getCharacter();
+                if (character == Characters.ADVENTURER) {
+                    // Adventurers potions last 2 time long.
+                    Potion potion = Potion.fromItemStack(event.getPotion()
+                            .getItem());
+                    // Nice hack follows:
+                    event.setCancelled(true);
+                    // Potions in Minecraft have more then one effect?
+                    PotionEffect pe = potion.getEffects().iterator().next();
+                    for (LivingEntity e : event.getAffectedEntities()) {
+                        e.addPotionEffect(new PotionEffect(pe.getType(), pe
+                                .getDuration() * 2, pe.getAmplifier()));
+                    }
+                }
+            }
+        }
+    }
 }

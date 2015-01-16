@@ -26,7 +26,10 @@ import eu.matejkormuth.rpgdavid.Modifiers;
 import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 
 public class Knight extends Character {
-	public Knight() {
-		super("Rytíř", "25% chance of armor not getting damaged.", new Modifiers(1.1F, 1, 1, 1, 1), new Armor(new ItemStack(Material.IRON_HELMET), new ItemStack(Material.IRON_CHESTPLATE), null, null));
-	}
+    public Knight() {
+        super("Rytíř", "25% chance of armor not getting damaged.",
+                new Modifiers(1.1F, 1, 1, 1, 1), new Armor(new ItemStack(
+                        Material.IRON_HELMET), new ItemStack(
+                        Material.IRON_CHESTPLATE), null, null));
+    }
 }

@@ -33,30 +33,37 @@ import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class VampireListener implements Listener {
-	@EventHandler
-	private void onVampireHitPlayer(EntityDamageByEntityEvent event) {
-		if(event.getDamager() instanceof Player) {
-			Profile p = RpgPlugin.getInstance().getProfile((Player) event.getDamager());
-			if(p != null) {
-				Character character = p.getCharacter();
-				if(character == Characters.VAMPIRE) {
-					// If can bite now.
-					if(p.canBite()) {
-						if(event.getEntity() instanceof LivingEntity) {
-							event.setDamage(3D);
-							((LivingEntity)event.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * 4, 0));
+    @EventHandler
+    private void onVampireHitPlayer(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player) {
+            Profile p = RpgPlugin.getInstance().getProfile(
+                    (Player) event.getDamager());
+            if (p != null) {
+                Character character = p.getCharacter();
+                if (character == Characters.VAMPIRE) {
+                    // If can bite now.
+                    if (p.canBite()) {
+                        if (event.getEntity() instanceof LivingEntity) {
+                            event.setDamage(3D);
+                            ((LivingEntity) event.getEntity())
+                                    .addPotionEffect(new PotionEffect(
+                                            PotionEffectType.CONFUSION, 20 * 4,
+                                            0));
 
-							p.setLastBittenNow();
-						}
-					} else {
-						event.setCancelled(true);
-						
-						long time = p.getLastBitten() + 60000 - System.currentTimeMillis();
-						
-						((Player)event.getDamager()).sendMessage(ChatColor.RED + "You can bite again after " + (time / 1000) + " seconds!");
-					}
-				}
-			}
-		}
-	}
+                            p.setLastBittenNow();
+                        }
+                    } else {
+                        event.setCancelled(true);
+
+                        long time = p.getLastBitten() + 60000
+                                - System.currentTimeMillis();
+
+                        ((Player) event.getDamager()).sendMessage(ChatColor.RED
+                                + "You can bite again after " + (time / 1000)
+                                + " seconds!");
+                    }
+                }
+            }
+        }
+    }
 }

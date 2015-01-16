@@ -34,32 +34,35 @@ import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class UndeadListener implements Listener {
-	@EventHandler
-	private void onKill(EntityDamageByEntityEvent event) {
-		if(event.getDamager() instanceof Player) {
-			if(event.getEntity() instanceof HumanEntity) {
-				Profile p = RpgPlugin.getInstance().getProfile((Player) event.getDamager());
-				if(p != null) {
-					Character character = p.getCharacter();
-					if(character == Characters.UNDEAD) {
-						// TODO: Something
-					}
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	private void onEatRottenFlesh(PlayerItemConsumeEvent event){
-		Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
-		if(p != null) {
-			Character character = p.getCharacter();
-			if(character == Characters.UNDEAD) {
-				// Undeads get regeneration when consumes rotten flesh.
-				if(event.getItem().getType() == Material.ROTTEN_FLESH) {
-					event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 3, 0));
-				}
-			}
-		}
-	}
+    @EventHandler
+    private void onKill(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player) {
+            if (event.getEntity() instanceof HumanEntity) {
+                Profile p = RpgPlugin.getInstance().getProfile(
+                        (Player) event.getDamager());
+                if (p != null) {
+                    Character character = p.getCharacter();
+                    if (character == Characters.UNDEAD) {
+                        // TODO: Something
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    private void onEatRottenFlesh(PlayerItemConsumeEvent event) {
+        Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
+        if (p != null) {
+            Character character = p.getCharacter();
+            if (character == Characters.UNDEAD) {
+                // Undeads get regeneration when consumes rotten flesh.
+                if (event.getItem().getType() == Material.ROTTEN_FLESH) {
+                    event.getPlayer().addPotionEffect(
+                            new PotionEffect(PotionEffectType.REGENERATION,
+                                    20 * 3, 0));
+                }
+            }
+        }
+    }
 }

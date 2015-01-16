@@ -27,15 +27,16 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class CharacterCommandExecutor implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command comamnd, String label,
-			String[] args) {
-		if(sender instanceof Player) {
-			// TODO: Kill player.
-			((Player) sender).sendMessage("You has been killed by server!");
-			RpgPlugin.getInstance().getCharacterChoser().showTo((Player) sender);
-		}
-		return true;
-	}
+    @Override
+    public boolean onCommand(CommandSender sender, Command comamnd,
+            String label, String[] args) {
+        if (sender instanceof Player) {
+            // TODO: Kill player.
+            ((Player) sender).sendMessage("You has been killed by server!");
+            RpgPlugin.getInstance().getCharacterChoser()
+                    .showTo((Player) sender);
+        }
+        return true;
+    }
 
 }

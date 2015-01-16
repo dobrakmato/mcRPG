@@ -17,6 +17,7 @@
  *
  */
 package eu.matejkormuth.rpgdavid.inventorymenu;
+
 /*
  * Pexel Project - Minecraft minigame server platform. 
  * Copyright (C) 2014 Matej Kormuth <http://www.matejkormuth.eu>
@@ -54,134 +55,134 @@ import org.bukkit.inventory.InventoryHolder;
  * 
  */
 public class InventoryMenu implements InventoryHolder {
-	private static List<WeakReference<InventoryMenu>> menus = new ArrayList<WeakReference<InventoryMenu>>();
+    private static List<WeakReference<InventoryMenu>> menus = new ArrayList<WeakReference<InventoryMenu>>();
 
-	public static InventoryMenu getInventoryMenu(final Inventory inventory) {
-		for (WeakReference<InventoryMenu> menu : menus) {
-			if (menu.get().getInventory().equals(inventory)) {
-				return menu.get();
-			}
-		}
-		return null;
-	}
+    public static InventoryMenu getInventoryMenu(final Inventory inventory) {
+        for (WeakReference<InventoryMenu> menu : menus) {
+            if (menu.get().getInventory().equals(inventory)) {
+                return menu.get();
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Inventory of this menu.
-	 */
-	private final Inventory inventory;
-	/**
-	 * Items in inventory.
-	 */
-	private final Map<Integer, InventoryMenuItem> items = new HashMap<Integer, InventoryMenuItem>();
+    /**
+     * Inventory of this menu.
+     */
+    private final Inventory inventory;
+    /**
+     * Items in inventory.
+     */
+    private final Map<Integer, InventoryMenuItem> items = new HashMap<Integer, InventoryMenuItem>();
 
-	/**
-	 * Creates new Inventory menu object with specified type of inventory, title
-	 * and list of items.
-	 * 
-	 * @see InventoryMenuItem
-	 * @see Action
-	 * @see ItemUtils
-	 * 
-	 * @param type
-	 *            type of inventory
-	 * @param title
-	 *            title of inventory
-	 * @param items
-	 *            items
-	 */
-	public InventoryMenu(final InventoryType type, final String title,
-			final List<InventoryMenuItem> items) {
-		for (InventoryMenuItem item : items)
-			if (!this.items.containsKey(item.getSlot()))
-				this.items.put(item.getSlot(), item);
-			else
-				throw new RuntimeException("Can't put "
-						+ item.getItemStack().toString()
-						+ " to slot "
-						+ item.getSlot()
-						+ "! Slot "
-						+ item.getSlot()
-						+ " is alredy occupied by "
-						+ this.items.get(item.getSlot()).getItemStack()
-								.toString());
+    /**
+     * Creates new Inventory menu object with specified type of inventory, title
+     * and list of items.
+     * 
+     * @see InventoryMenuItem
+     * @see Action
+     * @see ItemUtils
+     * 
+     * @param type
+     *            type of inventory
+     * @param title
+     *            title of inventory
+     * @param items
+     *            items
+     */
+    public InventoryMenu(final InventoryType type, final String title,
+            final List<InventoryMenuItem> items) {
+        for (InventoryMenuItem item : items)
+            if (!this.items.containsKey(item.getSlot()))
+                this.items.put(item.getSlot(), item);
+            else
+                throw new RuntimeException("Can't put "
+                        + item.getItemStack().toString()
+                        + " to slot "
+                        + item.getSlot()
+                        + "! Slot "
+                        + item.getSlot()
+                        + " is alredy occupied by "
+                        + this.items.get(item.getSlot()).getItemStack()
+                                .toString());
 
-		this.inventory = Bukkit.createInventory(this, type, title);
-		for (InventoryMenuItem item : this.items.values())
-			this.inventory.setItem(item.getSlot(), item.getItemStack());
+        this.inventory = Bukkit.createInventory(this, type, title);
+        for (InventoryMenuItem item : this.items.values())
+            this.inventory.setItem(item.getSlot(), item.getItemStack());
 
-		menus.add(new WeakReference<InventoryMenu>(this));
-	}
+        menus.add(new WeakReference<InventoryMenu>(this));
+    }
 
-	/**
-	 * 
-	 * Creates new Inventory menu object with specified size of inventory, title
-	 * and list of items.
-	 * 
-	 * @param size
-	 *            size of inventory
-	 * @param title
-	 *            inventory title
-	 * @param items
-	 *            items
-	 */
-	public InventoryMenu(final int size, final String title,
-			final List<InventoryMenuItem> items) {
+    /**
+     * 
+     * Creates new Inventory menu object with specified size of inventory, title
+     * and list of items.
+     * 
+     * @param size
+     *            size of inventory
+     * @param title
+     *            inventory title
+     * @param items
+     *            items
+     */
+    public InventoryMenu(final int size, final String title,
+            final List<InventoryMenuItem> items) {
 
-		for (InventoryMenuItem item : items)
-			if (!this.items.containsKey(item.getSlot()))
-				this.items.put(item.getSlot(), item);
-			else
-				throw new RuntimeException("Can't put "
-						+ item.getItemStack().toString()
-						+ " to slot "
-						+ item.getSlot()
-						+ "! Slot "
-						+ item.getSlot()
-						+ " is alredy occupied by "
-						+ this.items.get(item.getSlot()).getItemStack()
-								.toString());
+        for (InventoryMenuItem item : items)
+            if (!this.items.containsKey(item.getSlot()))
+                this.items.put(item.getSlot(), item);
+            else
+                throw new RuntimeException("Can't put "
+                        + item.getItemStack().toString()
+                        + " to slot "
+                        + item.getSlot()
+                        + "! Slot "
+                        + item.getSlot()
+                        + " is alredy occupied by "
+                        + this.items.get(item.getSlot()).getItemStack()
+                                .toString());
 
-		this.inventory = Bukkit.createInventory(this, size, title);
-		for (InventoryMenuItem item : this.items.values())
-			this.inventory.setItem(item.getSlot(), item.getItemStack());
+        this.inventory = Bukkit.createInventory(this, size, title);
+        for (InventoryMenuItem item : this.items.values())
+            this.inventory.setItem(item.getSlot(), item.getItemStack());
 
-		menus.add(new WeakReference<InventoryMenu>(this));
-	}
+        menus.add(new WeakReference<InventoryMenu>(this));
+    }
 
-	/**
-	 * Opens this inventory menu to specified player.
-	 * 
-	 * @param player
-	 *            player to show menu to
-	 */
-	public void showTo(final Player player) {
-		player.openInventory(this.getInventory());
-	}
+    /**
+     * Opens this inventory menu to specified player.
+     * 
+     * @param player
+     *            player to show menu to
+     */
+    public void showTo(final Player player) {
+        player.openInventory(this.getInventory());
+    }
 
-	public Inventory getInventory() {
-		return this.inventory;
-	}
+    public Inventory getInventory() {
+        return this.inventory;
+    }
 
-	/**
-	 * Returns true, if the menu should be closed after the item in specified
-	 * slot is clicked.
-	 * 
-	 * @param slot
-	 * @return whether the inventory should close after click
-	 */
-	public boolean shouldClose(final int slot) {
-		return this.items.get(slot).isCloseAfterClick();
-	}
+    /**
+     * Returns true, if the menu should be closed after the item in specified
+     * slot is clicked.
+     * 
+     * @param slot
+     * @return whether the inventory should close after click
+     */
+    public boolean shouldClose(final int slot) {
+        return this.items.get(slot).isCloseAfterClick();
+    }
 
-	/**
-	 * Called when somebody clicks item in this inventory.
-	 * 
-	 * @param player
-	 * @param item
-	 */
-	public void inventoryClick(final Player player, final int slot) {
-		if (this.items.containsKey(slot)) {
-			this.items.get(slot).executeAction(player);
-		}
-	}
+    /**
+     * Called when somebody clicks item in this inventory.
+     * 
+     * @param player
+     * @param item
+     */
+    public void inventoryClick(final Player player, final int slot) {
+        if (this.items.containsKey(slot)) {
+            this.items.get(slot).executeAction(player);
+        }
+    }
 }
