@@ -1,3 +1,21 @@
+/*
+ *  mcRPG is a open source rpg bukkit/spigot plugin.
+ *  Copyright (C) 2015 Matej Kormuth 
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package eu.matejkormuth.rpgdavid;
 
 import java.util.ArrayList;
@@ -62,7 +80,7 @@ public class Character {
 
 		// Apply character name before player name.
 		p.setDisplayName("[" + this.name + "]" + p.getName());
-		
+
 		// Apply armor.
 		p.getInventory().setHelmet(this.armor.getHelmet());
 		p.getInventory().setChestplate(this.armor.getChestplate());
@@ -83,7 +101,7 @@ public class Character {
 	public ItemStack getIcon(final Material material) {
 		return this.getIcon(material, (byte) 0);
 	}
-	
+
 	public ItemStack getIcon(final ItemStack itemStack) {
 		List<String> lore;
 		if (this.special != null && this.special.contains("\n")) {
@@ -129,7 +147,7 @@ public class Character {
 		itemStack.setItemMeta(im);
 		return itemStack;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public ItemStack getIcon(final Material material, final byte dataId) {
 		List<String> lore;
@@ -171,6 +189,7 @@ public class Character {
 		lore.add("");
 
 		return new ItemStackBuilder(material)
-				.name(ChatColor.RESET + this.getName()).lore(lore).data(dataId).build();
+				.name(ChatColor.RESET + this.getName()).lore(lore).data(dataId)
+				.build();
 	}
 }

@@ -1,6 +1,22 @@
+/*
+ *  mcRPG is a open source rpg bukkit/spigot plugin.
+ *  Copyright (C) 2015 Matej Kormuth 
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package eu.matejkormuth.rpgdavid.inventorymenu;
-
-//@formatter:off
 /*
  * Pexel Project - Minecraft minigame server platform. 
  * Copyright (C) 2014 Matej Kormuth <http://www.matejkormuth.eu>
@@ -39,16 +55,16 @@ import org.bukkit.inventory.InventoryHolder;
  */
 public class InventoryMenu implements InventoryHolder {
 	private static List<WeakReference<InventoryMenu>> menus = new ArrayList<WeakReference<InventoryMenu>>();
-	
+
 	public static InventoryMenu getInventoryMenu(final Inventory inventory) {
-		for(WeakReference<InventoryMenu> menu : menus) {
-			if(menu.get().getInventory().equals(inventory)) {
+		for (WeakReference<InventoryMenu> menu : menus) {
+			if (menu.get().getInventory().equals(inventory)) {
 				return menu.get();
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Inventory of this menu.
 	 */
@@ -92,7 +108,7 @@ public class InventoryMenu implements InventoryHolder {
 		this.inventory = Bukkit.createInventory(this, type, title);
 		for (InventoryMenuItem item : this.items.values())
 			this.inventory.setItem(item.getSlot(), item.getItemStack());
-		
+
 		menus.add(new WeakReference<InventoryMenu>(this));
 	}
 
@@ -128,7 +144,7 @@ public class InventoryMenu implements InventoryHolder {
 		this.inventory = Bukkit.createInventory(this, size, title);
 		for (InventoryMenuItem item : this.items.values())
 			this.inventory.setItem(item.getSlot(), item.getItemStack());
-		
+
 		menus.add(new WeakReference<InventoryMenu>(this));
 	}
 
