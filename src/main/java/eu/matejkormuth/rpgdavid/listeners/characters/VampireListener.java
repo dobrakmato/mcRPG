@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.listeners;
+package eu.matejkormuth.rpgdavid.listeners.characters;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;

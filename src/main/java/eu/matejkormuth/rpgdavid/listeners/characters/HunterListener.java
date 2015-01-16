@@ -16,51 +16,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.listeners;
+package eu.matejkormuth.rpgdavid.listeners.characters;
 
-import org.bukkit.Material;
-import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Characters;
 import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 
-public class UndeadListener implements Listener {
+public class HunterListener implements Listener {
     @EventHandler
-    private void onKill(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player) {
-            if (event.getEntity() instanceof HumanEntity) {
+    private void damageByArrow(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Arrow) {
+            Arrow arrow = (Arrow) event.getDamager();
+            if (arrow.getShooter() instanceof Player) {
                 Profile p = RpgPlugin.getInstance().getProfile(
-                        (Player) event.getDamager());
+                        (Player) arrow.getShooter());
                 if (p != null) {
                     Character character = p.getCharacter();
-                    if (character == Characters.UNDEAD) {
-                        // TODO: Something
+                    if (character == Characters.HUNTER) {
+                        // Hunter's arrows has +1.5HP bonus.
+                        event.setDamage(event.getDamage() + 1.5D);
                     }
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    private void onEatRottenFlesh(PlayerItemConsumeEvent event) {
-        Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
-        if (p != null) {
-            Character character = p.getCharacter();
-            if (character == Characters.UNDEAD) {
-                // Undeads get regeneration when consumes rotten flesh.
-                if (event.getItem().getType() == Material.ROTTEN_FLESH) {
-                    event.getPlayer().addPotionEffect(
-                            new PotionEffect(PotionEffectType.REGENERATION,
-                                    20 * 3, 0));
                 }
             }
         }

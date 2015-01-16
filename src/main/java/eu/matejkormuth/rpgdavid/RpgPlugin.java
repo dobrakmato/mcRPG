@@ -51,12 +51,13 @@ import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
 import eu.matejkormuth.rpgdavid.inventorymenu.Action;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
-import eu.matejkormuth.rpgdavid.listeners.AdventurerListener;
-import eu.matejkormuth.rpgdavid.listeners.HunterListener;
-import eu.matejkormuth.rpgdavid.listeners.KnightListener;
-import eu.matejkormuth.rpgdavid.listeners.ModifiersListener;
-import eu.matejkormuth.rpgdavid.listeners.UndeadListener;
-import eu.matejkormuth.rpgdavid.listeners.VampireListener;
+import eu.matejkormuth.rpgdavid.listeners.MagicBookListener;
+import eu.matejkormuth.rpgdavid.listeners.characters.AdventurerListener;
+import eu.matejkormuth.rpgdavid.listeners.characters.HunterListener;
+import eu.matejkormuth.rpgdavid.listeners.characters.KnightListener;
+import eu.matejkormuth.rpgdavid.listeners.characters.ModifiersListener;
+import eu.matejkormuth.rpgdavid.listeners.characters.UndeadListener;
+import eu.matejkormuth.rpgdavid.listeners.characters.VampireListener;
 import eu.matejkormuth.rpgdavid.party.Party;
 
 public class RpgPlugin extends JavaPlugin implements Listener {
@@ -98,13 +99,15 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         // Register event handlers.
         Bukkit.getPluginManager().registerEvents(this, this);
+        
         Bukkit.getPluginManager().registerEvents(new ModifiersListener(), this);
-        Bukkit.getPluginManager()
-                .registerEvents(new AdventurerListener(), this);
+        Bukkit.getPluginManager().registerEvents(new AdventurerListener(), this);
         Bukkit.getPluginManager().registerEvents(new HunterListener(), this);
         Bukkit.getPluginManager().registerEvents(new UndeadListener(), this);
         Bukkit.getPluginManager().registerEvents(new KnightListener(), this);
         Bukkit.getPluginManager().registerEvents(new VampireListener(), this);
+        
+        Bukkit.getPluginManager().registerEvents(new MagicBookListener(), this);
 
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
