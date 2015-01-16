@@ -58,14 +58,16 @@ public class MagicBookListener implements Listener {
         if (p != null) {
             Character character = p.getCharacter();
             if (character == Characters.MAGICAN) {
-
                 if (event.getPlayer().getItemInHand() != null
                         && MagicBook.isBook(event.getPlayer().getItemInHand())) {
-                    // Cycle trough spells.
-                    Spell spell = MagicBook.nextSpell(event.getPlayer());
-                    event.getPlayer().sendMessage(
-                            ChatColor.YELLOW + "Current spell: "
-                                    + spell.getName());
+                    // Prevent dupe switch.
+                    if (event.isSneaking()) {
+                        // Cycle trough spells only.
+                        Spell spell = MagicBook.nextSpell(event.getPlayer());
+                        event.getPlayer().sendMessage(
+                                ChatColor.YELLOW + "Current spell: "
+                                        + spell.getName());
+                    }
                 }
             }
         }

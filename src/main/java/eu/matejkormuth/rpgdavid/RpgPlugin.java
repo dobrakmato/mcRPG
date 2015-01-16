@@ -103,7 +103,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         // Register event handlers.
         Bukkit.getPluginManager().registerEvents(this, this);
-        
+
         Bukkit.getPluginManager().registerEvents(new SpellsListener(), this);
 
         Bukkit.getPluginManager().registerEvents(new ModifiersListener(), this);
@@ -115,7 +115,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new VampireListener(), this);
 
         Bukkit.getPluginManager().registerEvents(new MagicBookListener(), this);
-        Bukkit.getPluginManager().registerEvents(new QuestsBookListener(), this);
+        Bukkit.getPluginManager()
+                .registerEvents(new QuestsBookListener(), this);
 
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
@@ -187,10 +188,18 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                     0.2F * character.getModifiers().getWalkSpeedModifier());
 
             event.getPlayer().sendMessage(
-                    "Welcome back! You character is: " + ChatColor.GOLD
-                            + character.getName() + ChatColor.WHITE
-                            + ". Your xp: " + ChatColor.RED
-                            + +this.getProfile(event.getPlayer()).getXp());
+                    "Welcome back! You character is: "
+                            + ChatColor.GOLD
+                            + character.getName()
+                            + ChatColor.WHITE
+                            + ". Your xp: "
+                            + ChatColor.RED
+                            + this.getProfile(event.getPlayer()).getXp()
+                            + ChatColor.WHITE
+                            + ". Current quest: "
+                            + ChatColor.LIGHT_PURPLE
+                            + String.valueOf(this.getProfile(event.getPlayer())
+                                    .getCurrentQuestId()));
         }
     }
 
@@ -247,10 +256,12 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 profile.setCharacter(Characters.fromId(conf
                         .getString("character")));
                 profile.setXp(conf.getLong("xp"));
-                profile.setCurrentQuestId(conf.getString("currentQuestId", null));
-                
-                if(profile.getCharacter() == Characters.MAGICAN) {
-                    profile.setMagican_currentSpell(conf.getInt("magican.currentSpell"));
+                profile.setCurrentQuestId(conf
+                        .getString("currentQuestId", null));
+
+                if (profile.getCharacter() == Characters.MAGICAN) {
+                    profile.setMagican_currentSpell(conf
+                            .getInt("magican.currentSpell"));
                 }
 
                 this.loadedProfiles.put(uniqueId, profile);
@@ -276,11 +287,12 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             if (profile.hasCharacter()) {
                 conf.set("character", profile.getCharacter().getId());
             }
-            
-            if(profile.getCharacter() == Characters.MAGICAN) {
-                conf.set("magican.currentSpell", profile.getMagican_currentSpell());
+
+            if (profile.getCharacter() == Characters.MAGICAN) {
+                conf.set("magican.currentSpell",
+                        profile.getMagican_currentSpell());
             }
-            
+
             conf.set("currentQuestId", profile.getCurrentQuestId());
             conf.set("xp", profile.getXp());
             conf.save(this.getDataFolderPath("profiles",
