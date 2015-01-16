@@ -19,18 +19,14 @@
 package eu.matejkormuth.rpgdavid.quests;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
+import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
@@ -39,17 +35,23 @@ public class QuestManager {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private final File questsDirectory;
     private final List<Quest> quests;
-
-    private ScriptEngineManager scriptEngineManager;
-    private ScriptEngine engine;
-    private Bindings bindings;
+    private boolean loadedAll = false;
 
     public QuestManager() {
         this.quests = new ArrayList<Quest>();
         this.questsDirectory = RpgPlugin.getInstance().getFile("quests");
     }
 
+    public void shutdown() {
+        // Release all objects from lists.
+        this.quests.clear();
+    }
+    
     public void loadAll() {
+        if(this.loadedAll) {
+            throw new RuntimeException("Reloading quests is not yet supported!");
+        }
+        
         this.log.info("Loading all quests...");
 
         for (String file : questsDirectory.list()) {
@@ -57,8 +59,9 @@ public class QuestManager {
         }
 
         this.log.info("Loaded and prepeared " + quests.size() + " quests!");
+        this.loadedAll = true;
     }
-    
+
     public Collection<Quest> getQuests() {
         return this.quests;
     }
@@ -85,16 +88,6 @@ public class QuestManager {
         }
     }
 
-    private void loadJSEngine() {
-        if (this.engine == null) {
-            this.scriptEngineManager = new ScriptEngineManager();
-            this.engine = this.scriptEngineManager
-                    .getEngineByName("JavaScript");
-            this.bindings = this.engine.createBindings();
-            this.bindings.put("manager", this);
-        }
-    }
-
     private void prepeareGoovy(final String fullName) {
         this.log.severe("Groovy script files are not supported yet!");
     }
@@ -104,14 +97,26 @@ public class QuestManager {
     }
 
     private void prepeareJs(final String fullName) {
-        // Initialize JS engine.
-        this.loadJSEngine();
+        // Initialize JS engine if needed.
+        Context ctx = Context.enter();
+        Scriptable scope = ctx.initStandardObjects();
         // Evaluate script.
         try {
-            this.engine.eval(new FileReader(fullName), this.bindings);
-        } catch (FileNotFoundException | ScriptException e) {
-            this.log.severe("Falied to load quest " + fullName);
+            String script = Files.toString(new File(fullName), Charsets.UTF_8);
+
+            // Try to fix missing addQuest call.
+            if (!script.contains("manager.addQuest")
+                    && script.contains("var quest")) {
+                script += "\n\nmanager.addQuest(quest);";
+            }
+
+           ctx.evaluateString(scope, script, fullName, 1, null);
+           
+        } catch (Exception e) {
+            this.log.severe("Falied to load file " + fullName);
             e.printStackTrace();
+        } finally {
+            Context.exit();
         }
     }
 }

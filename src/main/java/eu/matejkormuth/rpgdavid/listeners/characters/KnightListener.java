@@ -45,43 +45,44 @@ public class KnightListener implements Listener {
                     // by chanche of giving durability back to armor).
                     if (random.nextInt(3) == 0) { // 25%
                         Player player = (Player) event.getEntity();
-                        if (player.getInventory().getHelmet() != null) {
-                            player.getInventory()
-                                    .getHelmet()
-                                    .setDurability(
-                                            (short) (player.getInventory()
-                                                    .getHelmet()
-                                                    .getDurability() + 1));
-                        }
-
-                        if (player.getInventory().getChestplate() != null) {
-                            player.getInventory()
-                                    .getChestplate()
-                                    .setDurability(
-                                            (short) (player.getInventory()
-                                                    .getChestplate()
-                                                    .getDurability() + 1));
-                        }
-
-                        if (player.getInventory().getLeggings() != null) {
-                            player.getInventory()
-                                    .getLeggings()
-                                    .setDurability(
-                                            (short) (player.getInventory()
-                                                    .getLeggings()
-                                                    .getDurability() + 1));
-                        }
-
-                        if (player.getInventory().getBoots() != null) {
-                            player.getInventory()
-                                    .getBoots()
-                                    .setDurability(
-                                            (short) (player.getInventory()
-                                                    .getBoots().getDurability() + 1));
-                        }
+                        reduceArmorDamage(player);
                     }
                 }
             }
+        }
+    }
+
+    private void reduceArmorDamage(Player player) {
+        if (player.getInventory().getHelmet() != null) {
+            player.getInventory()
+                    .getHelmet()
+                    .setDurability(
+                            (short) (player.getInventory().getHelmet()
+                                    .getDurability() + 1));
+        }
+
+        if (player.getInventory().getChestplate() != null) {
+            player.getInventory()
+                    .getChestplate()
+                    .setDurability(
+                            (short) (player.getInventory().getChestplate()
+                                    .getDurability() + 1));
+        }
+
+        if (player.getInventory().getLeggings() != null) {
+            player.getInventory()
+                    .getLeggings()
+                    .setDurability(
+                            (short) (player.getInventory().getLeggings()
+                                    .getDurability() + 1));
+        }
+
+        if (player.getInventory().getBoots() != null) {
+            player.getInventory()
+                    .getBoots()
+                    .setDurability(
+                            (short) (player.getInventory().getBoots()
+                                    .getDurability() + 1));
         }
     }
 }

@@ -24,11 +24,16 @@ import java.util.UUID;
 public class Profile implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    // Main properties.
     private UUID uuid;
     private Character character;
     private long xp = 0L;
 
+    // Character properties.
     private long vampire_lastBitten;
+    
+    // Quest properties.
+    private String currentQuestId;
 
     public Profile() {
     }
@@ -64,6 +69,14 @@ public class Profile implements Serializable {
 
     public void setXp(long xp) {
         this.xp = xp;
+    }
+    
+    public void setCurrentQuestId(final String currentQuestId) {
+        this.currentQuestId = currentQuestId;
+    }
+    
+    public String getCurrentQuestId() {
+        return currentQuestId;
     }
 
     // -------------------- VAMPIRE METHODS

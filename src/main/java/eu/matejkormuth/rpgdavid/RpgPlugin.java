@@ -125,7 +125,13 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-
+        // Kick all players to avoid data loss.
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            p.kickPlayer("Server is reloading, please reconnect.");
+        }
+        // Clear map and disable componenets.
+        this.loadedProfiles.clear();
+        this.questManager.shutdown();
     }
 
     public Profile getProfile(final UUID uuid) {
