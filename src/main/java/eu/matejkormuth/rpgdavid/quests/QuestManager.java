@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -56,6 +57,10 @@ public class QuestManager {
         }
 
         this.log.info("Loaded and prepeared " + quests.size() + " quests!");
+    }
+    
+    public Collection<Quest> getQuests() {
+        return this.quests;
     }
 
     public void addQuest(final Quest quest) {

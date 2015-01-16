@@ -31,7 +31,8 @@ public class MagicBookListener implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_AIR
                 || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if(event.hasItem() && MagicBook.isBook(event.getItem())) {
-                // TODO: Update book contents.
+                // Update book contents.
+                MagicBook.update(event.getItem());
             }
         }
     }

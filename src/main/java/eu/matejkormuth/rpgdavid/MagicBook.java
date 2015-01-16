@@ -26,8 +26,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import eu.matejkormuth.rpgdavid.quests.Quest;
+
 public class MagicBook extends ItemStack {
-    private static final String BOOK_NAME = "Magic Book";
+    private static final String BOOK_TITLE = "Magic Book";
     private static final String BOOK_AUTHOR = "Server";
 
     public MagicBook() {
@@ -37,7 +39,7 @@ public class MagicBook extends ItemStack {
                 + "Magic Book");
         im.setLore(Arrays.asList(ChatColor.RESET.toString() + "Level 1"));
         im.setAuthor(BOOK_AUTHOR);
-        im.setTitle(BOOK_NAME);
+        im.setTitle(BOOK_TITLE);
         this.setItemMeta(im);
 
         // TODO: Make spells.
@@ -80,8 +82,40 @@ public class MagicBook extends ItemStack {
         if (item.getType() == Material.WRITTEN_BOOK) {
             BookMeta bm = (BookMeta) item.getItemMeta();
             return bm.getAuthor().equals(BOOK_AUTHOR)
-                    && bm.getTitle().equals(BOOK_NAME);
+                    && bm.getTitle().equals(BOOK_TITLE);
         }
         return false;
+    }
+
+    public static void update(final ItemStack item) {
+        if (item == null) {
+            return;
+        }
+
+        if (item.getType() == Material.WRITTEN_BOOK) {
+            BookMeta bm = (BookMeta) item.getItemMeta();
+            
+            bm.setAuthor(BOOK_AUTHOR);
+            bm.setTitle(BOOK_TITLE);
+            
+            bm.getPages().clear();
+            
+            StringBuilder builder = new StringBuilder();
+            
+            builder.append(ChatColor.BOLD);
+            builder.append("Quests: \n");
+            builder.append(ChatColor.RESET);
+            
+            // For each quest.
+            for(Quest quest : RpgPlugin.getInstance().getQuestManager().getQuests()) {
+                builder.append(ChatColor.BLUE);
+                builder.append(quest.getName());
+                builder.append(ChatColor.RED);
+                // TODO: If completed then, else.
+                builder.append(" [✗]");
+            }
+            
+            bm.addPage(builder.toString());
+        }
     }
 }

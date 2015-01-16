@@ -26,6 +26,10 @@ public abstract class AbstractQuest implements Quest {
     public double locX = 0;
     public double locY = 0;
     public double locZ = 0;
+    /**
+     * Quest name.
+     */
+    public String name = "Quest #" + this.hashCode();
     
     public NPCRegistry getNPCRegistry() {
         return CitizensAPI.getNPCRegistry();
