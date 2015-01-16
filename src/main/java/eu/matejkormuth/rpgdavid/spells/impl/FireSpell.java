@@ -39,7 +39,7 @@ public class FireSpell extends Spell {
     protected void cast0(final Player invoker, final Location location, final Vector velocity) {
         Fireball fireball = (Fireball) location.getWorld().spawnEntity(
                 location, EntityType.FIREBALL);
-        
+
         // Set spawn time.
         fireball.setMetadata(
                 "spawnedAt",
@@ -48,5 +48,6 @@ public class FireSpell extends Spell {
         
         fireball.setMetadata("fireSpell", new FlagMetadataValue());
         fireball.setShooter(invoker);
+        fireball.setVelocity(velocity);
     }
 }
