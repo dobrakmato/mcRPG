@@ -18,21 +18,55 @@
  */
 package eu.matejkormuth.rpgdavid.listeners;
 
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 
+import eu.matejkormuth.rpgdavid.Character;
+import eu.matejkormuth.rpgdavid.Characters;
 import eu.matejkormuth.rpgdavid.MagicBook;
+import eu.matejkormuth.rpgdavid.Profile;
+import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class MagicBookListener implements Listener {
     @EventHandler
-    private void onOpenBook(final PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_AIR
-                || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if(event.hasItem() && MagicBook.isBook(event.getItem())) {
-                // Update book contents.
-                MagicBook.update(event.getItem());
+    private void onSpellCast(final PlayerInteractEvent event) {
+        Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
+        if (p != null) {
+            Character character = p.getCharacter();
+            // Only magican.
+            if (character != Characters.MAGICAN) {
+                if (event.getAction() == Action.LEFT_CLICK_AIR) {
+                    if (event.hasItem() && MagicBook.isBook(event.getItem())) {
+                        // Find the right spell.
+                        Spell spell = MagicBook.getSpell(event.getPlayer());
+                        // Cast the spell.
+                        spell.cast(event.getPlayer());
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    private void onSpellSwitch(final PlayerToggleSneakEvent event) {
+        Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
+        if (p != null) {
+            Character character = p.getCharacter();
+            if (character == Characters.MAGICAN) {
+
+                if (event.getPlayer().getItemInHand() != null
+                        && MagicBook.isBook(event.getPlayer().getItemInHand())) {
+                    // Cycle trough spells.
+                    Spell spell = MagicBook.nextSpell(event.getPlayer());
+                    event.getPlayer().sendMessage(
+                            ChatColor.YELLOW + "Current spell: "
+                                    + spell.getName());
+                }
             }
         }
     }

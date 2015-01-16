@@ -28,9 +28,10 @@ public class Profile implements Serializable {
     private UUID uuid;
     private Character character;
     private long xp = 0L;
-
+    
     // Character properties.
     private long vampire_lastBitten;
+    private int magican_currentSpell;
     
     // Quest properties.
     private String currentQuestId;
@@ -91,5 +92,15 @@ public class Profile implements Serializable {
 
     public long getLastBitten() {
         return this.vampire_lastBitten;
+    }
+    
+    // --- MAGICAN METHODS
+    
+    public void setMagican_currentSpell(int magican_currentSpell) {
+        this.magican_currentSpell = magican_currentSpell;
+    }
+    
+    public int getMagican_currentSpell() {
+        return magican_currentSpell;
     }
 }

@@ -103,7 +103,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this);
 
         Bukkit.getPluginManager().registerEvents(new ModifiersListener(), this);
-        Bukkit.getPluginManager().registerEvents(new AdventurerListener(), this);
+        Bukkit.getPluginManager()
+                .registerEvents(new AdventurerListener(), this);
         Bukkit.getPluginManager().registerEvents(new HunterListener(), this);
         Bukkit.getPluginManager().registerEvents(new UndeadListener(), this);
         Bukkit.getPluginManager().registerEvents(new KnightListener(), this);
@@ -118,7 +119,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         // Load quests and QuestManager.
         this.questManager = new QuestManager();
         this.questManager.loadAll();
-        
+
         // TODO: If debug, then start debug class.
         Debug.onEnable();
     }
@@ -126,7 +127,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // Kick all players to avoid data loss.
-        for(Player p : Bukkit.getOnlinePlayers()) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             p.kickPlayer("Server is reloading, please reconnect.");
         }
         // Clear map and disable componenets.
@@ -241,6 +242,11 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 profile.setCharacter(Characters.fromId(conf
                         .getString("character")));
                 profile.setXp(conf.getLong("xp"));
+                profile.setCurrentQuestId(conf.getString("currentQuestId", null));
+                
+                if(profile.getCharacter() == Characters.MAGICAN) {
+                    profile.setMagican_currentSpell(conf.getInt("magican.currentSpell"));
+                }
 
                 this.loadedProfiles.put(uniqueId, profile);
 
@@ -265,6 +271,12 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             if (profile.hasCharacter()) {
                 conf.set("character", profile.getCharacter().getId());
             }
+            
+            if(profile.getCharacter() == Characters.MAGICAN) {
+                conf.set("magican.currentSpell", profile.getMagican_currentSpell());
+            }
+            
+            conf.set("currentQuestId", profile.getCurrentQuestId());
             conf.set("xp", profile.getXp());
             conf.save(this.getDataFolderPath("profiles",
                     uniqueId.toString() + ".yml").toFile());

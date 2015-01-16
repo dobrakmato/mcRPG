@@ -22,15 +22,24 @@ import java.util.Arrays;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import eu.matejkormuth.rpgdavid.quests.Quest;
+import eu.matejkormuth.rpgdavid.spells.Spell;
+import eu.matejkormuth.rpgdavid.spells.impl.FireSpell;
 
 public class MagicBook extends ItemStack {
     private static final String BOOK_TITLE = "Magic Book";
     private static final String BOOK_AUTHOR = "Server";
+
+    // Initialize spells.
+    private static Spell[] spells;
+    static {
+        spells = new Spell[5];
+        spells[0] = new FireSpell();
+    }
 
     public MagicBook() {
         super(Material.WRITTEN_BOOK, 1);
@@ -87,35 +96,20 @@ public class MagicBook extends ItemStack {
         return false;
     }
 
-    public static void update(final ItemStack item) {
-        if (item == null) {
-            return;
-        }
+    public static Spell getSpell(final Player player) {
+        return spells[RpgPlugin.getInstance().getProfile(player)
+                .getMagican_currentSpell()];
+    }
 
-        if (item.getType() == Material.WRITTEN_BOOK) {
-            BookMeta bm = (BookMeta) item.getItemMeta();
-            
-            bm.setAuthor(BOOK_AUTHOR);
-            bm.setTitle(BOOK_TITLE);
-            
-            bm.getPages().clear();
-            
-            StringBuilder builder = new StringBuilder();
-            
-            builder.append(ChatColor.BOLD);
-            builder.append("Quests: \n");
-            builder.append(ChatColor.RESET);
-            
-            // For each quest.
-            for(Quest quest : RpgPlugin.getInstance().getQuestManager().getQuests()) {
-                builder.append(ChatColor.BLUE);
-                builder.append(quest.getName());
-                builder.append(ChatColor.RED);
-                // TODO: If completed then, else.
-                builder.append(" [✗]");
-            }
-            
-            bm.addPage(builder.toString());
+    public static Spell nextSpell(final Player player) {
+        int current = RpgPlugin.getInstance().getProfile(player)
+                .getMagican_currentSpell();
+        if (current >= spells.length) {
+            RpgPlugin.getInstance().getProfile(player)
+                    .setMagican_currentSpell(0);
+            return spells[0];
         }
+        RpgPlugin.getInstance().getProfile(player).setMagican_currentSpell(current + 1); 
+        return spells[current + 1];
     }
 }
