@@ -27,6 +27,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class FireSpell extends Spell {
@@ -45,6 +46,7 @@ public class FireSpell extends Spell {
                 new FixedMetadataValue(RpgPlugin.getInstance(), System
                         .currentTimeMillis()));
         
+        fireball.setMetadata("fireSpell", new FlagMetadataValue());
         fireball.setShooter(invoker);
     }
 }
