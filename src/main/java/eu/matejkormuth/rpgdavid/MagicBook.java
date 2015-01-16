@@ -14,6 +14,8 @@ public class MagicBook extends ItemStack {
 		im.setDisplayName(ChatColor.RESET.toString() + ChatColor.YELLOW + "Magic Book");
 		im.setLore(Arrays.asList(ChatColor.RESET.toString() + "Level 1"));
 		this.setItemMeta(im);
+		
+		// TODO: Make spells.
 	}
 	
 	public int getLevel() {

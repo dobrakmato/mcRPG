@@ -109,6 +109,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 	public InventoryMenu getCharacterChoser() {
 		return this.characterChooserMenu;
 	}
+	
+	public File getFile(final String... more) {
+		return this.getDataFolderPath(more).toFile();
+	}
 
 	@EventHandler
 	private void onJoin(final PlayerJoinEvent event) {
@@ -154,7 +158,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 	}
 
 	@EventHandler
-	public void onRespawn(final PlayerRespawnEvent event) {
+	private void onRespawn(final PlayerRespawnEvent event) {
 		// Remove character.
 		this.getProfile(event.getPlayer()).setCharacter(null);
 		// Show character selection after respawn.
@@ -237,6 +241,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 	private void expandDirectoryStructure() {
 		boolean expanded = false;
 		expanded |= new File(this.dataFolder + "/profiles/").mkdirs();
+		expanded |= new File(this.dataFolder + "/quests/").mkdirs();
 		if (expanded) {
 			this.log.info("Directory structure expanded!");
 		}
