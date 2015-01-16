@@ -22,6 +22,11 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPCRegistry;
 
 public abstract class AbstractQuest implements Quest {
+    // Quest location.
+    public double locX = 0;
+    public double locY = 0;
+    public double locZ = 0;
+    
     public NPCRegistry getNPCRegistry() {
         return CitizensAPI.getNPCRegistry();
     }

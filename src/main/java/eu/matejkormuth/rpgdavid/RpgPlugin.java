@@ -59,6 +59,7 @@ import eu.matejkormuth.rpgdavid.listeners.characters.ModifiersListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.UndeadListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.VampireListener;
 import eu.matejkormuth.rpgdavid.party.Party;
+import eu.matejkormuth.rpgdavid.quests.QuestManager;
 
 public class RpgPlugin extends JavaPlugin implements Listener {
     private static RpgPlugin instnace;
@@ -70,6 +71,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     private Logger log;
     private String dataFolder;
     private Map<UUID, Profile> loadedProfiles;
+    private QuestManager questManager;
 
     private InventoryMenu characterChooserMenu;
 
@@ -99,19 +101,23 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         // Register event handlers.
         Bukkit.getPluginManager().registerEvents(this, this);
-        
+
         Bukkit.getPluginManager().registerEvents(new ModifiersListener(), this);
         Bukkit.getPluginManager().registerEvents(new AdventurerListener(), this);
         Bukkit.getPluginManager().registerEvents(new HunterListener(), this);
         Bukkit.getPluginManager().registerEvents(new UndeadListener(), this);
         Bukkit.getPluginManager().registerEvents(new KnightListener(), this);
         Bukkit.getPluginManager().registerEvents(new VampireListener(), this);
-        
+
         Bukkit.getPluginManager().registerEvents(new MagicBookListener(), this);
 
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
                 new TimeModifiersUpdater(), 0L, 20L);
+
+        // Load quests and QuestManager.
+        this.questManager = new QuestManager();
+        this.questManager.loadAll();
     }
 
     @Override
@@ -133,6 +139,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
     public File getFile(final String... more) {
         return this.getDataFolderPath(more).toFile();
+    }
+
+    public QuestManager getQuestManager() {
+        return this.questManager;
     }
 
     @EventHandler

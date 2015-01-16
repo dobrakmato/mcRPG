@@ -36,8 +36,8 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class QuestManager {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    private File questsDirectory;
-    private List<Quest> quests;
+    private final File questsDirectory;
+    private final List<Quest> quests;
 
     private ScriptEngineManager scriptEngineManager;
     private ScriptEngine engine;
@@ -50,9 +50,6 @@ public class QuestManager {
 
     public void loadAll() {
         this.log.info("Loading all quests...");
-        if (!questsDirectory.isDirectory()) {
-            throw new IllegalArgumentException("scriptsDir must be a directory");
-        }
 
         for (String file : questsDirectory.list()) {
             this.prepeareOne(file);
