@@ -34,4 +34,9 @@ public abstract class AbstractQuest implements Quest {
     public NPCRegistry getNPCRegistry() {
         return CitizensAPI.getNPCRegistry();
     }
+    
+    @Override
+    public String getName() {
+        return this.name;
+    }
 }

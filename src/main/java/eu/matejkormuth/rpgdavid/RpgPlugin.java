@@ -118,6 +118,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         // Load quests and QuestManager.
         this.questManager = new QuestManager();
         this.questManager.loadAll();
+        
+        // TODO: If debug, then start debug class.
+        Debug.onEnable();
     }
 
     @Override

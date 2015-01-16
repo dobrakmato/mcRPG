@@ -16,9 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.quests.concrete;
+package eu.matejkormuth.rpgdavid.quests;
 
-import eu.matejkormuth.rpgdavid.quests.AbstractQuest;
 
 public abstract class JavascriptQuest extends AbstractQuest {
 
