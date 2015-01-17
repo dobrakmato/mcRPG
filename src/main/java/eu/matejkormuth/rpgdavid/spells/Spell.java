@@ -18,6 +18,7 @@
  */
 package eu.matejkormuth.rpgdavid.spells;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -72,7 +73,12 @@ public abstract class Spell {
             location.getWorld().playSound(location, this.castSound,
                     this.castSoundVolume, this.castSoundPitch);
             // Cast the spell.
-            this.cast0(invoker, location, velocity);
+            this.cast0(
+                    invoker,
+                    location.add(velocity.clone().multiply(2)
+                            .add(new Vector(0, 1, 0))), velocity);
+        } else {
+            invoker.sendMessage(ChatColor.RED + "Low mana!");
         }
     }
 
