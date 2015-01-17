@@ -31,19 +31,19 @@ import eu.matejkormuth.rpgdavid.spells.Spell;
 import eu.matejkormuth.rpgdavid.spells.impl.FireSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.FreezeingSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.NauseaSpell;
+import eu.matejkormuth.rpgdavid.spells.impl.SafeFallSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.TNTSpell;
 
 public class MagicBook extends ItemStack {
     // Initialize spells.
     private static Spell[] spells;
     static {
-        spells = new Spell[4];
+        spells = new Spell[5];
         spells[0] = new FireSpell();
         spells[1] = new FreezeingSpell();
         spells[2] = new TNTSpell();
         spells[3] = new NauseaSpell();
-        
-        // TODO: More spells.
+        spells[4] = new SafeFallSpell();
     }
 
     public MagicBook() {

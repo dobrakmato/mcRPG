@@ -132,8 +132,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.questManager = new QuestManager();
         this.questManager.loadAll();
 
-        // TODO: If debug, then start debug class.
-        Debug.onEnable();
+        if(this.getConfig().getBoolean("debug", false)) {
+            Debug.onEnable();
+        }
     }
 
     @Override
@@ -275,6 +276,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                     profile.setMagican_currentSpell(conf
                             .getInt("magican.currentSpell"));
                     profile.setMana(conf.getInt("magican.mana", 0));
+                    profile.setMaxMana(conf.getInt("magican.maxmana", 900));
                 }
 
                 this.loadedProfiles.put(uniqueId, profile);
@@ -306,6 +308,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 conf.set("magican.currentSpell",
                         profile.getMagican_currentSpell());
                 conf.set("magican.mana", profile.getMana());
+                conf.set("magican.maxmana", profile.getMaxMana());
             }
 
             conf.set("currentQuestId", profile.getCurrentQuestId());

@@ -29,6 +29,7 @@ public class Profile implements Serializable {
     private Character character;
     private long xp = 0L;
     private int mana = 600;
+    private int maxMana = 900;
     
     // Character properties.
     private long vampire_lastBitten;
@@ -94,7 +95,11 @@ public class Profile implements Serializable {
     }
     
     public void giveMana(final int amount) {
-        this.mana += amount;
+        if(this.mana + amount < this.maxMana) {
+            this.mana += amount;
+        } else {
+            this.mana = this.maxMana;
+        }
     }
     
     public boolean takeMana(final int amount) {
@@ -103,6 +108,14 @@ public class Profile implements Serializable {
             return true;
         } 
         return false;
+    }
+    
+    public void setMaxMana(int maxMana) {
+        this.maxMana = maxMana;
+    }
+    
+    public int getMaxMana() {
+        return maxMana;
     }
 
     // -------------------- VAMPIRE METHODS
