@@ -190,18 +190,15 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                     0.2F * character.getModifiers().getWalkSpeedModifier());
 
             event.getPlayer().sendMessage(
-                    "Welcome back! You character is: "
-                            + ChatColor.GOLD
-                            + character.getName()
-                            + ChatColor.WHITE
-                            + ". Your xp: "
-                            + ChatColor.RED
-                            + this.getProfile(event.getPlayer()).getXp()
-                            + ChatColor.WHITE
-                            + ". Current quest: "
+                    "Welcome back! Current quest: "
                             + ChatColor.LIGHT_PURPLE
                             + String.valueOf(this.getProfile(event.getPlayer())
                                     .getCurrentQuestId()));
+
+            // Apply scoreboard.
+            event.getPlayer().setScoreboard(
+                    new PlayerStatsScoreboard(event.getPlayer())
+                            .getScoreboard());
         }
     }
 
