@@ -9,7 +9,7 @@
  */
 
 // Create quest object by extending JavascriptQuest class.
-var quest = new JavaAdapter(eu.matejkormuth.rpgdavid.quests.JavascriptQuest, {
+var quest = new JavaAdapter(JavascriptQuest, {
 	// Id of this quest used for internal purposes. 
 	id: "01-intruction-to-magic",
 	// Name of the quest.

@@ -146,6 +146,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.loadedProfiles.clear();
         this.questManager.shutdown();
         Party.clearParties();
+        // Save config.
+        this.saveConfig();
     }
 
     public Profile getProfile(final UUID uuid) {
@@ -272,6 +274,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 if (profile.getCharacter() == Characters.MAGICAN) {
                     profile.setMagican_currentSpell(conf
                             .getInt("magican.currentSpell"));
+                    profile.setMana(conf.getInt("magican.mana", 0));
                 }
 
                 this.loadedProfiles.put(uniqueId, profile);
@@ -294,6 +297,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             Profile profile = this.loadedProfiles.get(uniqueId);
             YamlConfiguration conf = new YamlConfiguration();
             conf.set("uuid", profile.getUniqueId().toString());
+            
             if (profile.hasCharacter()) {
                 conf.set("character", profile.getCharacter().getId());
             }
@@ -301,6 +305,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             if (profile.getCharacter() == Characters.MAGICAN) {
                 conf.set("magican.currentSpell",
                         profile.getMagican_currentSpell());
+                conf.set("magican.mana", profile.getMana());
             }
 
             conf.set("currentQuestId", profile.getCurrentQuestId());

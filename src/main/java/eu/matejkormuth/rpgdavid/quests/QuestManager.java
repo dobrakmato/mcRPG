@@ -121,6 +121,7 @@ public class QuestManager {
         // Initialize JS engine if needed.
         Context ctx = Context.enter();
         Scriptable scope = ctx.initStandardObjects();
+        scope.put("manager", scope, this);
         // Evaluate script.
         try {
             String script = Files.toString(new File(fullName), Charsets.UTF_8);
@@ -131,6 +132,9 @@ public class QuestManager {
                 script += "\n\nmanager.addQuest(quest);";
             }
 
+            // Add JavascriptQuest variabile.
+            script = "var JavascriptQuest = Packages.eu.matejkormuth.rpgdavid.quests.JavascriptQuest;\r\n" + script;
+            
             ctx.evaluateString(scope, script, fullName, 1, null);
 
         } catch (Exception e) {
