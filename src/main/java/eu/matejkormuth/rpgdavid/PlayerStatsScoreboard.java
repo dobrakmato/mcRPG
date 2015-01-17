@@ -11,25 +11,32 @@ public class PlayerStatsScoreboard {
     private Scoreboard scoreboard;
     private Objective objective;
     private Profile profile;
-    
+    private Player player;
+
     private Score xpScore;
     private Score manaScore;
-    
+
     public PlayerStatsScoreboard(final Player player) {
+        this.player = player;
         this.profile = RpgPlugin.getInstance().getProfile(player);
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        
-        this.objective = this.scoreboard.getObjective(profile.getCharacter().getName());
+
+        this.objective = this.scoreboard.registerNewObjective("sidebar_main", "dummy");
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        
+        this.objective.setDisplayName(this.profile.getCharacter().getName());
+
         this.xpScore = this.objective.getScore("XP");
         this.manaScore = this.objective.getScore("Mana");
     }
-    
+
     public Scoreboard getScoreboard() {
         return this.scoreboard;
     }
     
+    public Player getPlayer() {
+        return player;
+    }
+
     public void update() {
         this.xpScore.setScore((int) this.profile.getXp());
         this.manaScore.setScore(this.profile.getMana());

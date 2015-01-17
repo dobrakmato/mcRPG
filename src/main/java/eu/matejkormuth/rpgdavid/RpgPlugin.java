@@ -74,6 +74,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     private String dataFolder;
     private Map<UUID, Profile> loadedProfiles;
     private QuestManager questManager;
+    private ScoreboardsList scoreboardsList;
 
     private InventoryMenu characterChooserMenu;
 
@@ -81,6 +82,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     public void onEnable() {
         instnace = this;
 
+        this.scoreboardsList = new ScoreboardsList();
         this.loadedProfiles = new HashMap<UUID, Profile>();
 
         this.log = this.getLogger();
@@ -123,6 +125,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 new TimeModifiersUpdater(), 0L, 20L);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
                 new ManaUpdater(), 0L, 1L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+                this.scoreboardsList, 0L, 5L);
 
         // Load quests and QuestManager.
         this.questManager = new QuestManager();
@@ -196,9 +200,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                                     .getCurrentQuestId()));
 
             // Apply scoreboard.
-            event.getPlayer().setScoreboard(
-                    new PlayerStatsScoreboard(event.getPlayer())
-                            .getScoreboard());
+            PlayerStatsScoreboard scoreboard = new PlayerStatsScoreboard(
+                    event.getPlayer());
+            this.scoreboardsList.add(scoreboard);
         }
     }
 
@@ -209,6 +213,11 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             Party.getParty(event.getPlayer()).removePlayer(event.getPlayer());
         }
 
+        // Remove his scoreboard.
+        if (event.getPlayer().getScoreboard() != null) {
+            this.scoreboardsList.remove(event.getPlayer());
+        }
+
         this.saveProfile(event.getPlayer().getUniqueId());
     }
 
@@ -216,6 +225,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     private void onRespawn(final PlayerRespawnEvent event) {
         // Remove character.
         this.getProfile(event.getPlayer()).setCharacter(null);
+        // Remove scoreboard.
+        this.scoreboardsList.remove(event.getPlayer());
         // Show character selection after respawn.
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             @Override
