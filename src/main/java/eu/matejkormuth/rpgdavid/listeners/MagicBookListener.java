@@ -39,8 +39,9 @@ public class MagicBookListener implements Listener {
         if (p != null) {
             Character character = p.getCharacter();
             // Only magican.
-            if (character != Characters.MAGICAN) {
-                if (event.getAction() == Action.LEFT_CLICK_AIR) {
+            if (character == Characters.MAGICAN) {
+                if (event.getAction() == Action.RIGHT_CLICK_AIR
+                        || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (event.hasItem() && MagicBook.isBook(event.getItem())) {
                         // Find the right spell.
                         Spell spell = MagicBook.getSpell(event.getPlayer());
@@ -51,7 +52,7 @@ public class MagicBookListener implements Listener {
             }
         }
     }
- 
+
     @EventHandler
     private void onSpellSwitch(final PlayerToggleSneakEvent event) {
         Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
