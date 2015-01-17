@@ -21,33 +21,26 @@ package eu.matejkormuth.rpgdavid.spells.impl;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.entity.Snowball;
 import org.bukkit.util.Vector;
 
-import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
-public class FireSpell extends Spell {
-    public FireSpell() {
-        super(Sound.FIRE_IGNITE, "Fire spell", 100);
+public class FreezeingSpell extends Spell {
+    public FreezeingSpell() {
+        super(Sound.WATER, "Freezing spell", 100);
     }
 
     @Override
-    protected void cast0(final Player invoker, final Location location, final Vector velocity) {
-        Fireball fireball = (Fireball) location.getWorld().spawnEntity(
-                location, EntityType.FIREBALL);
-
-        // Set spawn time.
-        fireball.setMetadata(
-                "spawnedAt",
-                new FixedMetadataValue(RpgPlugin.getInstance(), System
-                        .currentTimeMillis()));
+    protected void cast0(final Player invoker, final Location location,
+            final Vector velocity) {
+        Snowball snowball = (Snowball) location.getWorld().spawnEntity(
+                location, EntityType.SNOWBALL);
         
-        fireball.setMetadata("fireSpell", new FlagMetadataValue());
-        fireball.setShooter(invoker);
-        fireball.setVelocity(velocity);
+        snowball.setMetadata("freezingSpell", new FlagMetadataValue());
+        snowball.setShooter(invoker);
+        snowball.setVelocity(velocity.multiply(2));
     }
 }

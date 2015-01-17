@@ -23,22 +23,27 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
+
 public abstract class Spell {
     private final Sound castSound;
     private final float castSoundPitch;
     private final float castSoundVolume;
     private final String name;
+    private final int manaUsage;
 
-    public Spell(final Sound castSound, final String name) {
-        this(castSound, name, 1, 1);
+    public Spell(final Sound castSound, final String name, final int manaUsage) {
+        this(castSound, name, 1, 1, manaUsage);
     }
 
     public Spell(final Sound castSound, final String name,
-            final float castSoundPitch, final float castSoundVolume) {
+            final float castSoundPitch, final float castSoundVolume,
+            final int manaUsage) {
         this.castSound = castSound;
         this.name = name;
         this.castSoundPitch = castSoundPitch;
         this.castSoundVolume = castSoundVolume;
+        this.manaUsage = manaUsage;
     }
 
     public String getName() {
@@ -49,6 +54,10 @@ public abstract class Spell {
         return this.castSound;
     }
 
+    public int getManaUsage() {
+        return manaUsage;
+    }
+
     public void cast(final Player invoker) {
         this.cast(invoker, invoker.getLocation(), invoker.getEyeLocation()
                 .getDirection());
@@ -56,11 +65,15 @@ public abstract class Spell {
 
     public void cast(final Player invoker, final Location location,
             final Vector velocity) {
-        // Play sound effect.
-        location.getWorld().playSound(location, this.castSound,
-                this.castSoundVolume, this.castSoundPitch);
-        // Cast the spell.
-        this.cast0(invoker, location, velocity);
+        // Take mana from player if he has enough.
+        if (RpgPlugin.getInstance().getProfile(invoker)
+                .takeMana(this.manaUsage)) {
+            // Play sound effect.
+            location.getWorld().playSound(location, this.castSound,
+                    this.castSoundVolume, this.castSoundPitch);
+            // Cast the spell.
+            this.cast0(invoker, location, velocity);
+        }
     }
 
     protected abstract void cast0(final Player invoker,

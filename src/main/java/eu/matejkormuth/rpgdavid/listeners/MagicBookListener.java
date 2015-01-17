@@ -51,7 +51,7 @@ public class MagicBookListener implements Listener {
             }
         }
     }
-
+ 
     @EventHandler
     private void onSpellSwitch(final PlayerToggleSneakEvent event) {
         Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());

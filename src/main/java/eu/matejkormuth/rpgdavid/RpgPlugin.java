@@ -121,6 +121,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
                 new TimeModifiersUpdater(), 0L, 20L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+                new ManaUpdater(), 0L, 1L);
 
         // Load quests and QuestManager.
         this.questManager = new QuestManager();

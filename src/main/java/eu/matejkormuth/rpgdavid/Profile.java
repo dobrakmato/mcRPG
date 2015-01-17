@@ -28,6 +28,7 @@ public class Profile implements Serializable {
     private UUID uuid;
     private Character character;
     private long xp = 0L;
+    private int mana = 600;
     
     // Character properties.
     private long vampire_lastBitten;
@@ -72,12 +73,36 @@ public class Profile implements Serializable {
         this.xp = xp;
     }
     
+    public void giveXp(final int amount) {
+        this.xp += amount;
+    }
+    
     public void setCurrentQuestId(final String currentQuestId) {
         this.currentQuestId = currentQuestId;
     }
     
     public String getCurrentQuestId() {
         return currentQuestId;
+    }
+    
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+    
+    public int getMana() {
+        return mana;
+    }
+    
+    public void giveMana(final int amount) {
+        this.mana += amount;
+    }
+    
+    public boolean takeMana(final int amount) {
+        if(this.mana >= amount) {
+            this.mana -= amount;
+            return true;
+        } 
+        return false;
     }
 
     // -------------------- VAMPIRE METHODS

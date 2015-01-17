@@ -23,6 +23,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class SpellsListener implements Listener {
     public static final double FIRE_SPELL_RADIUS = 5.0D;
@@ -47,6 +49,7 @@ public class SpellsListener implements Listener {
                     FREEZING_SPELL_RADIUS)) {
                 if(e instanceof LivingEntity) {
                     ((LivingEntity) e).damage(0.5D);
+                    ((LivingEntity) e).addPotionEffect(new  PotionEffect(PotionEffectType.SLOW, 20 * 3, 0));
                 }
             }
         }
