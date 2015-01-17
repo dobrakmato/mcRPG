@@ -24,7 +24,9 @@ import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 
 public class Werewolf extends Character {
     public Werewolf() {
-        super("Vlkodlak", "Speed potion in night.\nNight vision in night.",
+        super(
+                "Vlkodlak",
+                "Speed potion in night.\nNight vision in night.\nHigher jumps in night.",
                 Modifiers.DEFAULT, Armor.EMPTY); // Modifiers handler
                                                  // differently
     }
