@@ -25,7 +25,6 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import eu.matejkormuth.rpgdavid.spells.Spell;
@@ -33,9 +32,6 @@ import eu.matejkormuth.rpgdavid.spells.impl.FireSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.FreezeingSpell;
 
 public class MagicBook extends ItemStack {
-    private static final String BOOK_TITLE = "Magic Book";
-    private static final String BOOK_AUTHOR = "Server";
-
     // Initialize spells.
     private static Spell[] spells;
     static {
@@ -48,13 +44,11 @@ public class MagicBook extends ItemStack {
 
     public MagicBook() {
         super(Material.BOOK, 1);
-        BookMeta im = (BookMeta) this.getItemMeta();
+        ItemMeta im = this.getItemMeta();
         im.setDisplayName(ChatColor.RESET.toString() + ChatColor.YELLOW
                 + "Magic Book");
         im.setLore(Arrays.asList(ChatColor.RESET.toString() + "Level 1"));
-        im.setAuthor(BOOK_AUTHOR);
-        im.setTitle(BOOK_TITLE);
-        im.addEnchant(Enchantment.DURABILITY, 1, true);
+        im.addEnchant(Enchantment.DURABILITY, 12, true);
         this.setItemMeta(im);
     }
 
@@ -92,12 +86,7 @@ public class MagicBook extends ItemStack {
             return false;
         }
 
-        if (item.getType() == Material.BOOK) {
-            BookMeta bm = (BookMeta) item.getItemMeta();
-            return bm.getAuthor().equals(BOOK_AUTHOR)
-                    && bm.getTitle().equals(BOOK_TITLE);
-        }
-        return false;
+        return item.getType() == Material.BOOK && item.getEnchantmentLevel(Enchantment.DURABILITY) == 12;
     }
 
     public static Spell getSpell(final Player player) {
