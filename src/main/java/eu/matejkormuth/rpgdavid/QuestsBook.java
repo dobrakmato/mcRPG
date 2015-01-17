@@ -36,6 +36,7 @@ public class QuestsBook extends ItemStack {
                 + "Quests Book");
         im.setAuthor(BOOK_AUTHOR);
         im.setTitle(BOOK_TITLE);
+        im.addPage("hahaha");
         this.setItemMeta(im);
     }
 
@@ -72,8 +73,6 @@ public class QuestsBook extends ItemStack {
             bm.setAuthor(BOOK_AUTHOR);
             bm.setTitle(BOOK_TITLE);
             
-            bm.getPages().clear();
-            
             StringBuilder builder = new StringBuilder();
             
             builder.append(ChatColor.BOLD);
@@ -89,7 +88,7 @@ public class QuestsBook extends ItemStack {
                 builder.append(" [✗]");
             }
             
-            bm.addPage(builder.toString());
+            bm.setPages(builder.toString());
         }
     }
 }

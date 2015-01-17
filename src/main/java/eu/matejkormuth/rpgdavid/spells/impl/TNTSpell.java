@@ -22,25 +22,33 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
+import org.bukkit.entity.TNTPrimed;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
-public class FreezeingSpell extends Spell {
-    public FreezeingSpell() {
-        super(Sound.FIRE_IGNITE, "Freezing spell", 100);
+public class TNTSpell extends Spell {
+    public TNTSpell() {
+        super(Sound.FIRE_IGNITE, "TNT Spell", 50);
     }
-
+    
     @Override
-    protected void cast0(final Player invoker, final Location location,
-            final Vector velocity) {
-        Snowball snowball = (Snowball) location.getWorld().spawnEntity(
-                location, EntityType.SNOWBALL);
+    protected void cast0(Player invoker, Location location, Vector velocity) {
+        TNTPrimed tnt = (TNTPrimed) location.getWorld().spawnEntity(
+                location, EntityType.PRIMED_TNT);
+
+        // Set spawn time.
+        tnt.setMetadata(
+                "spawnedAt",
+                new FixedMetadataValue(RpgPlugin.getInstance(), System
+                        .currentTimeMillis()));
         
-        snowball.setMetadata("freezingSpell", new FlagMetadataValue());
-        snowball.setShooter(invoker);
-        snowball.setVelocity(velocity.multiply(2));
+        tnt.setCustomName("TNT");
+        tnt.setFuseTicks(20 * 4);
+        tnt.setMetadata("tntSpell", new FlagMetadataValue());
+        tnt.setVelocity(velocity);
     }
 }

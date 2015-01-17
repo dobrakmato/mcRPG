@@ -20,27 +20,18 @@ package eu.matejkormuth.rpgdavid.spells.impl;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.util.Vector;
 
-import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
-public class FreezeingSpell extends Spell {
-    public FreezeingSpell() {
-        super(Sound.FIRE_IGNITE, "Freezing spell", 100);
+public class NauseaSpell extends Spell {
+    public NauseaSpell() {
+        super(Sound.FIRE_IGNITE, "Nausea Spell", 200);
     }
 
     @Override
-    protected void cast0(final Player invoker, final Location location,
-            final Vector velocity) {
-        Snowball snowball = (Snowball) location.getWorld().spawnEntity(
-                location, EntityType.SNOWBALL);
-        
-        snowball.setMetadata("freezingSpell", new FlagMetadataValue());
-        snowball.setShooter(invoker);
-        snowball.setVelocity(velocity.multiply(2));
+    protected void cast0(Player invoker, Location location, Vector velocity) {
+        // TODO: Nausea spell
     }
 }
