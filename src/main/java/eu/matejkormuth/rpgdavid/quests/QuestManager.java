@@ -19,10 +19,12 @@
 package eu.matejkormuth.rpgdavid.quests;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
+
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -73,7 +75,8 @@ public class QuestManager {
         this.log.info("Loading all quests...");
 
         for (String file : questsDirectory.list()) {
-            this.prepeareOne(file);
+            this.prepeareOne(Paths.get(questsDirectory.getAbsolutePath(), file)
+                    .toAbsolutePath().toString());
         }
 
         this.log.info("Loaded and prepeared " + quests.size() + " quests!");
