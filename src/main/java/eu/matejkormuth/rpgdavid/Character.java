@@ -96,6 +96,9 @@ public class Character {
         for (ItemStack item : this.items) {
             p.getInventory().addItem(item);
         }
+        
+        // Give QuestsBook to every character.
+        p.getInventory().addItem(new QuestsBook());
     }
 
     public ItemStack getIcon(final Material material) {
