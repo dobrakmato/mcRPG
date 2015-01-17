@@ -89,6 +89,7 @@ public class QuestsBook extends ItemStack {
             }
             
             bm.setPages(builder.toString());
+            item.setItemMeta(bm);
         }
     }
 }
