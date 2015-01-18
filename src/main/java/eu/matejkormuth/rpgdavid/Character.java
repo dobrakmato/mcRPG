@@ -59,19 +59,19 @@ public class Character {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public ItemStack[] getItems() {
-        return items;
+        return this.items;
     }
 
     public Armor getArmor() {
-        return armor;
+        return this.armor;
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void applyTo(Player p) {

@@ -62,11 +62,11 @@ public final class Characters {
             return Characters.ADVENTURER;
 
         case "Vampire":
-            return Characters.ADVENTURER;
+            return Characters.VAMPIRE;
         case "Undead":
-            return Characters.ADVENTURER;
+            return Characters.UNDEAD;
         case "Werewolf":
-            return Characters.ADVENTURER;
+            return Characters.WEREWOLF;
 
         default:
             return null;

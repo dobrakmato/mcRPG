@@ -27,6 +27,6 @@ public class Adventurer extends Character {
         super(
                 "Dobrodruh",
                 "Hunger depletes 2 times slower.\nPotions have 2 times bigger radius",
-                new Modifiers(1, 1, 1, 1, 1), Armor.EMPTY);
+                Modifiers.DEFAULT, Armor.EMPTY);
     }
 }

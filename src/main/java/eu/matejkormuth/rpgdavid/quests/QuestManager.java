@@ -89,6 +89,12 @@ public class QuestManager {
 
     public void addQuest(final Quest quest) {
         this.quests.add(quest);
+        try {
+            quest.prepeare();
+        } catch (Exception ex) {
+            this.log.severe("Can't prepeare() quest " + quest.getId() + "!");
+            this.log.severe(ex.getMessage());
+        }
     }
 
     private void prepeareOne(final String fullName) {
@@ -136,7 +142,6 @@ public class QuestManager {
             script = "var JavascriptQuest = Packages.eu.matejkormuth.rpgdavid.quests.JavascriptQuest;\r\n" + script;
             
             ctx.evaluateString(scope, script, fullName, 1, null);
-
         } catch (Exception e) {
             this.log.severe("Falied to load file " + fullName);
             e.printStackTrace();

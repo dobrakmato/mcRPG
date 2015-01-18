@@ -116,7 +116,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new KnightListener(), this);
         Bukkit.getPluginManager().registerEvents(new VampireListener(), this);
 
-        Bukkit.getPluginManager().registerEvents(new BookOfSpellsListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BookOfSpellsListener(),
+                this);
         Bukkit.getPluginManager()
                 .registerEvents(new QuestsBookListener(), this);
 
