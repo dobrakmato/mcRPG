@@ -27,12 +27,12 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Characters;
-import eu.matejkormuth.rpgdavid.MagicBook;
+import eu.matejkormuth.rpgdavid.BookOfSpells;
 import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
-public class MagicBookListener implements Listener {
+public class BookOfSpellsListener implements Listener {
     @EventHandler
     private void onSpellCast(final PlayerInteractEvent event) {
         Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
@@ -42,9 +42,9 @@ public class MagicBookListener implements Listener {
             if (character == Characters.MAGICAN) {
                 if (event.getAction() == Action.RIGHT_CLICK_AIR
                         || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (event.hasItem() && MagicBook.isBook(event.getItem())) {
+                    if (event.hasItem() && BookOfSpells.isBook(event.getItem())) {
                         // Find the right spell.
-                        Spell spell = MagicBook.getSpell(event.getPlayer());
+                        Spell spell = BookOfSpells.getSpell(event.getPlayer());
                         // Cast the spell.
                         spell.cast(event.getPlayer());
                     }
@@ -60,11 +60,11 @@ public class MagicBookListener implements Listener {
             Character character = p.getCharacter();
             if (character == Characters.MAGICAN) {
                 if (event.getPlayer().getItemInHand() != null
-                        && MagicBook.isBook(event.getPlayer().getItemInHand())) {
+                        && BookOfSpells.isBook(event.getPlayer().getItemInHand())) {
                     // Prevent dupe switch.
                     if (event.isSneaking()) {
                         // Cycle trough spells only.
-                        Spell spell = MagicBook.nextSpell(event.getPlayer());
+                        Spell spell = BookOfSpells.nextSpell(event.getPlayer());
                         event.getPlayer().sendMessage(
                                 ChatColor.YELLOW + "Current spell: "
                                         + spell.getName());

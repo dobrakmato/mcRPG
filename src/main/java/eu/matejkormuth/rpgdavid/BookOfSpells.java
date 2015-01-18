@@ -30,36 +30,38 @@ import org.bukkit.inventory.meta.ItemMeta;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 import eu.matejkormuth.rpgdavid.spells.impl.FireSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.FreezeingSpell;
+import eu.matejkormuth.rpgdavid.spells.impl.HealingSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.NauseaSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.SafeFallSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.TNTSpell;
 
-public class MagicBook extends ItemStack {
+public class BookOfSpells extends ItemStack {
     // Initialize spells.
     private static Spell[] spells;
     static {
-        spells = new Spell[5];
+        spells = new Spell[6];
         spells[0] = new FireSpell();
         spells[1] = new FreezeingSpell();
         spells[2] = new TNTSpell();
         spells[3] = new NauseaSpell();
         spells[4] = new SafeFallSpell();
+        spells[5] = new HealingSpell();
     }
 
-    public MagicBook() {
+    public BookOfSpells() {
         super(Material.BOOK, 1);
         ItemMeta im = this.getItemMeta();
-        im.setDisplayName(ChatColor.RESET.toString() + ChatColor.YELLOW
-                + "Magic Book");
+        im.setDisplayName(ChatColor.RESET.toString() + ChatColor.BLUE
+                + "Book of spells");
         im.setLore(Arrays.asList(ChatColor.RESET.toString() + "Level 1"));
         im.addEnchant(Enchantment.DURABILITY, 12, true);
         this.setItemMeta(im);
     }
 
     @Override
-    public MagicBook clone() {
+    public BookOfSpells clone() {
         try {
-            return (MagicBook) super.clone();
+            return (BookOfSpells) super.clone();
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -90,7 +92,8 @@ public class MagicBook extends ItemStack {
             return false;
         }
 
-        return item.getType() == Material.BOOK && item.getEnchantmentLevel(Enchantment.DURABILITY) == 12;
+        return item.getType() == Material.BOOK
+                && item.getEnchantmentLevel(Enchantment.DURABILITY) == 12;
     }
 
     public static Spell getSpell(final Player player) {
@@ -106,7 +109,8 @@ public class MagicBook extends ItemStack {
                     .setMagican_currentSpell(0);
             return spells[0];
         }
-        RpgPlugin.getInstance().getProfile(player).setMagican_currentSpell(current + 1); 
+        RpgPlugin.getInstance().getProfile(player)
+                .setMagican_currentSpell(current + 1);
         return spells[current + 1];
     }
 }

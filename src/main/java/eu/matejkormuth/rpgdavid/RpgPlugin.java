@@ -51,7 +51,7 @@ import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
 import eu.matejkormuth.rpgdavid.inventorymenu.Action;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
-import eu.matejkormuth.rpgdavid.listeners.MagicBookListener;
+import eu.matejkormuth.rpgdavid.listeners.BookOfSpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.QuestsBookListener;
 import eu.matejkormuth.rpgdavid.listeners.SpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.AdventurerListener;
@@ -116,7 +116,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new KnightListener(), this);
         Bukkit.getPluginManager().registerEvents(new VampireListener(), this);
 
-        Bukkit.getPluginManager().registerEvents(new MagicBookListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BookOfSpellsListener(), this);
         Bukkit.getPluginManager()
                 .registerEvents(new QuestsBookListener(), this);
 
@@ -132,7 +132,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.questManager = new QuestManager();
         this.questManager.loadAll();
 
-        if(this.getConfig().getBoolean("debug", false)) {
+        if (this.getConfig().getBoolean("debug", false)) {
             Debug.onEnable();
         }
     }
@@ -299,7 +299,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             Profile profile = this.loadedProfiles.get(uniqueId);
             YamlConfiguration conf = new YamlConfiguration();
             conf.set("uuid", profile.getUniqueId().toString());
-            
+
             if (profile.hasCharacter()) {
                 conf.set("character", profile.getCharacter().getId());
             }
@@ -347,6 +347,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 RpgPlugin.getInstance().getProfile(player)
                         .setCharacter(this.character);
                 this.character.applyTo(player);
+                // Apply scoreboard.
+                PlayerStatsScoreboard scoreboard = new PlayerStatsScoreboard(
+                        player);
+                RpgPlugin.this.scoreboardsList.add(scoreboard);
                 player.sendMessage(ChatColor.GREEN + "Your class is now: "
                         + ChatColor.GOLD + this.character.getName());
             }

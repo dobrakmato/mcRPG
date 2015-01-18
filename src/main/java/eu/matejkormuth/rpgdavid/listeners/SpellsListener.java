@@ -20,7 +20,7 @@ package eu.matejkormuth.rpgdavid.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.TNTPrimed;
@@ -74,14 +74,15 @@ public class SpellsListener implements Listener {
                         PotionEffectType.SLOW, 20 * 3, 0));
 
                 // Freeze water blocks.
-                Block b = null;
+                BlockState b = null;
                 for (int x = e.getLocation().getBlockX() - 1; x <= 1; x++) {
                     for (int z = e.getLocation().getBlockZ() - 1; z <= 1; z++) {
                         b = e.getWorld().getBlockAt(x,
-                                e.getLocation().getBlockY(), z);
+                                e.getLocation().getBlockY(), z).getState();
                         if (b.getType() == Material.STATIONARY_WATER
                                 || b.getType() == Material.WATER) {
                             b.setType(Material.ICE);
+                            b.update();
                         }
                     }
                 }
