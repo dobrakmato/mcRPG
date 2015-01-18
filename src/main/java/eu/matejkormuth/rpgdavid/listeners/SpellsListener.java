@@ -51,7 +51,7 @@ public class SpellsListener implements Listener {
     private void onTntExplode(final EntityExplodeEvent event) {
         if (event.getEntity() instanceof TNTPrimed) {
             if (event.getEntity().hasMetadata("tntSpell")) {
-                
+
             }
         }
     }
@@ -75,14 +75,18 @@ public class SpellsListener implements Listener {
 
                 // Freeze water blocks.
                 BlockState b = null;
-                for (int x = e.getLocation().getBlockX() - 1; x <= 1; x++) {
-                    for (int z = e.getLocation().getBlockZ() - 1; z <= 1; z++) {
-                        b = e.getWorld().getBlockAt(x,
-                                e.getLocation().getBlockY(), z).getState();
-                        if (b.getType() == Material.STATIONARY_WATER
-                                || b.getType() == Material.WATER) {
-                            b.setType(Material.ICE);
-                            b.update();
+                for (int x = e.getLocation().getBlockX() - 2; x <= e
+                        .getLocation().getBlockX() + 2; x++) {
+                    for (int y = e.getLocation().getBlockY() - 1; y <= e
+                            .getLocation().getBlockY() + 1; y++) {
+                        for (int z = e.getLocation().getBlockZ() - 2; z <= e
+                                .getLocation().getBlockZ() + 02; z++) {
+                            b = e.getWorld().getBlockAt(x, y, z).getState();
+                            if (b.getType() == Material.STATIONARY_WATER
+                                    || b.getType() == Material.WATER) {
+                                b.setType(Material.ICE);
+                                b.update();
+                            }
                         }
                     }
                 }
