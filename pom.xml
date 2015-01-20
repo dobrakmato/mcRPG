@@ -28,6 +28,12 @@
       <version>2.0.14-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
+    <!-- Local repository spigot with craftbukkit -->
+    <dependency>
+      <groupId>spigot</groupId>
+      <artifactId>spigot</artifactId>
+      <version>1.8.1</version>
+    </dependency>
   </dependencies>
 
   <repositories>
@@ -49,6 +55,26 @@
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
+        </configuration>
+      </plugin>
+      <!-- Works only on local machine. Needs adding plugin to maven repo. -->
+      <plugin>
+        <groupId>eu.matejkormuth.mojos</groupId>
+        <artifactId>starving-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>starving</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <soundsIn>src/main/resources/starving/sounds.txt</soundsIn>
+          <atmospheresIn>src/main/resources/starving/atmospheres.txt</atmospheresIn>
+          <soundsOut>src/main/java/eu/matejkormuth/rpgdavid/starving/sounds/lists/Sounds.java</soundsOut>
+          <atmospheresOut>src/main/java/eu/matejkormuth/rpgdavid/starving/sounds/lists/Atmospheres.java</atmospheresOut>
         </configuration>
       </plugin>
       <plugin>
