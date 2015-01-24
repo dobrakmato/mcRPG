@@ -30,11 +30,15 @@ public class Profile implements Serializable {
     private long xp = 0L;
     private int mana = 600;
     private int maxMana = 900;
-    
+
+    // Currencies
+    private int florins = 0;
+    private int dollars = 0;
+
     // Character properties.
     private long vampire_lastBitten;
     private int magican_currentSpell;
-    
+
     // Quest properties.
     private String currentQuestId;
 
@@ -73,49 +77,89 @@ public class Profile implements Serializable {
     public void setXp(long xp) {
         this.xp = xp;
     }
-    
+
     public void giveXp(final int amount) {
         this.xp += amount;
     }
-    
+
     public void setCurrentQuestId(final String currentQuestId) {
         this.currentQuestId = currentQuestId;
     }
-    
+
     public String getCurrentQuestId() {
         return currentQuestId;
     }
-    
+
     public void setMana(int mana) {
         this.mana = mana;
     }
-    
+
     public int getMana() {
         return mana;
     }
-    
+
     public void giveMana(final int amount) {
-        if(this.mana + amount < this.maxMana) {
+        if (this.mana + amount < this.maxMana) {
             this.mana += amount;
         } else {
             this.mana = this.maxMana;
         }
     }
-    
+
     public boolean takeMana(final int amount) {
-        if(this.mana >= amount) {
+        if (this.mana >= amount) {
             this.mana -= amount;
             return true;
-        } 
+        }
         return false;
     }
-    
+
     public void setMaxMana(int maxMana) {
         this.maxMana = maxMana;
     }
-    
+
     public int getMaxMana() {
         return maxMana;
+    }
+
+    public int getFlorins() {
+        return florins;
+    }
+
+    public void setFlorins(int amount) {
+        this.florins = amount;
+    }
+
+    public void addFlorins(int amount) {
+        this.florins += amount;
+    }
+
+    public boolean takeFlorins(int amount) {
+        if (this.florins >= amount) {
+            this.florins = amount;
+            return true;
+        }
+        return false;
+    }
+
+    public int getDollars() {
+        return dollars;
+    }
+
+    public void setDollars(int amount) {
+        this.dollars = amount;
+    }
+
+    public void addDollars(int amount) {
+        this.dollars += amount;
+    }
+
+    public boolean takeDollars(int amount) {
+        if (this.dollars >= amount) {
+            this.dollars = amount;
+            return true;
+        }
+        return false;
     }
 
     // -------------------- VAMPIRE METHODS
@@ -131,13 +175,13 @@ public class Profile implements Serializable {
     public long getLastBitten() {
         return this.vampire_lastBitten;
     }
-    
+
     // --- MAGICAN METHODS
-    
+
     public void setMagican_currentSpell(int magican_currentSpell) {
         this.magican_currentSpell = magican_currentSpell;
     }
-    
+
     public int getMagican_currentSpell() {
         return magican_currentSpell;
     }

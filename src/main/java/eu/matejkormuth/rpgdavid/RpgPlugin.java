@@ -270,6 +270,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 profile.setCharacter(Characters.fromId(conf
                         .getString("character")));
                 profile.setXp(conf.getLong("xp"));
+                profile.setFlorins(conf.getInt("florins"));
+                profile.setDollars(conf.getInt("dollars"));
                 profile.setCurrentQuestId(conf
                         .getString("currentQuestId", null));
 
@@ -314,6 +316,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
             conf.set("currentQuestId", profile.getCurrentQuestId());
             conf.set("xp", profile.getXp());
+            conf.set("florins", profile.getFlorins());
+            conf.set("dollars", profile.getDollars());
             conf.save(this.getDataFolderPath("profiles",
                     uniqueId.toString() + ".yml").toFile());
         } catch (IOException e) {
