@@ -181,5 +181,6 @@ public class Zombie extends EntityZombie {
 
     public void destroy() {
         this.following = null;
+        this.dead = true;
     }
 }
