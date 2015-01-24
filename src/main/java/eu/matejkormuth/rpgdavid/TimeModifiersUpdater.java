@@ -41,12 +41,82 @@ public class TimeModifiersUpdater implements Runnable {
                     // Update player's character.
                     if (character == Characters.WEREWOLF) {
                         updateWerewolf(p);
+                        updateWalkSpeedByArmor(p);
                     } else if (character == Characters.VAMPIRE) {
                         updateVampire(p);
+                        updateWalkSpeedByArmor(p);
+                    } else {
+                        updateWalkSpeedByArmor(p);
                     }
                 }
             }
         }
+    }
+
+    private void updateWalkSpeedByArmor(Player p) {
+        // Evaluate armor slowdown.
+        float slowdown = 1.0F; // No slowdown.
+
+        /*
+         * Each leather armor has slowdown of 1/4 of 10% of previous (character
+         * default probably) speed. Each iron armor has slowdown of 1/4 of 25%
+         * of previous (character default probably) speed. Each gold armor has
+         * slowdown of 1/4 of 35% of previous (character default probably)
+         * speed. Each diamond armor has slowdown of 1/4 of 45% of previous
+         * (character default probably) speed.
+         */
+
+        if (p.getInventory().getHelmet() != null) {
+            if (p.getInventory().getHelmet().getType() == Material.LEATHER_HELMET) {
+                slowdown -= 0.025F;
+            } else if (p.getInventory().getHelmet().getType() == Material.IRON_HELMET) {
+                slowdown -= 0.0625F;
+            } else if (p.getInventory().getHelmet().getType() == Material.GOLD_HELMET) {
+                slowdown -= 0.0875F;
+            } else if (p.getInventory().getHelmet().getType() == Material.DIAMOND_HELMET) {
+                slowdown -= 0.1125F;
+            }
+
+        }
+
+        if (p.getInventory().getChestplate() != null) {
+            if (p.getInventory().getHelmet().getType() == Material.LEATHER_CHESTPLATE) {
+                slowdown -= 0.025F;
+            } else if (p.getInventory().getHelmet().getType() == Material.IRON_CHESTPLATE) {
+                slowdown -= 0.0625F;
+            } else if (p.getInventory().getHelmet().getType() == Material.GOLD_CHESTPLATE) {
+                slowdown -= 0.0875F;
+            } else if (p.getInventory().getHelmet().getType() == Material.DIAMOND_CHESTPLATE) {
+                slowdown -= 0.1125F;
+            }
+        }
+
+        if (p.getInventory().getLeggings() != null) {
+            if (p.getInventory().getHelmet().getType() == Material.LEATHER_LEGGINGS) {
+                slowdown -= 0.025F;
+            } else if (p.getInventory().getHelmet().getType() == Material.IRON_LEGGINGS) {
+                slowdown -= 0.0625F;
+            } else if (p.getInventory().getHelmet().getType() == Material.GOLD_LEGGINGS) {
+                slowdown -= 0.0875F;
+            } else if (p.getInventory().getHelmet().getType() == Material.DIAMOND_LEGGINGS) {
+                slowdown -= 0.1125F;
+            }
+        }
+
+        if (p.getInventory().getBoots() != null) {
+            if (p.getInventory().getHelmet().getType() == Material.LEATHER_BOOTS) {
+                slowdown -= 0.025F;
+            } else if (p.getInventory().getHelmet().getType() == Material.IRON_BOOTS) {
+                slowdown -= 0.0625F;
+            } else if (p.getInventory().getHelmet().getType() == Material.GOLD_BOOTS) {
+                slowdown -= 0.0875F;
+            } else if (p.getInventory().getHelmet().getType() == Material.DIAMOND_BOOTS) {
+                slowdown -= 0.1125F;
+            }
+        }
+
+        // Apply slowdown.
+        p.setWalkSpeed(p.getWalkSpeed() * slowdown);
     }
 
     private void updateVampire(Player p) {
