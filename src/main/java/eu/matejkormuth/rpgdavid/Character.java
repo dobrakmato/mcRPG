@@ -96,13 +96,13 @@ public class Character {
         for (ItemStack item : this.items) {
             p.getInventory().addItem(item);
         }
-        
+
         // Give QuestsBook to every character.
         p.getInventory().addItem(new QuestsBook());
     }
 
     public ItemStack getIcon(final Material material) {
-        return this.getIcon(material, (byte) 0);
+        return this.getIcon(material, (byte) 0, (short) -1);
     }
 
     public ItemStack getIcon(final ItemStack itemStack) {
@@ -152,7 +152,8 @@ public class Character {
     }
 
     @SuppressWarnings("deprecation")
-    public ItemStack getIcon(final Material material, final byte dataId) {
+    public ItemStack getIcon(final Material material, final byte dataId,
+            final short durability) {
         List<String> lore;
         if (this.special != null && this.special.contains("\n")) {
             lore = new ArrayList<String>(20);
@@ -191,8 +192,14 @@ public class Character {
         }
         lore.add("");
 
-        return new ItemStackBuilder(material)
-                .name(ChatColor.RESET + this.getName()).lore(lore).data(dataId)
-                .build();
+        if (durability == -1) {
+            return new ItemStackBuilder(material)
+            .name(ChatColor.RESET + this.getName()).lore(lore)
+            .data(dataId).build();
+        } else {
+            return new ItemStackBuilder(material)
+                    .name(ChatColor.RESET + this.getName()).lore(lore)
+                    .data(dataId).durability(durability).build();
+        }
     }
 }

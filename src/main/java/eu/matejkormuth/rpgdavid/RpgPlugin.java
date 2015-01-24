@@ -111,14 +111,17 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new WeaponsListener(), this);
 
         Bukkit.getPluginManager().registerEvents(new ModifiersListener(), this);
-        Bukkit.getPluginManager().registerEvents(new AdventurerListener(), this);
+        Bukkit.getPluginManager()
+                .registerEvents(new AdventurerListener(), this);
         Bukkit.getPluginManager().registerEvents(new HunterListener(), this);
         Bukkit.getPluginManager().registerEvents(new UndeadListener(), this);
         Bukkit.getPluginManager().registerEvents(new KnightListener(), this);
         Bukkit.getPluginManager().registerEvents(new VampireListener(), this);
 
-        Bukkit.getPluginManager().registerEvents(new BookOfSpellsListener(),this);
-        Bukkit.getPluginManager().registerEvents(new QuestsBookListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BookOfSpellsListener(),
+                this);
+        Bukkit.getPluginManager()
+                .registerEvents(new QuestsBookListener(), this);
 
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
@@ -384,8 +387,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         // VIP Characters.
         items.add(new InventoryMenuItem(Characters.UNDEAD.getIcon(
-                Material.SKULL_ITEM, (byte) 2), new SelectCharacterAction(
-                Characters.UNDEAD), 6, true));
+                Material.SKULL_ITEM, (byte) 2, (short) 2),
+                new SelectCharacterAction(Characters.UNDEAD), 6, true));
         items.add(new InventoryMenuItem(Characters.VAMPIRE
                 .getIcon(new WorkingPotion(PotionType.INSTANT_HEAL)
                         .toItemStack(1)), new SelectCharacterAction(
