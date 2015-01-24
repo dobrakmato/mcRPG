@@ -33,6 +33,7 @@
       <groupId>spigot</groupId>
       <artifactId>spigot</artifactId>
       <version>1.8.1</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
@@ -44,6 +45,10 @@
     <repository>
       <id>citizens-repo</id>
       <url>http://repo.citizensnpcs.co/</url>
+    </repository>
+    <repository>
+      <id>pexel-repo</id>
+      <url>http://repo.pexel.eu/</url>
     </repository>
   </repositories>
 

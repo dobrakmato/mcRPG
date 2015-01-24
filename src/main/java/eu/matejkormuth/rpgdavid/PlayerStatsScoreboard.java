@@ -31,7 +31,7 @@ public class PlayerStatsScoreboard {
         this.xpScore = this.objective.getScore("XP");
         this.manaScore = this.objective.getScore("Mana");
         this.florinsScore = this.objective.getScore("Florins");
-        this.florinsScore = this.objective.getScore("Dollars");
+        this.dollarsScore = this.objective.getScore("Dollars");
     }
 
     public Scoreboard getScoreboard() {
