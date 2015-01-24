@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Characters;
@@ -29,6 +30,19 @@ public class WeaponsListener implements Listener {
                         event.setDamage(12D);
                     }
                 }
+            }
+        }
+    }
+
+    // Grappling hook
+    @EventHandler
+    private void onGrap(final PlayerInteractEvent event) {
+        Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
+        if (p != null) {
+            Character character = p.getCharacter();
+            // Only killer can grap.
+            if(character == Characters.KILLER) {
+                
             }
         }
     }

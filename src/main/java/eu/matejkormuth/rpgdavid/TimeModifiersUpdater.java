@@ -41,19 +41,19 @@ public class TimeModifiersUpdater implements Runnable {
                     // Update player's character.
                     if (character == Characters.WEREWOLF) {
                         updateWerewolf(p);
-                        updateWalkSpeedByArmor(p);
+                        updateWalkSpeedByArmor(character, p);
                     } else if (character == Characters.VAMPIRE) {
                         updateVampire(p);
-                        updateWalkSpeedByArmor(p);
+                        updateWalkSpeedByArmor(character, p);
                     } else {
-                        updateWalkSpeedByArmor(p);
+                        updateWalkSpeedByArmor(character, p);
                     }
                 }
             }
         }
     }
 
-    private void updateWalkSpeedByArmor(Player p) {
+    private void updateWalkSpeedByArmor(Character character, Player p) {
         // Evaluate armor slowdown.
         float slowdown = 1.0F; // No slowdown.
 
@@ -80,43 +80,45 @@ public class TimeModifiersUpdater implements Runnable {
         }
 
         if (p.getInventory().getChestplate() != null) {
-            if (p.getInventory().getHelmet().getType() == Material.LEATHER_CHESTPLATE) {
+            if (p.getInventory().getChestplate().getType() == Material.LEATHER_CHESTPLATE) {
                 slowdown -= 0.025F;
-            } else if (p.getInventory().getHelmet().getType() == Material.IRON_CHESTPLATE) {
+            } else if (p.getInventory().getChestplate().getType() == Material.IRON_CHESTPLATE) {
                 slowdown -= 0.0625F;
-            } else if (p.getInventory().getHelmet().getType() == Material.GOLD_CHESTPLATE) {
+            } else if (p.getInventory().getChestplate().getType() == Material.GOLD_CHESTPLATE) {
                 slowdown -= 0.0875F;
-            } else if (p.getInventory().getHelmet().getType() == Material.DIAMOND_CHESTPLATE) {
+            } else if (p.getInventory().getChestplate().getType() == Material.DIAMOND_CHESTPLATE) {
                 slowdown -= 0.1125F;
             }
         }
 
         if (p.getInventory().getLeggings() != null) {
-            if (p.getInventory().getHelmet().getType() == Material.LEATHER_LEGGINGS) {
+            if (p.getInventory().getLeggings().getType() == Material.LEATHER_LEGGINGS) {
                 slowdown -= 0.025F;
-            } else if (p.getInventory().getHelmet().getType() == Material.IRON_LEGGINGS) {
+            } else if (p.getInventory().getLeggings().getType() == Material.IRON_LEGGINGS) {
                 slowdown -= 0.0625F;
-            } else if (p.getInventory().getHelmet().getType() == Material.GOLD_LEGGINGS) {
+            } else if (p.getInventory().getLeggings().getType() == Material.GOLD_LEGGINGS) {
                 slowdown -= 0.0875F;
-            } else if (p.getInventory().getHelmet().getType() == Material.DIAMOND_LEGGINGS) {
+            } else if (p.getInventory().getLeggings().getType() == Material.DIAMOND_LEGGINGS) {
                 slowdown -= 0.1125F;
             }
         }
 
         if (p.getInventory().getBoots() != null) {
-            if (p.getInventory().getHelmet().getType() == Material.LEATHER_BOOTS) {
+            if (p.getInventory().getBoots().getType() == Material.LEATHER_BOOTS) {
                 slowdown -= 0.025F;
-            } else if (p.getInventory().getHelmet().getType() == Material.IRON_BOOTS) {
+            } else if (p.getInventory().getBoots().getType() == Material.IRON_BOOTS) {
                 slowdown -= 0.0625F;
-            } else if (p.getInventory().getHelmet().getType() == Material.GOLD_BOOTS) {
+            } else if (p.getInventory().getBoots().getType() == Material.GOLD_BOOTS) {
                 slowdown -= 0.0875F;
-            } else if (p.getInventory().getHelmet().getType() == Material.DIAMOND_BOOTS) {
+            } else if (p.getInventory().getBoots().getType() == Material.DIAMOND_BOOTS) {
                 slowdown -= 0.1125F;
             }
         }
 
         // Apply slowdown.
-        p.setWalkSpeed(p.getWalkSpeed() * slowdown);
+        float speed = character.getModifiers().getWalkSpeedModifier()
+                * DEFAULT_WALK_SPEED;
+        p.setWalkSpeed(speed * slowdown);
     }
 
     private void updateVampire(Player p) {

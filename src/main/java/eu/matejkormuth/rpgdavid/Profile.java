@@ -33,7 +33,7 @@ public class Profile implements Serializable {
 
     // Currencies
     private int florins = 0;
-    private int dollars = 0;
+    private int dollars = 100;
 
     // Character properties.
     private long vampire_lastBitten;
