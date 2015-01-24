@@ -54,6 +54,7 @@ import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
 import eu.matejkormuth.rpgdavid.listeners.BookOfSpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.QuestsBookListener;
 import eu.matejkormuth.rpgdavid.listeners.SpellsListener;
+import eu.matejkormuth.rpgdavid.listeners.WeaponsListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.AdventurerListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.HunterListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.KnightListener;
@@ -107,19 +108,17 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this);
 
         Bukkit.getPluginManager().registerEvents(new SpellsListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WeaponsListener(), this);
 
         Bukkit.getPluginManager().registerEvents(new ModifiersListener(), this);
-        Bukkit.getPluginManager()
-                .registerEvents(new AdventurerListener(), this);
+        Bukkit.getPluginManager().registerEvents(new AdventurerListener(), this);
         Bukkit.getPluginManager().registerEvents(new HunterListener(), this);
         Bukkit.getPluginManager().registerEvents(new UndeadListener(), this);
         Bukkit.getPluginManager().registerEvents(new KnightListener(), this);
         Bukkit.getPluginManager().registerEvents(new VampireListener(), this);
 
-        Bukkit.getPluginManager().registerEvents(new BookOfSpellsListener(),
-                this);
-        Bukkit.getPluginManager()
-                .registerEvents(new QuestsBookListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BookOfSpellsListener(),this);
+        Bukkit.getPluginManager().registerEvents(new QuestsBookListener(), this);
 
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
