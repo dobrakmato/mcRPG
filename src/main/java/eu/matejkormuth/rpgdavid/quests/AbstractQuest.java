@@ -19,6 +19,7 @@
 package eu.matejkormuth.rpgdavid.quests;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -26,6 +27,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.text.TextTable;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
@@ -85,12 +88,29 @@ public abstract class AbstractQuest implements Quest {
         player.sendMessage(message);
     }
 
-    public PlayerNPC npc_spawn(String name) {
+    public void offerQuest(Player player) {
+        this.offerQuest(player, this);
+    }
+
+    public void offerQuest(Player player, Quest quest) {
+        TextTable table = new TextTable(TextTable.MINECRAFT_CHAT_WIDTH, 6);
+        table.renderCenteredText(1, "Quest:" + quest.getName());
+        table.renderCenteredText(3, "Use /yes to accept quest.");
+        table.renderCenteredText(4, "Use /no to decline quest.");
+        table.formatString(1, quest.getName(), ChatColor.GREEN.toString());
+        table.formatLine(3, ChatColor.GREEN.toString());
+        table.formatLine(4, ChatColor.RED.toString());
+        table.formatBorder(ChatColor.GOLD);
+        player.sendMessage(table.toString());
+        RpgPlugin.getInstance().getQuestManager().setOffer(player, quest);
+    }
+
+    public PlayerNPC npcSpawn(String name) {
         return (PlayerNPC) this.getNPCRegistry().createNPC(EntityType.PLAYER,
                 name);
     }
 
-    public void npc_teleport(NPC npc, Location loc) {
+    public void npcTeleport(NPC npc, Location loc) {
         npc.teleport(loc, TeleportCause.PLUGIN);
     }
 

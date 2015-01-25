@@ -73,6 +73,14 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     public static RpgPlugin getInstance() {
         return instnace;
     }
+    
+    public static List<String> getStringList(List<?> list) {        
+        ArrayList<String> al = new ArrayList<String>();
+        for (Object o : list) {
+            al.add(String.valueOf(o));
+        }
+        return al;
+    }
 
     private Logger log;
     private String dataFolder;
@@ -213,11 +221,15 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             event.getPlayer().setWalkSpeed(
                     0.2F * character.getModifiers().getWalkSpeedModifier());
 
+            StringBuilder quests = new StringBuilder();
+            for (String questId : this.getProfile(event.getPlayer())
+                    .getActiveQuestIds()) {
+                quests.append(questId).append(", ");
+            }
+
             event.getPlayer().sendMessage(
-                    "Welcome back! Current quest: "
-                            + ChatColor.LIGHT_PURPLE
-                            + String.valueOf(this.getProfile(event.getPlayer())
-                                    .getCurrentQuestId()));
+                    "Welcome back! Current quest(s): " + ChatColor.LIGHT_PURPLE
+                            + quests.toString());
 
             // Apply scoreboard.
             PlayerStatsScoreboard scoreboard = new PlayerStatsScoreboard(
@@ -288,11 +300,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 profile.setXp(conf.getLong("xp"));
                 profile.setFlorins(conf.getInt("florins"));
                 profile.setDollars(conf.getInt("dollars"));
-                profile.setCurrentQuestId(conf
-                        .getString("currentQuestId", null));
+                profile.setActiveQuestIds(getStringList(conf.getList("activequests", new ArrayList<String>())));
 
                 Map<String, Object> values = conf.getConfigurationSection(
-                        "quests").getValues(false);
+                        "completedQuests").getValues(false);
                 Map<String, Boolean> completedQuests = new HashMap<String, Boolean>();
                 for (Entry<String, Object> value : values.entrySet()) {
                     completedQuests.put(value.getKey(),
@@ -339,9 +350,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 conf.set("magican.maxmana", profile.getMaxMana());
             }
 
-            conf.set("currentQuestId", profile.getCurrentQuestId());
+            conf.set("activequests", profile.getActiveQuestIds());
             conf.set("xp", profile.getXp());
-            conf.set("quest", profile.getCompletedQuests());
+            conf.set("completedQuests", profile.getCompletedQuests());
             conf.set("florins", profile.getFlorins());
             conf.set("dollars", profile.getDollars());
             conf.save(this.getDataFolderPath("profiles",

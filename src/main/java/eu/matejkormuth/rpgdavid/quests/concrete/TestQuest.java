@@ -1,5 +1,7 @@
 package eu.matejkormuth.rpgdavid.quests.concrete;
 
+import org.bukkit.entity.Player;
+
 import eu.matejkormuth.rpgdavid.quests.AbstractQuest;
 
 public class TestQuest extends AbstractQuest {
@@ -11,7 +13,12 @@ public class TestQuest extends AbstractQuest {
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
-        
+      
+
+    }
+
+    @Override
+    public void onStart(Player player) {
+
     }
 }

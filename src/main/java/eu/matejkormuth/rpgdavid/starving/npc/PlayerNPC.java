@@ -35,66 +35,54 @@ public class PlayerNPC extends EntityHuman implements NPC {
 
     public PlayerNPC(World world, GameProfile gameprofile) {
         super(world, gameprofile);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public void teleport(Location location) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void teleport(Location location, TeleportCause cause) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void lookAt(Location location) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void lookAt(Entity entity) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void setLook(float pitch, float yaw) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void walkTo(Location location) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void walkBy(Path path) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void follow(Entity entity) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void despawn() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public boolean v() {
-        // TODO Auto-generated method stub
         return false;
     }
 

@@ -20,6 +20,7 @@ package eu.matejkormuth.rpgdavid;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,7 +43,7 @@ public class Profile implements Serializable {
     private int magican_currentSpell;
 
     // Quest properties.
-    private String currentQuestId;
+    private List<String> activeQuests;
     private Map<String, Boolean> quests;
 
     public Profile() {
@@ -87,12 +88,28 @@ public class Profile implements Serializable {
         this.xp += amount;
     }
 
-    public void setCurrentQuestId(final String currentQuestId) {
-        this.currentQuestId = currentQuestId;
+    public List<String> getActiveQuestIds() {
+        return this.activeQuests;
     }
 
-    public String getCurrentQuestId() {
-        return currentQuestId;
+    public void setActiveQuestIds(List<String> activeQuests) {
+        this.activeQuests = activeQuests;
+    }
+
+    public boolean isQuestActive(String questId) {
+        return this.activeQuests.contains(questId);
+    }
+
+    public boolean addActiveQuest(String questId) {
+        if(this.activeQuests.contains(questId)) {
+            return false;
+        }
+        this.activeQuests.add(questId);
+        return true;
+    }
+
+    public boolean removeActiveQuest(String questId) {
+        return this.activeQuests.remove(questId);
     }
 
     public void setMana(int mana) {

@@ -24,14 +24,18 @@ public class YesCommandExecutor implements CommandExecutor {
             Quest quest = RpgPlugin.getInstance().getQuestManager()
                     .removeOffer(player);
             // Start quest
-            RpgPlugin.getInstance().getProfile(player)
-                    .setCurrentQuestId(quest.getId());
-            sender.sendMessage(ChatColor.RED + "You accepted quest!");
+            if (RpgPlugin.getInstance().getProfile(player)
+                    .addActiveQuest(quest.getId())) {
+                quest.onStart(player);
+                sender.sendMessage(ChatColor.GREEN + "You accepted quest!");
+            } else {
+                sender.sendMessage(ChatColor.RED
+                        + "You already accepted this quest!");
+            }
         } else {
             sender.sendMessage(ChatColor.RED
                     + "You don't have any offered quest!");
         }
         return true;
     }
-
 }

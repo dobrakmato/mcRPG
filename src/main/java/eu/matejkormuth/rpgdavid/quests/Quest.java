@@ -18,14 +18,18 @@
  */
 package eu.matejkormuth.rpgdavid.quests;
 
+import org.bukkit.entity.Player;
+
 public interface Quest {
     void init();
-    
+
     void prepeare();
-    
+
     String getPreviousId();
 
     String getName();
-    
+
     String getId();
+
+    void onStart(Player player);
 }
