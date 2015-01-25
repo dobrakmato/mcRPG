@@ -18,6 +18,7 @@
  */
 package eu.matejkormuth.rpgdavid.listeners;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,6 +36,7 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class WeaponsListener implements Listener {
     private static final double EPSILON = 5; // 5 degrees
+    private static final String CD_GRAPPLING_HOOK = "weapon.grapplinghook";
 
     // Dagger
     @EventHandler
@@ -65,34 +67,55 @@ public class WeaponsListener implements Listener {
             Character character = p.getCharacter();
             // Only killer can grap.
             if (character == Characters.KILLER) {
+                // Only with grapping hook.
                 if (GrapplingHook.isHook(event.getPlayer().getItemInHand())) {
-                    Vector lookingDirection = event.getPlayer()
-                            .getEyeLocation().getDirection().normalize();
-                    for (Entity e : event.getPlayer().getNearbyEntities(
-                            GrapplingHook.MAX_USE_DISTANCE,
-                            GrapplingHook.MAX_USE_DISTANCE,
-                            GrapplingHook.MAX_USE_DISTANCE)) {
-                        if (e instanceof Player) {
-                            // Find position of entity of player.
-                            Vector positionVector = event.getPlayer()
-                                    .getLocation().toVector()
-                                    .subtract(e.getLocation().toVector())
-                                    .normalize();
-                            Vector difference = positionVector
-                                    .subtract(lookingDirection);
-
-                            if (difference.getX() < EPSILON
-                                    && difference.getY() < EPSILON
-                                    && difference.getZ() < EPSILON) {
-                                // Player clicked this entity.
-                                event.getPlayer().setVelocity(
-                                        event.getPlayer().getLocation()
-                                                .subtract(e.getLocation())
-                                                .toVector());
-                                break;
-                            }
-                        }
+                    // Only when cooled down.
+                    if (RpgPlugin.getInstance().getCooldowns()
+                            .isCooledDown(event.getPlayer(), CD_GRAPPLING_HOOK)) {
+                        performGrap(event);
+                    } else {
+                        event.getPlayer()
+                                .sendMessage(
+                                        ChatColor.RED
+                                                + "Sorry, this item must cool down first ("
+                                                + RpgPlugin
+                                                        .getInstance()
+                                                        .getCooldowns()
+                                                        .getTimeLeft(
+                                                                event.getPlayer(),
+                                                                CD_GRAPPLING_HOOK)
+                                                + " seconds remaining)!");
                     }
+                }
+            }
+        }
+    }
+
+    private void performGrap(final PlayerInteractEvent event) {
+        Vector lookingDirection = event.getPlayer().getEyeLocation()
+                .getDirection().normalize();
+        for (Entity e : event.getPlayer().getNearbyEntities(
+                GrapplingHook.MAX_USE_DISTANCE, GrapplingHook.MAX_USE_DISTANCE,
+                GrapplingHook.MAX_USE_DISTANCE)) {
+            if (e instanceof Player) {
+                // Find position of entity of player.
+                Vector positionVector = event.getPlayer().getLocation()
+                        .toVector().subtract(e.getLocation().toVector())
+                        .normalize();
+                Vector difference = positionVector.subtract(lookingDirection);
+
+                if (difference.getX() < EPSILON && difference.getY() < EPSILON
+                        && difference.getZ() < EPSILON) {
+                    // Player clicked this entity.
+                    event.getPlayer().setVelocity(
+                            event.getPlayer().getLocation()
+                                    .subtract(e.getLocation()).toVector());
+                    RpgPlugin
+                            .getInstance()
+                            .getCooldowns()
+                            .setCooldown(event.getPlayer(), CD_GRAPPLING_HOOK,
+                                    1000 * 60 * 5);
+                    break;
                 }
             }
         }

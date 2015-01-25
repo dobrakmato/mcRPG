@@ -76,6 +76,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     private Map<UUID, Profile> loadedProfiles;
     private QuestManager questManager;
     private ScoreboardsList scoreboardsList;
+    private Cooldowns cooldowns;
 
     private InventoryMenu characterChooserMenu;
 
@@ -83,8 +84,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     public void onEnable() {
         instnace = this;
 
+        // Initialize fields.
         this.scoreboardsList = new ScoreboardsList();
         this.loadedProfiles = new HashMap<UUID, Profile>();
+        this.cooldowns = new Cooldowns();
 
         this.log = this.getLogger();
         this.log.info("Prepearing characters...");
@@ -130,6 +133,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 new ManaUpdater(), 0L, 1L);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
                 this.scoreboardsList, 0L, 5L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this.cooldowns,
+                20 * 60L, 20 * 60L);
 
         // Load quests and QuestManager.
         this.questManager = new QuestManager();
@@ -172,6 +177,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
     public QuestManager getQuestManager() {
         return this.questManager;
+    }
+    
+    public Cooldowns getCooldowns() {
+        return cooldowns;
     }
 
     @EventHandler
