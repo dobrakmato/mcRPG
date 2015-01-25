@@ -38,7 +38,7 @@ public class QuestsBookListener implements Listener {
 
                     if (event.hasItem() && QuestsBook.isQuestBook(event.getItem())) {
                         // Update book contents before opening.
-                        QuestsBook.update(event.getItem());
+                        QuestsBook.update(event.getPlayer(), event.getItem());
                         // TODO: Update book contents before opening book by player.
                     }
                 }

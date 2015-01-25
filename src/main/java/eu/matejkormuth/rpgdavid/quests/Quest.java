@@ -19,6 +19,8 @@
 package eu.matejkormuth.rpgdavid.quests;
 
 public interface Quest {
+    void init();
+    
     void prepeare();
 
     String getName();

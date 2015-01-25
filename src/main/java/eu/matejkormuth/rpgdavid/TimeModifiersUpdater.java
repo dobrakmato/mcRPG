@@ -41,19 +41,18 @@ public class TimeModifiersUpdater implements Runnable {
                     // Update player's character.
                     if (character == Characters.WEREWOLF) {
                         updateWerewolf(p);
-                        updateWalkSpeedByArmor(character, p);
                     } else if (character == Characters.VAMPIRE) {
                         updateVampire(p);
-                        updateWalkSpeedByArmor(character, p);
                     } else {
-                        updateWalkSpeedByArmor(character, p);
+                        updateWalkSpeedByArmor(character.getModifiers()
+                                .getWalkSpeedModifier() * DEFAULT_WALK_SPEED, p);
                     }
                 }
             }
         }
     }
 
-    private void updateWalkSpeedByArmor(Character character, Player p) {
+    private void updateWalkSpeedByArmor(float baseSpeed, Player p) {
         // Evaluate armor slowdown.
         float slowdown = 1.0F; // No slowdown.
 
@@ -116,12 +115,11 @@ public class TimeModifiersUpdater implements Runnable {
         }
 
         // Apply slowdown.
-        float speed = character.getModifiers().getWalkSpeedModifier()
-                * DEFAULT_WALK_SPEED;
-        p.setWalkSpeed(speed * slowdown);
+        p.setWalkSpeed(baseSpeed * slowdown);
     }
 
     private void updateVampire(Player p) {
+        float speed = 0;
         if (p.getWorld().getTime() > 13000 && p.getWorld().getTime() < 23000) {
             // Vampires have night vision
             if (!p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
@@ -130,9 +128,9 @@ public class TimeModifiersUpdater implements Runnable {
             }
 
             // Vampires are 2.3x faster in night.
-            p.setWalkSpeed(DEFAULT_WALK_SPEED
+            speed = DEFAULT_WALK_SPEED
                     * Characters.VAMPIRE.getModifiers().getWalkSpeedModifier()
-                    * 2.3F);
+                    * 2.3F;
         } else {
             if (p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
                 p.removePotionEffect(PotionEffectType.NIGHT_VISION);
@@ -146,9 +144,10 @@ public class TimeModifiersUpdater implements Runnable {
             }
 
             // Vampires are normal fast in day.
-            p.setWalkSpeed(Characters.VAMPIRE.getModifiers()
-                    .getWalkSpeedModifier() * DEFAULT_WALK_SPEED);
+            speed = Characters.VAMPIRE.getModifiers().getWalkSpeedModifier()
+                    * DEFAULT_WALK_SPEED;
         }
+        this.updateWalkSpeedByArmor(speed, p);
     }
 
     private void updateWerewolf(Player p) {
@@ -180,5 +179,6 @@ public class TimeModifiersUpdater implements Runnable {
                 p.removePotionEffect(PotionEffectType.NIGHT_VISION);
             }
         }
+        this.updateWalkSpeedByArmor(p.getWalkSpeed(), p);
     }
 }

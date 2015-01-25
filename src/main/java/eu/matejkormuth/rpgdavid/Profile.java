@@ -19,6 +19,8 @@
 package eu.matejkormuth.rpgdavid;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class Profile implements Serializable {
@@ -41,13 +43,16 @@ public class Profile implements Serializable {
 
     // Quest properties.
     private String currentQuestId;
+    private Map<String, Boolean> quests;
 
     public Profile() {
+        this.quests = new HashMap<String, Boolean>();
     }
 
     protected Profile(UUID uuid, Character character) {
         this.uuid = uuid;
         this.character = character;
+        this.quests = new HashMap<String, Boolean>();
     }
 
     public Character getCharacter() {
@@ -160,6 +165,25 @@ public class Profile implements Serializable {
             return true;
         }
         return false;
+    }
+
+    public void setQuestCompleted(String questId, boolean completed) {
+        this.quests.put(questId, completed);
+    }
+
+    public boolean isQuestCompleted(String questId) {
+        if (this.quests.containsKey(questId)) {
+            return this.quests.get(questId).booleanValue();
+        }
+        return false;
+    }
+
+    public Map<String, Boolean> getCompletedQuests() {
+        return this.quests;
+    }
+
+    public void setCompletedQuests(Map<String, Boolean> completedQuests) {
+        this.quests = completedQuests;
     }
 
     // -------------------- VAMPIRE METHODS

@@ -83,7 +83,7 @@ public class WeaponsListener implements Listener {
                                                         .getCooldowns()
                                                         .getTimeLeft(
                                                                 event.getPlayer(),
-                                                                CD_GRAPPLING_HOOK)
+                                                                CD_GRAPPLING_HOOK) / 1000
                                                 + " seconds remaining)!");
                     }
                 }
@@ -108,13 +108,14 @@ public class WeaponsListener implements Listener {
                         && difference.getZ() < EPSILON) {
                     // Player clicked this entity.
                     event.getPlayer().setVelocity(
-                            event.getPlayer().getLocation()
-                                    .subtract(e.getLocation()).toVector());
+                            e.getLocation()
+                                    .subtract(event.getPlayer().getLocation())
+                                    .toVector().add(new Vector(0, 0.25, 0)));
                     RpgPlugin
                             .getInstance()
                             .getCooldowns()
                             .setCooldown(event.getPlayer(), CD_GRAPPLING_HOOK,
-                                    1000 * 60 * 5);
+                                    3000);
                     break;
                 }
             }

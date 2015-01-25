@@ -90,6 +90,7 @@ public class QuestManager {
     public void addQuest(final Quest quest) {
         this.quests.add(quest);
         try {
+            quest.init();
             quest.prepeare();
         } catch (Exception ex) {
             this.log.severe("Can't prepeare() quest " + quest.getId() + "!");

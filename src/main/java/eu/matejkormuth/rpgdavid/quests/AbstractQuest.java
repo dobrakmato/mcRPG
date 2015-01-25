@@ -18,6 +18,10 @@
  */
 package eu.matejkormuth.rpgdavid.quests;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPCRegistry;
 
@@ -34,16 +38,24 @@ public abstract class AbstractQuest implements Quest {
      * Quest ID.
      */
     public String id = "quest_" + this.hashCode();
-    
+
     public NPCRegistry getNPCRegistry() {
         return CitizensAPI.getNPCRegistry();
     }
-    
+
+    protected World world(String name) {
+        return Bukkit.getWorld(name);
+    }
+
+    protected Location loc(String worldname, double x, double y, double z) {
+        return new Location(world(worldname), x, y, z);
+    }
+
     @Override
     public String getName() {
         return this.name;
     }
-    
+
     public String getId() {
         return id;
     }

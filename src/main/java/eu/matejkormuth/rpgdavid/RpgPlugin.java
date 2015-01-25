@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -178,7 +179,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     public QuestManager getQuestManager() {
         return this.questManager;
     }
-    
+
     public Cooldowns getCooldowns() {
         return cooldowns;
     }
@@ -286,6 +287,15 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 profile.setCurrentQuestId(conf
                         .getString("currentQuestId", null));
 
+                Map<String, Object> values = conf.getConfigurationSection(
+                        "quests").getValues(false);
+                Map<String, Boolean> completedQuests = new HashMap<String, Boolean>();
+                for (Entry<String, Object> value : values.entrySet()) {
+                    completedQuests.put(value.getKey(),
+                            Boolean.valueOf(value.toString()));
+                }
+                profile.setCompletedQuests(completedQuests);
+
                 if (profile.getCharacter() == Characters.MAGICAN) {
                     profile.setMagican_currentSpell(conf
                             .getInt("magican.currentSpell"));
@@ -327,6 +337,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
             conf.set("currentQuestId", profile.getCurrentQuestId());
             conf.set("xp", profile.getXp());
+            conf.set("quest", profile.getCompletedQuests());
             conf.set("florins", profile.getFlorins());
             conf.set("dollars", profile.getDollars());
             conf.save(this.getDataFolderPath("profiles",

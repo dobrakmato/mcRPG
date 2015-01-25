@@ -20,6 +20,7 @@ package eu.matejkormuth.rpgdavid;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
@@ -36,7 +37,7 @@ public class QuestsBook extends ItemStack {
                 + "Quests Book");
         im.setAuthor(BOOK_AUTHOR);
         im.setTitle(BOOK_TITLE);
-        im.addPage("hahaha");
+        im.addPage("I you see this, you have lag.");
         this.setItemMeta(im);
     }
 
@@ -62,32 +63,40 @@ public class QuestsBook extends ItemStack {
         return false;
     }
 
-    public static void update(final ItemStack item) {
+    public static void update(final Player player, final ItemStack item) {
         if (item == null) {
             return;
         }
 
         if (item.getType() == Material.WRITTEN_BOOK) {
             BookMeta bm = (BookMeta) item.getItemMeta();
-            
+
             bm.setAuthor(BOOK_AUTHOR);
             bm.setTitle(BOOK_TITLE);
-            
+
             StringBuilder builder = new StringBuilder();
-            
+
             builder.append(ChatColor.BOLD);
             builder.append("Quests: \n");
             builder.append(ChatColor.RESET);
-            
+
+            Profile p = RpgPlugin.getInstance().getProfile(player);
+
             // For each quest.
-            for(Quest quest : RpgPlugin.getInstance().getQuestManager().getQuests()) {
+            for (Quest quest : RpgPlugin.getInstance().getQuestManager()
+                    .getQuests()) {
                 builder.append(ChatColor.BLUE);
                 builder.append(quest.getName());
-                builder.append(ChatColor.RED);
-                // TODO: If completed then, else.
-                builder.append(" [✗]");
+                if (p.isQuestCompleted(quest.getId())) {
+                    builder.append(ChatColor.GREEN);
+                    builder.append(" [✔]\n");
+                } else {
+                    builder.append(ChatColor.RED);
+                    builder.append(" [✗]\n");
+                }
+
             }
-            
+
             bm.setPages(builder.toString());
             item.setItemMeta(bm);
         }
