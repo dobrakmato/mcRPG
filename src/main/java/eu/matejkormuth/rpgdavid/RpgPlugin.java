@@ -47,8 +47,10 @@ import org.bukkit.potion.PotionType;
 
 import eu.matejkormuth.rpgdavid.bukkitfixes.WorkingPotion;
 import eu.matejkormuth.rpgdavid.commands.CharacterCommandExecutor;
+import eu.matejkormuth.rpgdavid.commands.NoCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PartyCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
+import eu.matejkormuth.rpgdavid.commands.YesCommandExecutor;
 import eu.matejkormuth.rpgdavid.inventorymenu.Action;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
@@ -107,6 +109,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.getCommand("party").setExecutor(new PartyCommandExecutor());
         this.getCommand("character")
                 .setExecutor(new CharacterCommandExecutor());
+        this.getCommand("yes").setExecutor(new YesCommandExecutor());
+        this.getCommand("no").setExecutor(new NoCommandExecutor());
 
         // Register event handlers.
         Bukkit.getPluginManager().registerEvents(this, this);

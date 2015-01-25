@@ -11,3 +11,9 @@ commands:
   character:
     description: Kills you and shows character select menu.
     aliases: [characters, suicide]
+  yes:
+    description: Accepts offered quest.
+    aliases: [ano]
+  no:
+    description: Declines offered quest.
+    aliases: [ne, nie]

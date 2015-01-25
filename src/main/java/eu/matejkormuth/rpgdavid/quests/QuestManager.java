@@ -22,9 +22,13 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 
+import org.bukkit.entity.Player;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -37,10 +41,12 @@ public class QuestManager {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private final File questsDirectory;
     private final List<Quest> quests;
+    private final Map<UUID, Quest> offers;
     private boolean loadedAll = false;
 
     public QuestManager() {
         this.quests = new ArrayList<Quest>();
+        this.offers = new HashMap<UUID, Quest>();
         this.questsDirectory = RpgPlugin.getInstance().getFile("quests");
     }
 
@@ -140,8 +146,9 @@ public class QuestManager {
             }
 
             // Add JavascriptQuest variabile.
-            script = "var JavascriptQuest = Packages.eu.matejkormuth.rpgdavid.quests.JavascriptQuest;\r\n" + script;
-            
+            script = "var JavascriptQuest = Packages.eu.matejkormuth.rpgdavid.quests.JavascriptQuest;\r\n"
+                    + script;
+
             ctx.evaluateString(scope, script, fullName, 1, null);
         } catch (Exception e) {
             this.log.severe("Falied to load file " + fullName);
@@ -149,5 +156,25 @@ public class QuestManager {
         } finally {
             Context.exit();
         }
+    }
+
+    public Quest getOffer(Player player) {
+        return this.offers.get(player.getUniqueId());
+    }
+
+    public void setOffer(Player player, String quest) {
+        this.setOffer(player, this.getQuestByName(quest));
+    }
+
+    public void setOffer(Player player, Quest quest) {
+        this.offers.put(player.getUniqueId(), quest);
+    }
+
+    public Quest removeOffer(Player player) {
+        return this.offers.remove(player.getUniqueId());
+    }
+
+    public boolean hasOffer(Player player) {
+        return this.offers.containsKey(player.getUniqueId());
     }
 }

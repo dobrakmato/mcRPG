@@ -21,9 +21,15 @@ package eu.matejkormuth.rpgdavid.quests;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.ItemStack;
 
 import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
+import net.citizensnpcs.npc.entity.EntityHumanNPC.PlayerNPC;
 
 public abstract class AbstractQuest implements Quest {
     // Quest location.
@@ -38,17 +44,54 @@ public abstract class AbstractQuest implements Quest {
      * Quest ID.
      */
     public String id = "quest_" + this.hashCode();
+    /**
+     * Id of quest that must be completed for start of this quest.
+     */
+    private String previousId = null;
 
     public NPCRegistry getNPCRegistry() {
         return CitizensAPI.getNPCRegistry();
     }
 
-    protected World world(String name) {
+    public World world(String name) {
         return Bukkit.getWorld(name);
     }
 
-    protected Location loc(String worldname, double x, double y, double z) {
+    public Location location(String worldname, double x, double y, double z) {
         return new Location(world(worldname), x, y, z);
+    }
+
+    @SuppressWarnings("deprecation")
+    public void take(Player player, int type, byte data, short damage,
+            int amount) {
+        player.getInventory().removeItem(
+                new ItemStack(type, amount, damage, data));
+    }
+
+    @SuppressWarnings("deprecation")
+    public void give(Player player, int type, byte data, short damage,
+            int amount) {
+        player.getInventory()
+                .addItem(new ItemStack(type, amount, damage, data));
+    }
+
+    @SuppressWarnings("deprecation")
+    public void has(Player player, int type, byte data, short damage, int amount) {
+        player.getInventory().contains(
+                new ItemStack(type, amount, damage, data));
+    }
+
+    public void chat(Player player, String message) {
+        player.sendMessage(message);
+    }
+
+    public PlayerNPC npc_spawn(String name) {
+        return (PlayerNPC) this.getNPCRegistry().createNPC(EntityType.PLAYER,
+                name);
+    }
+
+    public void npc_teleport(NPC npc, Location loc) {
+        npc.teleport(loc, TeleportCause.PLUGIN);
     }
 
     @Override
@@ -58,5 +101,10 @@ public abstract class AbstractQuest implements Quest {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String getPreviousId() {
+        return this.previousId;
     }
 }

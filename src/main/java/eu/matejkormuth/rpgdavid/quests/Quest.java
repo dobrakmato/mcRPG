@@ -22,6 +22,8 @@ public interface Quest {
     void init();
     
     void prepeare();
+    
+    String getPreviousId();
 
     String getName();
     
