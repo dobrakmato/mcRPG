@@ -53,6 +53,8 @@ public class WeaponsListener implements Listener {
                             .getItemInHand())) {
                         // Dagger does 12 HP damage.
                         event.setDamage(12D);
+                        // Dagger should not damage itself.
+                        ((Player)event.getDamager()).getItemInHand().setDurability(Dagger.MAX_DURABILITY);
                     }
                 }
             }

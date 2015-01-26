@@ -27,6 +27,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Dagger extends ItemStack {
     private static final String DAGGER_NAME = ChatColor.RESET + "Dýka";
+    // According to minecraftwiki
+    public static final short MAX_DURABILITY = 132;
 
     public Dagger() {
         super(Material.STONE_SWORD);
@@ -38,8 +40,9 @@ public class Dagger extends ItemStack {
     }
 
     public static boolean isDagger(ItemStack itemInHand) {
-        if(itemInHand == null) return false;
-        
+        if (itemInHand == null)
+            return false;
+
         return itemInHand.getType().equals(Material.STONE_SWORD)
                 && itemInHand.hasItemMeta()
                 && itemInHand.getItemMeta().getDisplayName()
