@@ -18,6 +18,9 @@
  */
 package eu.matejkormuth.rpgdavid.characters;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Modifiers;
 import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
@@ -27,6 +30,8 @@ public class Adventurer extends Character {
         super(
                 "Dobrodruh",
                 "Hunger depletes 2 times slower.\nPotions have 2 times bigger radius",
-                Modifiers.DEFAULT, Armor.EMPTY);
+                Modifiers.DEFAULT, new Armor(null, new ItemStack(
+                        Material.LEATHER_CHESTPLATE), null, null),
+                new ItemStack(Material.WOOD_SWORD));
     }
 }

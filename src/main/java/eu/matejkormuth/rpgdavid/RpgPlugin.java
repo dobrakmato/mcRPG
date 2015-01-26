@@ -34,6 +34,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,8 +74,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     public static RpgPlugin getInstance() {
         return instnace;
     }
-    
-    public static List<String> getStringList(List<?> list) {        
+
+    public static List<String> getStringList(List<?> list) {
         ArrayList<String> al = new ArrayList<String>();
         for (Object o : list) {
             al.add(String.valueOf(o));
@@ -104,6 +105,11 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.log.info("Prepearing characters...");
 
         this.dataFolder = this.getDataFolder().getAbsolutePath();
+
+        // Set gamerules.
+        for (World w : this.getServer().getWorlds()) {
+            w.setGameRuleValue("keepinventory", "true");
+        }
 
         // Create folders.
         this.expandDirectoryStructure();
@@ -300,7 +306,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 profile.setXp(conf.getLong("xp"));
                 profile.setFlorins(conf.getInt("florins"));
                 profile.setDollars(conf.getInt("dollars"));
-                profile.setActiveQuestIds(getStringList(conf.getList("activequests", new ArrayList<String>())));
+                profile.setActiveQuestIds(getStringList(conf.getList(
+                        "activequests", new ArrayList<String>())));
 
                 Map<String, Object> values = conf.getConfigurationSection(
                         "completedQuests").getValues(false);

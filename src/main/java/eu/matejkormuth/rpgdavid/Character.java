@@ -99,6 +99,9 @@ public class Character {
 
         // Give QuestsBook to every character.
         p.getInventory().addItem(new QuestsBook());
+
+        // Give some steaks to every character.
+        p.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 2));
     }
 
     public ItemStack getIcon(final Material material) {
@@ -194,8 +197,8 @@ public class Character {
 
         if (durability == -1) {
             return new ItemStackBuilder(material)
-            .name(ChatColor.RESET + this.getName()).lore(lore)
-            .data(dataId).build();
+                    .name(ChatColor.RESET + this.getName()).lore(lore)
+                    .data(dataId).build();
         } else {
             return new ItemStackBuilder(material)
                     .name(ChatColor.RESET + this.getName()).lore(lore)
