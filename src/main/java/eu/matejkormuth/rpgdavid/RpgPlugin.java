@@ -65,6 +65,7 @@ import eu.matejkormuth.rpgdavid.listeners.characters.KnightListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.ModifiersListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.UndeadListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.VampireListener;
+import eu.matejkormuth.rpgdavid.money.Currencies;
 import eu.matejkormuth.rpgdavid.party.Party;
 import eu.matejkormuth.rpgdavid.quests.QuestManager;
 
@@ -304,8 +305,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 profile.setCharacter(Characters.fromId(conf
                         .getString("character")));
                 profile.setXp(conf.getLong("xp"));
-                profile.setFlorins(conf.getInt("florins"));
-                profile.setDollars(conf.getInt("dollars"));
+                profile.setNormalMoney(Currencies.NORMAL.toMoney(conf
+                        .getInt("money." + Currencies.NORMAL.getAbbr())));
+                profile.setPremiumMoney(Currencies.PREMIUM.toMoney(conf
+                        .getInt("money." + Currencies.PREMIUM.getAbbr())));
                 profile.setActiveQuestIds(getStringList(conf.getList(
                         "activequests", new ArrayList<String>())));
 
@@ -360,8 +363,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             conf.set("activequests", profile.getActiveQuestIds());
             conf.set("xp", profile.getXp());
             conf.set("completedQuests", profile.getCompletedQuests());
-            conf.set("florins", profile.getFlorins());
-            conf.set("dollars", profile.getDollars());
+            conf.set("money." + Currencies.NORMAL.getAbbr(), profile
+                    .getNormalMoney().getAmount());
+            conf.set("money." + Currencies.PREMIUM.getAbbr(), profile
+                    .getPremiumMoney().getAmount());
             conf.save(this.getDataFolderPath("profiles",
                     uniqueId.toString() + ".yml").toFile());
         } catch (IOException e) {

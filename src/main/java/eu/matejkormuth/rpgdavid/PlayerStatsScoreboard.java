@@ -7,6 +7,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
+import eu.matejkormuth.rpgdavid.money.Currencies;
+
 public class PlayerStatsScoreboard {
     private Scoreboard scoreboard;
     private Objective objective;
@@ -15,8 +17,8 @@ public class PlayerStatsScoreboard {
 
     private Score xpScore;
     private Score manaScore;
-    private Score florinsScore;
-    private Score dollarsScore;
+    private Score currency1Score;
+    private Score currency2Score;
 
     public PlayerStatsScoreboard(final Player player) {
         this.player = player;
@@ -30,8 +32,10 @@ public class PlayerStatsScoreboard {
 
         this.xpScore = this.objective.getScore("XP");
         this.manaScore = this.objective.getScore("Mana");
-        this.florinsScore = this.objective.getScore("Florins");
-        this.dollarsScore = this.objective.getScore("Dollars");
+        this.currency1Score = this.objective.getScore(Currencies.NORMAL
+                .getName());
+        this.currency2Score = this.objective.getScore(Currencies.PREMIUM
+                .getName());
     }
 
     public Scoreboard getScoreboard() {
@@ -45,7 +49,8 @@ public class PlayerStatsScoreboard {
     public void update() {
         this.xpScore.setScore((int) this.profile.getXp());
         this.manaScore.setScore(this.profile.getMana());
-        this.florinsScore.setScore(this.profile.getFlorins());
-        this.dollarsScore.setScore(this.profile.getDollars());
+        this.currency1Score.setScore(this.profile.getNormalMoney().getAmount());
+        this.currency2Score
+                .setScore(this.profile.getPremiumMoney().getAmount());
     }
 }

@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import eu.matejkormuth.rpgdavid.money.Currencies;
+import eu.matejkormuth.rpgdavid.money.Money;
+
 public class Profile implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -35,8 +38,8 @@ public class Profile implements Serializable {
     private int maxMana = 900;
 
     // Currencies
-    private int florins = 0;
-    private int dollars = 100;
+    private Money normalMoney = new Money(100, Currencies.NORMAL);
+    private Money premiumMoney = new Money(0, Currencies.PREMIUM);
 
     // Character properties.
     private long vampire_lastBitten;
@@ -101,7 +104,7 @@ public class Profile implements Serializable {
     }
 
     public boolean addActiveQuest(String questId) {
-        if(this.activeQuests.contains(questId)) {
+        if (this.activeQuests.contains(questId)) {
             return false;
         }
         this.activeQuests.add(questId);
@@ -144,44 +147,20 @@ public class Profile implements Serializable {
         return maxMana;
     }
 
-    public int getFlorins() {
-        return florins;
+    public Money getNormalMoney() {
+        return normalMoney;
     }
 
-    public void setFlorins(int amount) {
-        this.florins = amount;
+    public Money getPremiumMoney() {
+        return premiumMoney;
     }
 
-    public void addFlorins(int amount) {
-        this.florins += amount;
+    public void setPremiumMoney(Money premiumMoney) {
+        this.premiumMoney = premiumMoney;
     }
 
-    public boolean takeFlorins(int amount) {
-        if (this.florins >= amount) {
-            this.florins = amount;
-            return true;
-        }
-        return false;
-    }
-
-    public int getDollars() {
-        return dollars;
-    }
-
-    public void setDollars(int amount) {
-        this.dollars = amount;
-    }
-
-    public void addDollars(int amount) {
-        this.dollars += amount;
-    }
-
-    public boolean takeDollars(int amount) {
-        if (this.dollars >= amount) {
-            this.dollars = amount;
-            return true;
-        }
-        return false;
+    public void setNormalMoney(Money normalMoney) {
+        this.normalMoney = normalMoney;
     }
 
     public void setQuestCompleted(String questId, boolean completed) {
