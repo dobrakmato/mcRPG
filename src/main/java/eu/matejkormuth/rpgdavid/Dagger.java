@@ -22,13 +22,14 @@ import java.util.Arrays;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Dagger extends ItemStack {
     private static final String DAGGER_NAME = ChatColor.RESET + "Dýka";
     // According to minecraftwiki
-    public static final short MAX_DURABILITY = 132;
+    public static final short MAX_DURABILITY = 131;
 
     public Dagger() {
         super(Material.STONE_SWORD);
@@ -36,6 +37,7 @@ public class Dagger extends ItemStack {
         ItemMeta im = this.getItemMeta();
         im.setDisplayName(DAGGER_NAME);
         im.setLore(Arrays.asList(ChatColor.RED + "Damage: 12 HP"));
+        im.addEnchant(Enchantment.DURABILITY, Integer.MAX_VALUE, true);
         this.setItemMeta(im);
     }
 

@@ -13,7 +13,6 @@ public class TestQuest extends AbstractQuest {
 
     @Override
     public void init() {
-      
 
     }
 
