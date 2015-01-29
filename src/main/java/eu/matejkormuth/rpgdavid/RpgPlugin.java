@@ -108,8 +108,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.dataFolder = this.getDataFolder().getAbsolutePath();
 
         // Set gamerules.
+        this.getLogger().info("Setting gamerules...");
         for (World w : this.getServer().getWorlds()) {
-            w.setGameRuleValue("keepinventory", "true");
+            w.setGameRuleValue("keepInventory", "true");
         }
 
         // Create folders.
