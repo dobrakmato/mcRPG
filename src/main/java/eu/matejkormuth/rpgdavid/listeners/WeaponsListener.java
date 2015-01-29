@@ -25,7 +25,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import eu.matejkormuth.rpgdavid.Character;
@@ -55,7 +54,8 @@ public class WeaponsListener implements Listener {
                         // Dagger does 12 HP damage.
                         event.setDamage(12D);
                         // Dagger should not damage itself.
-                        ((Player) event.getDamager()).setItemInHand(new Dagger());
+                        ((Player) event.getDamager())
+                                .setItemInHand(new Dagger());
                     }
                 }
             }
