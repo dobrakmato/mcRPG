@@ -20,6 +20,7 @@ package eu.matejkormuth.rpgdavid;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -155,6 +156,9 @@ public class TimeModifiersUpdater implements Runnable {
             if (!p.hasPotionEffect(PotionEffectType.SPEED)) {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,
                         20 * 65 * 5, 1));
+                // Play howl
+                p.getWorld()
+                        .playSound(p.getLocation(), Sound.WOLF_HOWL, 1F, 1F);
             }
 
             if (!p.hasPotionEffect(PotionEffectType.JUMP)) {
