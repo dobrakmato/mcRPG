@@ -32,20 +32,20 @@ import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class TNTSpell extends Spell {
     public TNTSpell() {
-        super(Sound.FIRE_IGNITE, "TNT Spell", 150);
+        super(Sound.FIRE_IGNITE, "TNT Spell", 150, 30000);
     }
-    
+
     @Override
     protected void cast0(Player invoker, Location location, Vector velocity) {
-        TNTPrimed tnt = (TNTPrimed) location.getWorld().spawnEntity(
-                location, EntityType.PRIMED_TNT);
+        TNTPrimed tnt = (TNTPrimed) location.getWorld().spawnEntity(location,
+                EntityType.PRIMED_TNT);
 
         // Set spawn time.
         tnt.setMetadata(
                 "spawnedAt",
                 new FixedMetadataValue(RpgPlugin.getInstance(), System
                         .currentTimeMillis()));
-        
+
         tnt.setCustomName("TNT");
         tnt.setFuseTicks(20 * 4);
         tnt.setMetadata("tntSpell", new FlagMetadataValue());

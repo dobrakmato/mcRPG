@@ -260,6 +260,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             this.scoreboardsList.remove(event.getPlayer());
         }
 
+        // Clear Cooldowns.
+        this.cooldowns.removeCooldowns(event.getPlayer());
+
         this.saveProfile(event.getPlayer().getUniqueId());
     }
 

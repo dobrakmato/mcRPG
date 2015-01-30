@@ -32,7 +32,7 @@ public class HealingSpell extends Spell {
     private final static double RANGE = 3.0d;
 
     public HealingSpell() {
-        super(Sound.LEVEL_UP, "Healing spell", 300);
+        super(Sound.LEVEL_UP, "Healing spell", 300, 1000 * 60 * 3);
     }
 
     @Override

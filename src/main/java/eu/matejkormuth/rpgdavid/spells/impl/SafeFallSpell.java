@@ -30,7 +30,7 @@ import eu.matejkormuth.rpgdavid.spells.Spell;
 public class SafeFallSpell extends Spell {
 
     public SafeFallSpell() {
-        super(Sound.WOLF_HOWL, "Safe fall spell", 70);
+        super(Sound.WOLF_HOWL, "Safe fall spell", 70, 0);
     }
 
     @Override

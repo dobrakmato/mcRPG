@@ -32,11 +32,12 @@ import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class FireSpell extends Spell {
     public FireSpell() {
-        super(Sound.FIRE_IGNITE, "Fire spell", 100);
+        super(Sound.FIRE_IGNITE, "Fire spell", 100, 5000);
     }
 
     @Override
-    protected void cast0(final Player invoker, final Location location, final Vector velocity) {
+    protected void cast0(final Player invoker, final Location location,
+            final Vector velocity) {
         Fireball fireball = (Fireball) location.getWorld().spawnEntity(
                 location, EntityType.FIREBALL);
 
@@ -45,7 +46,7 @@ public class FireSpell extends Spell {
                 "spawnedAt",
                 new FixedMetadataValue(RpgPlugin.getInstance(), System
                         .currentTimeMillis()));
-        
+
         fireball.setMetadata("fireSpell", new FlagMetadataValue());
         fireball.setShooter(invoker);
         fireball.setVelocity(velocity);

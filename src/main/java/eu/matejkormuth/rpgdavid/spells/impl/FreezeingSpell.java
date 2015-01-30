@@ -30,7 +30,7 @@ import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class FreezeingSpell extends Spell {
     public FreezeingSpell() {
-        super(Sound.FIRE_IGNITE, "Freezing spell", 100);
+        super(Sound.FIRE_IGNITE, "Freezing spell", 100, 1000);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class FreezeingSpell extends Spell {
             final Vector velocity) {
         Snowball snowball = (Snowball) location.getWorld().spawnEntity(
                 location, EntityType.SNOWBALL);
-        
+
         snowball.setMetadata("freezingSpell", new FlagMetadataValue());
         snowball.setShooter(invoker);
         snowball.setVelocity(velocity.multiply(2));

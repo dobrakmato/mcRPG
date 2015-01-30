@@ -32,19 +32,24 @@ public abstract class Spell {
     private final float castSoundVolume;
     private final String name;
     private final int manaUsage;
+    private final String coolDownId;
+    private final int cooldown;
 
-    public Spell(final Sound castSound, final String name, final int manaUsage) {
-        this(castSound, name, 1, 1, manaUsage);
+    public Spell(final Sound castSound, final String name, final int manaUsage,
+            final int cooldown) {
+        this(castSound, name, 1, 1, manaUsage, cooldown);
     }
 
     public Spell(final Sound castSound, final String name,
             final float castSoundPitch, final float castSoundVolume,
-            final int manaUsage) {
+            final int manaUsage, final int cooldown) {
         this.castSound = castSound;
         this.name = name;
+        this.coolDownId = "spell." + this.getClass().getSimpleName();
         this.castSoundPitch = castSoundPitch;
         this.castSoundVolume = castSoundVolume;
         this.manaUsage = manaUsage;
+        this.cooldown = cooldown;
     }
 
     public String getName() {
@@ -55,13 +60,30 @@ public abstract class Spell {
         return this.castSound;
     }
 
+    public String getCoolDownId() {
+        return coolDownId;
+    }
+
     public int getManaUsage() {
         return manaUsage;
     }
 
     public void cast(final Player invoker) {
-        this.cast(invoker, invoker.getLocation(), invoker.getEyeLocation()
-                .getDirection());
+        // Spell must be cooled down.
+        if (RpgPlugin.getInstance().getCooldowns()
+                .isCooledDown(invoker, this.coolDownId)) {
+            this.cast(invoker, invoker.getLocation(), invoker.getEyeLocation()
+                    .getDirection());
+            // Set cooldown.
+            RpgPlugin.getInstance().getCooldowns()
+                    .setCooldown(invoker, this.coolDownId, this.cooldown);
+        } else {
+            invoker.sendMessage(ChatColor.RED
+                    + "This spell must be first cooled down! ("
+                    + RpgPlugin.getInstance().getCooldowns()
+                            .getTimeLeft(invoker, this.coolDownId) / 1000
+                    + " seconds)");
+        }
     }
 
     public void cast(final Player invoker, final Location location,

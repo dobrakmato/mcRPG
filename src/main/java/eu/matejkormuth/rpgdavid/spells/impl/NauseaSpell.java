@@ -27,7 +27,7 @@ import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class NauseaSpell extends Spell {
     public NauseaSpell() {
-        super(Sound.FIRE_IGNITE, "Nausea Spell", 200);
+        super(Sound.FIRE_IGNITE, "Nausea Spell", 200, 40000);
     }
 
     @Override
