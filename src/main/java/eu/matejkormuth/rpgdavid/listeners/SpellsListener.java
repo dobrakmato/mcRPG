@@ -64,10 +64,7 @@ public class SpellsListener implements Listener {
                 e.getWorld()
                         .playSound(e.getLocation(), Sound.GLASS, 0.5f, 0.5f);
 
-                // Extinguish if needed.
-                if (e.getFireTicks() > 0) {
-                    e.setFireTicks(0);
-                }
+                // Entities should not be extinguished.
 
                 ((LivingEntity) e).damage(0.5D);
                 ((LivingEntity) e).addPotionEffect(new PotionEffect(
@@ -80,7 +77,7 @@ public class SpellsListener implements Listener {
                     for (int y = e.getLocation().getBlockY() - 1; y <= e
                             .getLocation().getBlockY() + 1; y++) {
                         for (int z = e.getLocation().getBlockZ() - 2; z <= e
-                                .getLocation().getBlockZ() + 02; z++) {
+                                .getLocation().getBlockZ() + 2; z++) {
                             b = e.getWorld().getBlockAt(x, y, z).getState();
                             if (b.getType() == Material.STATIONARY_WATER
                                     || b.getType() == Material.WATER) {
