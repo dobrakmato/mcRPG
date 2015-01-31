@@ -19,20 +19,18 @@
  */
 package eu.matejkormuth.rpgdavid.starving.impulses;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import org.bukkit.Location;
 
 public abstract class BufferedImpulseProcessor implements ImpulseProcessor {
     private Queue<Imp> buffer;
-    private List<ImpulseTarget> targets;
+    private TargetProvider provider;
 
     public BufferedImpulseProcessor() {
         this.buffer = new LinkedList<BufferedImpulseProcessor.Imp>();
-        this.targets = new ArrayList<ImpulseTarget>();
     }
 
     @Override
@@ -41,10 +39,17 @@ public abstract class BufferedImpulseProcessor implements ImpulseProcessor {
     }
 
     public void process() {
+        for (ImpulseTarget target : this.provider.getTargets()) {
+
+        }
+    }
+
+    private Collection<Imp> getNear(ImpulseTarget target, float near) {
         Imp imp = null;
         while ((imp = this.buffer.poll()) != null) {
-            
+            return null;
         }
+        return null;
     }
 
     private class Imp {
