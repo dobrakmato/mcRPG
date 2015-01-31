@@ -54,6 +54,12 @@ public class Starving implements Runnable {
                 + "/Starving/");
         this.dataFolder.mkdirs();
 
+        // Initialize PersistInjector
+        File confDirectory = new File(this.dataFolder.getAbsolutePath()
+                + "/conf/");
+        confDirectory.mkdirs();
+        PersistInjector.setConfiguration(confDirectory.getAbsolutePath());
+
         // Initialize all managers.
         this.zombieManager = new ZombieManager();
         this.ambientSoundManager = new AmbientSoundManager();
@@ -69,10 +75,14 @@ public class Starving implements Runnable {
                 RpgPlugin.getInstance(), this, 0L, 1L);
     }
 
+    public void onDisable() {
+        PersistInjector.store(this.zombieManager);
+    }
+    
     public void run() {
 
     }
-    
+
     public File getDataFolder() {
         return dataFolder;
     }

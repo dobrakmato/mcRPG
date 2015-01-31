@@ -43,7 +43,7 @@ public class ZombiePool {
         }
     }
 
-    public void relese(final Zombie zombie) {
+    public void release(final Zombie zombie) {
         if (this.shuttingDown) {
             throw new UnsupportedOperationException(
                     "Can't release zombie while shutting down!");

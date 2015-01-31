@@ -19,11 +19,11 @@
  */
 package eu.matejkormuth.rpgdavid.starving.zombie;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+
+import eu.matejkormuth.rpgdavid.starving.PersistInjector;
+import eu.matejkormuth.rpgdavid.starving.annotations.Persist;
 
 public class ZombieManager {
     // Zombie speed constatnts.
@@ -31,27 +31,24 @@ public class ZombieManager {
     public static final double NORMAL_SPEED = 1.0d;
     public static final double HIGH_SPEED = 1.5d;
 
-    private Map<Integer, Zombie> zombies; // May need IntHashMap.
+    private final ZombiePool pool;
+
+    @Persist(key = "poolLocation")
+    private Location poolLocation;
 
     public ZombieManager() {
-        this.zombies = new HashMap<Integer, Zombie>();
+        // Load configuration values.
+        PersistInjector.inject(this);
+
+        this.pool = new ZombiePool(poolLocation, 20);
     }
 
-    public void add(Location spawn) {
-        Zombie z = new Zombie(spawn);
-        this.zombies.put(z.getId(), z);
-    }
-
-    public void addMany(Location center, int count) {
-        for (int i = 0; i < count; i++) {
-            this.add(center.add((Math.random() - 0.5) * (count / 2),
-                    (Math.random() - 0.5) * (count / 2), (Math.random() - 0.5)
-                            * (count / 2)));
-        }
+    public void add() {
+        this.pool.acquire();
     }
 
     public void remove(Entity e) {
-        Zombie removed = this.zombies.remove(e.getEntityId());
-        removed.destroy();
+        // TODO Auto-generated method stub
+
     }
 }
