@@ -43,6 +43,7 @@ public class Zombie extends EntityZombie {
     private double followDistanceLimit = 2043f;
 
     private long lastJump = Long.MAX_VALUE;
+    private boolean disabled;
 
     protected Zombie(final Location spawnLocation) {
         this(((CraftWorld) spawnLocation.getWorld()).getHandle());
@@ -182,5 +183,17 @@ public class Zombie extends EntityZombie {
     public void destroy() {
         this.following = null;
         this.dead = true;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public boolean isDisabled() {
+        return this.disabled;
+    }
+
+    public void teleport(Location location) {
+        this.getBukkitEntity().teleport(location);
     }
 }

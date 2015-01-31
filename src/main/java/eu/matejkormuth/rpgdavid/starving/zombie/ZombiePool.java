@@ -1,0 +1,78 @@
+package eu.matejkormuth.rpgdavid.starving.zombie;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import org.bukkit.Location;
+
+public class ZombiePool {
+    private Queue<Zombie> inUse;
+    private Queue<Zombie> available;
+
+    private Location poolLocation;
+    private boolean shuttingDown = false;
+
+    public ZombiePool(Location poolLocation, int capacity) {
+        this.inUse = new LinkedList<Zombie>();
+        this.available = new LinkedList<Zombie>();
+        this.expand(capacity);
+    }
+
+    public Zombie acquire() {
+        if (this.shuttingDown) {
+            throw new UnsupportedOperationException(
+                    "Can't acquire zombie while shutting down!");
+        }
+
+        if (this.available.isEmpty()) {
+            // Expand pool size.
+            this.expand(20);
+        }
+        Zombie z = this.available.poll();
+        this.inUse.add(z);
+        z.setDisabled(false);
+        return z;
+    }
+
+    private void expand(int size) {
+        for (int i = 0; i < size; i++) {
+            Zombie z = new Zombie(poolLocation);
+            z.setDisabled(true);
+            this.available.add(z);
+        }
+    }
+
+    public void relese(final Zombie zombie) {
+        if (this.shuttingDown) {
+            throw new UnsupportedOperationException(
+                    "Can't release zombie while shutting down!");
+        }
+
+        this.cleanUp(zombie);
+        this.inUse.remove(zombie);
+        this.available.add(zombie);
+    }
+
+    public void cleanUp(final Zombie zombie) {
+        zombie.setFollowTarget(null);
+        zombie.teleport(this.poolLocation);
+        zombie.setDisabled(true);
+    }
+
+    public void shutdown() {
+        this.shuttingDown = true;
+
+        for (Iterator<Zombie> itr = this.available.iterator(); itr.hasNext();) {
+            Zombie z = itr.next();
+            z.destroy();
+            itr.remove();
+        }
+
+        for (Iterator<Zombie> itr = this.inUse.iterator(); itr.hasNext();) {
+            Zombie z = itr.next();
+            z.destroy();
+            itr.remove();
+        }
+    }
+}
