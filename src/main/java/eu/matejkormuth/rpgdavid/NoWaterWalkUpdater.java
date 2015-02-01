@@ -57,7 +57,11 @@ public class NoWaterWalkUpdater implements Runnable {
                     }
                 }
             } else {
-                this.locations.put(p, currentLoc);
+                // Don't set teleportation places in air (above water).
+                if (!currentLoc.getBlock().getRelative(BlockFace.DOWN)
+                        .getType().equals(Material.AIR)) {
+                    this.locations.put(p, currentLoc);
+                }
             }
         }
     }
@@ -76,6 +80,7 @@ public class NoWaterWalkUpdater implements Runnable {
 
         public BlockWalker(Location loc) {
             this.loc = loc;
+            this.direction = BlockFace.WEST;
         }
 
         public Location findSolid() {

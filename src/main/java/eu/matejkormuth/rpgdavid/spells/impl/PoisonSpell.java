@@ -20,19 +20,27 @@ package eu.matejkormuth.rpgdavid.spells.impl;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.util.Vector;
 
+import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
-public class HarmingSpell extends Spell {
+public class PoisonSpell extends Spell {
 
-    public HarmingSpell() {
-        super(Sound.FIRE_IGNITE, "Harming spell", 100, 16000);
+    public PoisonSpell() {
+        super(Sound.FIRE_IGNITE, "Poison spell", 100, 16000);
     }
 
     @Override
     protected void cast0(Player invoker, Location location, Vector velocity) {
+        ThrownPotion potion = (ThrownPotion) location.getWorld().spawnEntity(
+                location, EntityType.SPLASH_POTION);
 
+        potion.setMetadata("poisonSpell", new FlagMetadataValue());
+        potion.setShooter(invoker);
+        potion.setVelocity(velocity.multiply(2));
     }
 }

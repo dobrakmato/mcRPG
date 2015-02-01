@@ -34,8 +34,9 @@ import org.bukkit.potion.PotionEffectType;
 public class SpellsListener implements Listener {
     public static final double FIRE_SPELL_RADIUS = 5.0D;
     public static final double FREEZING_SPELL_RADIUS = 5.0D;
+    public static final double POISON_SPELL_RADIUS = 5.0D;
 
-    // Fire and freezing spell.
+    // Fire, poison and freezing spell.
     @EventHandler
     private void onFireballHit(final ProjectileHitEvent event) {
         if (event.getEntity().hasMetadata("fireSpell")) {
@@ -44,6 +45,9 @@ public class SpellsListener implements Listener {
         } else if (event.getEntity().hasMetadata("freezingSpell")) {
             // Freezing spell.
             onFreezingSpell(event);
+        } else if (event.getEntity().hasMetadata("posionSpell")) {
+            // Poison spell;
+            onPoisonSpell(event);
         }
     }
 
@@ -51,6 +55,19 @@ public class SpellsListener implements Listener {
     private void onTntExplode(final EntityExplodeEvent event) {
         if (event.getEntity() instanceof TNTPrimed) {
             if (event.getEntity().hasMetadata("tntSpell")) {
+
+            }
+        }
+    }
+
+    private void onPoisonSpell(ProjectileHitEvent event) {
+        for (Entity e : event.getEntity().getNearbyEntities(
+                POISON_SPELL_RADIUS, POISON_SPELL_RADIUS,
+                POISON_SPELL_RADIUS)) {
+            if (e instanceof LivingEntity) {
+                ((LivingEntity) e).damage(0.5D);
+                ((LivingEntity) e).addPotionEffect(new PotionEffect(
+                        PotionEffectType.POISON, 20 * 5, 0));
 
             }
         }

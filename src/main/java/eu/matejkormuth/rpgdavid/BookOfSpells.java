@@ -30,7 +30,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 import eu.matejkormuth.rpgdavid.spells.impl.FireSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.FreezeingSpell;
-import eu.matejkormuth.rpgdavid.spells.impl.HarmingSpell;
+import eu.matejkormuth.rpgdavid.spells.impl.PoisonSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.HealingSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.NauseaSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.SafeFallSpell;
@@ -47,7 +47,7 @@ public class BookOfSpells extends ItemStack {
         spells[3] = new NauseaSpell();
         spells[4] = new SafeFallSpell();
         spells[5] = new HealingSpell();
-        spells[6] = new HarmingSpell();
+        spells[6] = new PoisonSpell();
     }
 
     public BookOfSpells() {
