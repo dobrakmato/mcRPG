@@ -25,4 +25,6 @@ public interface ImpulseTarget {
     Location getLocation();
 
     void onImpulse(Location location, float power);
+    
+    boolean isActive();
 }

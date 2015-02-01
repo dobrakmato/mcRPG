@@ -40,7 +40,9 @@ public abstract class BufferedImpulseProcessor implements ImpulseProcessor {
 
     public void process() {
         for (ImpulseTarget target : this.provider.getTargets()) {
-
+            if (target.isActive()) {
+                Location loc = target.getLocation();
+            }
         }
     }
 
