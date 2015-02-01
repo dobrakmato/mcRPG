@@ -17,17 +17,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving;
+package eu.matejkormuth.rpgdavid.starving.persistence;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Objects;
 import java.util.Properties;
 
-import eu.matejkormuth.rpgdavid.starving.annotations.Persist;
+import org.bukkit.Location;
 
+import eu.matejkormuth.rpgdavid.starving.Worlds;
+
+/**
+ * Class that injects values to Objects or stores (saves) values from HDD.
+ * 
+ * @see Persist
+ * @see Persistable
+ */
 public class PersistInjector {
     private static String confPath;
 
@@ -36,18 +45,28 @@ public class PersistInjector {
     }
 
     public static void store(final Object object) {
+        Objects.requireNonNull(object);
+
         store(object, object.getClass().getName());
     }
 
     public static void store(final Object object, final int instancePersistId) {
+        Objects.requireNonNull(object);
+
         store(object, object.getClass().getName() + "-" + instancePersistId);
     }
 
     public static void store(final Object object, final String fileName) {
+        Objects.requireNonNull(object);
+        Objects.requireNonNull(fileName);
+
         store(object, new File(confPath + "/" + fileName + ".properties"));
     }
 
     public static void store(final Object object, final File file) {
+        Objects.requireNonNull(object);
+        Objects.requireNonNull(file);
+
         Properties properties = new Properties();
         store(object, properties);
         try {
@@ -64,6 +83,9 @@ public class PersistInjector {
     }
 
     public static void store(final Object object, final Properties properties) {
+        Objects.requireNonNull(object);
+        Objects.requireNonNull(properties);
+
         for (Field field : object.getClass().getDeclaredFields()) {
             // If is field persist.
             if (field.isAnnotationPresent(Persist.class)) {
@@ -73,9 +95,24 @@ public class PersistInjector {
                 }
                 Persist persist = field.getAnnotation(Persist.class);
                 try {
-                    // Put value to properties object.
-                    properties.put(persist.key(),
-                            String.valueOf(field.get(object)));
+                    // Allow storing org.bukkit.Location
+                    if (field.getType().equals(org.bukkit.Location.class)) {
+                        org.bukkit.Location loc = (org.bukkit.Location) field
+                                .get(object);
+                        // Put value to properties object.
+                        properties.put(persist.key() + "_x",
+                                String.valueOf(loc.getX()));
+                        properties.put(persist.key() + "_y",
+                                String.valueOf(loc.getY()));
+                        properties.put(persist.key() + "_z",
+                                String.valueOf(loc.getZ()));
+                        properties.put(persist.key() + "_world",
+                                String.valueOf(loc.getWorld().getName()));
+                    } else {
+                        // Put value to properties object.
+                        properties.put(persist.key(),
+                                String.valueOf(field.get(object)));
+                    }
                 } catch (IllegalArgumentException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -84,18 +121,28 @@ public class PersistInjector {
     }
 
     public static void inject(final Object object) {
+        Objects.requireNonNull(object);
+
         inject(object, object.getClass().getName());
     }
 
     public static void inject(final Object object, final int instancePersistId) {
+        Objects.requireNonNull(object);
+
         inject(object, object.getClass().getName() + "-" + instancePersistId);
     }
 
     public static void inject(final Object object, final String fileName) {
+        Objects.requireNonNull(object);
+        Objects.requireNonNull(fileName);
+
         inject(object, new File(confPath + "/" + fileName + ".properties"));
     }
 
     public static void inject(final Object object, final File file) {
+        Objects.requireNonNull(object);
+        Objects.requireNonNull(file);
+
         try {
             // Open file.
             FileInputStream fis = new FileInputStream(file);
@@ -111,6 +158,9 @@ public class PersistInjector {
     }
 
     public static void inject(final Object object, final Properties properties) {
+        Objects.requireNonNull(object);
+        Objects.requireNonNull(properties);
+
         for (Field field : object.getClass().getDeclaredFields()) {
             // If is field persist.
             if (field.isAnnotationPresent(Persist.class)) {
@@ -122,8 +172,36 @@ public class PersistInjector {
                 if (properties.containsKey(persist.key())) {
                     // Inject value from properties.
                     try {
-                        setField(field, object,
-                                properties.getProperty(persist.key()));
+                        // Special case for org.bukkit.Location
+                        if (field.getType().equals(org.bukkit.Location.class)) {
+                            double x = Double
+                                    .valueOf(
+                                            properties.getProperty(persist
+                                                    .key() + "_x"))
+                                    .doubleValue();
+                            double y = Double
+                                    .valueOf(
+                                            properties.getProperty(persist
+                                                    .key() + "_y"))
+                                    .doubleValue();
+                            double z = Double
+                                    .valueOf(
+                                            properties.getProperty(persist
+                                                    .key() + "_z"))
+                                    .doubleValue();
+                            String name = properties.getProperty(persist.key()
+                                    + "_world", "world");
+                            org.bukkit.Location loc = new Location(
+                                    Worlds.by(name), x, y, z);
+                            try {
+                                field.set(object, loc);
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            setField(field, object,
+                                    properties.getProperty(persist.key()));
+                        }
                     } catch (RuntimeException ex) {
                         ex.printStackTrace();
                     }
@@ -139,21 +217,21 @@ public class PersistInjector {
         try {
             // Set value by type.
             if (type == int.class || type == Integer.class) {
-                field.set(object, Integer.valueOf(value));
+                field.set(object, Integer.valueOf(value).intValue());
             } else if (type == long.class || type == Long.class) {
-                field.set(object, Long.valueOf(value));
+                field.set(object, Long.valueOf(value).longValue());
             } else if (type == short.class || type == Short.class) {
-                field.set(object, Short.valueOf(value));
+                field.set(object, Short.valueOf(value).shortValue());
             } else if (type == byte.class || type == Byte.class) {
-                field.set(object, Byte.valueOf(value));
+                field.set(object, Byte.valueOf(value).byteValue());
             } else if (type == boolean.class || type == Boolean.class) {
-                field.set(object, Boolean.valueOf(value));
+                field.set(object, Boolean.valueOf(value).booleanValue());
             } else if (type == String.class) {
                 field.set(object, String.valueOf(value));
             } else if (type == float.class || type == Float.class) {
-                field.set(object, Float.valueOf(value));
+                field.set(object, Float.valueOf(value).floatValue());
             } else if (type == double.class || type == Double.class) {
-                field.set(object, Double.valueOf(value));
+                field.set(object, Double.valueOf(value).doubleValue());
             } else if (Enum.class.isAssignableFrom(type)) {
                 Object[] consts = type.getEnumConstants();
                 // Try to find right enum constant.

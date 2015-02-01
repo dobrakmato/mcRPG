@@ -20,6 +20,7 @@
 package eu.matejkormuth.rpgdavid.starving;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
 
@@ -32,6 +33,7 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.listeners.ItemStackListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
+import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
@@ -39,20 +41,24 @@ public class Starving implements Runnable {
     private static Starving instance;
 
     public static Starving getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Starving();
         }
         return instance;
     }
 
-    private Starving(){}
-    
+    private Starving() {
+    }
+
+    private Logger log;
     private File dataFolder;
     private ZombieManager zombieManager;
     private AmbientSoundManager ambientSoundManager;
 
     public void onEnable() {
         instance = this;
+
+        this.log = RpgPlugin.getInstance().getLogger();
 
         this.dataFolder = new File(RpgPlugin.getInstance().getDataFolder()
                 .getParent()
@@ -83,9 +89,13 @@ public class Starving implements Runnable {
     public void onDisable() {
         PersistInjector.store(this.zombieManager);
     }
-    
+
     public void run() {
 
+    }
+    
+    public Logger getLogger() {
+        return this.log;
     }
 
     public File getDataFolder() {

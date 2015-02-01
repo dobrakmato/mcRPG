@@ -52,6 +52,9 @@ public class Zombie extends EntityZombie {
 
     private Zombie(World world) {
         super(world);
+        // Do not burn zombies.
+        this.fireProof = true;
+        // Remove AI.
         this.removeAI();
         this.getBukkitEntity().setMetadata("starving", new FlagMetadataValue());
     }
@@ -59,8 +62,14 @@ public class Zombie extends EntityZombie {
     @SuppressWarnings("rawtypes")
     private void removeAI() {
         try {
-            Field b = PathfinderGoalSelector.class.getField("b");
-            Field c = PathfinderGoalSelector.class.getField("c");
+            Field b = PathfinderGoalSelector.class.getDeclaredField("b");
+            Field c = PathfinderGoalSelector.class.getDeclaredField("c");
+            if (!b.isAccessible()) {
+                b.setAccessible(true);
+            }
+            if (!c.isAccessible()) {
+                c.setAccessible(true);
+            }
             b.set(this.goalSelector, new UnsafeList());
             c.set(this.goalSelector, new UnsafeList());
             b.set(this.targetSelector, new UnsafeList());
@@ -187,6 +196,14 @@ public class Zombie extends EntityZombie {
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
+
+        // Update disablity.
+        if (disabled) {
+            // this.setInvisible(true);
+
+        } else {
+            this.setInvisible(false);
+        }
     }
 
     public boolean isDisabled() {
@@ -195,5 +212,9 @@ public class Zombie extends EntityZombie {
 
     public void teleport(Location location) {
         this.getBukkitEntity().teleport(location);
+    }
+
+    public static boolean isStarvingZombie(org.bukkit.entity.Entity entity) {
+        return entity.hasMetadata("starving");
     }
 }

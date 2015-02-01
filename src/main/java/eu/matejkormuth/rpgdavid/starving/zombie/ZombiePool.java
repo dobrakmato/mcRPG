@@ -6,16 +6,23 @@ import java.util.Queue;
 
 import org.bukkit.Location;
 
+import eu.matejkormuth.rpgdavid.starving.Starving;
+
 public class ZombiePool {
     private Queue<Zombie> inUse;
     private Queue<Zombie> available;
 
-    private Location poolLocation;
+    private final Location poolLocation;
     private boolean shuttingDown = false;
 
     public ZombiePool(Location poolLocation, int capacity) {
+        this.poolLocation = poolLocation;
         this.inUse = new LinkedList<Zombie>();
         this.available = new LinkedList<Zombie>();
+
+        Starving.getInstance().getLogger()
+                .info("Initializing ZombiePool with capacity of " + capacity);
+
         this.expand(capacity);
     }
 
@@ -37,7 +44,7 @@ public class ZombiePool {
 
     private void expand(int size) {
         for (int i = 0; i < size; i++) {
-            Zombie z = new Zombie(poolLocation);
+            Zombie z = new Zombie(this.poolLocation);
             z.setDisabled(true);
             this.available.add(z);
         }

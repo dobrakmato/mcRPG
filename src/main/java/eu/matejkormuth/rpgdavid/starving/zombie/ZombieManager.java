@@ -22,10 +22,11 @@ package eu.matejkormuth.rpgdavid.starving.zombie;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-import eu.matejkormuth.rpgdavid.starving.PersistInjector;
-import eu.matejkormuth.rpgdavid.starving.annotations.Persist;
+import eu.matejkormuth.rpgdavid.starving.Worlds;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 
-public class ZombieManager {
+public class ZombieManager extends Persistable {
     // Zombie speed constatnts.
     public static final double LOW_SPEED = 0.6d;
     public static final double NORMAL_SPEED = 1.0d;
@@ -34,13 +35,10 @@ public class ZombieManager {
     private final ZombiePool pool;
 
     @Persist(key = "poolLocation")
-    private Location poolLocation;
+    private Location poolLocation = new Location(Worlds.first(), 0, 0, 0);
 
     public ZombieManager() {
-        // Load configuration values.
-        PersistInjector.inject(this);
-
-        this.pool = new ZombiePool(poolLocation, 20);
+        this.pool = new ZombiePool(this.poolLocation, 20);
     }
 
     public void add() {

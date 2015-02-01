@@ -17,13 +17,21 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.annotations;
+package eu.matejkormuth.rpgdavid.starving.persistence;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Annotation that specified that value of this field will be injected from
+ * configuration. You have to extend {@link Persistable} class or manually call
+ * {@link PersistInjector#inject(Object)}
+ * 
+ * @see Persistable
+ * @see PersistInjector
+ */
 @Target(value = { ElementType.FIELD })
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Persist {
