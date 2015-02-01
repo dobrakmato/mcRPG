@@ -35,6 +35,7 @@ public class SpellsListener implements Listener {
     public static final double FIRE_SPELL_RADIUS = 5.0D;
     public static final double FREEZING_SPELL_RADIUS = 5.0D;
     public static final double POISON_SPELL_RADIUS = 5.0D;
+    public static final double NAUSEA_SPELL_RADIUS = 5.0D;
 
     // Fire, poison and freezing spell.
     @EventHandler
@@ -45,9 +46,12 @@ public class SpellsListener implements Listener {
         } else if (event.getEntity().hasMetadata("freezingSpell")) {
             // Freezing spell.
             onFreezingSpell(event);
-        } else if (event.getEntity().hasMetadata("posionSpell")) {
+        } else if (event.getEntity().hasMetadata("poisonSpell")) {
             // Poison spell;
             onPoisonSpell(event);
+        } else if (event.getEntity().hasMetadata("nauseaSpell")) {
+            // Nausea spell;
+            onNauseaSpell(event);
         }
     }
 
@@ -60,10 +64,20 @@ public class SpellsListener implements Listener {
         }
     }
 
+    private void onNauseaSpell(ProjectileHitEvent event) {
+        for (Entity e : event.getEntity().getNearbyEntities(
+                NAUSEA_SPELL_RADIUS, NAUSEA_SPELL_RADIUS, NAUSEA_SPELL_RADIUS)) {
+            if (e instanceof LivingEntity) {
+                ((LivingEntity) e).addPotionEffect(new PotionEffect(
+                        PotionEffectType.CONFUSION, 20 * 5, 0));
+
+            }
+        }
+    }
+
     private void onPoisonSpell(ProjectileHitEvent event) {
         for (Entity e : event.getEntity().getNearbyEntities(
-                POISON_SPELL_RADIUS, POISON_SPELL_RADIUS,
-                POISON_SPELL_RADIUS)) {
+                POISON_SPELL_RADIUS, POISON_SPELL_RADIUS, POISON_SPELL_RADIUS)) {
             if (e instanceof LivingEntity) {
                 ((LivingEntity) e).damage(0.5D);
                 ((LivingEntity) e).addPotionEffect(new PotionEffect(

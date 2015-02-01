@@ -20,9 +20,12 @@ package eu.matejkormuth.rpgdavid.spells.impl;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.util.Vector;
 
+import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class NauseaSpell extends Spell {
@@ -32,6 +35,11 @@ public class NauseaSpell extends Spell {
 
     @Override
     protected void cast0(Player invoker, Location location, Vector velocity) {
-        // TODO: Nausea spell
+        ThrownPotion potion = (ThrownPotion) location.getWorld().spawnEntity(
+                location, EntityType.SPLASH_POTION);
+
+        potion.setMetadata("nauseaSpell", new FlagMetadataValue());
+        potion.setShooter(invoker);
+        potion.setVelocity(velocity.multiply(2));
     }
 }
