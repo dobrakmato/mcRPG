@@ -68,6 +68,7 @@ import eu.matejkormuth.rpgdavid.listeners.characters.VampireListener;
 import eu.matejkormuth.rpgdavid.money.Currencies;
 import eu.matejkormuth.rpgdavid.party.Party;
 import eu.matejkormuth.rpgdavid.quests.QuestManager;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public class RpgPlugin extends JavaPlugin implements Listener {
     private static RpgPlugin instnace;
@@ -166,10 +167,20 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         if (this.getConfig().getBoolean("debug", false)) {
             Debug.onEnable();
         }
+
+        if (this.getConfig().getBoolean("starving", false)) {
+            this.getLogger().info("Enabling Starving...");
+            Starving.getInstance().onEnable();
+        }
     }
 
     @Override
     public void onDisable() {
+        if (this.getConfig().getBoolean("starving", false)) {
+            this.getLogger().info("Disabling Starving...");
+            Starving.getInstance().onDisable();
+        }
+
         // Kick all players to avoid data loss.
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.kickPlayer("Server is reloading, please reconnect.");

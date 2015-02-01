@@ -54,7 +54,7 @@ public class Money {
 
     public Money add(Money money) {
         if (!this.currency.equals(money.currency)) {
-            throw new RuntimeException("Can't add two different currencies!");
+            throw new MoneyException("Can't add two different currencies!");
         }
 
         this.amount += money.amount;
@@ -63,16 +63,29 @@ public class Money {
 
     public Money subtract(Money money) {
         if (!this.currency.equals(money.currency)) {
-            throw new RuntimeException("Can't add two different currencies!");
+            throw new MoneyException("Can't add two different currencies!");
         }
 
         this.amount -= money.amount;
         return this;
     }
 
+    public Money subtractSafe(Money money) throws MoneyException {
+        if (!this.currency.equals(money.currency)) {
+            throw new MoneyException("Can't add two different currencies!");
+        }
+
+        if(this.amount < money.amount) {
+            throw new MoneyException("Money to subtract is bigger then this amount.");
+        }
+        
+        this.amount -= money.amount;
+        return this;
+    }
+    
     public Money multiply(Money money) {
         if (!this.currency.equals(money.currency)) {
-            throw new RuntimeException("Can't add two different currencies!");
+            throw new MoneyException("Can't add two different currencies!");
         }
 
         this.amount *= money.amount;
@@ -81,10 +94,18 @@ public class Money {
 
     public Money divide(Money money) {
         if (!this.currency.equals(money.currency)) {
-            throw new RuntimeException("Can't add two different currencies!");
+            throw new MoneyException("Can't add two different currencies!");
         }
 
         this.amount /= money.amount;
         return this;
+    }
+    
+    public static class MoneyException extends RuntimeException {
+        public MoneyException(String string) {
+            super(string);
+        }
+
+        private static final long serialVersionUID = 1L;
     }
 }

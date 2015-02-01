@@ -39,9 +39,14 @@ public class Starving implements Runnable {
     private static Starving instance;
 
     public static Starving getInstance() {
+        if(instance == null) {
+            instance = new Starving();
+        }
         return instance;
     }
 
+    private Starving(){}
+    
     private File dataFolder;
     private ZombieManager zombieManager;
     private AmbientSoundManager ambientSoundManager;
