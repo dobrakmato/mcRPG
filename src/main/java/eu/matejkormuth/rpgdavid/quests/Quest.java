@@ -31,5 +31,7 @@ public interface Quest {
 
     String getId();
 
+    boolean hasPrevious();
+    
     void onStart(Player player);
 }

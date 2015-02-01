@@ -27,9 +27,9 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Characters;
-import eu.matejkormuth.rpgdavid.BookOfSpells;
 import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.items.BookOfSpells;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class BookOfSpellsListener implements Listener {

@@ -16,38 +16,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid;
-
-import java.util.Arrays;
+package eu.matejkormuth.rpgdavid.items;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class Dagger extends ItemStack {
-    private static final String DAGGER_NAME = ChatColor.RESET + "Dýka";
-    // According to minecraftwiki
-    public static final short MAX_DURABILITY = 131;
+public class GrapplingHook extends ItemStack {
+    public static final double MAX_USE_DISTANCE = 6.0D;
+    private static final String HOOK_NAME = ChatColor.RESET + "Grappling Hook";
 
-    public Dagger() {
-        super(Material.STONE_SWORD);
+    public GrapplingHook() {
+        super(Material.CARROT_STICK);
 
         ItemMeta im = this.getItemMeta();
-        im.setDisplayName(DAGGER_NAME);
-        im.setLore(Arrays.asList(ChatColor.RED + "Damage: 12 HP"));
-        im.addEnchant(Enchantment.DURABILITY, Integer.MAX_VALUE, true);
+        im.setDisplayName(HOOK_NAME);
         this.setItemMeta(im);
     }
 
-    public static boolean isDagger(ItemStack itemInHand) {
+    public static boolean isHook(ItemStack itemInHand) {
         if (itemInHand == null)
             return false;
 
-        return itemInHand.getType().equals(Material.STONE_SWORD)
+        return itemInHand.getType().equals(Material.CARROT_STICK)
                 && itemInHand.hasItemMeta()
-                && itemInHand.getItemMeta().getDisplayName()
-                        .equals(DAGGER_NAME);
+                && itemInHand.getItemMeta().getDisplayName().equals(HOOK_NAME);
     }
 }

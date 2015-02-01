@@ -124,6 +124,11 @@ public abstract class AbstractQuest implements Quest {
     }
 
     @Override
+    public boolean hasPrevious() {
+        return this.previousId != null;
+    }
+
+    @Override
     public String getPreviousId() {
         return this.previousId;
     }

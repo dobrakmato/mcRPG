@@ -31,6 +31,7 @@ import com.google.common.base.Strings;
 
 import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 import eu.matejkormuth.rpgdavid.inventoryutils.ItemStackBuilder;
+import eu.matejkormuth.rpgdavid.items.QuestsBook;
 
 public class Character {
     private final String name;

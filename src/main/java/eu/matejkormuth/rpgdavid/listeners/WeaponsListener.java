@@ -29,10 +29,10 @@ import org.bukkit.util.Vector;
 
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Characters;
-import eu.matejkormuth.rpgdavid.Dagger;
-import eu.matejkormuth.rpgdavid.GrapplingHook;
 import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.items.Dagger;
+import eu.matejkormuth.rpgdavid.items.GrapplingHook;
 
 public class WeaponsListener implements Listener {
     private static final double EPSILON = 5; // 5 degrees

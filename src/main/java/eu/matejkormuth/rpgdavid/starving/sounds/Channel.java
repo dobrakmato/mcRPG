@@ -56,6 +56,10 @@ public class Channel {
                     .currentTimeMillis();
     }
 
+    public boolean shouldPlayNext() {
+        return !this.isPlaying();
+    }
+
     public void play(final Atmosphere atmosphere) {
         this.currentAtmosphere = atmosphere;
         this.currentAtmosphere.play(this.player);

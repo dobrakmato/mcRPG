@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid;
+package eu.matejkormuth.rpgdavid.items;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,6 +24,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import eu.matejkormuth.rpgdavid.Profile;
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.quests.Quest;
 
 public class QuestsBook extends ItemStack {

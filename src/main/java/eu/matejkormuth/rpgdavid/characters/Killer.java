@@ -22,11 +22,11 @@ import org.bukkit.Color;
 import org.bukkit.potion.PotionType;
 
 import eu.matejkormuth.rpgdavid.Character;
-import eu.matejkormuth.rpgdavid.Dagger;
-import eu.matejkormuth.rpgdavid.GrapplingHook;
 import eu.matejkormuth.rpgdavid.Modifiers;
 import eu.matejkormuth.rpgdavid.bukkitfixes.WorkingPotion;
 import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
+import eu.matejkormuth.rpgdavid.items.Dagger;
+import eu.matejkormuth.rpgdavid.items.GrapplingHook;
 
 public class Killer extends Character {
     public Killer() {

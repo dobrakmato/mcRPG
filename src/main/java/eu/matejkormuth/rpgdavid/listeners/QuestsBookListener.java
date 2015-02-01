@@ -24,8 +24,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import eu.matejkormuth.rpgdavid.Profile;
-import eu.matejkormuth.rpgdavid.QuestsBook;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.items.QuestsBook;
 
 public class QuestsBookListener implements Listener {
     @EventHandler

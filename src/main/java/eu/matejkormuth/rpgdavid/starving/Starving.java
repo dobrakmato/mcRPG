@@ -93,7 +93,7 @@ public class Starving implements Runnable {
     public void run() {
 
     }
-    
+
     public Logger getLogger() {
         return this.log;
     }
