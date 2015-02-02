@@ -27,7 +27,11 @@ import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 
 public final class Soldier extends Character {
     public Soldier() {
-        super("Válečník", null, new Modifiers(1, 1, 1.2F, 1, 1), Armor.EMPTY,
-                new ItemStack(Material.IRON_SWORD));
+        super("Válečník", null, new Modifiers(1, 1, 1.2F, 1, 1), new Armor(
+                new ItemStack(Material.CHAINMAIL_HELMET), new ItemStack(
+                        Material.CHAINMAIL_CHESTPLATE), new ItemStack(
+                        Material.CHAINMAIL_LEGGINGS), new ItemStack(
+                        Material.CHAINMAIL_BOOTS)), new ItemStack(
+                Material.IRON_AXE));
     }
 }

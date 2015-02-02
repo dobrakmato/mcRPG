@@ -104,4 +104,8 @@ public class ItemStackBuilder {
     public ItemStack build() {
         return this.itemStack;
     }
+
+    public static ItemStackBuilder of(Material material) {
+        return new ItemStackBuilder(material);
+    }
 }
