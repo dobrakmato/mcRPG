@@ -101,8 +101,8 @@ public class Character {
         // Give QuestsBook to every character.
         p.getInventory().addItem(new QuestsBook());
 
-        // Give some steaks to every character.
-        p.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 2));
+        // Give 5 steaks to every character.
+        p.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 5));
     }
 
     public ItemStack getIcon(final Material material) {
