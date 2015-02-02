@@ -68,8 +68,10 @@ public class SpellsListener implements Listener {
         for (Entity e : event.getEntity().getNearbyEntities(
                 NAUSEA_SPELL_RADIUS, NAUSEA_SPELL_RADIUS, NAUSEA_SPELL_RADIUS)) {
             if (e instanceof LivingEntity) {
-                ((LivingEntity) e).addPotionEffect(new PotionEffect(
-                        PotionEffectType.CONFUSION, 20 * 5, 0));
+                if (!e.equals(event.getEntity().getShooter())) {
+                    ((LivingEntity) e).addPotionEffect(new PotionEffect(
+                            PotionEffectType.CONFUSION, 20 * 10, 1));
+                }
 
             }
         }
@@ -79,9 +81,11 @@ public class SpellsListener implements Listener {
         for (Entity e : event.getEntity().getNearbyEntities(
                 POISON_SPELL_RADIUS, POISON_SPELL_RADIUS, POISON_SPELL_RADIUS)) {
             if (e instanceof LivingEntity) {
-                ((LivingEntity) e).damage(0.5D);
-                ((LivingEntity) e).addPotionEffect(new PotionEffect(
-                        PotionEffectType.POISON, 20 * 5, 0));
+                if (!e.equals(event.getEntity().getShooter())) {
+                    ((LivingEntity) e).damage(0.5D);
+                    ((LivingEntity) e).addPotionEffect(new PotionEffect(
+                            PotionEffectType.POISON, 20 * 5, 0));
+                }
 
             }
         }
