@@ -21,9 +21,9 @@ package eu.matejkormuth.rpgdavid.characters.vip;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import eu.matejkormuth.bukkit.inventory.Armor;
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Modifiers;
-import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 
 public class Vampire extends Character {
     public Vampire() {

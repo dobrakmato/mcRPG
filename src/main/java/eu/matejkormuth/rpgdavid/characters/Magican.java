@@ -18,14 +18,14 @@
  */
 package eu.matejkormuth.rpgdavid.characters;
 
+import eu.matejkormuth.bukkit.inventory.Armors;
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Modifiers;
-import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
 import eu.matejkormuth.rpgdavid.items.BookOfSpells;
 
 public class Magican extends Character {
     public Magican() {
         super("Kouzelník", "Magic Stick with spells.", new Modifiers(1, 1, 1,
-                1, 1), Armor.EMPTY, new BookOfSpells());
+                1, 1), Armors.EMPTY_ARMOR, new BookOfSpells());
     }
 }

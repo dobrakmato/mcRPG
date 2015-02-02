@@ -46,7 +46,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionType;
 
-import eu.matejkormuth.rpgdavid.bukkitfixes.WorkingPotion;
+import eu.matejkormuth.bukkit.Potion;
 import eu.matejkormuth.rpgdavid.commands.CharacterCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.NoCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PartyCommandExecutor;
@@ -455,10 +455,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         items.add(new InventoryMenuItem(Characters.UNDEAD.getIcon(
                 Material.SKULL_ITEM, (byte) 2, (short) 2),
                 new SelectCharacterAction(Characters.UNDEAD), 6, true));
-        items.add(new InventoryMenuItem(Characters.VAMPIRE
-                .getIcon(new WorkingPotion(PotionType.INSTANT_HEAL)
-                        .toItemStack(1)), new SelectCharacterAction(
-                Characters.VAMPIRE), 7, true));
+        items.add(new InventoryMenuItem(Characters.VAMPIRE.getIcon(new Potion(
+                PotionType.INSTANT_HEAL).toItemStack(1)),
+                new SelectCharacterAction(Characters.VAMPIRE), 7, true));
         items.add(new InventoryMenuItem(Characters.WEREWOLF
                 .getIcon(Material.BONE), new SelectCharacterAction(
                 Characters.WEREWOLF), 8, true));

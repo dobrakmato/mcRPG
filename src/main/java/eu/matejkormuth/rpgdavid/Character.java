@@ -29,8 +29,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.google.common.base.Strings;
 
-import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
-import eu.matejkormuth.rpgdavid.inventoryutils.ItemStackBuilder;
+import eu.matejkormuth.bukkit.inventory.Armor;
+import eu.matejkormuth.bukkit.inventory.ItemStackBuilder;
 import eu.matejkormuth.rpgdavid.items.QuestsBook;
 
 public class Character {

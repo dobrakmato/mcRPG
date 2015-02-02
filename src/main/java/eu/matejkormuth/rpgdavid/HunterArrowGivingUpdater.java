@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import eu.matejkormuth.rpgdavid.inventoryutils.ItemStackBuilder;
+import eu.matejkormuth.bukkit.inventory.ItemStackBuilder;
 
 public class HunterArrowGivingUpdater implements Runnable {
     @Override

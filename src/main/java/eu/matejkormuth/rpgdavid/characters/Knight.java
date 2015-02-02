@@ -21,10 +21,10 @@ package eu.matejkormuth.rpgdavid.characters;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import eu.matejkormuth.bukkit.inventory.Armor;
+import eu.matejkormuth.bukkit.inventory.ItemStackBuilder;
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Modifiers;
-import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
-import eu.matejkormuth.rpgdavid.inventoryutils.ItemStackBuilder;
 import eu.matejkormuth.rpgdavid.inventoryutils.ItemUtils;
 
 public class Knight extends Character {
