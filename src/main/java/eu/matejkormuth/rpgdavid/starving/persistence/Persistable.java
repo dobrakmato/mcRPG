@@ -25,6 +25,7 @@ package eu.matejkormuth.rpgdavid.starving.persistence;
  * 
  * @see Persist
  * @see PersistInjector
+ * @see PersistableInstance
  */
 public abstract class Persistable {
     /**

@@ -36,11 +36,12 @@ import eu.matejkormuth.rpgdavid.starving.Worlds;
  * 
  * @see Persist
  * @see Persistable
+ * @see PersistableInstance
  */
 public class PersistInjector {
     private static String confPath;
 
-    public static void setConfiguration(String confPath) {
+    public static void setConfigurationsFolder(String confPath) {
         PersistInjector.confPath = confPath;
     }
 

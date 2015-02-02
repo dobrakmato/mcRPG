@@ -31,6 +31,7 @@ import java.lang.annotation.Target;
  * 
  * @see Persistable
  * @see PersistInjector
+ * @see PersistableInstance
  */
 @Target(value = { ElementType.FIELD })
 @Retention(value = RetentionPolicy.RUNTIME)

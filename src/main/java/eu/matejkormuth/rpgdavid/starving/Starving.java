@@ -69,7 +69,7 @@ public class Starving implements Runnable {
         File confDirectory = new File(this.dataFolder.getAbsolutePath()
                 + "/conf/");
         confDirectory.mkdirs();
-        PersistInjector.setConfiguration(confDirectory.getAbsolutePath());
+        PersistInjector.setConfigurationsFolder(confDirectory.getAbsolutePath());
 
         // Initialize all managers.
         this.zombieManager = new ZombieManager();
@@ -87,7 +87,7 @@ public class Starving implements Runnable {
     }
 
     public void onDisable() {
-        PersistInjector.store(this.zombieManager);
+        this.zombieManager.saveConfiguration();
     }
 
     public void run() {
