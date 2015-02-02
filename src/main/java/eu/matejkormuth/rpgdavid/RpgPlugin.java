@@ -159,6 +159,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 20 * 60L, 20 * 60L);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
                 new NoWaterWalkUpdater(), 0L, 10L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+                new HunterArrowGivingUpdater(), 0L, 20 * 60L);
 
         // Load quests and QuestManager.
         this.questManager = new QuestManager();
