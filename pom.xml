@@ -26,7 +26,7 @@
       <groupId>eu.matejkormuth</groupId>
       <artifactId>bukkit-essentials</artifactId>
       <version>0.0.1-SNAPSHOT</version>
-      <scope>compile</scope>
+      <scope></scope>
     </dependency>
     <dependency>
       <groupId>net.citizensnpcs</groupId>
@@ -54,7 +54,7 @@
     </repository>
     <repository>
       <id>matejkormuth-repo</id>
-      <url>http://repo.matejkormuth.eu/plugin/repository/</url>
+      <url>http://repo.matejkormuth.eu/</url>
     </repository>
     <repository>
       <id>pexel-repo</id>
