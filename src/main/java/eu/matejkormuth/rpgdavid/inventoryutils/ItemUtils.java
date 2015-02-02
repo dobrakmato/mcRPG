@@ -18,6 +18,7 @@
  */
 package eu.matejkormuth.rpgdavid.inventoryutils;
 
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -25,6 +26,13 @@ public class ItemUtils {
     public static ItemStack rename(ItemStack itemStack, String name) {
         ItemMeta im = itemStack.getItemMeta();
         im.setDisplayName(name);
+        itemStack.setItemMeta(im);
+        return itemStack;
+    }
+
+    public static ItemStack unbreaking(ItemStack itemStack, int lvl) {
+        ItemMeta im = itemStack.getItemMeta();
+        im.addEnchant(Enchantment.DURABILITY, lvl, true);
         itemStack.setItemMeta(im);
         return itemStack;
     }

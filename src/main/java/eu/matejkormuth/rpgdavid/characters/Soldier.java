@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Modifiers;
 import eu.matejkormuth.rpgdavid.inventoryutils.Armor;
+import eu.matejkormuth.rpgdavid.inventoryutils.ItemUtils;
 
 public final class Soldier extends Character {
     public Soldier() {
@@ -31,7 +32,7 @@ public final class Soldier extends Character {
                 new ItemStack(Material.CHAINMAIL_HELMET), new ItemStack(
                         Material.CHAINMAIL_CHESTPLATE), new ItemStack(
                         Material.CHAINMAIL_LEGGINGS), new ItemStack(
-                        Material.CHAINMAIL_BOOTS)), new ItemStack(
-                Material.IRON_AXE));
+                        Material.CHAINMAIL_BOOTS)), ItemUtils.unbreaking(
+                new ItemStack(Material.IRON_AXE), 3));
     }
 }
