@@ -37,8 +37,11 @@ public class ZombieManager extends Persistable {
     @Persist(key = "poolLocation")
     private Location poolLocation = new Location(Worlds.first(), 0, 0, 0);
 
+    @Persist(key = "poolSize")
+    private int poolSize;
+
     public ZombieManager() {
-        this.pool = new ZombiePool(this.poolLocation, 20);
+        this.pool = new ZombiePool(this.poolLocation, this.poolSize);
     }
 
     public void add() {

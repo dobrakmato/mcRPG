@@ -38,9 +38,18 @@ import net.minecraft.server.v1_8_R1.World;
 
 @NMSHooks(version = "v1_8_R1")
 public class Zombie extends EntityZombie {
-    private Entity following;
-    private float followSpeed = 1.0f;
+    private static final long NAVIGATION_TIMEOUT = 60 * 1000; // 60 seconds
+    private static final long NAVIGATION_EPSILON = 5; // 5 blocks
+
+    private Entity followingTarget;
+    private float speed = 1.0f;
     private double followDistanceLimit = 2043f;
+
+    private long navigationStart = Long.MAX_VALUE;
+    private boolean navigatingToPoint = false;
+    private double navigationX;
+    private double navigationY;
+    private double navigationZ;
 
     private long lastJump = Long.MAX_VALUE;
     private boolean disabled;
@@ -86,7 +95,17 @@ public class Zombie extends EntityZombie {
     }
 
     private void tick() {
-        this.followTarget();
+        if (this.followingTarget != null) {
+            this.doFollowTarget();
+        } else if (this.navigatingToPoint) {
+            // Check for navigation timeut.
+            if (this.navigationStart + NAVIGATION_TIMEOUT > System
+                    .currentTimeMillis()) {
+                this.doNavigateToPoint();
+            } else {
+                this.cancelNavigation(NavigationFailReason.TIMEOUT);
+            }
+        }
     }
 
     public void jump() {
@@ -99,12 +118,67 @@ public class Zombie extends EntityZombie {
     }
 
     private void cancelNavigation(NavigationFailReason reason) {
-        this.following = null;
+        this.followingTarget = null;
+        this.navigatingToPoint = false;
         System.out.println("Navigation of " + this.getId() + " failed: "
                 + reason.toString());
     }
 
-    private void followTarget() {
+    private void doNavigateToPoint() {
+        // Check if we not reached wanted point.
+        double dx = Math.abs(this.navigationX - this.locX);
+        double dy = Math.abs(this.navigationY - this.locY);
+        double dz = Math.abs(this.navigationZ - this.locZ);
+        if (dx < NAVIGATION_EPSILON && dy < NAVIGATION_EPSILON
+                && dz < NAVIGATION_EPSILON) {
+            this.cancelNavigation(NavigationFailReason.REACHED_TARGET_POINT);
+        } else {
+            // Navigate to point
+
+            // We don't need to rotate head each tick, because target point is
+            // not moving.
+
+            // Calculate shift and next position.
+            double dX = this.navigationX - this.locX;
+            double dZ = this.navigationZ - this.locZ;
+            double dLength = Math.sqrt(dX * dX + dZ * dZ);
+            dX = dX / dLength * this.speed;
+            dZ = dZ / dLength * this.speed;
+            double nextX = this.locX + dX;
+            double nextZ = this.locZ + dZ;
+
+            // If stuck in ground, jump.
+            if (this.world
+                    .getWorld()
+                    .getBlockAt((int) this.locX, (int) this.locY,
+                            (int) this.locZ).getType().isSolid()) {
+                this.getControllerJump().a();
+            }
+
+            // Don't walk into a block.
+            if (this.world.getWorld()
+                    .getBlockAt((int) nextX, (int) this.locY, (int) nextZ)
+                    .getType().isSolid()) {
+                // If it is a wall, we can't jump over it, navigation fail.
+                if (this.world
+                        .getWorld()
+                        .getBlockAt((int) nextX, (int) (this.locY + 1.5D),
+                                (int) nextZ).getType().isSolid()) {
+                    this.cancelNavigation(NavigationFailReason.HIT_WALL);
+                } else {
+                    // Jump over the block.
+                    this.jump();
+                }
+            }
+
+            // Update position.
+            this.setPositionRotation(
+                    new BlockPosition(nextX, this.locY, nextZ), yaw, pitch);
+            this.positionChanged = true;
+        }
+    }
+
+    private void doFollowTarget() {
         // Check if zombie lost sight.
         if (distanceToFollowing() > this.followDistanceLimit) {
             // Lost sight.
@@ -114,15 +188,16 @@ public class Zombie extends EntityZombie {
 
         // Rotate head.
         this.yaw = -1
-                * (float) (TrigMath.atan2(this.following.locX - this.locX,
-                        this.following.locZ - this.locZ) * 180 / Math.PI);
+                * (float) (TrigMath.atan2(
+                        this.followingTarget.locX - this.locX,
+                        this.followingTarget.locZ - this.locZ) * 180 / Math.PI);
         this.pitch = 0;
         // Calculate shift and next position.
-        double dX = this.following.locX - this.locX;
-        double dZ = this.following.locZ - this.locZ;
+        double dX = this.followingTarget.locX - this.locX;
+        double dZ = this.followingTarget.locZ - this.locZ;
         double dLength = Math.sqrt(dX * dX + dZ * dZ);
-        dX = dX / dLength * this.followSpeed;
-        dZ = dZ / dLength * this.followSpeed;
+        dX = dX / dLength * this.speed;
+        dZ = dZ / dLength * this.speed;
         double nextX = this.locX + dX;
         double nextZ = this.locZ + dZ;
 
@@ -151,7 +226,7 @@ public class Zombie extends EntityZombie {
 
         // If is zombie near player damage player.
         if (this.distanceToFollowing() < 1.5F) {
-            this.following.damageEntity(DamageSource.mobAttack(this),
+            this.followingTarget.damageEntity(DamageSource.mobAttack(this),
                     (float) Math.random() * 2);
         }
 
@@ -164,45 +239,60 @@ public class Zombie extends EntityZombie {
     }
 
     private double distanceToFollowing() {
-        return Math.pow((this.locX - this.following.locX), 2)
-                + Math.pow((this.locY - this.following.locY), 2)
-                + Math.pow((this.locZ - this.following.locZ), 2);
+        return Math.pow((this.locX - this.followingTarget.locX), 2)
+                + Math.pow((this.locY - this.followingTarget.locY), 2)
+                + Math.pow((this.locZ - this.followingTarget.locZ), 2);
     }
 
     public Entity getFollowingTarget() {
-        return this.following;
+        return this.followingTarget;
     }
 
-    public float getFollowSpeed() {
-        return followSpeed;
+    public float getSpeed() {
+        return speed;
     }
 
-    public void setFollowSpeed(float followSpeed) {
-        this.followSpeed = followSpeed;
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     public void setFollowTarget(final org.bukkit.entity.Entity e) {
-        this.following = ((CraftEntity) e).getHandle();
+        this.followingTarget = ((CraftEntity) e).getHandle();
     }
 
-    public static enum NavigationFailReason {
-        ENTITY_OUT_OF_SIGHT, HIT_WALL
+    public void navigateTo(double x, double y, double z) {
+        this.navigationStart = System.currentTimeMillis();
+        this.navigationX = x;
+        this.navigationY = y;
+        this.navigationZ = z;
+        this.navigatingToPoint = true;
+
+        // Rotate zombie.
+        this.yaw = -1
+                * (float) (TrigMath.atan2(this.navigationX - this.locX,
+                        this.navigationZ - this.locZ) * 180 / Math.PI);
+        this.pitch = 0;
+        // Update head rotation.
+        this.aI = yaw;
     }
 
     public void destroy() {
-        this.following = null;
+        this.followingTarget = null;
+        this.navigatingToPoint = false;
         this.dead = true;
     }
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
-
         // Update disablity.
         if (disabled) {
-            // this.setInvisible(true);
+            // TODO: Enable. this.setInvisible(true);
 
         } else {
             this.setInvisible(false);
+
+            this.followingTarget = null;
+            this.navigatingToPoint = false;
         }
     }
 
@@ -216,5 +306,9 @@ public class Zombie extends EntityZombie {
 
     public static boolean isStarvingZombie(org.bukkit.entity.Entity entity) {
         return entity.hasMetadata("starving");
+    }
+
+    public static enum NavigationFailReason {
+        ENTITY_OUT_OF_SIGHT, HIT_WALL, TIMEOUT, REACHED_TARGET_POINT;
     }
 }

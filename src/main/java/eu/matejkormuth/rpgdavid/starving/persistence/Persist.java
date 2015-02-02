@@ -26,7 +26,8 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation that specified that value of this field will be injected from
- * configuration. You have to extend {@link Persistable} class or manually call
+ * configuration. You have to extend {@link Persistable} class,
+ * {@link PersistableInstance} class or manually call
  * {@link PersistInjector#inject(Object)}
  * 
  * @see Persistable

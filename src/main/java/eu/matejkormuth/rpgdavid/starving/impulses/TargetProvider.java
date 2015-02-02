@@ -1,7 +1,7 @@
 package eu.matejkormuth.rpgdavid.starving.impulses;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface TargetProvider {
-    Collection<ImpulseTarget> getTargets();
+    List<ImpulseTarget> getTargets();
 }

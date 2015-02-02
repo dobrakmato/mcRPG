@@ -26,5 +26,5 @@ public interface ImpulseTarget {
 
     void onImpulse(Location location, float power);
     
-    boolean isActive();
+    boolean canReceiveImpulse();
 }
