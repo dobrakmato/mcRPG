@@ -101,9 +101,10 @@ public class SpellsListener implements Listener {
 
                 // Entities should not be extinguished.
 
+                // Add slowness for 10 seconds.
                 ((LivingEntity) e).damage(0.5D);
                 ((LivingEntity) e).addPotionEffect(new PotionEffect(
-                        PotionEffectType.SLOW, 20 * 3, 0));
+                        PotionEffectType.SLOW, 20 * 10, 0));
 
                 // Freeze water blocks.
                 BlockState b = null;
