@@ -35,7 +35,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,6 +45,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionType;
 
@@ -57,6 +61,7 @@ import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
 import eu.matejkormuth.rpgdavid.listeners.BookOfSpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.QuestsBookListener;
+import eu.matejkormuth.rpgdavid.listeners.ShopListener;
 import eu.matejkormuth.rpgdavid.listeners.SpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.WeaponsListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.AdventurerListener;
@@ -148,6 +153,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager()
                 .registerEvents(new QuestsBookListener(), this);
 
+        Bukkit.getPluginManager().registerEvents(new ShopListener(), this);
+
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
                 new TimeModifiersUpdater(), 0L, 20L);
@@ -217,6 +224,42 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
     public Cooldowns getCooldowns() {
         return cooldowns;
+    }
+
+    public boolean hasCustomItem(String id) {
+        return this.getConfig().getConfigurationSection("items").contains("id");
+    }
+
+    @SuppressWarnings("deprecation")
+    public ItemStack getCustomItem(String id, int amount) {
+        ConfigurationSection item = this.getConfig()
+                .getConfigurationSection("items").getConfigurationSection(id);
+        int itemId = item.getInt("id");
+        int durability = item.getInt("durability");
+        int data = item.getInt("data");
+        String name = ChatColor.translateAlternateColorCodes('&',
+                item.getString("name"));
+        List<String> lore = item.getStringList("lore");
+
+        ItemStack stack = new ItemStack(itemId, amount, (short) durability,
+                (byte) data);
+        ItemMeta im = stack.getItemMeta();
+
+        im.setDisplayName(name);
+        im.setLore(lore);
+
+        // Enchants.
+        for (Entry<String, Object> val : item
+                .getConfigurationSection("enchantments").getValues(false)
+                .entrySet()) {
+            if (val.getValue() != null) {
+                im.addEnchant(Enchantment.getByName(val.getKey()),
+                        Integer.valueOf(String.valueOf(val.getValue())), true);
+            }
+        }
+
+        stack.setItemMeta(im);
+        return stack;
     }
 
     @EventHandler
