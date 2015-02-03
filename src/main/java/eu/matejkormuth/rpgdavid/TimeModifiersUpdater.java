@@ -71,6 +71,8 @@ public class TimeModifiersUpdater implements Runnable {
                 slowdown -= 0.025F;
             } else if (p.getInventory().getHelmet().getType() == Material.IRON_HELMET) {
                 slowdown -= 0.0625F;
+            } else if (p.getInventory().getHelmet().getType() == Material.CHAINMAIL_HELMET) {
+                slowdown -= 0.0625F;
             } else if (p.getInventory().getHelmet().getType() == Material.GOLD_HELMET) {
                 slowdown -= 0.0875F;
             } else if (p.getInventory().getHelmet().getType() == Material.DIAMOND_HELMET) {
@@ -84,6 +86,8 @@ public class TimeModifiersUpdater implements Runnable {
                 slowdown -= 0.025F;
             } else if (p.getInventory().getChestplate().getType() == Material.IRON_CHESTPLATE) {
                 slowdown -= 0.0625F;
+            } else if (p.getInventory().getHelmet().getType() == Material.CHAINMAIL_CHESTPLATE) {
+                slowdown -= 0.0625F;
             } else if (p.getInventory().getChestplate().getType() == Material.GOLD_CHESTPLATE) {
                 slowdown -= 0.0875F;
             } else if (p.getInventory().getChestplate().getType() == Material.DIAMOND_CHESTPLATE) {
@@ -96,6 +100,8 @@ public class TimeModifiersUpdater implements Runnable {
                 slowdown -= 0.025F;
             } else if (p.getInventory().getLeggings().getType() == Material.IRON_LEGGINGS) {
                 slowdown -= 0.0625F;
+            } else if (p.getInventory().getHelmet().getType() == Material.CHAINMAIL_LEGGINGS) {
+                slowdown -= 0.0625F;
             } else if (p.getInventory().getLeggings().getType() == Material.GOLD_LEGGINGS) {
                 slowdown -= 0.0875F;
             } else if (p.getInventory().getLeggings().getType() == Material.DIAMOND_LEGGINGS) {
@@ -107,6 +113,8 @@ public class TimeModifiersUpdater implements Runnable {
             if (p.getInventory().getBoots().getType() == Material.LEATHER_BOOTS) {
                 slowdown -= 0.025F;
             } else if (p.getInventory().getBoots().getType() == Material.IRON_BOOTS) {
+                slowdown -= 0.0625F;
+            } else if (p.getInventory().getHelmet().getType() == Material.CHAINMAIL_BOOTS) {
                 slowdown -= 0.0625F;
             } else if (p.getInventory().getBoots().getType() == Material.GOLD_BOOTS) {
                 slowdown -= 0.0875F;
