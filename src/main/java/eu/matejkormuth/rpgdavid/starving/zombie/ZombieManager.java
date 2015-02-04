@@ -22,7 +22,7 @@ package eu.matejkormuth.rpgdavid.starving.zombie;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-import eu.matejkormuth.rpgdavid.starving.Worlds;
+import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 

@@ -29,7 +29,7 @@ import java.util.Properties;
 
 import org.bukkit.Location;
 
-import eu.matejkormuth.rpgdavid.starving.Worlds;
+import eu.matejkormuth.bukkit.Worlds;
 
 /**
  * Class that injects values to Objects or stores (saves) values from HDD.
