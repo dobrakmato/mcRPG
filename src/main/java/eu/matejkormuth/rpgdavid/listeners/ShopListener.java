@@ -20,6 +20,7 @@ package eu.matejkormuth.rpgdavid.listeners;
 
 import java.util.regex.Pattern;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
@@ -66,11 +67,30 @@ public class ShopListener implements Listener {
                                                     new Money(price,
                                                             Currencies.NORMAL));
 
-                                    ItemStack items = RpgPlugin.getInstance()
-                                            .getCustomItem(customItemId,
+                                    final ItemStack items = RpgPlugin
+                                            .getInstance().getCustomItem(
+                                                    customItemId,
                                                     Integer.valueOf(amount));
+
+                                    Bukkit.getScheduler()
+                                            .scheduleSyncDelayedTask(
+                                                    RpgPlugin.getInstance(),
+                                                    new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            event.getPlayer()
+                                                                    .getInventory()
+                                                                    .addItem(
+                                                                            items);
+                                                        }
+                                                    }, 1L);
                                     event.getPlayer().getInventory()
                                             .addItem(items);
+
+                                    event.getPlayer().sendMessage(
+                                            ChatColor.GREEN + "You brought "
+                                                    + amount + " of "
+                                                    + customItemId + "!");
                                 } catch (MoneyException ex) {
                                     event.getPlayer()
                                             .sendMessage(
@@ -90,11 +110,28 @@ public class ShopListener implements Listener {
                                                     new Money(price,
                                                             Currencies.PREMIUM));
 
-                                    ItemStack items = RpgPlugin.getInstance()
-                                            .getCustomItem(customItemId,
+                                    final ItemStack items = RpgPlugin
+                                            .getInstance().getCustomItem(
+                                                    customItemId,
                                                     Integer.valueOf(amount));
-                                    event.getPlayer().getInventory()
-                                            .addItem(items);
+
+                                    Bukkit.getScheduler()
+                                            .scheduleSyncDelayedTask(
+                                                    RpgPlugin.getInstance(),
+                                                    new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            event.getPlayer()
+                                                                    .getInventory()
+                                                                    .addItem(
+                                                                            items);
+                                                        }
+                                                    }, 1L);
+
+                                    event.getPlayer().sendMessage(
+                                            ChatColor.GREEN + "You brought "
+                                                    + amount + " of "
+                                                    + customItemId + "!");
                                 } catch (MoneyException ex) {
                                     event.getPlayer()
                                             .sendMessage(
@@ -109,10 +146,6 @@ public class ShopListener implements Listener {
                                                 ChatColor.RED
                                                         + "Invalid currency found on 4th line!");
                             }
-
-                            event.getPlayer().sendMessage(
-                                    ChatColor.GREEN + "You brought " + amount
-                                            + " of " + customItemId + "!");
                         } else {
                             event.getPlayer()
                                     .sendMessage(

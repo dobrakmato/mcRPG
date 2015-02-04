@@ -194,6 +194,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.kickPlayer("Server is reloading, please reconnect.");
         }
+        
+        // TODO: Force save all loaded Profiles.
+        
         // Clear map and disable componenets.
         this.loadedProfiles.clear();
         this.questManager.shutdown();
@@ -227,7 +230,16 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     }
 
     public boolean hasCustomItem(String id) {
-        return this.getConfig().getConfigurationSection("items").contains("id");
+        ConfigurationSection section = this.getConfig()
+                .getConfigurationSection("items");
+
+        if (section == null) {
+            this.getLogger()
+                    .severe("Config does not contains 'items' section.");
+            return false;
+        }
+
+        return section.contains(id);
     }
 
     @SuppressWarnings("deprecation")
@@ -245,16 +257,25 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 (byte) data);
         ItemMeta im = stack.getItemMeta();
 
-        im.setDisplayName(name);
-        im.setLore(lore);
+        if (name != null) {
+            im.setDisplayName(name);
+        }
+
+        if (lore != null && !lore.isEmpty()) {
+            im.setLore(lore);
+        }
 
         // Enchants.
-        for (Entry<String, Object> val : item
-                .getConfigurationSection("enchantments").getValues(false)
-                .entrySet()) {
-            if (val.getValue() != null) {
-                im.addEnchant(Enchantment.getByName(val.getKey()),
-                        Integer.valueOf(String.valueOf(val.getValue())), true);
+        ConfigurationSection enchsection = item
+                .getConfigurationSection("enchantments");
+        if (enchsection != null) {
+            for (Entry<String, Object> val : enchsection.getValues(false)
+                    .entrySet()) {
+                if (val.getValue() != null) {
+                    im.addEnchant(Enchantment.getByName(val.getKey()),
+                            Integer.valueOf(String.valueOf(val.getValue())),
+                            true);
+                }
             }
         }
 

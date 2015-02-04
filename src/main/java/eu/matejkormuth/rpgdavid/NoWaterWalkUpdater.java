@@ -27,6 +27,8 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.bukkit.Blocks;
+
 public class NoWaterWalkUpdater implements Runnable {
     private Map<Player, Location> locations;
 
@@ -39,7 +41,7 @@ public class NoWaterWalkUpdater implements Runnable {
         Location currentLoc = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
             currentLoc = p.getLocation();
-            if (this.isWater(currentLoc.getBlock().getType())) {
+            if (Blocks.isWater(currentLoc.getBlock())) {
                 if (this.locations.containsKey(p)) {
                     p.teleport(this.locations.get(p));
                 } else {
@@ -68,10 +70,6 @@ public class NoWaterWalkUpdater implements Runnable {
 
     private Location findNearsetSolid(Location currentLoc) {
         return new BlockWalker(currentLoc).findSolid();
-    }
-
-    private boolean isWater(Material type) {
-        return type == Material.WATER || type == Material.STATIONARY_WATER;
     }
 
     public class BlockWalker {
