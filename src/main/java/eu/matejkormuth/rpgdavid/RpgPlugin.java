@@ -194,9 +194,16 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.kickPlayer("Server is reloading, please reconnect.");
         }
-        
-        // TODO: Force save all loaded Profiles.
-        
+
+        // Force save all loaded Profiles.
+        this.getLogger().info("Saving all profiles to prevent data loss...");
+        int i = 0;
+        for (UUID uuid : this.loadedProfiles.keySet()) {
+            this.saveProfile(uuid);
+            i++;
+        }
+        this.getLogger().info("Saved " + i + " profiles!");
+
         // Clear map and disable componenets.
         this.loadedProfiles.clear();
         this.questManager.shutdown();
