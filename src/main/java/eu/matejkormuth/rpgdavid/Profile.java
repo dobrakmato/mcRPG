@@ -39,7 +39,7 @@ public class Profile implements Serializable {
 
     // Currencies
     private Money normalMoney = new Money(100, Currencies.NORMAL);
-    private Money premiumMoney = new Money(0, Currencies.PREMIUM);
+    private Money premiumMoney = new Money(10, Currencies.PREMIUM);
 
     // Character properties.
     private long vampire_lastBitten;
