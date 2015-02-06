@@ -33,7 +33,7 @@ public class Profile implements Serializable {
     // Main properties.
     private UUID uuid;
     private Character character;
-    private long xp = 0L;
+    private long xp = 10L;
     private int mana = 600;
     private int maxMana = 900;
 
@@ -42,7 +42,6 @@ public class Profile implements Serializable {
     private Money premiumMoney = new Money(10, Currencies.PREMIUM);
 
     // Character properties.
-    private long vampire_lastBitten;
     private int magican_currentSpell;
 
     // Quest properties.
@@ -180,20 +179,6 @@ public class Profile implements Serializable {
 
     public void setCompletedQuests(Map<String, Boolean> completedQuests) {
         this.quests = completedQuests;
-    }
-
-    // -------------------- VAMPIRE METHODS
-
-    public void setLastBittenNow() {
-        this.vampire_lastBitten = System.currentTimeMillis();
-    }
-
-    public boolean canBite() {
-        return System.currentTimeMillis() > this.vampire_lastBitten + 1000 * 60;
-    }
-
-    public long getLastBitten() {
-        return this.vampire_lastBitten;
     }
 
     // --- MAGICAN METHODS

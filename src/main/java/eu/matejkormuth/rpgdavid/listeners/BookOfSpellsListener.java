@@ -23,7 +23,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Characters;
@@ -45,9 +47,39 @@ public class BookOfSpellsListener implements Listener {
                     if (event.hasItem() && BookOfSpells.isBook(event.getItem())) {
                         // Find the right spell.
                         Spell spell = BookOfSpells.getSpell(event.getPlayer());
-                        // Cast the spell.
-                        spell.cast(event.getPlayer());
+                        // Check if player has enough xp to to cast this spell.
+                        if (BookOfSpells.getLevel(event.getItem()) >= spell
+                                .getMinLevel()) {
+                            // Cast the spell.
+                            spell.cast(event.getPlayer());
+                        } else {
+                            event.getPlayer()
+                                    .sendMessage(
+                                            ChatColor.RED
+                                                    + "Sorry, your book must be at least level "
+                                                    + spell.getMinLevel()
+                                                    + " to cast this spell!");
+                        }
                     }
+                }
+            }
+        }
+    }
+
+    // Used to update book, when player switches to it.
+    @EventHandler
+    private void onSelectedItemChanged(final PlayerItemHeldEvent event) {
+        Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
+        if (p != null) {
+            Character character = p.getCharacter();
+            // Only magican.
+            if (character == Characters.MAGICAN) {
+                ItemStack is = event.getPlayer().getInventory()
+                        .getItem(event.getNewSlot());
+                if (BookOfSpells.isBook(is)) {
+                    // Perform level computation.
+                    int level = 1 + (int) (p.getXp() / 10);
+                    BookOfSpells.setLevel(is, level);
                 }
             }
         }
@@ -60,7 +92,8 @@ public class BookOfSpellsListener implements Listener {
             Character character = p.getCharacter();
             if (character == Characters.MAGICAN) {
                 if (event.getPlayer().getItemInHand() != null
-                        && BookOfSpells.isBook(event.getPlayer().getItemInHand())) {
+                        && BookOfSpells.isBook(event.getPlayer()
+                                .getItemInHand())) {
                     // Prevent dupe switch.
                     if (event.isSneaking()) {
                         // Cycle trough spells only.

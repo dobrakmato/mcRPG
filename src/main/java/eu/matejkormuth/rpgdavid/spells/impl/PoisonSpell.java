@@ -32,6 +32,7 @@ public class PoisonSpell extends Spell {
 
     public PoisonSpell() {
         super(Sound.FIRE_IGNITE, "Poison spell", 100, 16000);
+        this.setMinLevel(4);
     }
 
     @Override

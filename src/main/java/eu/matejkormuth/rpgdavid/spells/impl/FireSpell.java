@@ -33,6 +33,7 @@ import eu.matejkormuth.rpgdavid.spells.Spell;
 public class FireSpell extends Spell {
     public FireSpell() {
         super(Sound.FIRE_IGNITE, "Fire spell", 100, 5000);
+        this.setMinLevel(1);
     }
 
     @Override

@@ -34,6 +34,7 @@ public abstract class Spell {
     private final int manaUsage;
     private final String coolDownId;
     private final int cooldown;
+    private int minLevel = 0;
 
     public Spell(final Sound castSound, final String name, final int manaUsage,
             final int cooldown) {
@@ -60,6 +61,14 @@ public abstract class Spell {
         return this.castSound;
     }
 
+    protected void setMinLevel(int minLevel) {
+        this.minLevel = minLevel;
+    }
+
+    public int getMinLevel() {
+        return this.minLevel;
+    }
+
     public String getCoolDownId() {
         return coolDownId;
     }
@@ -69,11 +78,29 @@ public abstract class Spell {
     }
 
     public void cast(final Player invoker) {
+        this.cast(invoker, invoker.getLocation(), invoker.getEyeLocation()
+                .getDirection());
+    }
+
+    public void cast(final Player invoker, final Location location,
+            final Vector velocity) {
         // Spell must be cooled down.
         if (RpgPlugin.getInstance().getCooldowns()
                 .isCooledDown(invoker, this.coolDownId)) {
-            this.cast(invoker, invoker.getLocation(), invoker.getEyeLocation()
-                    .getDirection());
+            // Take mana from player if he has enough.
+            if (RpgPlugin.getInstance().getProfile(invoker)
+                    .takeMana(this.manaUsage)) {
+                // Play sound effect.
+                location.getWorld().playSound(location, this.castSound,
+                        this.castSoundVolume, this.castSoundPitch);
+                // Cast the spell.
+                this.cast0(
+                        invoker,
+                        location.add(velocity.clone().multiply(2)
+                                .add(new Vector(0, 1, 0))), velocity);
+            } else {
+                invoker.sendMessage(ChatColor.RED + "Low mana!");
+            }
             // Set cooldown.
             RpgPlugin.getInstance().getCooldowns()
                     .setCooldown(invoker, this.coolDownId, this.cooldown);
@@ -83,24 +110,6 @@ public abstract class Spell {
                     + RpgPlugin.getInstance().getCooldowns()
                             .getTimeLeft(invoker, this.coolDownId) / 1000
                     + " seconds)");
-        }
-    }
-
-    public void cast(final Player invoker, final Location location,
-            final Vector velocity) {
-        // Take mana from player if he has enough.
-        if (RpgPlugin.getInstance().getProfile(invoker)
-                .takeMana(this.manaUsage)) {
-            // Play sound effect.
-            location.getWorld().playSound(location, this.castSound,
-                    this.castSoundVolume, this.castSoundPitch);
-            // Cast the spell.
-            this.cast0(
-                    invoker,
-                    location.add(velocity.clone().multiply(2)
-                            .add(new Vector(0, 1, 0))), velocity);
-        } else {
-            invoker.sendMessage(ChatColor.RED + "Low mana!");
         }
     }
 

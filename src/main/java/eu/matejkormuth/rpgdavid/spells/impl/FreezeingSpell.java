@@ -31,6 +31,7 @@ import eu.matejkormuth.rpgdavid.spells.Spell;
 public class FreezeingSpell extends Spell {
     public FreezeingSpell() {
         super(Sound.FIRE_IGNITE, "Freezing spell", 100, 1000);
+        this.setMinLevel(1);
     }
 
     @Override

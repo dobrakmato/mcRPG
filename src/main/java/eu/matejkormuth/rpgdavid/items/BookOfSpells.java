@@ -34,21 +34,19 @@ import eu.matejkormuth.rpgdavid.spells.impl.FreezeingSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.PoisonSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.HealingSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.NauseaSpell;
-import eu.matejkormuth.rpgdavid.spells.impl.SafeFallSpell;
 import eu.matejkormuth.rpgdavid.spells.impl.TNTSpell;
 
 public class BookOfSpells extends ItemStack {
     // Initialize spells.
     private static Spell[] spells;
     static {
-        spells = new Spell[7];
+        spells = new Spell[6];
         spells[0] = new FireSpell();
         spells[1] = new FreezeingSpell();
         spells[2] = new TNTSpell();
         spells[3] = new NauseaSpell();
-        spells[4] = new SafeFallSpell();
-        spells[5] = new HealingSpell();
-        spells[6] = new PoisonSpell();
+        spells[4] = new HealingSpell();
+        spells[5] = new PoisonSpell();
     }
 
     public BookOfSpells() {
@@ -70,24 +68,24 @@ public class BookOfSpells extends ItemStack {
         }
     }
 
-    public int getLevel() {
-        String str = this.getItemMeta().getLore().get(0);
+    public static int getLevel(final ItemStack book) {
+        String str = book.getItemMeta().getLore().get(0);
         return Integer.valueOf(str.substring(str.indexOf("Level") + 6));
     }
 
-    public void setLevel(final int level) {
+    public static void setLevel(final ItemStack book, final int level) {
         // Now it is book on every level. OLD: After level 5 stick is blaze rod;
         // before level 5 stick is wooden stick.
         if (level >= 5) {
-            this.setType(Material.BOOK);
+            book.setType(Material.BOOK);
         } else {
-            this.setType(Material.BOOK);
+            book.setType(Material.BOOK);
         }
 
         // Update meta.
-        ItemMeta im = this.getItemMeta();
+        ItemMeta im = book.getItemMeta();
         im.setLore(Arrays.asList(ChatColor.RESET.toString() + "Level " + level));
-        this.setItemMeta(im);
+        book.setItemMeta(im);
     }
 
     public static boolean isBook(final ItemStack item) {

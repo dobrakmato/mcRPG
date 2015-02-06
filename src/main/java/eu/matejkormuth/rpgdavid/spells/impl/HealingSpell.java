@@ -33,6 +33,7 @@ public class HealingSpell extends Spell {
 
     public HealingSpell() {
         super(Sound.LEVEL_UP, "Healing spell", 300, 1000 * 60 * 3);
+        this.setMinLevel(2);
     }
 
     @Override
