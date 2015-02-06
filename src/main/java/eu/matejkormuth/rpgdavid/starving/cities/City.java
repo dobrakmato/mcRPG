@@ -17,29 +17,23 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.locations;
+package eu.matejkormuth.rpgdavid.starving.cities;
+
+import eu.matejkormuth.rpgdavid.starving.Locality;
+import eu.matejkormuth.rpgdavid.starving.Region;
 
 public class City extends Locality {
-    private CityState state;
-    private boolean dynamic;
+    private CityType type;
 
-    public void setState(CityState state) {
-        if (!this.dynamic) {
-            throw new UnsupportedOperationException(
-                    "Static cities can't change thier states.");
-        }
-        this.state = state;
+    public City(String name, Region region) {
+        super(name, region);
     }
 
-    public CityState getState() {
-        return this.state;
+    public CityType getType() {
+        return this.type;
     }
 
-    public boolean isDynamic() {
-        return this.dynamic;
-    }
-
-    public boolean isStatic() {
-        return !this.dynamic;
+    public void setType(CityType type) {
+        this.type = type;
     }
 }

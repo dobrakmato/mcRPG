@@ -17,8 +17,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.locations;
+package eu.matejkormuth.rpgdavid.starving;
 
-public enum CityState {
-    ZOMBIE, ABANDONED, OCCUPIED;
+public class Locality {
+    private final String name;
+    private final Region region;
+
+    public Locality(String name, Region region) {
+        this.name = name;
+        this.region = region;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Region getRegion() {
+        return this.region;
+    }
 }

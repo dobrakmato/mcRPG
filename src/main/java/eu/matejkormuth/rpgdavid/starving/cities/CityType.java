@@ -17,19 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.locations;
+package eu.matejkormuth.rpgdavid.starving.cities;
 
-import eu.matejkormuth.rpgdavid.starving.Region;
-
-public class Locality {
-    private Region region;
-    private String name;
-    
-    public Region getRegion() {
-        return region;
-    }
-    
-    public String getName() {
-        return name;
-    }
+public enum CityType {
+    ABANDONED, POPULATED;
 }
