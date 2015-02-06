@@ -17,32 +17,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving;
+package eu.matejkormuth.rpgdavid.starving.tasks;
 
-public class Locality {
-    /**
-     * Constant for locality, that is everywhere, where any other locality isn't
-     * specified.
-     */
-    public static final Locality WILDERNESS = new Locality("Wilderness", null);
-
-    private final String name;
-    private final Region region;
-
-    public Locality(String name, Region region) {
-        this.name = name;
-        this.region = region;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public Region getRegion() {
-        return this.region;
-    }
-
-    public boolean isWilderness() {
-        return this == WILDERNESS;
+public class LocalityTeller extends RepeatingTask {
+    @Override
+    public void run() {
+        // TODO: Implement locality name teller.
     }
 }

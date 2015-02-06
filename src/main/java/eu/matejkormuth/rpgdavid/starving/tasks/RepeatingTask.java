@@ -17,32 +17,25 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving;
+package eu.matejkormuth.rpgdavid.starving.tasks;
 
-public class Locality {
-    /**
-     * Constant for locality, that is everywhere, where any other locality isn't
-     * specified.
-     */
-    public static final Locality WILDERNESS = new Locality("Wilderness", null);
+import org.bukkit.Bukkit;
 
-    private final String name;
-    private final Region region;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 
-    public Locality(String name, Region region) {
-        this.name = name;
-        this.region = region;
+public abstract class RepeatingTask implements Runnable {
+    private int taskId = -1;
+
+    public void schedule(long period) {
+        this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(
+                Starving.getInstance().getPlugin(), this, 0L, period);
     }
 
-    public String getName() {
-        return this.name;
-    }
+    public void cancel() {
+        if (this.taskId == -1) {
+            throw new IllegalStateException("RepeatingTask has not been scheduled yet!");
+        }
 
-    public Region getRegion() {
-        return this.region;
-    }
-
-    public boolean isWilderness() {
-        return this == WILDERNESS;
+        Bukkit.getScheduler().cancelTask(this.taskId);
     }
 }
