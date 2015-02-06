@@ -32,7 +32,7 @@ import org.bukkit.plugin.Plugin;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
-import eu.matejkormuth.rpgdavid.starving.listeners.ItemStackListener;
+import eu.matejkormuth.rpgdavid.starving.items.ItemsManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
@@ -56,6 +56,7 @@ public class Starving implements Runnable {
     private ZombieManager zombieManager;
     private AmbientSoundManager ambientSoundManager;
     private Plugin plugin;
+    private ItemsManager itemsManager;
 
     public void onEnable() {
         instance = this;
@@ -78,10 +79,9 @@ public class Starving implements Runnable {
         // Initialize all managers.
         this.zombieManager = new ZombieManager();
         this.ambientSoundManager = new AmbientSoundManager();
+        this.itemsManager = new ItemsManager();
 
         // Register starving listeners.
-        Bukkit.getPluginManager().registerEvents(new ItemStackListener(),
-                RpgPlugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new ZombieListener(),
                 RpgPlugin.getInstance());
 
@@ -108,6 +108,10 @@ public class Starving implements Runnable {
 
     public ZombieManager getZombieManager() {
         return this.zombieManager;
+    }
+
+    public ItemsManager getItemsManager() {
+        return this.itemsManager;
     }
 
     public AmbientSoundManager getAmbientSoundManager() {

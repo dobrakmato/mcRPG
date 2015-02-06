@@ -33,8 +33,6 @@ public class GalvanicCell extends Item implements Craftable {
 
     @Override
     public Recipe getRecipe() {
-        // TODO Auto-generated method stub
         return null;
     }
-
 }

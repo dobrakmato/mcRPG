@@ -23,17 +23,29 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public abstract class ConsumableItem extends Item {
-    private int foodLevelIncrement;
-    private float saturationIncrement;
+    private final int foodLevelIncrement;
+    private final float saturationIncrement;
 
-    public ConsumableItem(Material material, String name) {
+    public ConsumableItem(final int foodLevelIncrement,
+            final float saturationIncrement, final Material material,
+            final String name) {
         super(material, name);
+        this.foodLevelIncrement = foodLevelIncrement;
+        this.saturationIncrement = saturationIncrement;
     }
 
     public void onConsume(final Player player) {
         player.setFoodLevel(player.getFoodLevel() + this.foodLevelIncrement);
         player.setSaturation(player.getSaturation() + this.saturationIncrement);
         this.onConsume0(player);
+    }
+
+    public int getFoodLevelIncrement() {
+        return this.foodLevelIncrement;
+    }
+
+    public float getSaturationIncrement() {
+        return this.saturationIncrement;
     }
 
     protected abstract void onConsume0(Player player);

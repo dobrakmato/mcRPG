@@ -21,15 +21,15 @@ package eu.matejkormuth.rpgdavid.starving.chemistry;
 
 public class Chemical {
     private final String name;
-    
+
     public Chemical(final String name) {
         this.name = name;
     }
-    
+
     public String getName() {
         return this.name;
     }
-    
+
     public Reaction reactionWith(ChemicalCompound chemicalCompound) {
         return Reaction.NONE;
     }

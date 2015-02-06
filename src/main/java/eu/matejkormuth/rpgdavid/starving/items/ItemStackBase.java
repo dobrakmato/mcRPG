@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemStackBase {
-    protected ItemStack itemStack;
+    protected final ItemStack itemStack;
 
     public ItemStackBase(final Material material, final int amount,
             final String name) {
@@ -65,7 +65,13 @@ public class ItemStackBase {
         return false;
     }
 
-    public ItemStack getItemStack() {
+    public ItemStack toItemStack() {
         return this.itemStack;
+    }
+
+    public ItemStack toItemStack(int amount) {
+        ItemStack is = this.itemStack.clone();
+        is.setAmount(amount);
+        return is;
     }
 }

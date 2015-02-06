@@ -33,10 +33,10 @@ import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Parachute;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Transmitter;
 
-public class ItemsFramework implements Listener {
+public class ItemsManager implements Listener {
     private Set<Item> items;
 
-    public ItemsFramework() {
+    public ItemsManager() {
         this.items = new HashSet<Item>();
         // Register all items.
         this.registerAll();

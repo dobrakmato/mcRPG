@@ -21,8 +21,10 @@ package eu.matejkormuth.rpgdavid.starving.items;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
+import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
 
 public abstract class ChemicalItem extends ConsumableItem implements Craftable {
     /**
@@ -31,7 +33,8 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
     private ChemicalCompound contents = new ChemicalCompound();
 
     public ChemicalItem(String name) {
-        super(Material.POTION, name);
+        // Chemicals do not modify any food values.
+        super(0, 0, Material.POTION, name);
     }
 
     public ChemicalCompound getContents() {
@@ -40,11 +43,28 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
 
     @Override
     public void onConsume(Player player) {
-        // TODO: Need discussion about effects.
-
+        this.evaluateEffects(player);
         // Post event to sub class.
         this.onConsume0(player);
     }
 
+    private void evaluateEffects(Player player) {
+        // TODO: Need discussion about effects.
+        if (contents.containsOnly(Chemicals.ACID)) {
+
+        }
+    }
+
     protected abstract void onConsume0(Player player);
+
+    @Override
+    public ItemStack toItemStack() {
+        // TODO: Implement item meta change.
+        return super.toItemStack();
+    }
+
+    @Override
+    public ItemStack toItemStack(int amount) {
+        return super.toItemStack(amount);
+    }
 }
