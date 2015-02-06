@@ -29,7 +29,9 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Parachute;
+import eu.matejkormuth.rpgdavid.starving.items.misc.Transmitter;
 
 public class ItemsFramework implements Listener {
     private Set<Item> items;
@@ -45,6 +47,8 @@ public class ItemsFramework implements Listener {
 
     private void registerAll() {
         this.register(new Parachute());
+        this.register(new GalvanicCell());
+        this.register(new Transmitter());
     }
 
     private void register(final Item item) {
