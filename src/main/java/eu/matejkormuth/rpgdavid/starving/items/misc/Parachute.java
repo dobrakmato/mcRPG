@@ -17,23 +17,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items;
+package eu.matejkormuth.rpgdavid.starving.items.misc;
 
 import org.bukkit.Material;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 
-import eu.matejkormuth.rpgdavid.starving.StarvingItemStack;
+import eu.matejkormuth.rpgdavid.starving.items.Item;
 
-public class Parachute extends StarvingItemStack {
+public class Parachute extends Item {
     public Parachute() {
-        super(Material.GOLD_HOE, null);
-    }
-    
-    @Override
-    public void onInteract(PlayerInteractEvent event) {
-        if(event.getAction() == Action.RIGHT_CLICK_AIR) {
-            
-        }
+        super(Material.ACACIA_DOOR, "Parachute");
     }
 }

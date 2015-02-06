@@ -17,34 +17,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items;
+package eu.matejkormuth.rpgdavid.starving.items.misc;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import org.bukkit.inventory.Recipe;
 
-import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
+import eu.matejkormuth.rpgdavid.starving.items.Craftable;
+import eu.matejkormuth.rpgdavid.starving.items.Item;
 
-public abstract class ChemicalItem extends ConsumableItem implements Craftable {
-    /**
-     * Contents of water bottle.
-     */
-    private ChemicalCompound contents = new ChemicalCompound();
-
-    public ChemicalItem(String name) {
-        super(Material.POTION, name);
-    }
-
-    public ChemicalCompound getContents() {
-        return this.contents;
+public class Transmitter extends Item implements Craftable {
+    public Transmitter() {
+        super(Material.IRON_BARDING, "Transmitter");
     }
 
     @Override
-    public void onConsume(Player player) {
-        // TODO: Need discussion about effects.
-
-        // Post event to sub class.
-        this.onConsume0(player);
+    public Recipe getRecipe() {
+        return null;
     }
 
-    protected abstract void onConsume0(Player player);
 }

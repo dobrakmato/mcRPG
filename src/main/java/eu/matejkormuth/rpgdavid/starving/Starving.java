@@ -28,6 +28,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
@@ -54,11 +55,13 @@ public class Starving implements Runnable {
     private File dataFolder;
     private ZombieManager zombieManager;
     private AmbientSoundManager ambientSoundManager;
+    private Plugin plugin;
 
     public void onEnable() {
         instance = this;
 
         this.log = RpgPlugin.getInstance().getLogger();
+        this.plugin = RpgPlugin.getInstance();
 
         this.dataFolder = new File(RpgPlugin.getInstance().getDataFolder()
                 .getParent()
@@ -69,7 +72,8 @@ public class Starving implements Runnable {
         File confDirectory = new File(this.dataFolder.getAbsolutePath()
                 + "/conf/");
         confDirectory.mkdirs();
-        PersistInjector.setConfigurationsFolder(confDirectory.getAbsolutePath());
+        PersistInjector
+                .setConfigurationsFolder(confDirectory.getAbsolutePath());
 
         // Initialize all managers.
         this.zombieManager = new ZombieManager();
@@ -128,5 +132,9 @@ public class Starving implements Runnable {
                             soundEffectName, location.getX(), location.getY(),
                             location.getZ(), volume, pitch));
         }
+    }
+
+    public Plugin getPlugin() {
+        return this.plugin;
     }
 }
