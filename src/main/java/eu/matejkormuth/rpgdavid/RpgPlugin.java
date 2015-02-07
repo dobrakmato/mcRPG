@@ -64,6 +64,7 @@ import eu.matejkormuth.rpgdavid.listeners.QuestsBookListener;
 import eu.matejkormuth.rpgdavid.listeners.ShopListener;
 import eu.matejkormuth.rpgdavid.listeners.SpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.WeaponsListener;
+import eu.matejkormuth.rpgdavid.listeners.XPListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.AdventurerListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.HunterListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.KnightListener;
@@ -154,6 +155,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 .registerEvents(new QuestsBookListener(), this);
 
         Bukkit.getPluginManager().registerEvents(new ShopListener(), this);
+        Bukkit.getPluginManager().registerEvents(new XPListener(), this);
 
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
