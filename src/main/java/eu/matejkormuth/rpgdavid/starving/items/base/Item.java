@@ -26,13 +26,16 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 
+import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+
 public abstract class Item extends ItemBase {
     public Item(Material material, String name) {
         super(material, 1, name);
     }
 
-    public void onInteract(Player player, Action action, Block clickedBlock,
-            BlockFace clickedFace) {
+    public InteractResult onInteract(Player player, Action action,
+            Block clickedBlock, BlockFace clickedFace) {
+        return InteractResult.useNone();
     }
 
     public void onInteractWith(Player player, Entity entity) {

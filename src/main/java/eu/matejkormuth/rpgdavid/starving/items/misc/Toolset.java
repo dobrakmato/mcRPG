@@ -25,6 +25,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 
+import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Toolset extends Item {
@@ -33,8 +34,9 @@ public class Toolset extends Item {
     }
 
     @Override
-    public void onInteract(Player player, Action action, Block block,
+    public InteractResult onInteract(Player player, Action action, Block block,
             BlockFace clickedFace) {
         player.openWorkbench(null, true);
+        return InteractResult.useNone();
     }
 }

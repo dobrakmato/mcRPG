@@ -27,4 +27,5 @@ public class Parachute extends Item {
     public Parachute() {
         super(Material.ACACIA_DOOR, "Parachute");
     }
+    // TODO: Implement parachute functionality.
 }

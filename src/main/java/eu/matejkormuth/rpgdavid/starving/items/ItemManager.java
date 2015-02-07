@@ -34,6 +34,7 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.items.consumables.MagicMushroom;
 import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Parachute;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Toolset;
@@ -61,6 +62,7 @@ public class ItemManager implements Listener {
         this.register(new GalvanicCell());
         this.register(new Transmitter());
         this.register(new Toolset());
+        this.register(new MagicMushroom());
     }
 
     private void register(final Item item) {
@@ -89,8 +91,27 @@ public class ItemManager implements Listener {
     private void onInteract(final PlayerInteractEvent event) {
         Item item = this.getItem(event.getItem());
         if (item != null) {
-            item.onInteract(event.getPlayer(), event.getAction(),
-                    event.getClickedBlock(), event.getBlockFace());
+            InteractResult result = item.onInteract(event.getPlayer(),
+                    event.getAction(), event.getClickedBlock(),
+                    event.getBlockFace());
+
+            if (result.getUsedAmount() > event.getItem().getAmount()) {
+                throw new IllegalArgumentException(
+                        "Used amount is bigger then itemStack amount!");
+            }
+
+            // Simulate use.
+            if (result.isUsed()) {
+                // If use all.
+                if (result.getUsedAmount() == -1) {
+                    event.getItem().setAmount(0);
+                } else {
+                    event.getItem().setAmount(
+                            event.getItem().getAmount()
+                                    - result.getUsedAmount());
+                }
+            }
+
             event.setCancelled(true);
         }
     }
