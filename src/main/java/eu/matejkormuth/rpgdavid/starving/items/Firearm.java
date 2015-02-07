@@ -21,7 +21,7 @@ package eu.matejkormuth.rpgdavid.starving.items;
 
 import org.bukkit.Material;
 
-public class Firearm extends Item {
+public abstract class Firearm extends Item {
     private int clipSize;
     private int ammo;
 

@@ -19,10 +19,6 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items;
 
-import org.bukkit.Material;
-
-public abstract class Item extends ItemBase {
-    public Item(Material material, String name) {
-        super(material, 1, name);
-    }
+public enum Category {
+    CHEMICALS, FIREARMS, FOOD, DRINKS, ELECTRONICS;
 }

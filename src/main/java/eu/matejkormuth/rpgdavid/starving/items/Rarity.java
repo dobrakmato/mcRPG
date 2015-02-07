@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.loot;
+package eu.matejkormuth.rpgdavid.starving.items;
 
 public enum Rarity {
     LEGENDARY, RARE, UNCOMMON, COMMON;

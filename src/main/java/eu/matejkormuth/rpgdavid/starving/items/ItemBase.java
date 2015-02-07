@@ -24,10 +24,10 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class ItemStackBase {
+public class ItemBase {
     protected final ItemStack itemStack;
 
-    public ItemStackBase(final Material material, final int amount,
+    public ItemBase(final Material material, final int amount,
             final String name) {
         this.itemStack = new ItemStack(material, amount);
         ItemMeta meta = this.itemStack.getItemMeta();
@@ -37,11 +37,11 @@ public class ItemStackBase {
 
     /**
      * Checks whether specified {@link ItemStack} matches this
-     * {@link ItemStackBase}.
+     * {@link ItemBase}.
      * 
      * @param obj
-     *            ItemStack to compare to this ItemStackBase
-     * @return true if this ItemStackBase does have same material and name as
+     *            ItemStack to compare to this ItemBase
+     * @return true if this ItemBase does have same material and name as
      *         specified ItemStack, false otherwise
      */
     public boolean matches(final ItemStack obj) {
