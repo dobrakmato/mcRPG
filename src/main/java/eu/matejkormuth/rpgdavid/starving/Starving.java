@@ -31,7 +31,6 @@ import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.items.ItemsManager;
@@ -76,7 +75,7 @@ public class Starving implements Runnable {
 
         // Set game rules.
         this.getLogger().info("Setting starving game rules...");
-        for (World w : Worlds.all()) {
+        for (World w : Bukkit.getWorlds()) {
             w.setGameRuleValue("doMobSpawning", "false");
         }
 
