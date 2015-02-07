@@ -36,7 +36,8 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
-import eu.matejkormuth.rpgdavid.starving.items.ItemsManager;
+import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
+import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
@@ -62,7 +63,7 @@ public class Starving implements Runnable {
     private ZombieManager zombieManager;
     private AmbientSoundManager ambientSoundManager;
     private Plugin corePlugin;
-    private ItemsManager itemsManager;
+    private ItemManager itemsManager;
     private ImpulseProcessor impulseProcessor;
 
     public void onEnable() {
@@ -95,7 +96,7 @@ public class Starving implements Runnable {
         // Initialize all managers.
         this.zombieManager = new ZombieManager();
         this.ambientSoundManager = new AmbientSoundManager();
-        this.itemsManager = new ItemsManager();
+        this.itemsManager = new ItemManager();
 
         this.impulseProcessor = new BufferedImpulseProcessor();
 
@@ -105,6 +106,8 @@ public class Starving implements Runnable {
 
         // Register starving listeners.
         Bukkit.getPluginManager().registerEvents(new ZombieListener(),
+                RpgPlugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(new ChatListener(),
                 RpgPlugin.getInstance());
 
         // Register starving repeating tasks.
@@ -151,7 +154,7 @@ public class Starving implements Runnable {
         return this.zombieManager;
     }
 
-    public ItemsManager getItemsManager() {
+    public ItemManager getItemsManager() {
         return this.itemsManager;
     }
 

@@ -17,14 +17,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items;
+package eu.matejkormuth.rpgdavid.starving.items.base;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class ItemBase {
+public abstract class ItemBase {
     protected final ItemStack itemStack;
 
     public ItemBase(final Material material, final int amount,

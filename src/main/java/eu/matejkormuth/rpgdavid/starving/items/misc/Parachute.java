@@ -21,7 +21,7 @@ package eu.matejkormuth.rpgdavid.starving.items.misc;
 
 import org.bukkit.Material;
 
-import eu.matejkormuth.rpgdavid.starving.items.Item;
+import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Parachute extends Item {
     public Parachute() {

@@ -22,8 +22,8 @@ package eu.matejkormuth.rpgdavid.starving.items.misc;
 import org.bukkit.Material;
 import org.bukkit.inventory.Recipe;
 
-import eu.matejkormuth.rpgdavid.starving.items.Craftable;
-import eu.matejkormuth.rpgdavid.starving.items.Item;
+import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
+import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Transmitter extends Item implements Craftable {
     public Transmitter() {

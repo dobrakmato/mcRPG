@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items;
+package eu.matejkormuth.rpgdavid.starving.items.base;
 
 import org.bukkit.Material;
 

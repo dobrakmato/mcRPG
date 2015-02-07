@@ -17,10 +17,34 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items;
+package eu.matejkormuth.rpgdavid.starving.items.base;
 
-import org.bukkit.inventory.Recipe;
+import org.bukkit.Material;
 
-public interface Craftable {
-    public Recipe getRecipe();
+public abstract class Firearm extends Item {
+    private int clipSize;
+    private int ammo;
+
+    private int fireRate; // per second
+    private float noiseLevel;
+
+    public Firearm(Material material, String name) {
+        super(material, name);
+    }
+
+    public int getClipSize() {
+        return this.clipSize;
+    }
+
+    public int getAmmo() {
+        return this.ammo;
+    }
+
+    public int getFireRate() {
+        return this.fireRate;
+    }
+
+    public float getNoiseLevel() {
+        return this.noiseLevel;
+    }
 }

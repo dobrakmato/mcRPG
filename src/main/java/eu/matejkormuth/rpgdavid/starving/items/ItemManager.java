@@ -29,14 +29,17 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
+import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
+import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Parachute;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Transmitter;
 
-public class ItemsManager implements Listener {
+public class ItemManager implements Listener {
     private Set<Item> items;
 
-    public ItemsManager() {
+    public ItemManager() {
         this.items = new HashSet<Item>();
         // Register all items.
         this.registerAll();
