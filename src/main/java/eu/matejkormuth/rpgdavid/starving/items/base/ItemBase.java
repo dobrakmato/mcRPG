@@ -27,8 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public abstract class ItemBase {
     protected final ItemStack itemStack;
 
-    public ItemBase(final Material material, final int amount,
-            final String name) {
+    public ItemBase(final Material material, final int amount, final String name) {
         this.itemStack = new ItemStack(material, amount);
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.setDisplayName(ChatColor.RESET + name);
@@ -36,8 +35,7 @@ public abstract class ItemBase {
     }
 
     /**
-     * Checks whether specified {@link ItemStack} matches this
-     * {@link ItemBase}.
+     * Checks whether specified {@link ItemStack} matches this {@link ItemBase}.
      * 
      * @param obj
      *            ItemStack to compare to this ItemBase
@@ -63,6 +61,10 @@ public abstract class ItemBase {
                                     .getDisplayName());
         }
         return false;
+    }
+
+    public String getName() {
+        return this.itemStack.getItemMeta().getDisplayName();
     }
 
     public ItemStack toItemStack() {

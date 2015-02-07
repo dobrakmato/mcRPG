@@ -38,6 +38,7 @@ import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
@@ -63,7 +64,7 @@ public class Starving implements Runnable {
     private ZombieManager zombieManager;
     private AmbientSoundManager ambientSoundManager;
     private Plugin corePlugin;
-    private ItemManager itemsManager;
+    private ItemManager itemManager;
     private ImpulseProcessor impulseProcessor;
 
     public void onEnable() {
@@ -96,7 +97,7 @@ public class Starving implements Runnable {
         // Initialize all managers.
         this.zombieManager = new ZombieManager();
         this.ambientSoundManager = new AmbientSoundManager();
-        this.itemsManager = new ItemManager();
+        this.itemManager = new ItemManager();
 
         this.impulseProcessor = new BufferedImpulseProcessor();
 
@@ -109,6 +110,9 @@ public class Starving implements Runnable {
                 RpgPlugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new ChatListener(),
                 RpgPlugin.getInstance());
+
+        Bukkit.getPluginManager().registerEvents(new HiddenCommandsListener(),
+                this.corePlugin);
 
         // Register starving repeating tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(
@@ -154,8 +158,8 @@ public class Starving implements Runnable {
         return this.zombieManager;
     }
 
-    public ItemManager getItemsManager() {
-        return this.itemsManager;
+    public ItemManager getItemManager() {
+        return this.itemManager;
     }
 
     public AmbientSoundManager getAmbientSoundManager() {

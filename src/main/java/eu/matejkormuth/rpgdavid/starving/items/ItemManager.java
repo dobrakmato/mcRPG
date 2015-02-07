@@ -19,7 +19,9 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -85,6 +87,10 @@ public class ItemManager implements Listener {
             }
         }
         return null;
+    }
+
+    public List<Item> getItems() {
+        return new ArrayList<>(this.items);
     }
 
     @EventHandler

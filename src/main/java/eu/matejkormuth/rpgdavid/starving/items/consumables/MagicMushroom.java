@@ -23,6 +23,7 @@ import java.util.Random;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -50,24 +51,11 @@ public class MagicMushroom extends ConsumableItem {
     @Override
     public InteractResult onInteract(final Player player, Action action,
             Block clickedBlock, BlockFace clickedFace) {
+
         // Simulate trip.
         player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,
                 20 * 30, 2));
 
-        // Play wierd sounds.
-        final int wsrId = Bukkit.getScheduler().scheduleSyncRepeatingTask(
-                Starving.getInstance().getPlugin(),
-                new WierdSoundsRunnable(player), 20L, 20L);
-
-        // Schedule blindness effect.
-        Bukkit.getScheduler().scheduleSyncDelayedTask(
-                Starving.getInstance().getPlugin(), new Runnable() {
-                    @Override
-                    public void run() {
-                        player.addPotionEffect(new PotionEffect(
-                                PotionEffectType.BLINDNESS, 20 * 10, 1));
-                    }
-                }, 20 * 15L);
         // Find teleport location.
         int x = player.getLocation().getBlockX() + RandomUtils.nextInt(200)
                 - 100;
@@ -75,6 +63,21 @@ public class MagicMushroom extends ConsumableItem {
                 - 100;
         int y = player.getWorld().getHighestBlockYAt(x, z);
         final Location targetLocation = new Location(player.getWorld(), x, y, z);
+
+        // Play wierd sounds.
+        final int wsrId = Bukkit.getScheduler().scheduleSyncRepeatingTask(
+                Starving.getInstance().getPlugin(),
+                new WierdSoundsRunnable(player, targetLocation), 20L, 8L);
+
+        // Schedule blindness effect.
+        Bukkit.getScheduler().scheduleSyncDelayedTask(
+                Starving.getInstance().getPlugin(), new Runnable() {
+                    @Override
+                    public void run() {
+                        player.addPotionEffect(new PotionEffect(
+                                PotionEffectType.BLINDNESS, 20 * 10, 3));
+                    }
+                }, 20 * 15L);
 
         // Schedule teleport.
         Bukkit.getScheduler().scheduleSyncDelayedTask(
@@ -103,16 +106,33 @@ public class MagicMushroom extends ConsumableItem {
 
         private final Player player;
         private int count = 0;
+        private Location tl;
 
-        public WierdSoundsRunnable(Player player) {
+        public WierdSoundsRunnable(Player player, Location targetLoc) {
             this.player = player;
+            this.tl = targetLoc;
         }
 
+        @SuppressWarnings("deprecation")
         @Override
         public void run() {
             this.player.playSound(
                     player.getLocation().add(Vector.getRandom().multiply(2)),
-                    randomSound(), 1F, (float) (1F + Math.random() * 0.5));
+                    randomSound(), 1F, (float) (1F + Math.random()));
+
+            if ((this.count % 3) == 0) {
+                this.player.playSound(player.getLocation(),
+                        Sound.PORTAL_TRAVEL, 1, 1F);
+                this.player.playSound(tl, Sound.PORTAL_TRAVEL, 1, 1F);
+            }
+
+            // Also apply weird blindness
+            if (this.count < 7) {
+                player.addPotionEffect(new PotionEffect(
+                        PotionEffectType.BLINDNESS, 20, 0));
+            }
+
+            this.player.playEffect(player.getLocation(), Effect.VOID_FOG, 100);
 
             if (this.count > 10 && this.count < 28) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(
@@ -125,7 +145,7 @@ public class MagicMushroom extends ConsumableItem {
                                         randomSound(), 1F,
                                         (float) (1F + Math.random() * 0.5));
                             }
-                        }, 16L);
+                        }, 5L);
 
             }
 
@@ -140,7 +160,7 @@ public class MagicMushroom extends ConsumableItem {
                                         randomSound(), 1F,
                                         (float) (1F + Math.random() * 0.5));
                             }
-                        }, 8L);
+                        }, 3L);
 
             }
             this.count++;
