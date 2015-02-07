@@ -26,10 +26,12 @@ import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.items.ItemsManager;
@@ -62,13 +64,21 @@ public class Starving implements Runnable {
     public void onEnable() {
         instance = this;
 
-        this.log = RpgPlugin.getInstance().getLogger();
+        this.log = Logger.getLogger("Starving");
+        this.log.setParent(RpgPlugin.getInstance().getLogger());
+
         this.plugin = RpgPlugin.getInstance();
 
         this.dataFolder = new File(RpgPlugin.getInstance().getDataFolder()
                 .getParent()
                 + "/Starving/");
         this.dataFolder.mkdirs();
+
+        // Set game rules.
+        this.getLogger().info("Setting starving game rules...");
+        for (World w : Worlds.all()) {
+            w.setGameRuleValue("doMobSpawning", "false");
+        }
 
         // Initialize PersistInjector
         File confDirectory = new File(this.dataFolder.getAbsolutePath()
