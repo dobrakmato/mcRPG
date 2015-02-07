@@ -40,9 +40,14 @@ public class ItemsManager implements Listener {
         this.items = new HashSet<Item>();
         // Register all items.
         this.registerAll();
+        this.registerAdditionalRecipes();
         // Regsiter events.
         Bukkit.getPluginManager().registerEvents(this,
                 Starving.getInstance().getPlugin());
+    }
+
+    private void registerAdditionalRecipes() {
+
     }
 
     private void registerAll() {

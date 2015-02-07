@@ -33,11 +33,14 @@ import org.bukkit.plugin.Plugin;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
+import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
+import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemsManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
+import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
 public class Starving implements Runnable {
@@ -57,8 +60,9 @@ public class Starving implements Runnable {
     private File dataFolder;
     private ZombieManager zombieManager;
     private AmbientSoundManager ambientSoundManager;
-    private Plugin plugin;
+    private Plugin corePlugin;
     private ItemsManager itemsManager;
+    private ImpulseProcessor impulseProcessor;
 
     public void onEnable() {
         instance = this;
@@ -66,7 +70,7 @@ public class Starving implements Runnable {
         this.log = Logger.getLogger("Starving");
         this.log.setParent(RpgPlugin.getInstance().getLogger());
 
-        this.plugin = RpgPlugin.getInstance();
+        this.corePlugin = RpgPlugin.getInstance();
 
         this.dataFolder = new File(RpgPlugin.getInstance().getDataFolder()
                 .getParent()
@@ -91,8 +95,11 @@ public class Starving implements Runnable {
         this.ambientSoundManager = new AmbientSoundManager();
         this.itemsManager = new ItemsManager();
 
+        this.impulseProcessor = new BufferedImpulseProcessor();
+
         // Schedule all tasks.
         new LocalityTeller().schedule(20L);
+        new TimeUpdater().schedule(2L);
 
         // Register starving listeners.
         Bukkit.getPluginManager().registerEvents(new ZombieListener(),
@@ -101,6 +108,21 @@ public class Starving implements Runnable {
         // Register starving repeating tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(
                 RpgPlugin.getInstance(), this, 0L, 1L);
+
+        // Print some useful info.
+        this.printImplementations();
+    }
+
+    private void printImplementations() {
+        this.getLogger().info("Using following implementations:");
+        this.getLogger().info(
+                " ImpulseProcessor: "
+                        + this.impulseProcessor.getClass().getName());
+        this.getLogger().info(
+                " ZombieManager: " + this.zombieManager.getClass().getName());
+        this.getLogger().info(
+                " aSoundManager: "
+                        + this.ambientSoundManager.getClass().getName());
     }
 
     public void onDisable() {
@@ -113,6 +135,10 @@ public class Starving implements Runnable {
 
     public Logger getLogger() {
         return this.log;
+    }
+
+    public ImpulseProcessor getImpulseProcessor() {
+        return this.impulseProcessor;
     }
 
     public File getDataFolder() {
@@ -152,7 +178,7 @@ public class Starving implements Runnable {
     }
 
     public Plugin getPlugin() {
-        return this.plugin;
+        return this.corePlugin;
     }
 
     public Locality getLocality(final Location location) {

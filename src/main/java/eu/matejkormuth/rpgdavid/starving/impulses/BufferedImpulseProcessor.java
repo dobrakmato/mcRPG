@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-public abstract class BufferedImpulseProcessor implements ImpulseProcessor {
+public class BufferedImpulseProcessor implements ImpulseProcessor {
     // Max hear distance = 50 blocks.
     private static final double MAX_HEAR_DISTANCE_SQUARED = 25 * 25;
     // Max power = 1.0d. (1.0 can be heard in 25 blocks radius).
