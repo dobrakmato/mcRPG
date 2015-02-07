@@ -25,6 +25,8 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,6 +36,7 @@ import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Parachute;
+import eu.matejkormuth.rpgdavid.starving.items.misc.Toolset;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Transmitter;
 
 public class ItemManager implements Listener {
@@ -57,6 +60,7 @@ public class ItemManager implements Listener {
         this.register(new Parachute());
         this.register(new GalvanicCell());
         this.register(new Transmitter());
+        this.register(new Toolset());
     }
 
     private void register(final Item item) {
@@ -79,6 +83,25 @@ public class ItemManager implements Listener {
             }
         }
         return null;
+    }
+
+    @EventHandler
+    private void onInteract(final PlayerInteractEvent event) {
+        Item item = this.getItem(event.getItem());
+        if (item != null) {
+            item.onInteract(event.getPlayer(), event.getAction(),
+                    event.getClickedBlock(), event.getBlockFace());
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void onInteractWith(final PlayerInteractEntityEvent event) {
+        Item item = this.getItem(event.getPlayer().getItemInHand());
+        if (item != null) {
+            item.onInteractWith(event.getPlayer(), event.getRightClicked());
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

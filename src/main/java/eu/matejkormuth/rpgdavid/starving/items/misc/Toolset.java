@@ -17,24 +17,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items.base;
+package eu.matejkormuth.rpgdavid.starving.items.misc;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 
-public abstract class Item extends ItemBase {
-    public Item(Material material, String name) {
-        super(material, 1, name);
+import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+
+public class Toolset extends Item {
+    public Toolset() {
+        super(Material.WORKBENCH, "Toolset");
     }
 
-    public void onInteract(Player player, Action action, Block clickedBlock,
+    @Override
+    public void onInteract(Player player, Action action, Block block,
             BlockFace clickedFace) {
-    }
-
-    public void onInteractWith(Player player, Entity entity) {
+        player.openWorkbench(null, true);
     }
 }
