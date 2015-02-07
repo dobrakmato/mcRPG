@@ -61,6 +61,13 @@
     </repository>
   </repositories>
 
+  <pluginRepositories>
+    <pluginRepository>
+      <id>matejkormuth-repo</id>
+      <url>http://repo.matejkormuth.eu/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <build>
     <plugins>
       <plugin>
