@@ -34,7 +34,6 @@
       <version>2.0.14-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
-    <!-- Local repository spigot with craftbukkit -->
     <dependency>
       <groupId>spigot</groupId>
       <artifactId>spigot</artifactId>

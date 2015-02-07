@@ -19,9 +19,46 @@
  */
 package eu.matejkormuth.rpgdavid.starving.tasks;
 
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import net.minecraft.server.v1_8_R1.ChatMessage;
+import net.minecraft.server.v1_8_R1.EnumTitleAction;
+import net.minecraft.server.v1_8_R1.PacketPlayOutTitle;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+
+import eu.matejkormuth.rpgdavid.starving.Locality;
+import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
+
 public class LocalityTeller extends RepeatingTask {
+    private Map<Player, Locality> map;
+
+    public LocalityTeller() {
+        this.map = new WeakHashMap<Player, Locality>();
+    }
+
     @Override
     public void run() {
-        // TODO: Implement locality name teller.
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            Locality loc = Starving.getInstance().getLocality(p.getLocation());
+            if (this.map.get(p) != loc) {
+                p.playSound(p.getLocation(), Sound.AMBIENCE_CAVE, 1, 1);
+                this.send(p, loc, 300, 300, 700);
+                this.map.put(p, loc);
+            }
+        }
+    }
+
+    @NMSHooks(version = "v1_8_R1")
+    private void send(Player p, Locality loc, int fadeIn, int fadeOut, int stay) {
+        PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(
+                EnumTitleAction.TITLE, new ChatMessage(loc.getName()), fadeIn,
+                stay, fadeOut);
+        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(titlePacket);
     }
 }

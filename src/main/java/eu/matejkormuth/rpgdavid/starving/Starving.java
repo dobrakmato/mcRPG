@@ -36,6 +36,7 @@ import eu.matejkormuth.rpgdavid.starving.items.ItemsManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
+import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
 public class Starving implements Runnable {
@@ -81,6 +82,9 @@ public class Starving implements Runnable {
         this.ambientSoundManager = new AmbientSoundManager();
         this.itemsManager = new ItemsManager();
 
+        // Schedule all tasks.
+        new LocalityTeller().schedule(20L);
+
         // Register starving listeners.
         Bukkit.getPluginManager().registerEvents(new ZombieListener(),
                 RpgPlugin.getInstance());
@@ -95,7 +99,7 @@ public class Starving implements Runnable {
     }
 
     public void run() {
-
+        // Tick.
     }
 
     public Logger getLogger() {
@@ -140,5 +144,9 @@ public class Starving implements Runnable {
 
     public Plugin getPlugin() {
         return this.plugin;
+    }
+
+    public Locality getLocality(final Location location) {
+        return Locality.WILDERNESS;
     }
 }
