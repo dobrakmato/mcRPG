@@ -16,9 +16,12 @@ public class TimeUpdater extends RepeatingTask {
 
     @Override
     public void run() {
+        // Reset time if needed.
         if (this.time == 23999L) {
             this.time = 0L;
         }
+        // Increment time.
+        this.time++;
         this.setTime();
     }
 

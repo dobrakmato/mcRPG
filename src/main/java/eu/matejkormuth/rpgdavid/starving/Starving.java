@@ -67,7 +67,8 @@ public class Starving implements Runnable {
     public void onEnable() {
         instance = this;
 
-        this.log = Logger.getLogger("Starving");
+        // Initialize logger to special StarvingLogger.
+        this.log = new StarvingLogger();
         this.log.setParent(RpgPlugin.getInstance().getLogger());
 
         this.corePlugin = RpgPlugin.getInstance();
