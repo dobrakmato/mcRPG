@@ -7,27 +7,24 @@ import org.bukkit.World;
 
 public class TimeUpdater extends RepeatingTask {
     private final List<World> worlds;
-    private long time;
+    private long fullTime;
 
     public TimeUpdater() {
         // Cache worlds for better performance and memory usage.
         this.worlds = Bukkit.getWorlds();
+        this.fullTime = this.worlds.get(0).getFullTime();
     }
 
     @Override
     public void run() {
-        // Reset time if needed.
-        if (this.time == 23999L) {
-            this.time = 0L;
-        }
         // Increment time.
-        this.time++;
+        this.fullTime++;
         this.setTime();
     }
 
     private void setTime() {
         for (World w : this.worlds) {
-            w.setTime(this.time);
+            w.setFullTime(this.fullTime);
         }
     }
 }

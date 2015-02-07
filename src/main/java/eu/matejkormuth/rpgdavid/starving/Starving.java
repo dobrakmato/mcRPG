@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_8_R1.PacketPlayOutUpdateTime;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -175,6 +176,11 @@ public class Starving implements Runnable {
                     .sendPacket(new PacketPlayOutNamedSoundEffect(
                             soundEffectName, location.getX(), location.getY(),
                             location.getZ(), volume, pitch));
+        }
+
+        public static final void updateTime(Player player, long time) {
+            ((CraftPlayer) player).getHandle().playerConnection
+                    .sendPacket(new PacketPlayOutUpdateTime(time, time, true));
         }
     }
 
