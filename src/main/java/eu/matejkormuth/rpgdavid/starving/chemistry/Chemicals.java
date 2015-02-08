@@ -34,6 +34,18 @@ public final class Chemicals {
     private Chemicals() {
     }
 
+    private static List<Chemical> chemicals;
+    static {
+        chemicals = new ArrayList<>();
+        try {
+            for (Field f : Compounds.class.getDeclaredFields()) {
+                chemicals.add((Chemical) f.get(null));
+            }
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Source basic chemicals.
     public static final Chemical WATER = new Water();
     public static final Chemical ETHANOL = new Ethanol();
@@ -41,7 +53,11 @@ public final class Chemicals {
     public static final Chemical ALKALI = new Alkali();
     public static final Chemical CHLORINE = new Chlorine();
 
-    // Chemical compounds.
+    public static List<Chemical> all() {
+        return chemicals;
+    }
+
+    // Chemical chemicals.
     public static final class Compounds {
         private Compounds() {
         }
@@ -51,7 +67,7 @@ public final class Chemicals {
          * that is assingable from CompoundRecipe!
          */
 
-        // Cache list of all compounds.
+        // Cache list of all chemicals.
         private static List<CompoundRecipe> compounds;
         static {
             compounds = new ArrayList<>();

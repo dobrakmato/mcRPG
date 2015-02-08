@@ -22,16 +22,22 @@ package eu.matejkormuth.rpgdavid.starving.listeners;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.inventory.Recipe;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
+import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
+import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class HiddenCommandsListener implements Listener {
     @EventHandler
     private void onCommand(final PlayerCommandPreprocessEvent event) {
+        // Command for listing all items.
         if (event.getMessage().equalsIgnoreCase("/items")) {
             List<Item> items = Starving.getInstance().getItemManager()
                     .getItems();
@@ -39,7 +45,9 @@ public class HiddenCommandsListener implements Listener {
                 Item i = items.get(j);
                 event.getPlayer().sendMessage(j + " - " + i.getName());
             }
-        } else if (event.getMessage().contains("/itemsgive")) {
+        } 
+        // Command for giving custom items.
+        else if (event.getMessage().contains("/itemsgive")) {
             List<Item> items = Starving.getInstance().getItemManager()
                     .getItems();
             for (int j = 0; j < items.size(); j++) {
@@ -50,6 +58,35 @@ public class HiddenCommandsListener implements Listener {
                 }
 
             }
+        } 
+        // Command for giving custom chemicals.
+        else if (event.getMessage().contains("/chemical")) {
+            String args = event.getMessage().split(Pattern.quote(" "))[1];
+            String[] chemicals = args.split(Pattern.quote(","));
+
+            ChemicalItem ci = new ChemicalItem("spawnedChemicalItem") {
+                @Override
+                public Recipe getRecipe() {
+                    return null;
+                }
+
+                @Override
+                protected void onConsume0(Player player) {
+                }
+            };
+
+            for (String chemical : chemicals) {
+                String[] parts = chemical.split(Pattern.quote(":"));
+                String name = parts[0];
+                String amount = parts[1];
+                for (Chemical ch : Chemicals.all()) {
+                    if (ch.getName().equalsIgnoreCase(name)) {
+                        ci.getContents().add(ch, Float.valueOf(amount));
+                    }
+                }
+            }
+
+            event.getPlayer().getInventory().addItem(ci.toItemStack());
         }
     }
 }
