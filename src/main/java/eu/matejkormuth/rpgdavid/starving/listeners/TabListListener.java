@@ -28,9 +28,8 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 public class TabListListener implements Listener {
     @EventHandler
     private void onPlayerJoin(final PlayerJoinEvent event) {
-        Starving.NMS.setPlayerListHeader(event.getPlayer(), Starving
-                .getInstance().getTabListHeader());
-        Starving.NMS.setPlayerListFooter(event.getPlayer(), Starving
-                .getInstance().getTabListFooter());
+        Starving.NMS.setPlayerListHeaderFooter(event.getPlayer(), Starving
+                .getInstance().getTabListHeader(), Starving.getInstance()
+                .getTabListFooter());
     }
 }

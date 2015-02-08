@@ -217,12 +217,14 @@ public class Starving implements Runnable {
                             location.getZ(), volume, pitch));
         }
 
-        public static final void setPlayerListHeader(Player player,
-                String header) {
+        public static final void setPlayerListHeaderFooter(Player player,
+                String header, String footer) {
             CraftPlayer cplayer = (CraftPlayer) player;
             PlayerConnection connection = cplayer.getHandle().playerConnection;
-            IChatBaseComponent hj = ChatSerializer.a("{'text':'" + header
-                    + "'}");
+            IChatBaseComponent hj = ChatSerializer.a("{'text':'"
+                    + header.replace("&", "§") + "'}");
+            IChatBaseComponent fj = ChatSerializer.a("{'text':'"
+                    + footer.replace("&", "§") + "'}");
             PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
             try {
                 Field headerField = packet.getClass().getDeclaredField("a");
@@ -230,28 +232,15 @@ public class Starving implements Runnable {
                 headerField.set(packet, hj);
                 headerField.setAccessible(!headerField.isAccessible());
 
+                Field footerField = packet.getClass().getDeclaredField("b");
+                footerField.setAccessible(true);
+                footerField.set(packet, fj);
+                footerField.setAccessible(!headerField.isAccessible());
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
             connection.sendPacket(packet);
-        }
-
-        public static final void setPlayerListFooter(Player player,
-                String footer) {
-            CraftPlayer cp = (CraftPlayer) player;
-            PlayerConnection con = cp.getHandle().playerConnection;
-            IChatBaseComponent fj = ChatSerializer.a("{'text':'" + footer
-                    + "'}");
-            PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-            try {
-                Field footerField = packet.getClass().getDeclaredField("b");
-                footerField.setAccessible(true);
-                footerField.set(packet, fj);
-                footerField.setAccessible(!footerField.isAccessible());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            con.sendPacket(packet);
         }
 
         public static final void updateTime(Player player, long time) {
