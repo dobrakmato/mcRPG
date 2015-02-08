@@ -39,6 +39,7 @@ import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.LootListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
@@ -112,6 +113,8 @@ public class Starving implements Runnable {
                 RpgPlugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new ChatListener(),
                 RpgPlugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(new LootListener(),
+                this.corePlugin);
 
         Bukkit.getPluginManager().registerEvents(new HiddenCommandsListener(),
                 this.corePlugin);
