@@ -20,10 +20,15 @@
 package eu.matejkormuth.rpgdavid.starving;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
+import net.minecraft.server.v1_8_R1.ChatSerializer;
+import net.minecraft.server.v1_8_R1.IChatBaseComponent;
 import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R1.PacketPlayOutUpdateTime;
+import net.minecraft.server.v1_8_R1.PlayerConnection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -40,6 +45,7 @@ import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.LootListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
@@ -68,6 +74,9 @@ public class Starving implements Runnable {
     private Plugin corePlugin;
     private ItemManager itemManager;
     private ImpulseProcessor impulseProcessor;
+
+    private String tabListHeader = "Welcome to &cStarving 2.0!";
+    private String tabListFooter = "http://www.starving.eu";
 
     public void onEnable() {
         instance = this;
@@ -115,6 +124,8 @@ public class Starving implements Runnable {
                 RpgPlugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new LootListener(),
                 this.corePlugin);
+        Bukkit.getPluginManager().registerEvents(new TabListListener(),
+                this.corePlugin);
 
         Bukkit.getPluginManager().registerEvents(new HiddenCommandsListener(),
                 this.corePlugin);
@@ -145,6 +156,22 @@ public class Starving implements Runnable {
 
     public void run() {
         // Tick.
+    }
+
+    public String getTabListFooter() {
+        return this.tabListFooter;
+    }
+
+    public String getTabListHeader() {
+        return this.tabListHeader;
+    }
+
+    public void setTabListFooter(String tabListFooter) {
+        this.tabListFooter = tabListFooter;
+    }
+
+    public void setTabListHeader(String tabListHeader) {
+        this.tabListHeader = tabListHeader;
     }
 
     public Logger getLogger() {
@@ -188,6 +215,43 @@ public class Starving implements Runnable {
                     .sendPacket(new PacketPlayOutNamedSoundEffect(
                             soundEffectName, location.getX(), location.getY(),
                             location.getZ(), volume, pitch));
+        }
+
+        public static final void setPlayerListHeader(Player player,
+                String header) {
+            CraftPlayer cplayer = (CraftPlayer) player;
+            PlayerConnection connection = cplayer.getHandle().playerConnection;
+            IChatBaseComponent hj = ChatSerializer.a("{'text':'" + header
+                    + "'}");
+            PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+            try {
+                Field headerField = packet.getClass().getDeclaredField("a");
+                headerField.setAccessible(true);
+                headerField.set(packet, hj);
+                headerField.setAccessible(!headerField.isAccessible());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            connection.sendPacket(packet);
+        }
+
+        public static final void setPlayerListFooter(Player player,
+                String footer) {
+            CraftPlayer cp = (CraftPlayer) player;
+            PlayerConnection con = cp.getHandle().playerConnection;
+            IChatBaseComponent fj = ChatSerializer.a("{'text':'" + footer
+                    + "'}");
+            PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+            try {
+                Field footerField = packet.getClass().getDeclaredField("b");
+                footerField.setAccessible(true);
+                footerField.set(packet, fj);
+                footerField.setAccessible(!footerField.isAccessible());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            con.sendPacket(packet);
         }
 
         public static final void updateTime(Player player, long time) {
