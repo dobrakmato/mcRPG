@@ -34,18 +34,6 @@ public final class Chemicals {
     private Chemicals() {
     }
 
-    private static List<Chemical> chemicals;
-    static {
-        chemicals = new ArrayList<>();
-        try {
-            for (Field f : Compounds.class.getDeclaredFields()) {
-                chemicals.add((Chemical) f.get(null));
-            }
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Source basic chemicals.
     public static final Chemical WATER = new Water();
     public static final Chemical ETHANOL = new Ethanol();
@@ -57,27 +45,23 @@ public final class Chemicals {
         return chemicals;
     }
 
+    private final static List<Chemical> chemicals;
+    static {
+        chemicals = new ArrayList<>();
+        try {
+            for (Field f : Chemicals.class.getDeclaredFields()) {
+                if (f.getType().isAssignableFrom(Chemical.class)) {
+                    chemicals.add((Chemical) f.get(null));
+                }
+            }
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Chemical chemicals.
     public static final class Compounds {
         private Compounds() {
-        }
-
-        /*
-         * WARNING: This class must contain ONLY public static fields of type
-         * that is assingable from CompoundRecipe!
-         */
-
-        // Cache list of all chemicals.
-        private static List<CompoundRecipe> compounds;
-        static {
-            compounds = new ArrayList<>();
-            try {
-                for (Field f : Compounds.class.getDeclaredFields()) {
-                    compounds.add((CompoundRecipe) f.get(null));
-                }
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
         }
 
         // Constants
@@ -87,6 +71,21 @@ public final class Chemicals {
         // Methods.
         public static final List<CompoundRecipe> getAll() {
             return compounds;
+        }
+
+        // Cache list of all chemicals.
+        private final static List<CompoundRecipe> compounds;
+        static {
+            compounds = new ArrayList<>();
+            try {
+                for (Field f : Compounds.class.getDeclaredFields()) {
+                    if (f.getType().isAssignableFrom(CompoundRecipe.class)) {
+                        compounds.add((CompoundRecipe) f.get(null));
+                    }
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -99,7 +98,7 @@ public final class Chemicals {
         public abstract boolean isRecipeOf(ChemicalCompound compound);
     }
 
-    private static final class RatioCompoundOf2 extends CompoundRecipe {
+    public static final class RatioCompoundOf2 extends CompoundRecipe {
         private Chemical ch1;
         private float ratio;
         private Chemical ch2;

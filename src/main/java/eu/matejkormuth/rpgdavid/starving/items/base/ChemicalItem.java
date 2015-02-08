@@ -96,7 +96,7 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
             lore.add(ChatColor.WHITE + entry.getKey().getName() + " - "
                     + entry.getValue().getValue() + " ml");
         }
-
+        im.setLore(lore);
         is.setItemMeta(im);
         return is;
     }

@@ -61,6 +61,10 @@ public class HiddenCommandsListener implements Listener {
         } 
         // Command for giving custom chemicals.
         else if (event.getMessage().contains("/chemical")) {
+            if(!event.getMessage().contains(" ")) {
+                event.getPlayer().sendMessage("args missing!");
+            }
+            
             String args = event.getMessage().split(Pattern.quote(" "))[1];
             String[] chemicals = args.split(Pattern.quote(","));
 

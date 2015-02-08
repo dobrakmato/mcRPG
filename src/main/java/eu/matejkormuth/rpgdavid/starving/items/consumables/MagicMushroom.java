@@ -76,6 +76,8 @@ public class MagicMushroom extends ConsumableItem {
                     public void run() {
                         player.addPotionEffect(new PotionEffect(
                                 PotionEffectType.BLINDNESS, 20 * 10, 3));
+                        player.addPotionEffect(new PotionEffect(
+                                PotionEffectType.NIGHT_VISION, 20 * 7, 3));
                     }
                 }, 20 * 15L);
 
@@ -84,6 +86,9 @@ public class MagicMushroom extends ConsumableItem {
                 Starving.getInstance().getPlugin(), new Runnable() {
                     @Override
                     public void run() {
+                        targetLocation
+                                .setPitch(player.getLocation().getPitch());
+                        targetLocation.setYaw(player.getLocation().getYaw());
                         player.teleport(targetLocation);
                         // Cancel wierd sounds.
                         Bukkit.getScheduler().scheduleSyncDelayedTask(
