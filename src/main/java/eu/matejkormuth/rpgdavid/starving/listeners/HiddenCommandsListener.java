@@ -30,6 +30,7 @@ import org.bukkit.inventory.Recipe;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
+import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
 import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
@@ -45,7 +46,7 @@ public class HiddenCommandsListener implements Listener {
                 Item i = items.get(j);
                 event.getPlayer().sendMessage(j + " - " + i.getName());
             }
-        } 
+        }
         // Command for giving custom items.
         else if (event.getMessage().contains("/itemsgive")) {
             List<Item> items = Starving.getInstance().getItemManager()
@@ -58,17 +59,18 @@ public class HiddenCommandsListener implements Listener {
                 }
 
             }
-        } 
+        }
         // Command for giving custom chemicals.
         else if (event.getMessage().contains("/chemical")) {
-            if(!event.getMessage().contains(" ")) {
+            if (!event.getMessage().contains(" ")) {
                 event.getPlayer().sendMessage("args missing!");
             }
-            
+
             String args = event.getMessage().split(Pattern.quote(" "))[1];
             String[] chemicals = args.split(Pattern.quote(","));
 
-            ChemicalItem ci = new ChemicalItem("spawnedChemicalItem") {
+            ChemicalItem ci = new ChemicalItem("spawnedChemicalItem",
+                    new ChemicalCompound()) {
                 @Override
                 public Recipe getRecipe() {
                     return null;

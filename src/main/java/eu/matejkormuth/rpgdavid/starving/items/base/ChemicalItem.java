@@ -43,6 +43,7 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
     public ChemicalItem(String name, ChemicalCompound compound) {
         // Chemicals do not modify any food values.
         super(0, 0, Material.POTION, name);
+        this.contents = compound;
     }
 
     public ChemicalCompound getContents() {

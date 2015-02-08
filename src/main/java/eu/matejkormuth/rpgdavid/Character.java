@@ -42,6 +42,9 @@ public class Character {
     private final Armor armor;
     private final ItemStack[] items;
 
+    // Starving
+    private float staminaCapacity;
+
     public Character(final String name, final String special,
             final Modifiers modifiers, final Armor armor,
             final ItemStack... items) {
@@ -53,6 +56,14 @@ public class Character {
         this.special = special;
 
         this.id = this.getClass().getSimpleName();
+    }
+
+    public float getStaminaCapacity() {
+        return this.staminaCapacity;
+    }
+
+    public void setStaminaCapacity(float staminaCapacity) {
+        this.staminaCapacity = staminaCapacity;
     }
 
     public Modifiers getModifiers() {

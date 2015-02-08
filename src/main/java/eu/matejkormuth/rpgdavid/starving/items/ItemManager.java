@@ -108,9 +108,11 @@ public class ItemManager implements Listener {
         if (itemStack.getType() != Material.POTION) {
             return false;
         }
-        return itemStack.hasItemMeta()
-                && itemStack.getItemMeta().getDisplayName()
-                        .contains("chemical");
+        if (itemStack.hasItemMeta()) {
+            List<String> l = itemStack.getItemMeta().getLore();
+            return l.size() > 1 && l.get(0).contains("chemical");
+        }
+        return false;
     }
 
     public List<Item> getItems() {
