@@ -25,18 +25,24 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
+import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.consumables.MagicMushroom;
+import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ChemicalItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Parachute;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Toolset;
@@ -81,7 +87,15 @@ public class ItemManager implements Listener {
         this.items.add(item);
     }
 
-    public Item getItem(final ItemStack itemStack) {
+    public Item findItem(final ItemStack itemStack) {
+        // Special case for chemicals.
+        if (this.isChemical(itemStack)) {
+            // TODO: Try to look at known chemical compounds.
+            return new ParsedChemicalItem(new ChemicalItemMetaWrapper(
+                    itemStack.getItemMeta()).get());
+        }
+
+        // For every other item.
         for (Item item : this.items) {
             if (item.matches(itemStack)) {
                 return item;
@@ -90,13 +104,22 @@ public class ItemManager implements Listener {
         return null;
     }
 
+    private boolean isChemical(ItemStack itemStack) {
+        if (itemStack.getType() != Material.POTION) {
+            return false;
+        }
+        return itemStack.hasItemMeta()
+                && itemStack.getItemMeta().getDisplayName()
+                        .contains("chemical");
+    }
+
     public List<Item> getItems() {
         return new ArrayList<>(this.items);
     }
 
     @EventHandler
     private void onInteract(final PlayerInteractEvent event) {
-        Item item = this.getItem(event.getItem());
+        Item item = this.findItem(event.getItem());
         if (item != null) {
             InteractResult result = item.onInteract(event.getPlayer(),
                     event.getAction(), event.getClickedBlock(),
@@ -125,7 +148,7 @@ public class ItemManager implements Listener {
 
     @EventHandler
     private void onInteractWith(final PlayerInteractEntityEvent event) {
-        Item item = this.getItem(event.getPlayer().getItemInHand());
+        Item item = this.findItem(event.getPlayer().getItemInHand());
         if (item != null) {
             item.onInteractWith(event.getPlayer(), event.getRightClicked());
             event.setCancelled(true);
@@ -134,12 +157,32 @@ public class ItemManager implements Listener {
 
     @EventHandler
     private void onConsume(final PlayerItemConsumeEvent event) {
-        Item item = this.getItem(event.getItem());
+        Item item = this.findItem(event.getItem());
         if (item != null) {
             if (item instanceof ConsumableItem) {
                 ((ConsumableItem) item).onConsume(event.getPlayer());
                 event.setCancelled(true);
             }
+        }
+    }
+
+    /**
+     * Helper class to allow easy initialization of {@link ChemicalItem} through
+     * {@link ChemicalItemMetaWrapper}.
+     */
+    private static class ParsedChemicalItem extends ChemicalItem {
+        public ParsedChemicalItem(ChemicalCompound chemicalCompound) {
+            super("ParsedChemicalItem", chemicalCompound);
+        }
+
+        @Override
+        public Recipe getRecipe() {
+            // This class does not provide recipe.
+            return null;
+        }
+
+        @Override
+        protected void onConsume0(Player player) {
         }
     }
 }

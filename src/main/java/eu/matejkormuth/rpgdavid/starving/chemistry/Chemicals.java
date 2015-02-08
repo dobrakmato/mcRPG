@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.bukkit.entity.Player;
+
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Acid;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Alkali;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Chlorine;
@@ -96,6 +98,9 @@ public final class Chemicals {
         }
 
         public abstract boolean isRecipeOf(ChemicalCompound compound);
+
+        public void onPureConsumedBy(Player player) {
+        }
     }
 
     public static final class RatioCompoundOf2 extends CompoundRecipe {
