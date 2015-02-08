@@ -54,6 +54,10 @@ public class ChemicalCompound {
         return this.contents.size() == 1 && this.contents.containsKey(chemical);
     }
 
+    public boolean isPure() {
+        return this.contents.size() == 1;
+    }
+
     public float getAmount(Chemical chemical) {
         if (!this.contents.containsKey(chemical)) {
             return 0f;

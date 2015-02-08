@@ -19,12 +19,21 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.base;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
+import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound.MutableFloat;
+import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
+import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals.CompoundRecipe;
 
 public abstract class ChemicalItem extends ConsumableItem implements Craftable {
     /**
@@ -62,12 +71,40 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
 
     @Override
     public ItemStack toItemStack() {
-        // TODO: Implement item meta change.
-        return super.toItemStack();
+        ItemStack is = super.toItemStack();
+        ItemMeta im = is.getItemMeta();
+        List<String> lore = new ArrayList<>(
+                1 + this.contents.getChemicalsCount());
+        if (this.contents.isPure()) {
+            // Set name from known source chemicals.
+            im.setDisplayName(ChatColor.LIGHT_PURPLE
+                    + this.contents.getChemicals().iterator().next().getName());
+            lore.add(ChatColor.ITALIC + "Pure");
+        } else {
+            // Check for name from known compounds.
+            for (CompoundRecipe recipe : Chemicals.Compounds.getAll()) {
+                if (recipe.isRecipeOf(this.contents)) {
+                    im.setDisplayName(ChatColor.BLUE + recipe.getName());
+                    break;
+                }
+            }
+            lore.add(ChatColor.ITALIC + "Compound");
+        }
+        // Add contents to lore.
+        for (Entry<Chemical, MutableFloat> entry : this.contents.getContents()
+                .entrySet()) {
+            lore.add(ChatColor.WHITE + entry.getKey().getName() + " - "
+                    + entry.getValue().getValue() + " ml");
+        }
+
+        is.setItemMeta(im);
+        return is;
     }
 
     @Override
     public ItemStack toItemStack(int amount) {
-        return super.toItemStack(amount);
+        ItemStack is = this.toItemStack();
+        is.setAmount(amount);
+        return is;
     }
 }

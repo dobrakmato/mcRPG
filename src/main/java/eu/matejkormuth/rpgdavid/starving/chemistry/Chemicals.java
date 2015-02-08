@@ -75,7 +75,7 @@ public final class Chemicals {
     }
 
     // Helper classes.
-    private static abstract class CompoundRecipe extends Chemical {
+    public static abstract class CompoundRecipe extends Chemical {
         public CompoundRecipe(String name) {
             super(name);
         }
