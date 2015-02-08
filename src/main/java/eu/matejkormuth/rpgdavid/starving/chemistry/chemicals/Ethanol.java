@@ -19,6 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.chemistry.chemicals;
 
+import org.bukkit.entity.Player;
+
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
@@ -36,5 +38,10 @@ public class Ethanol extends Chemical {
             return new ExplosiveReaction(5f);
         }
         return Reaction.NONE;
+    }
+
+    @Override
+    public void onPureConsumedBy(Player player, float amount) {
+
     }
 }

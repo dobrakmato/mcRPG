@@ -17,21 +17,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items.misc;
+package eu.matejkormuth.rpgdavid.starving.chemistry.chemicals;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.Recipe;
+import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 
-import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
-import eu.matejkormuth.rpgdavid.starving.items.base.Item;
-
-public class Transmitter extends Item implements Craftable {
-    public Transmitter() {
-        super(Material.IRON_BARDING, "Transmitter");
-    }
-
-    @Override
-    public Recipe getRecipe() {
-        return null;
+public class Chlorine extends Chemical {
+    public Chlorine() {
+        super("Chlorine");
     }
 }

@@ -23,8 +23,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
-import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
 
 public abstract class ChemicalItem extends ConsumableItem implements Craftable {
     /**
@@ -50,8 +50,11 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
 
     private void evaluateEffects(Player player) {
         // TODO: Need discussion about effects.
-        if (contents.containsOnly(Chemicals.ACID)) {
 
+        // Consumed clean chemical.
+        if (this.contents.getChemicalsCount() == 1) {
+            Chemical chemical = this.contents.getChemicals().iterator().next();
+            chemical.onPureConsumedBy(player, this.contents.getAmount(chemical));
         }
     }
 

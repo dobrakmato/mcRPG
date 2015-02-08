@@ -25,8 +25,8 @@ import java.util.Map;
 import org.bukkit.entity.Player;
 
 public class AmbientSoundManager {
-    public static final int CROSSFADE_LENGTH = 750; // 750 ms
-    
+    public static final long CROSSFADE_LENGTH = 750L; // 750 ms
+
     private Configuration configuration;
 
     private Map<Player, Channel> channels;
@@ -56,6 +56,7 @@ public class AmbientSoundManager {
 
     private class Configuration {
         private Atmosphere getAtmosphere(final Player player) {
+            // TODO: Implement getting atmosphere by enviroment.
             return null;
         }
     }

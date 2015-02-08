@@ -19,6 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.chemistry;
 
+import org.bukkit.entity.Player;
+
 public class Chemical {
     private final String name;
 
@@ -32,5 +34,9 @@ public class Chemical {
 
     public Reaction reactionWith(ChemicalCompound chemicalCompound) {
         return Reaction.NONE;
+    }
+
+    public void onPureConsumedBy(Player player, float amount) {
+
     }
 }

@@ -21,6 +21,7 @@ package eu.matejkormuth.rpgdavid.starving.chemistry;
 
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Acid;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Alkali;
+import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Chlorine;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Ethanol;
 
 public final class Chemicals {
@@ -30,6 +31,7 @@ public final class Chemicals {
     public static final Chemical ETHANOL = new Ethanol();
     public static final Chemical ACID = new Acid();
     public static final Chemical ALKALI = new Alkali();
+    public static final Chemical CHLORINE = new Chlorine();
 
     public static Chemical valueOf(String string) {
         switch (string.toLowerCase()) {
@@ -39,6 +41,8 @@ public final class Chemicals {
             return Chemicals.ETHANOL;
         case "alkali":
             return Chemicals.ALKALI;
+        case "chlorine":
+            return Chemicals.CHLORINE;
         default:
             return null;
         }

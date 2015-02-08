@@ -65,6 +65,10 @@ public class ChemicalCompound {
         return this.contents.keySet();
     }
 
+    public int getChemicalsCount() {
+        return this.contents.size();
+    }
+
     public Map<Chemical, MutableFloat> getContents() {
         return this.contents;
     }
