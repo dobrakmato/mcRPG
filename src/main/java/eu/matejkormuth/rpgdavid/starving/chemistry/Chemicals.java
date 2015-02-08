@@ -24,13 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.bukkit.entity.Player;
-
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Acid;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Alkali;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Chlorine;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Ethanol;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Water;
+import eu.matejkormuth.rpgdavid.starving.chemistry.compounds.Vodka;
 
 public final class Chemicals {
     private Chemicals() {
@@ -67,8 +66,7 @@ public final class Chemicals {
         }
 
         // Constants
-        public static final CompoundRecipe VODKA = new RatioCompoundOf2(
-                "Vodka", Chemicals.ETHANOL, .4F, Chemicals.WATER, .6F);
+        public static final CompoundRecipe VODKA = new Vodka();
 
         // Methods.
         public static final List<CompoundRecipe> getAll() {
@@ -98,12 +96,9 @@ public final class Chemicals {
         }
 
         public abstract boolean isRecipeOf(ChemicalCompound compound);
-
-        public void onPureConsumedBy(Player player) {
-        }
     }
 
-    public static final class RatioCompoundOf2 extends CompoundRecipe {
+    public static class RatioCompoundOf2 extends CompoundRecipe {
         private Chemical ch1;
         private float ratio;
         private Chemical ch2;
@@ -123,6 +118,18 @@ public final class Chemicals {
             this.ch1 = chemical1;
             this.ch2 = chemical2;
             this.ratio = p1 / p2;
+        }
+
+        public Chemical getCh1() {
+            return this.ch1;
+        }
+
+        public Chemical getCh2() {
+            return this.ch2;
+        }
+
+        public float getRatio() {
+            return this.ratio;
         }
 
         @Override

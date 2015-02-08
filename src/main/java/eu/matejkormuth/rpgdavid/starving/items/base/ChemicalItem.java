@@ -25,6 +25,9 @@ import org.bukkit.inventory.ItemStack;
 
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
+import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound.MutableFloat;
+import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
+import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals.CompoundRecipe;
 import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ChemicalItemMetaWrapper;
 
 public abstract class ChemicalItem extends ConsumableItem implements Craftable {
@@ -62,7 +65,16 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
             chemical.onPureConsumedBy(player, this.contents.getAmount(chemical));
         }
 
-        // TODO: Consumed pure compound.
+        // Consumed pure compound.
+        for (CompoundRecipe recipe : Chemicals.Compounds.getAll()) {
+            if (recipe.isRecipeOf(this.contents)) {
+                float amount = 0;
+                for (MutableFloat f : this.contents.getContents().values()) {
+                    amount += f.getValue();
+                }
+                recipe.onPureConsumedBy(player, amount);
+            }
+        }
     }
 
     protected abstract void onConsume0(Player player);
