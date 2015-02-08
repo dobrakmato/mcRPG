@@ -49,7 +49,6 @@ public class ZombieManager extends Persistable {
     }
 
     public void remove(Entity e) {
-        // TODO Auto-generated method stub
 
     }
 }

@@ -56,7 +56,8 @@ public class ItemManager implements Listener {
     }
 
     private void registerAdditionalRecipes() {
-
+        // TODO: Register chemical crafting recipies.
+        // TODO: Register water crafting recipies.
     }
 
     private void registerAll() {

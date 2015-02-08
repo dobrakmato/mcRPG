@@ -26,9 +26,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 
+import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 
 public abstract class Item extends ItemBase {
+    private Rarity rarity = Rarity.COMMON;
+    private Category category;
+
     public Item(Material material, String name) {
         super(material, 1, name);
     }
@@ -39,5 +44,13 @@ public abstract class Item extends ItemBase {
     }
 
     public void onInteractWith(Player player, Entity entity) {
+    }
+
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public Rarity getRarity() {
+        return this.rarity;
     }
 }
