@@ -48,6 +48,9 @@ public class Profile implements Serializable {
     private List<String> activeQuests;
     private Map<String, Boolean> quests;
 
+    // Starving
+    private float bodyTemperature;
+
     public Profile() {
         this.quests = new HashMap<String, Boolean>();
     }
@@ -56,6 +59,14 @@ public class Profile implements Serializable {
         this.uuid = uuid;
         this.character = character;
         this.quests = new HashMap<String, Boolean>();
+    }
+
+    public float getBodyTemperature() {
+        return this.bodyTemperature;
+    }
+
+    public void setBodyTemperature(float bodyTemperature) {
+        this.bodyTemperature = bodyTemperature;
     }
 
     public Character getCharacter() {

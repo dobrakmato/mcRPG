@@ -42,6 +42,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
+import eu.matejkormuth.rpgdavid.starving.tasks.BodyTemperatureUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
@@ -104,6 +105,7 @@ public class Starving implements Runnable {
         // Schedule all tasks.
         new LocalityTeller().schedule(20L);
         new TimeUpdater().schedule(2L);
+        new BodyTemperatureUpdater().schedule(20L);
 
         // Register starving listeners.
         Bukkit.getPluginManager().registerEvents(new ZombieListener(),
