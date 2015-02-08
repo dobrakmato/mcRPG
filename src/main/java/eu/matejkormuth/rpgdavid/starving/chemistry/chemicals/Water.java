@@ -19,29 +19,10 @@
  */
 package eu.matejkormuth.rpgdavid.starving.chemistry.chemicals;
 
-import org.bukkit.entity.Player;
-
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
-import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
-import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
-import eu.matejkormuth.rpgdavid.starving.chemistry.Reaction;
-import eu.matejkormuth.rpgdavid.starving.chemistry.reactions.ExplosiveReaction;
 
-public class Ethanol extends Chemical {
-    public Ethanol() {
-        super("Ethanol");
-    }
-
-    @Override
-    public Reaction reactionWith(ChemicalCompound chemicalCompound) {
-        if (chemicalCompound.contains(Chemicals.ETHANOL)) {
-            return new ExplosiveReaction(5f);
-        }
-        return Reaction.NONE;
-    }
-
-    @Override
-    public void onPureConsumedBy(Player player, float amount) {
-        // TODO: Implement drunk state.
+public class Water extends Chemical {
+    public Water() {
+        super("Water");
     }
 }

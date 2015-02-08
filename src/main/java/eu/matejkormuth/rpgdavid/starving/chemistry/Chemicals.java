@@ -19,32 +19,100 @@
  */
 package eu.matejkormuth.rpgdavid.starving.chemistry;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Acid;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Alkali;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Chlorine;
 import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Ethanol;
+import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Water;
 
 public final class Chemicals {
     private Chemicals() {
     }
 
+    // Source basic chemicals.
+    public static final Chemical WATER = new Water();
     public static final Chemical ETHANOL = new Ethanol();
     public static final Chemical ACID = new Acid();
     public static final Chemical ALKALI = new Alkali();
     public static final Chemical CHLORINE = new Chlorine();
 
-    public static Chemical valueOf(String string) {
-        switch (string.toLowerCase()) {
-        case "acid":
-            return Chemicals.ACID;
-        case "ethanol":
-            return Chemicals.ETHANOL;
-        case "alkali":
-            return Chemicals.ALKALI;
-        case "chlorine":
-            return Chemicals.CHLORINE;
-        default:
-            return null;
+    // Chemical compounds.
+    public static final class Compounds {
+        private Compounds() {
+        }
+
+        /*
+         * WARNING: This class must contain ONLY public static fields of type
+         * that is assingable from CompoundRecipe!
+         */
+
+        // Cache list of all compounds.
+        private static List<CompoundRecipe> compounds;
+        static {
+            compounds = new ArrayList<>();
+            try {
+                for (Field f : Compounds.class.getDeclaredFields()) {
+                    compounds.add((CompoundRecipe) f.get(null));
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Constants
+        public static final CompoundRecipe VODKA = new RatioCompoundOf2(
+                "Vodka", Chemicals.ETHANOL, .4F, Chemicals.WATER, .6F);
+
+        // Methods.
+        public static final List<CompoundRecipe> getAll() {
+            return compounds;
+        }
+    }
+
+    // Helper classes.
+    private static abstract class CompoundRecipe extends Chemical {
+        public CompoundRecipe(String name) {
+            super(name);
+        }
+
+        public abstract boolean isRecipeOf(ChemicalCompound compound);
+    }
+
+    private static final class RatioCompoundOf2 extends CompoundRecipe {
+        private Chemical ch1;
+        private float ratio;
+        private Chemical ch2;
+
+        public RatioCompoundOf2(String name, Chemical chemical1, float p1,
+                Chemical chemical2, float p2) {
+            super(name);
+
+            Objects.requireNonNull(chemical1);
+            Objects.requireNonNull(chemical2);
+
+            if (p1 == 0 || p2 == 0) {
+                throw new IllegalArgumentException(
+                        "Percentages cannot be 0.0F!");
+            }
+
+            this.ch1 = chemical1;
+            this.ch2 = chemical2;
+            this.ratio = p1 / p2;
+        }
+
+        @Override
+        public boolean isRecipeOf(ChemicalCompound compound) {
+            if (compound.getChemicalsCount() == 2) {
+                float r = compound.getAmount(this.ch1)
+                        / compound.getAmount(this.ch2);
+                return this.ratio == r;
+            }
+            return false;
         }
     }
 }

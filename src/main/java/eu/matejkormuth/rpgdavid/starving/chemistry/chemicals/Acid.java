@@ -19,10 +19,49 @@
  */
 package eu.matejkormuth.rpgdavid.starving.chemistry.chemicals;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 
 public class Acid extends Chemical {
     public Acid() {
         super("Acid");
+    }
+
+    @Override
+    public void onPureConsumedBy(final Player player, float amount) {
+        if (amount < 1) {
+            // Low amount.
+            player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,
+                    20 * 120, 2));
+        } else if (amount < 18) {
+            // Medium amount - damage.
+            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON,
+                    20, 0));
+            player.damage(amount / 2 - 2D);
+        } else {
+            // High amount - death.
+            player.damage(amount / 2 - 2D);
+            // Slow death.
+            Bukkit.getScheduler().scheduleSyncDelayedTask(
+                    Starving.getInstance().getPlugin(), new Runnable() {
+                        @Override
+                        public void run() {
+                            player.addPotionEffect(new PotionEffect(
+                                    PotionEffectType.POISON, 20 * 240, 1));
+                        }
+                    }, 20 * 10L);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(
+                    Starving.getInstance().getPlugin(), new Runnable() {
+                        @Override
+                        public void run() {
+                            player.damage(6D);
+                        }
+                    }, 20 * 30L);
+        }
     }
 }
