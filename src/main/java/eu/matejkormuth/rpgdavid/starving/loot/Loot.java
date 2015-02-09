@@ -17,8 +17,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items;
+package eu.matejkormuth.rpgdavid.starving.loot;
 
-public enum Category {
-    CHEMICALS, FIREARMS, FOOD, DRINKS, ELECTRONICS, MISCELLANEOUS;
+import java.util.EnumSet;
+
+import org.bukkit.Location;
+
+import eu.matejkormuth.rpgdavid.starving.items.Category;
+import eu.matejkormuth.rpgdavid.starving.items.Rarity;
+
+public class Loot {
+    private Location location;
+    private EnumSet<Category> categories;
+    private Rarity rarity;
+
+    public Loot(Location location, EnumSet<Category> categories, Rarity rarity) {
+        this.location = location;
+        this.categories = categories;
+        this.rarity = rarity;
+    }
+
+    public EnumSet<Category> getCategories() {
+        return this.categories;
+    }
+
+    public Location getLocation() {
+        return this.location;
+    }
+
+    public Rarity getRarity() {
+        return this.rarity;
+    }
 }

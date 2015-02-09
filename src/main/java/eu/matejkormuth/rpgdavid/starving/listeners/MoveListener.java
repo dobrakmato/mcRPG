@@ -37,6 +37,7 @@ public class MoveListener implements Listener {
 
     public MoveListener() {
         profiles = new WeakHashMap<>();
+        
     }
 
     // Performance critical code.
