@@ -104,7 +104,7 @@ public class SpellsListener implements Listener {
                 // Add slowness for 10 seconds.
                 ((LivingEntity) e).damage(0.5D);
                 ((LivingEntity) e).addPotionEffect(new PotionEffect(
-                        PotionEffectType.SLOW, 20 * 10, 0));
+                        PotionEffectType.SLOW, 20 * 15, 2));
 
                 // Freeze water blocks.
                 BlockState b = null;
