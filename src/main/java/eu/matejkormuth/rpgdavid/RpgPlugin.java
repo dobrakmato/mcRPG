@@ -52,6 +52,7 @@ import org.bukkit.potion.PotionType;
 
 import eu.matejkormuth.bukkit.Potion;
 import eu.matejkormuth.rpgdavid.commands.CharacterCommandExecutor;
+import eu.matejkormuth.rpgdavid.commands.MoneyCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.NoCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PartyCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
@@ -134,6 +135,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 .setExecutor(new CharacterCommandExecutor());
         this.getCommand("yes").setExecutor(new YesCommandExecutor());
         this.getCommand("no").setExecutor(new NoCommandExecutor());
+        this.getCommand("money").setExecutor(new MoneyCommandExecutor());
 
         // Register event handlers.
         Bukkit.getPluginManager().registerEvents(this, this);

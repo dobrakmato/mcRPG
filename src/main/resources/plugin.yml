@@ -17,3 +17,5 @@ commands:
   'no':
     description: Declines offered quest.
     aliases: [ne, nie]
+  money:
+    description: Command used for giving money.

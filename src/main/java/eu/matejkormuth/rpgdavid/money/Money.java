@@ -75,14 +75,15 @@ public class Money {
             throw new MoneyException("Can't add two different currencies!");
         }
 
-        if(this.amount < money.amount) {
-            throw new MoneyException("Money to subtract is bigger then this amount.");
+        if (this.amount < money.amount) {
+            throw new MoneyException(
+                    "Money to subtract is bigger then this amount.");
         }
-        
+
         this.amount -= money.amount;
         return this;
     }
-    
+
     public Money multiply(Money money) {
         if (!this.currency.equals(money.currency)) {
             throw new MoneyException("Can't add two different currencies!");
@@ -100,12 +101,16 @@ public class Money {
         this.amount /= money.amount;
         return this;
     }
-    
+
     public static class MoneyException extends RuntimeException {
         public MoneyException(String string) {
             super(string);
         }
 
         private static final long serialVersionUID = 1L;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
