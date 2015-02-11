@@ -51,11 +51,15 @@ public class WeaponsListener implements Listener {
                     // Only damage by dagger.
                     if (Dagger.isDagger(((Player) event.getDamager())
                             .getItemInHand())) {
-                        // Dagger does 12 HP damage.
-                        event.setDamage(12D);
-                        // Dagger should not damage itself.
-                        ((Player) event.getDamager())
-                                .setItemInHand(new Dagger());
+                        // Dagger has hit radius of only one block.
+                        if (event.getDamager().getLocation()
+                                .distance(event.getEntity().getLocation()) < 1) {
+                            // Dagger does 12 HP damage.
+                            event.setDamage(12D);
+                            // Dagger should not damage itself.
+                            ((Player) event.getDamager())
+                                    .setItemInHand(new Dagger());
+                        }
                     }
                 }
             }
