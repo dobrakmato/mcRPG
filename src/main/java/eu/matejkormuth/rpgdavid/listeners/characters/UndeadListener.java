@@ -60,7 +60,7 @@ public class UndeadListener implements Listener {
                 if (event.getItem().getType() == Material.ROTTEN_FLESH) {
                     event.getPlayer().addPotionEffect(
                             new PotionEffect(PotionEffectType.REGENERATION,
-                                    20 * 3, 0));
+                                    20 * 7, 2));
                 }
             }
         }
