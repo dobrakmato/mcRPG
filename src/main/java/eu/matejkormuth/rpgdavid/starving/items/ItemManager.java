@@ -20,6 +20,7 @@
 package eu.matejkormuth.rpgdavid.starving.items;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,6 +51,9 @@ import eu.matejkormuth.rpgdavid.starving.items.misc.Transmitter;
 
 public class ItemManager implements Listener {
     private Set<Item> items;
+
+    private EnumMap<Rarity, List<Item>> rarityMapping;
+    private EnumMap<Category, List<Item>> categoryMapping;
 
     public ItemManager() {
         this.items = new HashSet<Item>();

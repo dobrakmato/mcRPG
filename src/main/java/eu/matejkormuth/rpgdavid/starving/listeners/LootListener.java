@@ -27,6 +27,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.starving.loot.ArmorStandSpawnableLoot;
 
 public class LootListener implements Listener {
     @EventHandler
@@ -34,6 +35,12 @@ public class LootListener implements Listener {
         Profile p = RpgPlugin.getInstance().getProfile(event.getPlayer());
         if (p != null) {
             if (event.getRightClicked() instanceof ArmorStand) {
+                if (!event.getRightClicked().hasMetadata(
+                        ArmorStandSpawnableLoot.METADATA_KEY)) {
+                    // This is not loot ArmorStand.
+                    return;
+                }
+
                 if (((ArmorStand) event.getRightClicked()).getItemInHand() != null) {
                     event.getPlayer()
                             .getInventory()

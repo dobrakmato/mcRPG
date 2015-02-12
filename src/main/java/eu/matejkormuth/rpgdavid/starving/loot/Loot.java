@@ -22,19 +22,27 @@ package eu.matejkormuth.rpgdavid.starving.loot;
 import java.util.EnumSet;
 
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 
 public class Loot {
-    private Location location;
-    private EnumSet<Category> categories;
-    private Rarity rarity;
+    private final Location location;
+    private final EnumSet<Category> categories;
+    private final Rarity rarity;
+    private final int amount;
 
     public Loot(Location location, EnumSet<Category> categories, Rarity rarity) {
+        this(location, categories, rarity, 1);
+    }
+
+    public Loot(Location location, EnumSet<Category> categories, Rarity rarity,
+            int amount) {
         this.location = location;
         this.categories = categories;
         this.rarity = rarity;
+        this.amount = amount;
     }
 
     public EnumSet<Category> getCategories() {
@@ -47,5 +55,13 @@ public class Loot {
 
     public Rarity getRarity() {
         return this.rarity;
+    }
+
+    public int getAmount() {
+        return this.amount;
+    }
+
+    public ItemStack getItemStack() {
+        return null;
     }
 }
