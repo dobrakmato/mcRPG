@@ -44,6 +44,7 @@ import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.consumables.MagicMushroom;
 import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ChemicalItemMetaWrapper;
+import eu.matejkormuth.rpgdavid.starving.items.misc.DisinfectionTablets;
 import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Parachute;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Toolset;
@@ -76,6 +77,7 @@ public class ItemManager implements Listener {
         this.register(new Transmitter());
         this.register(new Toolset());
         this.register(new MagicMushroom());
+        this.register(new DisinfectionTablets());
     }
 
     private void register(final Item item) {
