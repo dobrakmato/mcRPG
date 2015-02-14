@@ -29,7 +29,7 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.quests.Quest;
 
 public class QuestsBook extends ItemStack {
-    private static final String BOOK_TITLE = "Quests Book";
+    private static final String BOOK_TITLE = RpgPlugin.t("t_questsbook");
     private static final String BOOK_AUTHOR = "Server";
 
     public QuestsBook() {

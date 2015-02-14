@@ -499,7 +499,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 PlayerStatsScoreboard scoreboard = new PlayerStatsScoreboard(
                         player);
                 RpgPlugin.this.scoreboardsList.add(scoreboard);
-                player.sendMessage(ChatColor.GREEN + "Your class is now: "
+                player.sendMessage(ChatColor.GREEN + RpgPlugin.t("t_character_set")
                         + ChatColor.GOLD + this.character.getName());
             }
         }
@@ -539,6 +539,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         this.characterChooserMenu = new InventoryMenu(9,
                 ChatColor.BOLD.toString() + ChatColor.WHITE
-                        + "Choose a character:", items);
+                        + RpgPlugin.t("t_choose_character"), items);
+    }
+
+    public static String t(String string) {
+        return RpgPlugin.getInstance().getConfig().getString(string);
     }
 }

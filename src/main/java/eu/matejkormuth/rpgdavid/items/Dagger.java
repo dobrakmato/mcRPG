@@ -26,6 +26,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
+
 public class Dagger extends ItemStack {
     private static final String DAGGER_NAME = ChatColor.RESET + "Dýka";
     // According to minecraftwiki
@@ -36,7 +38,8 @@ public class Dagger extends ItemStack {
 
         ItemMeta im = this.getItemMeta();
         im.setDisplayName(DAGGER_NAME);
-        im.setLore(Arrays.asList(ChatColor.RED + "Damage: 12 HP"));
+        im.setLore(Arrays.asList(ChatColor.RED + RpgPlugin.t("t_damage")
+                + " 12 HP"));
         im.addEnchant(Enchantment.DURABILITY, Integer.MAX_VALUE, true);
         this.setItemMeta(im);
     }

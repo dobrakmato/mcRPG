@@ -24,12 +24,14 @@ import org.bukkit.inventory.ItemStack;
 import eu.matejkormuth.bukkit.inventory.Armor;
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Modifiers;
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class Vampire extends Character {
     public Vampire() {
         super(
                 "Upír",
-                "Can bite each one minute.\n230% walking speed in nigth.\nNight vision in night.\nSunlight damages them if not wearing gold helmet.",
+                RpgPlugin.getInstance().getConfig()
+                .getString("translation_vampire"),
                 Modifiers.DEFAULT, new Armor(
                         new ItemStack(Material.GOLD_HELMET), null, null, null));
     }

@@ -25,12 +25,14 @@ import eu.matejkormuth.bukkit.Potion;
 import eu.matejkormuth.bukkit.inventory.Armor;
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Modifiers;
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.items.Dagger;
 import eu.matejkormuth.rpgdavid.items.GrapplingHook;
 
 public class Killer extends Character {
     public Killer() {
-        super("Vrah", null, new Modifiers(1, 1, 1, 1.5F, 1), Armor
+        super("Vrah", RpgPlugin.getInstance().getConfig()
+                .getString("translation_killer"), new Modifiers(1, 1, 1, 1.5F, 1), Armor
                 .createLether(Color.BLACK), new Potion(
                 PotionType.INSTANT_DAMAGE, 1).splash().toItemStack(4),
                 new Dagger(), new GrapplingHook());

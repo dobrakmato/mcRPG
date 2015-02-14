@@ -56,9 +56,12 @@ public class BookOfSpellsListener implements Listener {
                             event.getPlayer()
                                     .sendMessage(
                                             ChatColor.RED
-                                                    + "Sorry, your book must be at least level "
-                                                    + spell.getMinLevel()
-                                                    + " to cast this spell!");
+                                                    + RpgPlugin
+                                                            .t("t_lowlevel")
+                                                            .replace(
+                                                                    "%l",
+                                                                    ""
+                                                                            + spell.getMinLevel()));
                         }
                     }
                 }
@@ -99,7 +102,8 @@ public class BookOfSpellsListener implements Listener {
                         // Cycle trough spells only.
                         Spell spell = BookOfSpells.nextSpell(event.getPlayer());
                         event.getPlayer().sendMessage(
-                                ChatColor.YELLOW + "Current spell: "
+                                ChatColor.YELLOW
+                                        + RpgPlugin.t("t_currentspell")
                                         + spell.getName());
                     }
                 }

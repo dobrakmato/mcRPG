@@ -32,7 +32,7 @@ public class CharacterCommandExecutor implements CommandExecutor {
             String label, String[] args) {
         if (sender instanceof Player) {
             // TODO: Kill player.
-            ((Player) sender).sendMessage("You has been killed by server!");
+            //((Player) sender).sendMessage("You has been killed by server!");
             RpgPlugin.getInstance().getCharacterChoser()
                     .showTo((Player) sender);
         }

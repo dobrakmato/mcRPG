@@ -25,6 +25,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.party.Party;
 
 public class PartyCommandExecutor implements CommandExecutor {
@@ -48,7 +49,7 @@ public class PartyCommandExecutor implements CommandExecutor {
                         new Party(p);
                     } else {
                         p.sendMessage(ChatColor.RED
-                                + "You are already in party! To leave current party type /party leave!");
+                                + RpgPlugin.t("t_alreadyinparty"));
                     }
                     break;
                 case "invite":
@@ -64,23 +65,23 @@ public class PartyCommandExecutor implements CommandExecutor {
                                         // invite player
                                         party.invitePlayer(invitedPlayer);
                                         p.sendMessage(ChatColor.GREEN
-                                                + "Player "
-                                                + playerName
-                                                + " has been invited to your party!");
+                                                + RpgPlugin
+                                                        .t("t_playerinvited"));
                                         invitedPlayer
                                                 .sendMessage(ChatColor.GREEN
-                                                        + "Player "
-                                                        + p.getName()
-                                                        + " invites you to his party! Type /party accept "
-                                                        + p.getName()
-                                                        + " to join his party!");
+                                                        + RpgPlugin
+                                                                .t("t_partyinvite")
+                                                                .replace(
+                                                                        "%p",
+                                                                        p.getName()));
                                     } else {
                                         sender.sendMessage(ChatColor.RED
-                                                + "Specified player is already in party!");
+                                                + RpgPlugin
+                                                        .t("t_playeralreadyinparty"));
                                     }
                                 } else {
                                     sender.sendMessage(ChatColor.RED
-                                            + "Specified player is not found!");
+                                            + RpgPlugin.t("t_playernotfound"));
                                 }
                             } else {
                                 sender.sendMessage(ChatColor.RED
@@ -88,11 +89,11 @@ public class PartyCommandExecutor implements CommandExecutor {
                             }
                         } else {
                             p.sendMessage(ChatColor.RED
-                                    + "You have to be party leader in order to invite people to party!");
+                                    + RpgPlugin.t("t_notpartyleader"));
                         }
                     } else {
                         p.sendMessage(ChatColor.RED
-                                + "You are not in party! Type /party create to create a party!");
+                                + RpgPlugin.t("t_notinparty"));
                     }
                     break;
                 case "accept":
@@ -107,19 +108,20 @@ public class PartyCommandExecutor implements CommandExecutor {
                                         // join party
                                         party.addPlayer(p);
                                         sender.sendMessage(ChatColor.GREEN
-                                                + "You have joined "
-                                                + leaderName + "'s party!");
+                                                + RpgPlugin.t("t_joinedparty")
+                                                        .replace("%p",
+                                                                leaderName));
                                     } else {
                                         sender.sendMessage(ChatColor.RED
-                                                + "This party is full!");
+                                                + RpgPlugin.t("Party full"));
                                     }
                                 } else {
                                     sender.sendMessage(ChatColor.RED
-                                            + "You are not invited to this party!");
+                                            + RpgPlugin.t("t_notinvited"));
                                 }
                             } else {
                                 sender.sendMessage(ChatColor.RED
-                                        + "Specified party does not exists!");
+                                        + RpgPlugin.t("t_partynotfound"));
                             }
                         } else {
                             sender.sendMessage(ChatColor.RED
@@ -127,7 +129,7 @@ public class PartyCommandExecutor implements CommandExecutor {
                         }
                     } else {
                         p.sendMessage(ChatColor.RED
-                                + "You are already in party! To leave current party type /party leave!");
+                                + RpgPlugin.t("t_alreadyinparty"));
                     }
                     break;
                 case "kick":
@@ -142,13 +144,14 @@ public class PartyCommandExecutor implements CommandExecutor {
                                 if (party.contains(kickedPlayer)) {
                                     // kick player from party.
                                     party.removePlayer(kickedPlayer);
-                                    p.sendMessage(ChatColor.GREEN + "Player "
-                                            + kickedName + " has been kicked!");
+                                    p.sendMessage(ChatColor.GREEN
+                                            + RpgPlugin.t("t_playerkicked")
+                                                    .replace("%p", kickedName));
                                     kickedPlayer.sendMessage(ChatColor.RED
                                             + "You've been kicked from party!");
                                 } else {
                                     sender.sendMessage(ChatColor.RED
-                                            + "Specified player is not in your party!");
+                                            + RpgPlugin.t("t_playernotinparty"));
                                 }
                             } else {
                                 sender.sendMessage(ChatColor.RED
@@ -156,11 +159,11 @@ public class PartyCommandExecutor implements CommandExecutor {
                             }
                         } else {
                             p.sendMessage(ChatColor.RED
-                                    + "You have to be party leader in order to kick people from party!");
+                                    + RpgPlugin.t("t_notpartyleader_kick"));
                         }
                     } else {
                         p.sendMessage(ChatColor.RED
-                                + "You are not in party! Type /party create to create a party!");
+                                + RpgPlugin.t("t_notinparty"));
                     }
                     break;
                 case "leave":
@@ -168,9 +171,10 @@ public class PartyCommandExecutor implements CommandExecutor {
                         // leave party
                         Party.getParty(p).removePlayer(p);
                         p.sendMessage(ChatColor.GREEN
-                                + "You have left the party!");
+                                + RpgPlugin.t("t_leftparty"));
                     } else {
-                        p.sendMessage(ChatColor.RED + "You are not in party!");
+                        p.sendMessage(ChatColor.RED
+                                + RpgPlugin.t("t_notinparty"));
                     }
                     break;
                 }

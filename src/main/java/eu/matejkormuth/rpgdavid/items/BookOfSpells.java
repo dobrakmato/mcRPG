@@ -53,7 +53,7 @@ public class BookOfSpells extends ItemStack {
         super(Material.BOOK, 1);
         ItemMeta im = this.getItemMeta();
         im.setDisplayName(ChatColor.RESET.toString() + ChatColor.BLUE
-                + "Book of spells");
+                + RpgPlugin.t("t_bookofspells"));
         im.setLore(Arrays.asList(ChatColor.RESET.toString() + "Level 1"));
         im.addEnchant(Enchantment.DURABILITY, 12, true);
         this.setItemMeta(im);

@@ -24,13 +24,15 @@ import org.bukkit.inventory.ItemStack;
 import eu.matejkormuth.bukkit.inventory.Armor;
 import eu.matejkormuth.rpgdavid.Character;
 import eu.matejkormuth.rpgdavid.Modifiers;
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.inventoryutils.ItemUtils;
 
 public class Adventurer extends Character {
     public Adventurer() {
         super(
                 "Dobrodruh",
-                "Hunger depletes 2 times slower.\nPotions have 2 times bigger radius",
+                RpgPlugin.getInstance().getConfig()
+                .getString("translation_adventurer"),
                 Modifiers.DEFAULT, new Armor(null, new ItemStack(
                         Material.LEATHER_CHESTPLATE), null, null), ItemUtils
                         .unbreaking(new ItemStack(Material.WOOD_SWORD), 3));

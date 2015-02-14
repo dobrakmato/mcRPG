@@ -128,33 +128,35 @@ public class Character {
             lore = new ArrayList<String>(8);
         }
 
-        lore.add(ChatColor.GREEN + "Health: " + ChatColor.GOLD
+        lore.add(ChatColor.GREEN + RpgPlugin.t("t_health") + ChatColor.GOLD
                 + +(int) (20D * this.modifiers.getHealthModifier()) + " HP");
-        lore.add(ChatColor.YELLOW + "Health regain: " + ChatColor.GOLD
+        lore.add(ChatColor.YELLOW + RpgPlugin.t("t_health_regain")
+                + ChatColor.GOLD
                 + +(int) (100D * this.modifiers.getHealthRegainModifier())
                 + "%");
-        lore.add(ChatColor.RED + "Criticals chance: " + ChatColor.GOLD
+        lore.add(ChatColor.RED + RpgPlugin.t("t_critical_chance")
+                + ChatColor.GOLD
                 + +(int) (100D * this.modifiers.getCriticalModifier()) + "%");
-        lore.add(ChatColor.RED + "Damage: " + ChatColor.GOLD
+        lore.add(ChatColor.RED + RpgPlugin.t("t_damage") + ChatColor.GOLD
                 + +(int) (100D * this.modifiers.getDamageModifier()) + "%");
-        lore.add(ChatColor.BLUE + "Walk speed: " + ChatColor.GOLD
+        lore.add(ChatColor.BLUE + RpgPlugin.t("t_walkspeed") + ChatColor.GOLD
                 + +(int) (100D * this.modifiers.getWalkSpeedModifier()) + "%");
 
         lore.add("");
         if (Strings.isNullOrEmpty(this.special)) {
-            lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE
-                    + "nothing");
+            lore.add(ChatColor.LIGHT_PURPLE + RpgPlugin.t("t_special")
+                    + ChatColor.WHITE + "nothing");
         } else {
             if (this.special.contains("\n")) {
                 String[] specials = this.special.split("\n");
-                lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE
-                        + specials[0]);
+                lore.add(ChatColor.LIGHT_PURPLE + RpgPlugin.t("t_special")
+                        + ChatColor.WHITE + specials[0]);
                 for (int i = 1; i < specials.length; i++) {
                     lore.add("    " + ChatColor.WHITE + specials[i]);
                 }
             } else {
-                lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE
-                        + this.special);
+                lore.add(ChatColor.LIGHT_PURPLE + RpgPlugin.t("t_special")
+                        + ChatColor.WHITE + this.special);
             }
         }
         lore.add("");
@@ -176,33 +178,35 @@ public class Character {
             lore = new ArrayList<String>(8);
         }
 
-        lore.add(ChatColor.GREEN + "Health: " + ChatColor.GOLD
+        lore.add(ChatColor.GREEN + RpgPlugin.t("t_health") + ChatColor.GOLD
                 + +(int) (20D * this.modifiers.getHealthModifier()) + " HP");
-        lore.add(ChatColor.YELLOW + "Health regain: " + ChatColor.GOLD
+        lore.add(ChatColor.YELLOW + RpgPlugin.t("t_health_regain")
+                + ChatColor.GOLD
                 + +(int) (100D * this.modifiers.getHealthRegainModifier())
                 + "%");
-        lore.add(ChatColor.RED + "Criticals chance: " + ChatColor.GOLD
+        lore.add(ChatColor.RED + RpgPlugin.t("t_critical_chance")
+                + ChatColor.GOLD
                 + +(int) (100D * this.modifiers.getCriticalModifier()) + "%");
-        lore.add(ChatColor.RED + "Damage: " + ChatColor.GOLD
+        lore.add(ChatColor.RED + RpgPlugin.t("t_damage") + ChatColor.GOLD
                 + +(int) (100D * this.modifiers.getDamageModifier()) + "%");
-        lore.add(ChatColor.BLUE + "Walk speed: " + ChatColor.GOLD
+        lore.add(ChatColor.BLUE + RpgPlugin.t("t_walkspeed") + ChatColor.GOLD
                 + +(int) (100D * this.modifiers.getWalkSpeedModifier()) + "%");
 
         lore.add("");
         if (Strings.isNullOrEmpty(this.special)) {
-            lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE
-                    + "nothing");
+            lore.add(ChatColor.LIGHT_PURPLE + RpgPlugin.t("t_special")
+                    + ChatColor.WHITE + "nothing");
         } else {
             if (this.special.contains("\n")) {
                 String[] specials = this.special.split("\n");
-                lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE
-                        + specials[0]);
+                lore.add(ChatColor.LIGHT_PURPLE + RpgPlugin.t("t_special")
+                        + ChatColor.WHITE + specials[0]);
                 for (int i = 1; i < specials.length; i++) {
                     lore.add("    " + ChatColor.WHITE + specials[i]);
                 }
             } else {
-                lore.add(ChatColor.LIGHT_PURPLE + "Special: " + ChatColor.WHITE
-                        + this.special);
+                lore.add(ChatColor.LIGHT_PURPLE + RpgPlugin.t("t_special")
+                        + ChatColor.WHITE + this.special);
             }
         }
         lore.add("");

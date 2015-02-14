@@ -99,17 +99,21 @@ public abstract class Spell {
                         location.add(velocity.clone().multiply(2)
                                 .add(new Vector(0, 1, 0))), velocity);
             } else {
-                invoker.sendMessage(ChatColor.RED + "Low mana!");
+                invoker.sendMessage(ChatColor.RED + RpgPlugin.t("t_lowmana"));
             }
             // Set cooldown.
             RpgPlugin.getInstance().getCooldowns()
                     .setCooldown(invoker, this.coolDownId, this.cooldown);
         } else {
             invoker.sendMessage(ChatColor.RED
-                    + "This spell must be first cooled down! ("
-                    + RpgPlugin.getInstance().getCooldowns()
-                            .getTimeLeft(invoker, this.coolDownId) / 1000
-                    + " seconds)");
+                    + RpgPlugin.t("t_spellcooldown").replace(
+                            "%s",
+                            ""
+                                    + RpgPlugin
+                                            .getInstance()
+                                            .getCooldowns()
+                                            .getTimeLeft(invoker,
+                                                    this.coolDownId) / 1000));
         }
     }
 

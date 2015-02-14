@@ -84,14 +84,13 @@ public class WeaponsListener implements Listener {
                         event.getPlayer()
                                 .sendMessage(
                                         ChatColor.RED
-                                                + "Sorry, this item must cool down first ("
-                                                + RpgPlugin
+                                                + RpgPlugin.t("t_itemcooldown").replace("%s", "" + RpgPlugin
                                                         .getInstance()
                                                         .getCooldowns()
                                                         .getTimeLeft(
                                                                 event.getPlayer(),
                                                                 CD_GRAPPLING_HOOK)
-                                                / 1000 + " seconds remaining)!");
+                                                / 1000));
                     }
                 }
             }

@@ -25,6 +25,8 @@ import java.util.Set;
 
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
+
 public class Party {
     private static List<Party> parties = new ArrayList<Party>();
 
@@ -41,11 +43,11 @@ public class Party {
 
         return null;
     }
-    
+
     public static void clearParties() {
-       parties.clear();
+        parties.clear();
     }
-    
+
     private final Set<Player> players;
     private Player leader;
     private final Set<Player> invited;
@@ -63,16 +65,18 @@ public class Party {
 
     public void addPlayer(final Player player) {
         this.players.add(player);
-        this.broadcast("Player " + player.getDisplayName() + " joined party!");
+        this.broadcast(RpgPlugin.t("t_playerjoined").replace("%p",
+                player.getName()));
     }
 
     public void removePlayer(final Player player) {
         this.players.remove(player);
-        this.broadcast("Player " + player.getDisplayName() + " left party!");
+        this.broadcast(RpgPlugin.t("t_playerleft").replace("%p",
+                player.getName()));
 
         // Check if leader left party.
         if (player == this.leader) {
-            this.broadcast("Party leader left the party! Party is over!");
+            this.broadcast(RpgPlugin.t("t_leaderleft"));
             for (Player p : this.players) {
                 this.removePlayer(p);
             }
@@ -89,14 +93,14 @@ public class Party {
 
     public void invitePlayer(final Player player) {
         this.invited.add(player);
-        this.broadcast("Player " + player.getDisplayName()
-                + " has been invited to party!");
+        this.broadcast(RpgPlugin.t("t_playerinvited").replace("%p",
+                player.getName()));
     }
 
     public void setLeader(final Player player) {
         this.leader = player;
-        this.broadcast("Player " + player.getDisplayName()
-                + " is now party leader!");
+        this.broadcast(RpgPlugin.t("t_newpartyleader").replace("%p",
+                player.getName()));
     }
 
     public Player getLeader() {

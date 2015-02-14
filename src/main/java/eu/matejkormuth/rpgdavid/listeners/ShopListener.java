@@ -87,15 +87,23 @@ public class ShopListener implements Listener {
                                     event.getPlayer().getInventory()
                                             .addItem(items);
 
-                                    event.getPlayer().sendMessage(
-                                            ChatColor.GREEN + "You brought "
-                                                    + amount + " of "
-                                                    + customItemId + "!");
+                                    event.getPlayer()
+                                            .sendMessage(
+                                                    ChatColor.GREEN
+                                                            + RpgPlugin
+                                                                    .t("t_buysuccessfull")
+                                                                    .replace(
+                                                                            "%a",
+                                                                            amount)
+                                                                    .replace(
+                                                                            "%i",
+                                                                            customItemId));
                                 } catch (MoneyException ex) {
                                     event.getPlayer()
                                             .sendMessage(
                                                     ChatColor.RED
-                                                            + "You don't have enough money!");
+                                                            + RpgPlugin
+                                                                    .t("t_lowmoney"));
                                 }
                             }
                             // Pay with premium currency.
@@ -136,7 +144,8 @@ public class ShopListener implements Listener {
                                     event.getPlayer()
                                             .sendMessage(
                                                     ChatColor.RED
-                                                            + "You don't have enough money!");
+                                                            + RpgPlugin
+                                                                    .t("t_lowmoney"));
                                 }
                             }
                             // Sign has invalid currency specified.
