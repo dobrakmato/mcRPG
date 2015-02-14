@@ -20,6 +20,7 @@
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -41,9 +42,26 @@ public class HeadshotListener implements Listener {
                                 .getY()) < EPSILON) {
                     ParticleEffect.BLOCK_CRACK.display(
                             new ParticleEffect.BlockData(
-                                    Material.REDSTONE_BLOCK, (byte) 0), 0.5f,
-                            0.5f, 0.5f, 1, 80, ((LivingEntity) event
+                                    Material.REDSTONE_BLOCK, (byte) 0), 0.25f,
+                            0.25f, 0.25f, 1, 80, ((LivingEntity) event
                                     .getEntity()).getEyeLocation(), 256);
+                    event.getEntity()
+                            .getWorld()
+                            .playSound(event.getEntity().getLocation(),
+                                    Sound.HURT_FLESH, 1, 1);
+                    for (int i = 0; i < 20; i++) {
+                        ParticleEffect.BLOCK_CRACK.display(
+                                new ParticleEffect.BlockData(
+                                        Material.REDSTONE_BLOCK, (byte) 0),
+                                event.getDamager().getVelocity().multiply(5),
+                                1,
+                                ((LivingEntity) event.getEntity())
+                                        .getEyeLocation().add(
+                                                Math.random() - 0.5,
+                                                Math.random() - 0.5,
+                                                Math.random() - 0.5), 256);
+                        // TODO: Improve particle effect on headshot.
+                    }
                     event.setDamage(9999999D);
                 }
             }
