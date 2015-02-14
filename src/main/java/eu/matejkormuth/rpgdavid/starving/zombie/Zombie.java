@@ -304,6 +304,14 @@ public class Zombie extends EntityZombie {
         this.getBukkitEntity().teleport(location);
     }
 
+    public org.bukkit.entity.Zombie getBukkitZombieEntity() {
+        return (org.bukkit.entity.Zombie) super.getBukkitEntity();
+    }
+
+    public CraftEntity getCraftBukkitEntity() {
+        return super.getBukkitEntity();
+    }
+
     public static boolean isStarvingZombie(org.bukkit.entity.Entity entity) {
         return entity.hasMetadata("starving");
     }

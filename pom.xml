@@ -78,7 +78,6 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      <!-- Works only on local machine. Needs adding plugin to maven repo. -->
       <plugin>
         <groupId>eu.matejkormuth.mojos</groupId>
         <artifactId>starving-maven-plugin</artifactId>
@@ -93,9 +92,11 @@
         </executions>
         <configuration>
           <soundsIn>src/main/resources/starving/sounds.txt</soundsIn>
+          <itemsIn>src/main/resources/starving/itemps.mapping</itemsIn>
           <atmospheresIn>src/main/resources/starving/atmospheres.txt</atmospheresIn>
           <soundsOut>src/main/java/eu/matejkormuth/rpgdavid/starving/sounds/lists/Sounds.java</soundsOut>
           <atmospheresOut>src/main/java/eu/matejkormuth/rpgdavid/starving/sounds/lists/Atmospheres.java</atmospheresOut>
+          <itemsOut>src/main/java/eu/matejkormuth/rpgdavid/starving/items/Items.java</itemsOut>
         </configuration>
       </plugin>
       <plugin>
