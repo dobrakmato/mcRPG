@@ -35,6 +35,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
@@ -55,7 +58,7 @@ import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
-public class Starving implements Runnable {
+public class Starving implements Runnable, Listener {
     private static Starving instance;
 
     public static Starving getInstance() {
@@ -103,6 +106,7 @@ public class Starving implements Runnable {
         File confDirectory = new File(this.dataFolder.getAbsolutePath()
                 + "/conf/");
         confDirectory.mkdirs();
+        new File(this.dataFolder.getAbsolutePath() + "/pdatas/").mkdirs();
         PersistInjector
                 .setConfigurationsFolder(confDirectory.getAbsolutePath());
 
@@ -132,6 +136,8 @@ public class Starving implements Runnable {
 
         Bukkit.getPluginManager().registerEvents(new HiddenCommandsListener(),
                 this.corePlugin);
+
+        Bukkit.getPluginManager().registerEvents(this, this.corePlugin);
 
         // Register starving repeating tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(
@@ -199,6 +205,12 @@ public class Starving implements Runnable {
 
     public AmbientSoundManager getAmbientSoundManager() {
         return ambientSoundManager;
+    }
+
+    @EventHandler
+    private void onPlayerDisconnect(final PlayerQuitEvent event) {
+        // Save data of the player.
+        Data.of(event.getPlayer()).uncache().save();
     }
 
     @NMSHooks(version = "v1_8_R1")
