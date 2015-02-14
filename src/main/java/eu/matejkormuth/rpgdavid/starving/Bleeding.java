@@ -18,6 +18,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving;
 
+import org.bukkit.entity.Player;
+
 public class Bleeding {
     private float flow;
     private int bleedingTicks;
@@ -37,5 +39,10 @@ public class Bleeding {
 
     public float getFlow() {
         return this.flow;
+    }
+
+    public void start(Player player) {
+        Data.of(player).setBleedingTicks(this.getBleedingTicks());
+        Data.of(player).setBleedingFlow(this.flow);
     }
 }
