@@ -43,6 +43,7 @@ import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.HeadshotListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.LootListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
@@ -120,6 +121,8 @@ public class Starving implements Runnable {
         // Register starving listeners.
         Bukkit.getPluginManager().registerEvents(new ZombieListener(),
                 RpgPlugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(new HeadshotListener(),
+                this.corePlugin);
         Bukkit.getPluginManager().registerEvents(new ChatListener(),
                 RpgPlugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new LootListener(),
