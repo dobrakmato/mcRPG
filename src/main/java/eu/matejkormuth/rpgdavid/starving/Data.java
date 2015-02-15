@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
@@ -63,6 +64,14 @@ public class Data {
     @Persist(key = "bloodLevel")
     private float bloodLevel;
 
+    @Persist(key = "stamina")
+    private float stamina;
+    @Persist(key = "staminaCapacity")
+    private float staminaCapacity;
+
+    @Persist(key = "bodyTemperature")
+    private float bodyTemperature;
+
     private Data(Player player) {
         this.player = player;
     }
@@ -83,6 +92,10 @@ public class Data {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public final Profile getProfile() {
+        return RpgPlugin.getInstance().getProfile(this.player);
     }
 
     public int getBleedingTicks() {
@@ -117,4 +130,31 @@ public class Data {
         return this.bleedingTicks > 0;
     }
 
+    public float getStamina() {
+        return this.stamina;
+    }
+
+    public float getStaminaCapacity() {
+        return this.staminaCapacity;
+    }
+
+    public void incrementStamina(float amount) {
+        this.stamina += stamina;
+    }
+
+    public void decrementStamina(float amount) {
+        this.stamina -= stamina;
+    }
+
+    public void setStaminaCapacity(float staminaCapacity) {
+        this.staminaCapacity = staminaCapacity;
+    }
+
+    public float getBodyTemperature() {
+        return this.bodyTemperature;
+    }
+
+    public void setBodyTemperature(float bodyTemperature) {
+        this.bodyTemperature = bodyTemperature;
+    }
 }

@@ -47,12 +47,6 @@ public class Profile implements Serializable {
     // Quest properties.
     private List<String> activeQuests;
     private Map<String, Boolean> quests;
-
-    // Starving
-    private float bodyTemperature;
-    private float stamina = 300;
-    private float staminaCapacity = 300;
-
     public Profile() {
         this.quests = new HashMap<String, Boolean>();
     }
@@ -61,34 +55,6 @@ public class Profile implements Serializable {
         this.uuid = uuid;
         this.character = character;
         this.quests = new HashMap<String, Boolean>();
-    }
-
-    public float getStamina() {
-        return this.stamina;
-    }
-
-    public float getStaminaCapacity() {
-        return this.staminaCapacity;
-    }
-
-    public void incrementStamina(float amount) {
-        this.stamina += stamina;
-    }
-
-    public void decrementStamina(float amount) {
-        this.stamina -= stamina;
-    }
-
-    public void setStaminaCapacity(float staminaCapacity) {
-        this.staminaCapacity = staminaCapacity;
-    }
-
-    public float getBodyTemperature() {
-        return this.bodyTemperature;
-    }
-
-    public void setBodyTemperature(float bodyTemperature) {
-        this.bodyTemperature = bodyTemperature;
     }
 
     public Character getCharacter() {

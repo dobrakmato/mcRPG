@@ -19,50 +19,27 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
-import java.util.Map;
-import java.util.WeakHashMap;
-
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 
-import eu.matejkormuth.rpgdavid.Profile;
-import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.starving.Data;
 
 public class MoveListener implements Listener {
-    // Profile cache.
-    private Map<Player, Profile> profiles;
-
-    public MoveListener() {
-        profiles = new WeakHashMap<>();
-        
-    }
-
     // Performance critical code.
     @EventHandler
     private void onPlayerMove(final PlayerMoveEvent event) {
-        Profile p = this.profiles.get(event.getPlayer());
-        if (p == null) {
-            p = RpgPlugin.getInstance().getProfile(event.getPlayer());
-            this.profiles.put(event.getPlayer(), p);
-        }
-
         float dist = (float) event.getTo().distanceSquared(event.getFrom());
-        p.decrementStamina(dist / 4);
+        Data.of(event.getPlayer()).decrementStamina(dist / 4);
     }
 
     @EventHandler
     private void onSprint(final PlayerToggleSprintEvent event) {
         // Only if player has stamina.
-        Profile p = this.profiles.get(event.getPlayer());
-        if (p == null) {
-            p = RpgPlugin.getInstance().getProfile(event.getPlayer());
-            this.profiles.put(event.getPlayer(), p);
-        }
+        Data d = Data.of(event.getPlayer());
 
-        if (p.getStamina() < 50) {
+        if (d.getStamina() < 50) {
             event.setCancelled(true);
         }
     }

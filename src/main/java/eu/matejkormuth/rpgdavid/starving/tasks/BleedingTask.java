@@ -20,7 +20,10 @@
 package eu.matejkormuth.rpgdavid.starving.tasks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+
+import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
 
@@ -33,6 +36,10 @@ public class BleedingTask extends RepeatingTask {
             if (d.isBleeding()) {
                 d.setBloodLevel(d.getBloodLevel() - d.getBleedingFlow());
                 d.decrementBleedingTicks();
+                ParticleEffect.BLOCK_CRACK.display(
+                        new ParticleEffect.BlockData(Material.REDSTONE_BLOCK,
+                                (byte) 0), 0.15f, 0.15f, 0.15f, 1, 20, p
+                                .getEyeLocation(), 256);
             }
         }
     }

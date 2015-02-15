@@ -22,18 +22,15 @@ package eu.matejkormuth.rpgdavid.starving.tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import eu.matejkormuth.rpgdavid.Profile;
-import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.starving.Data;
 
 public class BodyTemperatureUpdater extends RepeatingTask {
-    private RpgPlugin plugin = RpgPlugin.getInstance();
-
     @Override
     public void run() {
-        Profile profile = null;
+        Data d = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
-            profile = this.plugin.getProfile(p);
-            profile.setBodyTemperature(profile.getBodyTemperature());
+            d = Data.of(p);
+            d.setBodyTemperature(d.getBodyTemperature());
 
             // TODO: Implement way to calculate body temperature change.
         }
