@@ -216,6 +216,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.saveConfig();
     }
 
+    public boolean isStarving() {
+        return this.getConfig().getBoolean("starving", false);
+    }
+
     public Profile getProfile(final UUID uuid) {
         return this.loadedProfiles.get(uuid);
     }
@@ -356,18 +360,21 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
     @EventHandler
     private void onRespawn(final PlayerRespawnEvent event) {
-        // Remove character.
-        this.getProfile(event.getPlayer()).setCharacter(null);
-        // Remove scoreboard.
-        this.scoreboardsList.remove(event.getPlayer());
-        // Show character selection after respawn.
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            @Override
-            public void run() {
-                RpgPlugin.this.characterChooserMenu.showTo(event.getPlayer());
-            }
-        }, 20L);
-
+        // We remove character only in starving mode.
+        if (this.isStarving()) {
+            // Remove character.
+            this.getProfile(event.getPlayer()).setCharacter(null);
+            // Remove scoreboard.
+            this.scoreboardsList.remove(event.getPlayer());
+            // Show character selection after respawn.
+            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+                @Override
+                public void run() {
+                    RpgPlugin.this.characterChooserMenu.showTo(event
+                            .getPlayer());
+                }
+            }, 20L);
+        }
     }
 
     @EventHandler
