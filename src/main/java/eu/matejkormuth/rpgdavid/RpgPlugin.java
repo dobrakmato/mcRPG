@@ -60,6 +60,7 @@ import eu.matejkormuth.rpgdavid.commands.YesCommandExecutor;
 import eu.matejkormuth.rpgdavid.inventorymenu.Action;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
+import eu.matejkormuth.rpgdavid.listeners.BanksListener;
 import eu.matejkormuth.rpgdavid.listeners.BookOfSpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.QuestsBookListener;
 import eu.matejkormuth.rpgdavid.listeners.ShopListener;
@@ -159,6 +160,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         Bukkit.getPluginManager().registerEvents(new ShopListener(), this);
         Bukkit.getPluginManager().registerEvents(new XPListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BanksListener(), this);
 
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
@@ -177,7 +179,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         // Load quests and QuestManager.
         this.questManager = new QuestManager();
         this.questManager.loadAll();
-        
+
         this.moneyBank = new MoneyBank();
 
         if (this.getConfig().getBoolean("debug", false)) {
@@ -223,7 +225,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     public boolean isStarving() {
         return this.getConfig().getBoolean("starving", false);
     }
-    
+
     public MoneyBank getMoneyBank() {
         return this.moneyBank;
     }
