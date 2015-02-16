@@ -25,12 +25,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.util.Vector;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class NauseaSpell extends Spell {
     public NauseaSpell() {
-        super(Sound.FIRE_IGNITE, "Nausea Spell", 200, 40000);
+        super(Sound.FIRE_IGNITE, RpgPlugin.t("t_nauseaspell"), 200, 40000);
         this.setMinLevel(6);
     }
 

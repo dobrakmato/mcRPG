@@ -145,7 +145,7 @@ public class Character {
         lore.add("");
         if (Strings.isNullOrEmpty(this.special)) {
             lore.add(ChatColor.LIGHT_PURPLE + RpgPlugin.t("t_special")
-                    + ChatColor.WHITE + "nothing");
+                    + ChatColor.WHITE + RpgPlugin.t("t_nothing"));
         } else {
             if (this.special.contains("\n")) {
                 String[] specials = this.special.split("\n");
@@ -195,7 +195,7 @@ public class Character {
         lore.add("");
         if (Strings.isNullOrEmpty(this.special)) {
             lore.add(ChatColor.LIGHT_PURPLE + RpgPlugin.t("t_special")
-                    + ChatColor.WHITE + "nothing");
+                    + ChatColor.WHITE + RpgPlugin.t("t_nothing"));
         } else {
             if (this.special.contains("\n")) {
                 String[] specials = this.special.split("\n");

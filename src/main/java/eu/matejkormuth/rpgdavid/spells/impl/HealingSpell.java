@@ -26,13 +26,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class HealingSpell extends Spell {
     private final static double RANGE = 3.0d;
 
     public HealingSpell() {
-        super(Sound.LEVEL_UP, "Healing spell", 300, 1000 * 60 * 3);
+        super(Sound.LEVEL_UP, RpgPlugin.t("t_healingspell"), 300, 1000 * 60 * 3);
         this.setMinLevel(2);
     }
 

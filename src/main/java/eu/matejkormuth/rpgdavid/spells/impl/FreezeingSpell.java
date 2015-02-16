@@ -25,12 +25,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.util.Vector;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class FreezeingSpell extends Spell {
     public FreezeingSpell() {
-        super(Sound.FIRE_IGNITE, "Freezing spell", 100, 1000);
+        super(Sound.FIRE_IGNITE, RpgPlugin.t("t_freezingspell"), 100, 1000);
         this.setMinLevel(1);
     }
 

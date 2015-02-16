@@ -25,13 +25,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.util.Vector;
 
+import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class PoisonSpell extends Spell {
 
     public PoisonSpell() {
-        super(Sound.FIRE_IGNITE, "Poison spell", 100, 16000);
+        super(Sound.FIRE_IGNITE, RpgPlugin.t("t_posionspell"), 100, 16000);
         this.setMinLevel(4);
     }
 

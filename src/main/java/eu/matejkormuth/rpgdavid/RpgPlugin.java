@@ -499,8 +499,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 PlayerStatsScoreboard scoreboard = new PlayerStatsScoreboard(
                         player);
                 RpgPlugin.this.scoreboardsList.add(scoreboard);
-                player.sendMessage(ChatColor.GREEN + RpgPlugin.t("t_character_set")
-                        + ChatColor.GOLD + this.character.getName());
+                player.sendMessage(ChatColor.GREEN
+                        + RpgPlugin.t("t_character_set") + ChatColor.GOLD
+                        + this.character.getName());
             }
         }
 

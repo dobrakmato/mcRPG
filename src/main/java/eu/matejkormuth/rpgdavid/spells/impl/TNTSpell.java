@@ -32,7 +32,7 @@ import eu.matejkormuth.rpgdavid.spells.Spell;
 
 public class TNTSpell extends Spell {
     public TNTSpell() {
-        super(Sound.FIRE_IGNITE, "TNT Spell", 150, 30000);
+        super(Sound.FIRE_IGNITE, RpgPlugin.t("t_tntspell"), 150, 30000);
         this.setMinLevel(5);
     }
 
