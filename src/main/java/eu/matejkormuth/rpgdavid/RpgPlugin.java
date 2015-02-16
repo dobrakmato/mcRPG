@@ -98,6 +98,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     private QuestManager questManager;
     private ScoreboardsList scoreboardsList;
     private Cooldowns cooldowns;
+    private MoneyBank moneyBank;
 
     private InventoryMenu characterChooserMenu;
 
@@ -176,6 +177,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         // Load quests and QuestManager.
         this.questManager = new QuestManager();
         this.questManager.loadAll();
+        
+        this.moneyBank = new MoneyBank();
 
         if (this.getConfig().getBoolean("debug", false)) {
             Debug.onEnable();
@@ -211,6 +214,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         // Clear map and disable componenets.
         this.loadedProfiles.clear();
         this.questManager.shutdown();
+        this.moneyBank.shutdown();
         Party.clearParties();
         // Save config.
         this.saveConfig();
@@ -218,6 +222,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
     public boolean isStarving() {
         return this.getConfig().getBoolean("starving", false);
+    }
+    
+    public MoneyBank getMoneyBank() {
+        return this.moneyBank;
     }
 
     public Profile getProfile(final UUID uuid) {
