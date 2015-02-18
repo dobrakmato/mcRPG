@@ -19,31 +19,29 @@
  */
 package eu.matejkormuth.rpgdavid.starving.tasks;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
-import org.bukkit.World;
+import org.bukkit.entity.Player;
 
-public class TimeUpdater extends RepeatingTask {
-    private final List<World> worlds;
-    private long fullTime;
+import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
+import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 
-    public TimeUpdater() {
-        // Cache worlds for better performance and memory usage.
-        this.worlds = Bukkit.getWorlds();
-        this.fullTime = this.worlds.get(0).getFullTime();
+public class StaminaRegenerationTask extends RepeatingTask {
+    @Persist(key = "STAMINA_INCREMENT")
+    private float STAMINA_INCREMENT = 20;
+
+    public StaminaRegenerationTask() {
+        PersistInjector.inject(this);
     }
 
     @Override
     public void run() {
-        // Increment time.
-        this.fullTime++;
-        this.setTime();
-    }
-
-    private void setTime() {
-        for (World w : this.worlds) {
-            w.setFullTime(this.fullTime);
+        Data d = null;
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            d = Data.of(p);
+            if (d.getStamina() + STAMINA_INCREMENT < d.getStaminaCapacity()) {
+                d.incrementStamina(STAMINA_INCREMENT);
+            }
         }
     }
 }

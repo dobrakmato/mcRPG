@@ -24,10 +24,13 @@ import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import net.minecraft.server.v1_8_R1.ChatMessage;
 import net.minecraft.server.v1_8_R1.ChatSerializer;
+import net.minecraft.server.v1_8_R1.EnumTitleAction;
 import net.minecraft.server.v1_8_R1.IChatBaseComponent;
 import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_8_R1.PacketPlayOutTitle;
 import net.minecraft.server.v1_8_R1.PacketPlayOutUpdateTime;
 import net.minecraft.server.v1_8_R1.PlayerConnection;
 
@@ -57,6 +60,7 @@ import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BodyTemperatureUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
+import eu.matejkormuth.rpgdavid.starving.tasks.StaminaRegenerationTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
@@ -126,6 +130,7 @@ public class Starving implements Runnable, Listener {
         new TimeUpdater().schedule(2L);
         new BodyTemperatureUpdater().schedule(20L);
         new BleedingTask().schedule(1L);
+        new StaminaRegenerationTask().schedule(20L);
 
         // Register starving listeners.
         Bukkit.getPluginManager().registerEvents(new ZombieListener(),
@@ -270,6 +275,15 @@ public class Starving implements Runnable, Listener {
         public static final void updateTime(Player player, long time) {
             ((CraftPlayer) player).getHandle().playerConnection
                     .sendPacket(new PacketPlayOutUpdateTime(time, time, true));
+        }
+
+        public static final void sendTitle(Player p, Locality loc, int fadeIn,
+                int fadeOut, int stay) {
+            PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(
+                    EnumTitleAction.TITLE, new ChatMessage(loc.getName()),
+                    fadeIn, stay, fadeOut);
+            ((CraftPlayer) p).getHandle().playerConnection
+                    .sendPacket(titlePacket);
         }
     }
 

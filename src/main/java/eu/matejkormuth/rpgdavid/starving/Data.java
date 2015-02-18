@@ -22,7 +22,7 @@ package eu.matejkormuth.rpgdavid.starving;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.Profile;
@@ -59,12 +59,24 @@ public class Data {
         cached = new HashMap<>();
     }
 
-    private static File dataFileOf(Player player) {
+    private static File dataFileOf(OfflinePlayer player) {
         return RpgPlugin.getInstance().getFile("pdatas",
                 player.getUniqueId().toString() + ".data");
     }
 
-    public static Data of(Player player) {
+    /**
+     * <p>
+     * Returns Data object related to specified player. This method first checks
+     * if Data object is cached. If not, it either loads data from harddisk or
+     * creates a new default Data object.
+     * </p>
+     * This method never returns null.
+     * 
+     * @param player
+     *            player object of which data soud be loaded
+     * @return Data object which holds all informations related to this player
+     */
+    public static Data of(OfflinePlayer player) {
         if (cached.containsKey(player)) {
             return cached.get(player);
         } else {
@@ -81,31 +93,31 @@ public class Data {
         return new Data(f);
     }
 
-    private static Data createData(Player player) {
+    private static Data createData(OfflinePlayer player) {
         return new Data(player);
     }
 
-    private Player player;
+    private OfflinePlayer player;
 
     @Persist(key = "bleedingTicks")
     private int bleedingTicks = 0;
     @Persist(key = "bleedingFlow")
     private float bleedingFlow = 0;
     @Persist(key = "bloodLevel")
-    private float bloodLevel;
+    private float bloodLevel = 5000;
 
     @Persist(key = "stamina")
-    private float stamina;
+    private float stamina = 800;
     @Persist(key = "staminaCapacity")
-    private float staminaCapacity;
+    private float staminaCapacity = 800;
 
     @Persist(key = "bodyTemperature")
     private float bodyTemperature;
 
     @Persist(key = "infected")
-    private boolean infected;
+    private boolean infected = false;
 
-    private Data(Player player) {
+    private Data(OfflinePlayer player) {
         this.player = player;
     }
 
@@ -123,7 +135,8 @@ public class Data {
         return this;
     }
 
-    public Player getPlayer() {
+    // May return null.
+    public OfflinePlayer getPlayer() {
         return this.player;
     }
 
