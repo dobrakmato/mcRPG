@@ -34,18 +34,20 @@ public class ChatListener implements Listener {
 
     @EventHandler
     private void onPlayerChat(final AsyncPlayerChatEvent event) {
-        // Does not modify chat messages from Ops.
+        // Do not modify chat messages from Ops.
         if (event.getPlayer().isOp()) {
             return;
         }
 
-        // Cancel event.
+        // Cancel original chat event.
         event.setCancelled(true);
-        // Apply filters.
+        
+        // Apply filters to message.
         String msg = event.getMessage();
         msg = ChatFilters.ipFilter(msg);
         msg = ChatFilters.swearFilter(msg);
 
+        // Send message to relevant players.
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (event.getPlayer().getLocation()
                     .distanceSquared(player.getLocation()) < CHAT_DISTANCE_SQUARED) {

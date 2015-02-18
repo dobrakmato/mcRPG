@@ -111,6 +111,16 @@ public class ItemManager implements Listener {
         return null;
     }
 
+    public boolean isItemOf(final ItemStack itemStack,
+            Class<? extends Item> type) {
+        Item i = this.findItem(itemStack);
+        if (i == null) {
+            return false;
+        }
+        // TODO: This might have bad performance.
+        return i.getClass().equals(type);
+    }
+
     private boolean isChemical(ItemStack itemStack) {
         if (itemStack.getType() != Material.POTION) {
             return false;
