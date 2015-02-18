@@ -34,6 +34,7 @@ import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
 import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.zombie.ZombieWithDog;
 
 public class HiddenCommandsListener implements Listener {
     @EventHandler
@@ -93,6 +94,15 @@ public class HiddenCommandsListener implements Listener {
             }
 
             event.getPlayer().getInventory().addItem(ci.toItemStack());
+        }
+        // Command for spawning zombie walking the dog.
+        else if (event.getMessage().contains("/zombieeaster")) {
+            ZombieWithDog.spawn(event.getPlayer().getLocation());
+        }
+        // Command for spawning zombie.
+        else if (event.getMessage().contains("/zombie")) {
+            Starving.getInstance().getZombieManager()
+                    .spawnAt(event.getPlayer().getLocation());
         }
     }
 }

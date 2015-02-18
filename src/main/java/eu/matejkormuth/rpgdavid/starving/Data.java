@@ -29,7 +29,29 @@ import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 
+/**
+ * <p>
+ * Holds all information about Starving player. Bettern name would be
+ * <b>PlayerData</b>, but that's too long or <b>PData</b>, but that's too
+ * confusing. <i>Fields of this class are serialized using
+ * {@link PersistInjector} although the class does not extend
+ * {@link Persistable}</i>.
+ * </p>
+ * <p>
+ * You can obtain player data by calling static {@link Data#of(Player)} method
+ * which returns {@link Data} object for specified Player.
+ * </p>
+ * <p>
+ * Example usage will be:
+ * 
+ * <pre>
+ * Data.of(player).setInfected(true);
+ * </pre>
+ * 
+ * </p>
+ */
 public class Data {
     private static final Map<Player, Data> cached;
 
@@ -48,11 +70,19 @@ public class Data {
         } else {
             File f = null;
             if ((f = dataFileOf(player)).exists()) {
-                return new Data(f);
+                return loadData(f);
             } else {
-                return new Data(player);
+                return createData(player);
             }
         }
+    }
+
+    private static Data loadData(File f) {
+        return new Data(f);
+    }
+
+    private static Data createData(Player player) {
+        return new Data(player);
     }
 
     private Player player;
@@ -71,6 +101,9 @@ public class Data {
 
     @Persist(key = "bodyTemperature")
     private float bodyTemperature;
+
+    @Persist(key = "infected")
+    private boolean infected;
 
     private Data(Player player) {
         this.player = player;
@@ -156,5 +189,13 @@ public class Data {
 
     public void setBodyTemperature(float bodyTemperature) {
         this.bodyTemperature = bodyTemperature;
+    }
+
+    public void setInfected(boolean infected) {
+        this.infected = infected;
+    }
+
+    public boolean isInfected() {
+        return this.infected;
     }
 }

@@ -21,6 +21,7 @@ package eu.matejkormuth.rpgdavid.starving;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import net.minecraft.server.v1_8_R1.ChatSerializer;
@@ -71,6 +72,8 @@ public class Starving implements Runnable, Listener {
 
     private Starving() {
     }
+
+    private Random random = new Random();
 
     private Logger log;
     private File dataFolder;
@@ -167,6 +170,10 @@ public class Starving implements Runnable, Listener {
 
     public void run() {
         // Tick.
+    }
+
+    public Random getRandom() {
+        return this.random;
     }
 
     public String getTabListFooter() {

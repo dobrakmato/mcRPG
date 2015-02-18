@@ -51,4 +51,8 @@ public class ZombieManager extends Persistable {
     public void remove(Entity e) {
 
     }
+
+    public Zombie spawnAt(Location location) {
+        return new Zombie(location);
+    }
 }
