@@ -30,6 +30,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -170,6 +171,31 @@ public class ItemManager implements Listener {
             if (item instanceof ConsumableItem) {
                 ((ConsumableItem) item).onConsume(event.getPlayer());
                 event.setCancelled(true);
+            }
+        }
+    }
+
+    // Crafting and max. stack amount emulation.
+
+    @EventHandler
+    private void onItemStackMerge(final InventoryClickEvent event) {
+        // Max stack emulation.
+        if (event.getCursor() != null) {
+            // If merging stacks of same type.
+            if (event.getCurrentItem().getType()
+                    .equals(event.getCursor().getType())) {
+                Item item1 = this.findItem(event.getCurrentItem());
+                Item item2 = this.findItem(event.getCursor());
+                // Check if both are custom.
+                if (item1 != null && item2 != null) {
+                    int totalAmount = event.getCurrentItem().getAmount()
+                            + event.getCursor().getAmount();
+                    // Check if this merge exceeds maxStackAmount.
+                    if (item1.getMaxStackAmount() > totalAmount) {
+                        // Disable this merge.
+                        event.setCancelled(true);
+                    }
+                }
             }
         }
     }

@@ -25,12 +25,18 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 
+import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Toolset extends Item {
     public Toolset() {
         super(Material.WORKBENCH, "Toolset");
+        // Item properties.
+        this.setMaxStackAmount(1);
+        this.setCategory(Category.MISCELLANEOUS);
+        this.setRarity(Rarity.COMMON);
     }
 
     @Override

@@ -21,11 +21,18 @@ package eu.matejkormuth.rpgdavid.starving.items.misc;
 
 import org.bukkit.Material;
 
+import eu.matejkormuth.rpgdavid.starving.items.Category;
+import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class DisinfectionTablets extends Item {
     public DisinfectionTablets() {
         super(Material.BAKED_POTATO, "Disinfection Tablets");
+
+        // Item properties.
+        this.setMaxStackAmount(8);
+        this.setCategory(Category.CHEMICALS);
+        this.setRarity(Rarity.UNCOMMON);
 
         // TODO: Register crafting recipe with dirty water to purified water.
     }

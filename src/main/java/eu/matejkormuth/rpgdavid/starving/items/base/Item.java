@@ -33,6 +33,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 public abstract class Item extends ItemBase {
     private Rarity rarity = Rarity.COMMON;
     private Category category;
+    private int maxStackAmount;
 
     public Item(Material material, String name) {
         super(material, 1, name);
@@ -46,11 +47,27 @@ public abstract class Item extends ItemBase {
     public void onInteractWith(Player player, Entity entity) {
     }
 
+    protected void setCategory(Category category) {
+        this.category = category;
+    }
+
+    protected void setRarity(Rarity rarity) {
+        this.rarity = rarity;
+    }
+
     public Category getCategory() {
         return this.category;
     }
 
     public Rarity getRarity() {
         return this.rarity;
+    }
+
+    protected void setMaxStackAmount(int amount) {
+        this.maxStackAmount = amount;
+    }
+
+    public int getMaxStackAmount() {
+        return this.maxStackAmount;
     }
 }

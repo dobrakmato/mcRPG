@@ -21,11 +21,18 @@ package eu.matejkormuth.rpgdavid.starving.items.misc;
 
 import org.bukkit.Material;
 
+import eu.matejkormuth.rpgdavid.starving.items.Category;
+import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Parachute extends Item {
     public Parachute() {
         super(Material.ACACIA_DOOR, "Parachute");
+
+        // Item properties.
+        this.setMaxStackAmount(4);
+        this.setCategory(Category.MISCELLANEOUS);
+        this.setRarity(Rarity.RARE);
     }
     // TODO: Implement parachute functionality.
 }
