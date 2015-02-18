@@ -33,6 +33,10 @@ public class Bleeding {
         this(amount / (seconds * 20), (int) seconds * 20);
     }
 
+    public Bleeding(float amount, Time time) {
+        this(amount / (time.toTicks()), (int) time.toTicks());
+    }
+
     public int getBleedingTicks() {
         return this.bleedingTicks;
     }
