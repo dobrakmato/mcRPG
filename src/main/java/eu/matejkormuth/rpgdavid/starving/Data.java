@@ -117,6 +117,9 @@ public class Data {
     @Persist(key = "infected")
     private boolean infected = false;
 
+    @Persist(key = "ableToSprint")
+    private boolean ableToSprint = true;
+
     private Data(OfflinePlayer player) {
         this.player = player;
     }
@@ -210,5 +213,13 @@ public class Data {
 
     public boolean isInfected() {
         return this.infected;
+    }
+
+    public void setAbleToSprint(boolean ableToSprint) {
+        this.ableToSprint = ableToSprint;
+    }
+
+    public boolean isAbleToSprint() {
+        return this.ableToSprint;
     }
 }

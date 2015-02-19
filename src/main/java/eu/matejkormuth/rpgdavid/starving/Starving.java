@@ -49,6 +49,7 @@ import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
+import eu.matejkormuth.rpgdavid.starving.listeners.BloodLevelDamageListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.FractureListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.HeadshotListener;
@@ -59,6 +60,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
+import eu.matejkormuth.rpgdavid.starving.tasks.BloodLevelConsuquencesTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BodyTemperatureUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
 import eu.matejkormuth.rpgdavid.starving.tasks.StaminaRegenerationTask;
@@ -132,6 +134,7 @@ public class Starving implements Runnable, Listener {
         new BodyTemperatureUpdater().schedule(20L);
         new BleedingTask().schedule(1L);
         new StaminaRegenerationTask().schedule(20L);
+        new BloodLevelConsuquencesTask().schedule(20L);
 
         // Register starving listeners.
         Bukkit.getPluginManager().registerEvents(new ZombieListener(),
@@ -146,6 +149,8 @@ public class Starving implements Runnable, Listener {
                 this.corePlugin);
         Bukkit.getPluginManager().registerEvents(new FractureListener(),
                 this.corePlugin);
+        Bukkit.getPluginManager().registerEvents(
+                new BloodLevelDamageListener(), this.corePlugin);
 
         Bukkit.getPluginManager().registerEvents(new HiddenCommandsListener(),
                 this.corePlugin);

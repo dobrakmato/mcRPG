@@ -19,34 +19,26 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 
-public class MoveListener extends Persistable implements Listener {
-    @Persist(key = "STAMINA_LEVEL_REQUIRED_FOR_SPRINT")
-    private static int STAMINA_LEVEL_REQUIRED_FOR_SPRINT = 200;
-
-    // Performance critical code.
+public class BloodLevelDamageListener implements Listener {
     @EventHandler
-    private void onPlayerMove(final PlayerMoveEvent event) {
-        float dist = (float) event.getTo().distanceSquared(event.getFrom());
-        Data.of(event.getPlayer()).decrementStamina(dist / 4);
-    }
+    private void onPlayerDamageEntity(final EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player) {
+            float bloodAmount = Data.of((Player) event.getDamager())
+                    .getBloodLevel();
 
-    @EventHandler
-    private void onSprint(final PlayerToggleSprintEvent event) {
-        // Only if player has stamina.
-        Data d = Data.of(event.getPlayer());
-
-        if (!d.isAbleToSprint()
-                || d.getStamina() < STAMINA_LEVEL_REQUIRED_FOR_SPRINT) {
-            event.setCancelled(true);
+            // Consequences of low blood level. (more in BloodLevelConsuquencesTask)
+            if (bloodAmount < 3000) {
+                event.setDamage(event.getDamage() * 0.25);
+            } else if (bloodAmount < 4000) {
+                event.setDamage(event.getDamage() * 0.75);
+            }
         }
     }
 }

@@ -20,5 +20,5 @@
 package eu.matejkormuth.rpgdavid.starving.items;
 
 public enum Category {
-    CHEMICALS, FIREARMS, FOOD, DRINKS, ELECTRONICS, MISCELLANEOUS;
+    CHEMICALS, FIREARMS, FOOD, DRINKS, ELECTRONICS, CLOTHES, MILITARY, MISCELLANEOUS;
 }
