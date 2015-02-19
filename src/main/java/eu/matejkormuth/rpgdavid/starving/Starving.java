@@ -21,6 +21,8 @@ package eu.matejkormuth.rpgdavid.starving;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -58,6 +60,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.LootListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BloodLevelConsuquencesTask;
@@ -90,11 +93,15 @@ public class Starving implements Runnable, Listener {
     private ItemManager itemManager;
     private ImpulseProcessor impulseProcessor;
 
+    private List<Persistable> persistablesList;
+
     private String tabListHeader = "Welcome to &cStarving 2.0!";
     private String tabListFooter = "http://www.starving.eu";
 
     public void onEnable() {
         instance = this;
+
+        this.persistablesList = new ArrayList<>();
 
         // Initialize logger to special StarvingLogger.
         this.log = new StarvingLogger();
@@ -137,25 +144,17 @@ public class Starving implements Runnable, Listener {
         new BloodLevelConsuquencesTask().schedule(20L);
 
         // Register starving listeners.
-        Bukkit.getPluginManager().registerEvents(new ZombieListener(),
-                RpgPlugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(new HeadshotListener(),
-                this.corePlugin);
-        Bukkit.getPluginManager().registerEvents(new ChatListener(),
-                RpgPlugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(new LootListener(),
-                this.corePlugin);
-        Bukkit.getPluginManager().registerEvents(new TabListListener(),
-                this.corePlugin);
-        Bukkit.getPluginManager().registerEvents(new FractureListener(),
-                this.corePlugin);
-        Bukkit.getPluginManager().registerEvents(
-                new BloodLevelDamageListener(), this.corePlugin);
-
-        Bukkit.getPluginManager().registerEvents(new HiddenCommandsListener(),
-                this.corePlugin);
-
-        Bukkit.getPluginManager().registerEvents(this, this.corePlugin);
+        this.register(new ZombieListener());
+        this.register(new HeadshotListener());
+        this.register(new ChatListener());
+        this.register(new LootListener());
+        this.register(new TabListListener());
+        this.register(new FractureListener());
+        this.register(new BloodLevelDamageListener());
+        // Register commands listener.
+        this.register(new HiddenCommandsListener());
+        // Register this as listener.
+        this.register(this);
 
         // Register starving repeating tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(
@@ -163,6 +162,21 @@ public class Starving implements Runnable, Listener {
 
         // Print some useful info.
         this.printImplementations();
+    }
+
+    /**
+     * Proxy method to allow easier registration of Listeners and to be sure
+     * that {@link Persistable}s, are saved when plugin's being disabled.
+     */
+    private void register(Object object) {
+        if (object instanceof Listener) {
+            Bukkit.getPluginManager().registerEvents((Listener) object,
+                    this.corePlugin);
+        }
+
+        if (object instanceof Persistable) {
+            this.persistablesList.add((Persistable) object);
+        }
     }
 
     private void printImplementations() {
@@ -179,6 +193,11 @@ public class Starving implements Runnable, Listener {
 
     public void onDisable() {
         this.zombieManager.saveConfiguration();
+
+        // Save configuration of all persistables.
+        for (Persistable persistable : this.persistablesList) {
+            persistable.saveConfiguration();
+        }
     }
 
     public void run() {
