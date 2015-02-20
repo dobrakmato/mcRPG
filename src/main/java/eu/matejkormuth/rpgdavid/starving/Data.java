@@ -138,6 +138,28 @@ public class Data {
         return this;
     }
 
+    /**
+     * <p>
+     * Resets all fields (excluding player field) in this instance of Data to
+     * their default state. Note that this method does not remove file on disk
+     * nor automatically saves state to disk.
+     * </p>
+     * <p>
+     * Basically this resets player's game data.
+     * </p>
+     */
+    public void reset() {
+        // TODO: Externalize default values.
+        this.ableToSprint = true;
+        this.bleedingFlow = 0;
+        this.bleedingTicks = 0;
+        this.bloodLevel = 5000;
+        this.bodyTemperature = 37;
+        this.infected = false;
+        this.stamina = 800;
+        this.staminaCapacity = 800;
+    }
+
     // May return null.
     public OfflinePlayer getPlayer() {
         return this.player;
