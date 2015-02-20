@@ -120,6 +120,11 @@ public class Data {
     @Persist(key = "ableToSprint")
     private boolean ableToSprint = true;
 
+    @Persist(key = "hydrationLevel")
+    private int hydrationLevel = 1200;
+    @Persist(key = "hydrationCapacity")
+    private int hydrationCapacity = 1200;
+
     private Data(OfflinePlayer player) {
         this.player = player;
     }
@@ -158,6 +163,8 @@ public class Data {
         this.infected = false;
         this.stamina = 800;
         this.staminaCapacity = 800;
+        this.hydrationCapacity = 1200;
+        this.hydrationLevel = 1200;
     }
 
     // May return null.
@@ -243,5 +250,21 @@ public class Data {
 
     public boolean isAbleToSprint() {
         return this.ableToSprint;
+    }
+
+    public int getHydrationCapacity() {
+        return this.hydrationCapacity;
+    }
+
+    public void setHydrationCapacity(int hydrationCapacity) {
+        this.hydrationCapacity = hydrationCapacity;
+    }
+
+    public int getHydrationLevel() {
+        return this.hydrationLevel;
+    }
+
+    public void setHydrationLevel(int hydrationLevel) {
+        this.hydrationLevel = hydrationLevel;
     }
 }
