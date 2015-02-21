@@ -81,7 +81,7 @@
       <plugin>
         <groupId>eu.matejkormuth.mojos</groupId>
         <artifactId>starving-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
@@ -92,11 +92,11 @@
         </executions>
         <configuration>
           <soundsIn>src/main/resources/starving/sounds.txt</soundsIn>
-          <itemsIn>src/main/resources/starving/itemps.mapping</itemsIn>
+          <itemsIn>src/main/resources/starving/items.mapping</itemsIn>
           <atmospheresIn>src/main/resources/starving/atmospheres.txt</atmospheresIn>
           <soundsOut>src/main/java/eu/matejkormuth/rpgdavid/starving/sounds/lists/Sounds.java</soundsOut>
           <atmospheresOut>src/main/java/eu/matejkormuth/rpgdavid/starving/sounds/lists/Atmospheres.java</atmospheresOut>
-          <itemsOut>src/main/java/eu/matejkormuth/rpgdavid/starving/items/Items.java</itemsOut>
+          <itemsOut>src/main/java/eu/matejkormuth/rpgdavid/starving/items/Mappings.java</itemsOut>
         </configuration>
       </plugin>
       <plugin>
