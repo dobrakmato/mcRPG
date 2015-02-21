@@ -292,6 +292,10 @@ public class Data {
         this.hydrationLevel = hydrationLevel;
     }
 
+    public void incrementHydrationLevel(float amount) {
+        this.hydrationLevel += amount;
+    }
+
     public void setSick(boolean sick) {
         this.sick = sick;
     }
@@ -299,4 +303,5 @@ public class Data {
     public boolean isSick() {
         return this.sick;
     }
+
 }

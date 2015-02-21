@@ -23,6 +23,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound.MutableFloat;
@@ -53,6 +54,8 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
     @Override
     public void onConsume(Player player) {
         this.evaluateEffects(player);
+        // Add total amount of liquid to player's hydaration.
+        Data.of(player).incrementHydrationLevel(this.contents.getTotalAmount());
         // Post event to sub class.
         this.onConsume0(player);
     }

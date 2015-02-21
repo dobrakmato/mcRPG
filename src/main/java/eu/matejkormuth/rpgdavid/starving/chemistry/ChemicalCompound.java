@@ -65,6 +65,14 @@ public class ChemicalCompound {
         return this.contents.get(chemical).getValue();
     }
 
+    public float getTotalAmount() {
+        float total = 0;
+        for (MutableFloat f : this.contents.values()) {
+            total += f.getValue();
+        }
+        return total;
+    }
+
     public Collection<Chemical> getChemicals() {
         return this.contents.keySet();
     }
