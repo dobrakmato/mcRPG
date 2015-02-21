@@ -17,21 +17,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.tasks;
+package eu.matejkormuth.rpgdavid.starving.items.base;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.Material;
 
-import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.items.ClothingType;
 
-public class ThirstLowererTask extends RepeatingTask {
-    @Override
-    public void run() {
-        // Lower hydration by one each second.
-        Data d = null;
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            d = Data.of(p);
-            d.setHydrationLevel(d.getHydrationLevel() - 1);
-        }
+public class ClothingItem extends Item {
+    private ClothingType type;
+
+    public ClothingItem(Material material, String name) {
+        super(material, name);
+    }
+
+    protected void setType(ClothingType type) {
+        this.type = type;
+    }
+
+    public ClothingType getType() {
+        return this.type;
     }
 }

@@ -126,9 +126,9 @@ public class Data {
     private boolean ableToSprint = true;
 
     @Persist(key = "hydrationLevel")
-    private int hydrationLevel = 1200;
+    private float hydrationLevel = 1200;
     @Persist(key = "hydrationCapacity")
-    private int hydrationCapacity = 1200;
+    private float hydrationCapacity = 1200;
 
     private Data(OfflinePlayer player) {
         this.player = player;
@@ -184,7 +184,7 @@ public class Data {
         this.staminaCapacity = 800;
         this.hydrationCapacity = 1200;
         this.hydrationLevel = 1200;
-        
+
         return this;
     }
 
@@ -276,19 +276,19 @@ public class Data {
         return this.ableToSprint;
     }
 
-    public int getHydrationCapacity() {
+    public float getHydrationCapacity() {
         return this.hydrationCapacity;
     }
 
-    public void setHydrationCapacity(int hydrationCapacity) {
+    public void setHydrationCapacity(float hydrationCapacity) {
         this.hydrationCapacity = hydrationCapacity;
     }
 
-    public int getHydrationLevel() {
+    public float getHydrationLevel() {
         return this.hydrationLevel;
     }
 
-    public void setHydrationLevel(int hydrationLevel) {
+    public void setHydrationLevel(float hydrationLevel) {
         this.hydrationLevel = hydrationLevel;
     }
 
