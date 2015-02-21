@@ -19,7 +19,6 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.medical;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -30,12 +29,13 @@ import org.bukkit.potion.PotionEffectType;
 import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Splint extends Item {
     public Splint() {
-        super(Material.PRISMARINE_CRYSTALS, "Splint");
+        super(Mappings.SPLINT, "Splint");
         this.setCategory(Category.MEDICAL);
         this.setRarity(Rarity.RARE);
         this.setMaxStackAmount(1);

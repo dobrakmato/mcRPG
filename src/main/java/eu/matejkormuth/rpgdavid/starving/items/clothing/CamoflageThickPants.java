@@ -19,16 +19,17 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.clothing;
 
-import org.bukkit.Material;
+
 
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.ClothingType;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.ClothingItem;
 
 public class CamoflageThickPants extends ClothingItem {
     public CamoflageThickPants() {
-        super(Material.ACACIA_DOOR, "CamoflageThickPants");
+        super(Mappings.CAMOFLAGETHICKPANTS, "CamoflageThickPants");
         this.setCategory(Category.MILITARY);
         this.setRarity(Rarity.UNCOMMON);
         this.setMaxStackAmount(1);

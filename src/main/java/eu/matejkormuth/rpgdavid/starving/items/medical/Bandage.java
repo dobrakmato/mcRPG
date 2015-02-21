@@ -19,7 +19,6 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.medical;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -29,12 +28,13 @@ import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Bandage extends Item {
     public Bandage() {
-        super(Material.PAPER, "Bandage");
+        super(Mappings.BANDAGE, "Bandage");
         this.setCategory(Category.MEDICAL);
         this.setRarity(Rarity.COMMON);
         this.setMaxStackAmount(8);

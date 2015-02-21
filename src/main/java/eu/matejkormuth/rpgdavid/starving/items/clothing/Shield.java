@@ -19,16 +19,15 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.clothing;
 
-import org.bukkit.Material;
-
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.ClothingType;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.ClothingItem;
 
 public class Shield extends ClothingItem {
     public Shield() {
-        super(Material.ACACIA_DOOR, "Shield");
+        super(Mappings.SHIELD, "Shield");
         this.setCategory(Category.MILITARY);
         this.setRarity(Rarity.RARE);
         this.setMaxStackAmount(1);

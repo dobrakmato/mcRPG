@@ -19,15 +19,14 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.clothing;
 
-import org.bukkit.Material;
-
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.ClothingType;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.ClothingItem;
 
 public class Boots extends ClothingItem {
     public Boots() {
-        super(Material.ACACIA_DOOR, "Boots");
+        super(Mappings.BOOTS, "Boots");
         this.setCategory(Category.CLOTHES);
         this.setMaxStackAmount(1);
         this.setType(ClothingType.SUMMER_CLOTHING);

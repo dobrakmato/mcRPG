@@ -19,16 +19,15 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.clothing;
 
-import org.bukkit.Material;
-
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.ClothingType;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.ClothingItem;
 
 public class WinterPants extends ClothingItem {
     public WinterPants() {
-        super(Material.ACACIA_DOOR, "WinterPants");
+        super(Mappings.WINTERPANTS, "WinterPants");
         this.setCategory(Category.CLOTHES);
         this.setRarity(Rarity.COMMON);
         this.setMaxStackAmount(1);

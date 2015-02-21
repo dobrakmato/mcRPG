@@ -19,16 +19,16 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.misc;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.Recipe;
 
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class GalvanicCell extends Item implements Craftable {
 
     public GalvanicCell() {
-        super(Material.IRON_AXE, "Galvanic Cell");
+        super(Mappings.VOLTAIC_BATTERY, "Galvanic Cell");
     }
 
     @Override

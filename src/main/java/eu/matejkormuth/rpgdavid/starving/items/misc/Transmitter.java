@@ -19,17 +19,17 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.misc;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.Recipe;
 
 import eu.matejkormuth.rpgdavid.starving.items.Category;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Transmitter extends Item implements Craftable {
     public Transmitter() {
-        super(Material.IRON_BARDING, "Transmitter");
+        super(Mappings.TRANSMITTER, "Transmitter");
         // Item properties.
         this.setMaxStackAmount(1);
         this.setCategory(Category.ELECTRONICS);

@@ -19,7 +19,6 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.misc;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -27,12 +26,13 @@ import org.bukkit.event.block.Action;
 
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Toolset extends Item {
     public Toolset() {
-        super(Material.WORKBENCH, "Toolset");
+        super(Mappings.TOOLSET, "Toolset");
         // Item properties.
         this.setMaxStackAmount(1);
         this.setCategory(Category.MISCELLANEOUS);

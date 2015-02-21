@@ -19,16 +19,15 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.clothing;
 
-import org.bukkit.Material;
-
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.ClothingType;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.ClothingItem;
 
 public class RubberShoes extends ClothingItem {
     public RubberShoes() {
-        super(Material.ACACIA_DOOR, "RubberShoes");
+        super(Mappings.RUBBERSHOES, "RubberShoes");
         this.setCategory(Category.CLOTHES);
         this.setRarity(Rarity.COMMON);
         this.setMaxStackAmount(1);

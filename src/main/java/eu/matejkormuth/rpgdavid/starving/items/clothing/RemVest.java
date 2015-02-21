@@ -19,16 +19,15 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.clothing;
 
-import org.bukkit.Material;
-
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.ClothingType;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.ClothingItem;
 
 public class RemVest extends ClothingItem {
     public RemVest() {
-        super(Material.ACACIA_DOOR, "RemVest");
+        super(Mappings.REMVEST, "RemVest");
         this.setCategory(Category.CLOTHES);
         this.setRarity(Rarity.COMMON);
         this.setMaxStackAmount(1);
