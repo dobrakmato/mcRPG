@@ -37,5 +37,9 @@ import java.lang.annotation.Target;
 @Target(value = { ElementType.FIELD })
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Persist {
+    /**
+     * Represents the key that will be used to write value to configuration
+     * file.
+     */
     String key();
 }
