@@ -32,6 +32,7 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
+import eu.matejkormuth.rpgdavid.starving.scoreboard.StarvingScoreboard;
 
 /**
  * <p>
@@ -55,7 +56,7 @@ import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
  * </p>
  */
 public class Data {
-    private static final Map<Player, Data> cached;
+    private static final Map<OfflinePlayer, Data> cached;
 
     static {
         cached = new HashMap<>();
@@ -136,13 +137,19 @@ public class Data {
     @Persist(key = "hydrationCapacity")
     private float hydrationCapacity = 1200;
 
+    public StarvingScoreboard scoreboard;
+
     private Data(OfflinePlayer player) {
         this.player = player;
+
+        cached.put(player, this);
     }
 
     public Data(File f, OfflinePlayer p) {
         PersistInjector.inject(this, f);
         this.player = p;
+
+        cached.put(player, this);
     }
 
     /**

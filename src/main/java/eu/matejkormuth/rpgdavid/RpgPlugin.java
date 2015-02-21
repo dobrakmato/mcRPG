@@ -183,8 +183,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 new TimeModifiersUpdater(), 0L, 20L);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
                 new ManaUpdater(), 0L, 1L);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
-                this.scoreboardsList, 0L, 5L);
+        if (!this.isStarving()) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+                    this.scoreboardsList, 0L, 5L);
+        }
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this.cooldowns,
                 20 * 60L, 20 * 60L);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,

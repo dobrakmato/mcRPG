@@ -29,15 +29,22 @@ public class OrderedScoreboard {
     // Dummy criteria for no criteria in Minecraft.
     private static final String DUMMY_CRITERIA = "dummy";
 
-    private Scoreboard rawScoreboard;
-    private Objective table;
-    private Score[] scores;
+    protected Scoreboard rawScoreboard;
+    protected Objective table;
+    protected Score[] scores;
 
     public OrderedScoreboard(int lines) {
         // this.lines = new String[lines];
         this.scores = new Score[lines];
         this.rawScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         this.createObjective();
+        this.createEmptyScores();
+    }
+
+    private void createEmptyScores() {
+        for (int i = 0; i < this.scores.length; i++) {
+            this.scores[i] = this.table.getScore("line_" + i);
+        }
     }
 
     public void setTitle(String title) {

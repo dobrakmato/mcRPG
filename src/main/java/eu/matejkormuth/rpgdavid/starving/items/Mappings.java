@@ -3,7 +3,7 @@ package eu.matejkormuth.rpgdavid.starving.items;
 // This file is part of Starving 2.0 project.
 // This file was automatically generated.
 // Changes to this file wont be preserved!
-// Generated at: 21.2.2015 22:46
+// Generated at: 21.2.2015 23:52
 // This file is licensed under GPL-3.
 // Starving: <http://github.com/dobrakmato/mcRPG>
 
@@ -19,7 +19,7 @@ public class Mappings {
     public static final Material CHEMICALS = Material.POTION;
     // "Transmitter" -> PRISMARINE_SHARD:0
     public static final Material TRANSMITTER = Material.PRISMARINE_SHARD;
-    // "Toolset" -> CRAFTING_TABLE:0
+    // "Toolset" -> WORKBENCH:0
     public static final Material TOOLSET = Material.WORKBENCH;
     // "Patch" -> SLIME_BALL:0
     public static final Material PATCH = Material.SLIME_BALL;
