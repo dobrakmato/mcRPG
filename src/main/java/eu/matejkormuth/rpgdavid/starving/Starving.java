@@ -59,6 +59,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.LootListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
+import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
@@ -94,7 +95,7 @@ public class Starving implements Runnable, Listener {
     private ItemManager itemManager;
     private ImpulseProcessor impulseProcessor;
 
-    private List<Persistable> persistablesList;
+    private List<IPersistable> persistablesList;
 
     private String tabListHeader = "Welcome to &cStarving 2.0!";
     private String tabListFooter = "http://www.starving.eu";
@@ -137,13 +138,13 @@ public class Starving implements Runnable, Listener {
         this.impulseProcessor = new BufferedImpulseProcessor();
 
         // Schedule all tasks.
-        new BleedingTask().schedule(1L);
-        new TimeUpdater().schedule(2L);
-        new LocalityTeller().schedule(20L);
-        new BodyTemperatureUpdater().schedule(20L);
-        new StaminaRegenerationTask().schedule(20L);
-        new BloodLevelConsuquencesTask().schedule(20L);
-        new ThirstLowererTask().schedule(20L);
+        this.register(new BleedingTask()).schedule(1L);
+        this.register(new TimeUpdater()).schedule(2L);
+        this.register(new LocalityTeller()).schedule(20L);
+        this.register(new BodyTemperatureUpdater()).schedule(20L);
+        this.register(new StaminaRegenerationTask()).schedule(20L);
+        this.register(new BloodLevelConsuquencesTask()).schedule(20L);
+        this.register(new ThirstLowererTask()).schedule(20L);
 
         // Register starving listeners.
         this.register(new ZombieListener());
@@ -169,16 +170,22 @@ public class Starving implements Runnable, Listener {
     /**
      * Proxy method to allow easier registration of Listeners and to be sure
      * that {@link Persistable}s, are saved when plugin's being disabled.
+     * 
+     * This metod returns passed object.
+     * 
+     * @return passed object
      */
-    private void register(Object object) {
+    private <T> T register(T object) {
         if (object instanceof Listener) {
             Bukkit.getPluginManager().registerEvents((Listener) object,
                     this.corePlugin);
         }
 
-        if (object instanceof Persistable) {
+        if (object instanceof IPersistable) {
             this.persistablesList.add((Persistable) object);
         }
+
+        return object;
     }
 
     private void printImplementations() {
@@ -197,7 +204,7 @@ public class Starving implements Runnable, Listener {
         this.zombieManager.saveConfiguration();
 
         // Save configuration of all persistables.
-        for (Persistable persistable : this.persistablesList) {
+        for (IPersistable persistable : this.persistablesList) {
             persistable.saveConfiguration();
         }
     }
