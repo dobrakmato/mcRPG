@@ -43,7 +43,30 @@ import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Boots;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.BulletproofVest;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.CamoflageHelmet;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.CamoflageThickPants;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.CamoflageThickShirt;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Cap;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Hat;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Jeans;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.RemVest;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.RubberShoes;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Sandals;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Shield;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Shirt;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Shoes;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Shorts;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.TShirt;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.ThickPants;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.ThickShoes;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.Windbreaker;
+import eu.matejkormuth.rpgdavid.starving.items.clothing.WinterPants;
 import eu.matejkormuth.rpgdavid.starving.items.consumables.MagicMushroom;
+import eu.matejkormuth.rpgdavid.starving.items.drinks.Fanta;
+import eu.matejkormuth.rpgdavid.starving.items.drinks.RedBull;
+import eu.matejkormuth.rpgdavid.starving.items.drinks.Sprite;
 import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ChemicalItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Bandage;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Patch;
@@ -82,8 +105,39 @@ public class ItemManager implements Listener {
         this.register(new Toolset());
         this.register(new MagicMushroom());
         this.register(new DisinfectionTablets());
-        
+
         this.registerMedical();
+        this.registerDrinks();
+        this.registerClothing();
+    }
+
+    private void registerDrinks() {
+        this.register(new Fanta());
+        this.register(new Sprite());
+        this.register(new RedBull());
+    }
+
+    private void registerClothing() {
+        this.register(new Boots());
+        this.register(new BulletproofVest());
+        this.register(new CamoflageHelmet());
+        this.register(new CamoflageThickPants());
+        this.register(new CamoflageThickShirt());
+        this.register(new Cap());
+        this.register(new Hat());
+        this.register(new Jeans());
+        this.register(new RemVest());
+        this.register(new RubberShoes());
+        this.register(new Sandals());
+        this.register(new Shield());
+        this.register(new Shirt());
+        this.register(new Shoes());
+        this.register(new Shorts());
+        this.register(new ThickPants());
+        this.register(new ThickShoes());
+        this.register(new TShirt());
+        this.register(new Windbreaker());
+        this.register(new WinterPants());
     }
 
     private void registerMedical() {
