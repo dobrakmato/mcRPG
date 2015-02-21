@@ -20,19 +20,84 @@
 package eu.matejkormuth.rpgdavid.starving.tasks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.EnviromentType;
+import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
+import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 
-public class BodyTemperatureUpdater extends RepeatingTask {
+public class BodyTemperatureUpdater extends RepeatingTask implements
+        IPersistable {
+
+    @Persist(key = "temperatureLowering")
+    private float temperatureLowering = 0.05F;
+    @Persist(key = "temperatureHighering")
+    private float temperatureHighering = 0.05F;
+
+    public BodyTemperatureUpdater() {
+        this.reloadConfiguration();
+    }
+
     @Override
     public void run() {
         Data d = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
             d = Data.of(p);
-            d.setBodyTemperature(d.getBodyTemperature());
+            float temp = d.getBodyTemperature();
 
-            // TODO: Implement way to calculate body temperature change.
+            switch (EnviromentType.byBiome(this.getBiomeOfPlayer(p))) {
+                case COLD:
+                    if (this.playerHasAnyClothing(p)) {
+                        // Temperature is stable.
+                    } else {
+                        // Temperature is lowering.
+                        temp -= temperatureLowering;
+                    }
+                    break;
+                case NORMAL:
+                    if (this.playerHasAnyClothing(p)) {
+                        // Temperature is stable.
+                    } else {
+                        // Temperature is stable.
+                    }
+                    break;
+                case WARM:
+                    if (this.playerHasAnyClothing(p)) {
+                        // Temperature is highering.
+                        if (temp <= 39F) {
+                            temp += temperatureHighering;
+                        }
+                    } else {
+                        // Temperature is stable.
+                    }
+                    break;
+            }
+
+            d.setBodyTemperature(temp);
         }
+    }
+
+    private boolean playerHasAnyClothing(Player p) {
+        return p.getInventory().getBoots() != null
+                || p.getInventory().getChestplate() != null
+                || p.getInventory().getLeggings() != null
+                || p.getInventory().getHelmet() != null;
+    }
+
+    private Biome getBiomeOfPlayer(Player p) {
+        return p.getLocation().getBlock().getBiome();
+    }
+
+    @Override
+    public void reloadConfiguration() {
+        PersistInjector.inject(this);
+    }
+
+    @Override
+    public void saveConfiguration() {
+        PersistInjector.store(this);
     }
 }
