@@ -37,11 +37,22 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
 import eu.matejkormuth.rpgdavid.money.Currencies;
+import eu.matejkormuth.rpgdavid.money.Currency;
 import eu.matejkormuth.rpgdavid.money.Money;
+import eu.matejkormuth.rpgdavid.money.Money.MoneyException;
 
 public class BanksListener implements Listener {
     private static final String MONEY_BANK_LINE = "[Bank]";
     private static final String ITEM_BANK_LINE = "[ItemBank]";
+
+    private eu.matejkormuth.rpgdavid.inventorymenu.Action normalStore = new MoneyBankStoreMoneyAction(
+            50, Currencies.NORMAL);
+    private eu.matejkormuth.rpgdavid.inventorymenu.Action premiumStore = new MoneyBankStoreMoneyAction(
+            50, Currencies.PREMIUM);
+    private eu.matejkormuth.rpgdavid.inventorymenu.Action normalTake = new MoneyBankTakeMoneyAction(
+            50, Currencies.NORMAL);
+    private eu.matejkormuth.rpgdavid.inventorymenu.Action premiumTake = new MoneyBankTakeMoneyAction(
+            50, Currencies.PREMIUM);
 
     @EventHandler
     private void onSignClick(final PlayerInteractEvent event) {
@@ -66,112 +77,17 @@ public class BanksListener implements Listener {
 
         // Normal add.
         items.add(new InventoryMenuItem(named(RpgPlugin.t("t_normal_store"),
-                Material.GOLD_BLOCK),
-                new eu.matejkormuth.rpgdavid.inventorymenu.Action() {
-                    @Override
-                    public void execute(Player player) {
-                        try {
-                            int amount = RpgPlugin.getInstance()
-                                    .getProfile(player).getNormalMoney()
-                                    .getAmount();
-                            RpgPlugin
-                                    .getInstance()
-                                    .getProfile(player)
-                                    .getNormalMoney()
-                                    .subtract(
-                                            new Money(amount, Currencies.NORMAL));
-                            RpgPlugin.getInstance().getMoneyBank()
-                                    .getAccount(player).getNormal()
-                                    .add(new Money(amount, Currencies.NORMAL));
-                            player.sendMessage(ChatColor.GREEN
-                                    + "Peniaze ulozene do banky.");
-                        } catch (Exception e) {
-                            player.sendMessage(ChatColor.RED + e.getMessage());
-                        }
-                    }
-                }, 0, false));
+                Material.GOLD_BLOCK), this.normalStore, 0, false));
         // Normal take.
         items.add(new InventoryMenuItem(named(RpgPlugin.t("t_normal_take"),
-                Material.GOLD_BLOCK),
-                new eu.matejkormuth.rpgdavid.inventorymenu.Action() {
-                    @Override
-                    public void execute(Player player) {
-                        try {
-                            int amount = RpgPlugin.getInstance().getMoneyBank()
-                                    .getAccount(player).getNormal().getAmount();
-                            RpgPlugin
-                                    .getInstance()
-                                    .getMoneyBank()
-                                    .getAccount(player)
-                                    .getNormal()
-                                    .subtract(
-                                            new Money(amount, Currencies.NORMAL));
-                            RpgPlugin.getInstance().getProfile(player)
-                                    .getNormalMoney()
-                                    .add(new Money(amount, Currencies.NORMAL));
-                            player.sendMessage(ChatColor.GREEN
-                                    + "Peniaze vybrate z banky.");
-                        } catch (Exception e) {
-                            player.sendMessage(ChatColor.RED + e.getMessage());
-                        }
-                    }
-                }, 1, false));
+                Material.GOLD_BLOCK), this.normalTake, 1, false));
 
         // Premium add.
         items.add(new InventoryMenuItem(named(RpgPlugin.t("t_premium_store"),
-                Material.IRON_BLOCK),
-                new eu.matejkormuth.rpgdavid.inventorymenu.Action() {
-                    @Override
-                    public void execute(Player player) {
-                        try {
-                            int amount = RpgPlugin.getInstance()
-                                    .getProfile(player).getPremiumMoney()
-                                    .getAmount();
-                            RpgPlugin
-                                    .getInstance()
-                                    .getProfile(player)
-                                    .getPremiumMoney()
-                                    .subtract(
-                                            new Money(amount,
-                                                    Currencies.PREMIUM));
-                            RpgPlugin.getInstance().getMoneyBank()
-                                    .getAccount(player).getPremium()
-                                    .add(new Money(amount, Currencies.PREMIUM));
-                            player.sendMessage(ChatColor.GREEN
-                                    + "Peniaze ulozene do banky.");
-                        } catch (Exception e) {
-                            player.sendMessage(ChatColor.RED + e.getMessage());
-                        }
-                    }
-                }, 1, false));
+                Material.IRON_BLOCK), this.premiumStore, 2, false));
         // Premium take.
         items.add(new InventoryMenuItem(named(RpgPlugin.t("t_premium_take"),
-                Material.IRON_BLOCK),
-                new eu.matejkormuth.rpgdavid.inventorymenu.Action() {
-                    @Override
-                    public void execute(Player player) {
-                        try {
-                            int amount = RpgPlugin.getInstance().getMoneyBank()
-                                    .getAccount(player).getPremium()
-                                    .getAmount();
-                            RpgPlugin
-                                    .getInstance()
-                                    .getMoneyBank()
-                                    .getAccount(player)
-                                    .getPremium()
-                                    .subtract(
-                                            new Money(amount,
-                                                    Currencies.PREMIUM));
-                            RpgPlugin.getInstance().getProfile(player)
-                                    .getPremiumMoney()
-                                    .add(new Money(amount, Currencies.PREMIUM));
-                            player.sendMessage(ChatColor.GREEN
-                                    + "Peniaze vybrate z banky.");
-                        } catch (Exception e) {
-                            player.sendMessage(ChatColor.RED + e.getMessage());
-                        }
-                    }
-                }, 2, false));
+                Material.IRON_BLOCK), this.premiumTake, 3, false));
 
         // Create and open inventory menu.
         InventoryMenu im = new InventoryMenu(9, "Banka", items);
@@ -180,5 +96,80 @@ public class BanksListener implements Listener {
 
     public static final ItemStack named(String name, Material material) {
         return new ItemStackBuilder(material).name(name).build();
+    }
+
+    public static final class MoneyBankStoreMoneyAction implements
+            eu.matejkormuth.rpgdavid.inventorymenu.Action {
+        private int amount;
+        private Currency curr;
+
+        public MoneyBankStoreMoneyAction(int amount, Currency curr) {
+            this.amount = amount;
+            this.curr = curr;
+        }
+
+        @Override
+        public void execute(Player player) {
+            Money playerMoney;
+            Money playerBank;
+            if (curr == Currencies.NORMAL) {
+                playerMoney = RpgPlugin.getInstance().getProfile(player)
+                        .getNormalMoney();
+                playerBank = RpgPlugin.getInstance().getMoneyBank()
+                        .getAccount(player).getNormal();
+            } else {
+                playerMoney = RpgPlugin.getInstance().getProfile(player)
+                        .getPremiumMoney();
+                playerBank = RpgPlugin.getInstance().getMoneyBank()
+                        .getAccount(player).getPremium();
+            }
+            // Transaction.
+            Money transaction = new Money(this.amount, this.curr);
+            try {
+                playerMoney.subtractSafe(transaction);
+                playerBank.add(transaction);
+                player.sendMessage(ChatColor.GREEN + "Transakce uspesna.");
+            } catch (MoneyException e) {
+                player.sendMessage(ChatColor.RED + e.getMessage());
+            }
+        }
+    }
+
+    public static final class MoneyBankTakeMoneyAction implements
+            eu.matejkormuth.rpgdavid.inventorymenu.Action {
+        private int amount;
+        private Currency curr;
+
+        public MoneyBankTakeMoneyAction(int amount, Currency curr) {
+            this.amount = amount;
+            this.curr = curr;
+        }
+
+        @Override
+        public void execute(Player player) {
+            Money playerMoney;
+            Money playerBank;
+            if (curr == Currencies.NORMAL) {
+                playerMoney = RpgPlugin.getInstance().getProfile(player)
+                        .getNormalMoney();
+                playerBank = RpgPlugin.getInstance().getMoneyBank()
+                        .getAccount(player).getNormal();
+            } else {
+                playerMoney = RpgPlugin.getInstance().getProfile(player)
+                        .getPremiumMoney();
+                playerBank = RpgPlugin.getInstance().getMoneyBank()
+                        .getAccount(player).getPremium();
+            }
+            // Transaction.
+            Money transaction = new Money(this.amount, this.curr);
+            try {
+                playerBank.subtractSafe(transaction);
+                playerMoney.add(transaction);
+                player.sendMessage(ChatColor.GREEN + "Transakce uspesna.");
+            } catch (MoneyException e) {
+                player.sendMessage(ChatColor.RED + e.getMessage());
+            }
+        }
+
     }
 }

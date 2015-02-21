@@ -36,7 +36,6 @@ package eu.matejkormuth.rpgdavid.inventorymenu;
  */
 //@formatter:on
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,12 +54,13 @@ import org.bukkit.inventory.InventoryHolder;
  * 
  */
 public class InventoryMenu implements InventoryHolder {
-    private static List<WeakReference<InventoryMenu>> menus = new ArrayList<WeakReference<InventoryMenu>>();
+    // FIXME: mem leak? just don't tell about it...
+    private static final List<InventoryMenu> menus = new ArrayList<InventoryMenu>();
 
     public static InventoryMenu getInventoryMenu(final Inventory inventory) {
-        for (WeakReference<InventoryMenu> menu : menus) {
-            if (menu.get().getInventory().equals(inventory)) {
-                return menu.get();
+        for (InventoryMenu menu : menus) {
+            if (menu.getInventory().equals(inventory)) {
+                return menu;
             }
         }
         return null;
@@ -110,7 +110,7 @@ public class InventoryMenu implements InventoryHolder {
         for (InventoryMenuItem item : this.items.values())
             this.inventory.setItem(item.getSlot(), item.getItemStack());
 
-        menus.add(new WeakReference<InventoryMenu>(this));
+        menus.add(this);
     }
 
     /**
@@ -146,7 +146,7 @@ public class InventoryMenu implements InventoryHolder {
         for (InventoryMenuItem item : this.items.values())
             this.inventory.setItem(item.getSlot(), item.getItemStack());
 
-        menus.add(new WeakReference<InventoryMenu>(this));
+        menus.add(this);
     }
 
     /**

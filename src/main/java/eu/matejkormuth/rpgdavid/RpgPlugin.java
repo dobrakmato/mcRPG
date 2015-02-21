@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -49,6 +50,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionType;
+import org.bukkit.util.Vector;
 
 import eu.matejkormuth.bukkit.Potion;
 import eu.matejkormuth.rpgdavid.commands.CharacterCommandExecutor;
@@ -103,6 +105,8 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
     private InventoryMenu characterChooserMenu;
 
+    private YamlConfiguration ports;
+
     @Override
     public void onEnable() {
         instnace = this;
@@ -111,6 +115,14 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.scoreboardsList = new ScoreboardsList();
         this.loadedProfiles = new HashMap<UUID, Profile>();
         this.cooldowns = new Cooldowns();
+
+        // Load ports.
+        if (this.getFile("ports.yml").exists()) {
+            this.ports = YamlConfiguration.loadConfiguration(this
+                    .getFile("ports.yml"));
+        } else {
+            this.ports = new YamlConfiguration();
+        }
 
         this.log = this.getLogger();
         this.log.info("Prepearing characters...");
@@ -219,6 +231,11 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.moneyBank.shutdown();
         Party.clearParties();
         // Save config.
+        try {
+            this.ports.save(this.getFile("ports.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.saveConfig();
     }
 
@@ -495,6 +512,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         boolean expanded = false;
         expanded |= new File(this.dataFolder + "/profiles/").mkdirs();
         expanded |= new File(this.dataFolder + "/quests/").mkdirs();
+        expanded |= new File(this.dataFolder + "/banks/").mkdirs();
         if (expanded) {
             this.log.info("Directory structure expanded!");
         }
@@ -562,5 +580,14 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
     public static String t(String string) {
         return RpgPlugin.getInstance().getConfig().getString(string);
+    }
+
+    public Location getPortLocation(String target) {
+        Vector v = this.ports.getVector(target + ".vector", null);
+        String world = this.ports.getString(target + ".world");
+        if (v == null || world == null) {
+            return null;
+        }
+        return v.toLocation(Bukkit.getWorld(world));
     }
 }
