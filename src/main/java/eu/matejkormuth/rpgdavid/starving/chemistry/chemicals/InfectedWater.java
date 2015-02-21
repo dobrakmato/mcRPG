@@ -13,9 +13,8 @@ public class InfectedWater extends Chemical {
 
     @Override
     public void onPureConsumedBy(Player player, float amount) {
-        // Probability 60% of getting sick from drinking dirty water.
+        // Probability 60% of getting infected from drinking dirty water.
         if (Starving.getInstance().getRandom().nextInt(9) > 6) {
-            // TODO: Make player sick.
             Data.of(player).setInfected(true);
         }
     }

@@ -23,8 +23,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public abstract class ConsumableItem extends Item {
-    private final int foodLevelIncrement;
-    private final float saturationIncrement;
+    private int foodLevelIncrement;
+    private float saturationIncrement;
 
     public ConsumableItem(final int foodLevelIncrement,
             final float saturationIncrement, final Material material,
@@ -46,6 +46,14 @@ public abstract class ConsumableItem extends Item {
 
     public float getSaturationIncrement() {
         return this.saturationIncrement;
+    }
+
+    protected void setFoodLevelIncrement(int foodLevelIncrement) {
+        this.foodLevelIncrement = foodLevelIncrement;
+    }
+
+    protected void setSaturationIncrement(float saturationIncrement) {
+        this.saturationIncrement = saturationIncrement;
     }
 
     protected abstract void onConsume0(Player player);
