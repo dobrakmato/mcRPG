@@ -84,6 +84,7 @@ public class ItemManager implements Listener {
     private EnumMap<Category, List<Item>> categoryMapping;
 
     public ItemManager() {
+        Starving.getInstance().getLogger().info("Initializing ItemManager...");
         this.items = new HashSet<Item>();
         // Register all items.
         this.registerAll();
@@ -91,6 +92,10 @@ public class ItemManager implements Listener {
         // Regsiter events.
         Bukkit.getPluginManager().registerEvents(this,
                 Starving.getInstance().getPlugin());
+        Starving.getInstance()
+                .getLogger()
+                .info("We have " + this.items.size()
+                        + " different registered items!");
     }
 
     private void registerAdditionalRecipes() {
@@ -187,6 +192,10 @@ public class ItemManager implements Listener {
     }
 
     private boolean isChemical(ItemStack itemStack) {
+        if (itemStack == null) {
+            return false;
+        }
+
         if (itemStack.getType() != Material.POTION) {
             return false;
         }

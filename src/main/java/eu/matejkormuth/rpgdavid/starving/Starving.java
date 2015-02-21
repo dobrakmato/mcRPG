@@ -180,12 +180,16 @@ public class Starving implements Runnable, Listener {
      */
     private <T> T register(T object) {
         if (object instanceof Listener) {
+            this.getLogger().info(
+                    " New listener: " + object.getClass().getName());
             Bukkit.getPluginManager().registerEvents((Listener) object,
                     this.corePlugin);
         }
 
         if (object instanceof IPersistable) {
-            this.persistablesList.add((Persistable) object);
+            this.getLogger().info(
+                    " New IPersistable: " + object.getClass().getName());
+            this.persistablesList.add((IPersistable) object);
         }
 
         return object;
@@ -205,6 +209,13 @@ public class Starving implements Runnable, Listener {
 
     public void onDisable() {
         this.zombieManager.saveConfiguration();
+
+        // Save all cached Data-s.
+        for (Data d : Data.cached()) {
+            d.save().uncache();
+        }
+
+        DataDefaults.get().saveConfiguration();
 
         // Save configuration of all persistables.
         for (IPersistable persistable : this.persistablesList) {

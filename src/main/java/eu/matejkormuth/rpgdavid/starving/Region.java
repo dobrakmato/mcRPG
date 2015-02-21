@@ -19,20 +19,47 @@
  */
 package eu.matejkormuth.rpgdavid.starving;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
-public class Region {
+@SerializableAs("Region")
+public class Region implements ConfigurationSerializable {
+    static {
+        ConfigurationSerialization.registerClass(Region.class);
+    }
+
     private Vector minVector;
     private Vector maxVector;
     private World world;
     private Random random;
+
+    public Region(Map<String, Object> serialized) {
+        this.minVector = (Vector) serialized.get("minVector");
+        this.maxVector = (Vector) serialized.get("maxVector");
+        this.world = Bukkit.getWorld(String.valueOf(serialized.get("world")));
+        this.random = new Random();
+    }
+
+    public Region(Location center, int size) {
+        this.minVector = center.toVector().subtract(
+                new Vector(size, size, size));
+        this.maxVector = center.toVector().subtract(
+                new Vector(size, size, size));
+        this.world = center.getWorld();
+        this.random = new Random();
+    }
 
     private double randX() {
         return this.random.nextDouble()
@@ -62,15 +89,6 @@ public class Region {
                         minVector.getY(), minVector.getY()), Math.max(
                         minVector.getZ(), minVector.getZ()));
         this.world = world;
-        this.random = new Random();
-    }
-
-    public Region(Location center, int size) {
-        this.minVector = center.toVector().subtract(
-                new Vector(size, size, size));
-        this.maxVector = center.toVector().subtract(
-                new Vector(size, size, size));
-        this.world = center.getWorld();
         this.random = new Random();
     }
 
@@ -116,5 +134,14 @@ public class Region {
 
     public static interface EntityFunction {
         void entity(Entity entity);
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> serialized = new HashMap<String, Object>();
+        serialized.put("minVector", this.minVector);
+        serialized.put("maxVector", this.maxVector);
+        serialized.put("world", this.world.getName());
+        return serialized;
     }
 }

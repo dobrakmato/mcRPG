@@ -20,8 +20,10 @@
 package eu.matejkormuth.rpgdavid.starving;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -59,6 +61,10 @@ public class Data {
         cached = new HashMap<>();
     }
 
+    public static Collection<Data> cached() {
+        return cached.values();
+    }
+
     private static File dataFileOf(OfflinePlayer player) {
         return RpgPlugin.getInstance().getFile("pdatas",
                 player.getUniqueId().toString() + ".data");
@@ -82,15 +88,15 @@ public class Data {
         } else {
             File f = null;
             if ((f = dataFileOf(player)).exists()) {
-                return loadData(f);
+                return loadData(f, player);
             } else {
                 return createData(player);
             }
         }
     }
 
-    private static Data loadData(File f) {
-        return new Data(f);
+    private static Data loadData(File f, OfflinePlayer player) {
+        return new Data(f, player);
     }
 
     private static Data createData(OfflinePlayer player) {
@@ -134,8 +140,9 @@ public class Data {
         this.player = player;
     }
 
-    public Data(File f) {
+    public Data(File f, OfflinePlayer p) {
         PersistInjector.inject(this, f);
+        this.player = p;
     }
 
     /**
@@ -303,5 +310,4 @@ public class Data {
     public boolean isSick() {
         return this.sick;
     }
-
 }

@@ -19,7 +19,19 @@
  */
 package eu.matejkormuth.rpgdavid.starving;
 
-public class Locality {
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.configuration.serialization.SerializableAs;
+
+@SerializableAs("Locality")
+public class Locality implements ConfigurationSerializable {
+    static {
+        ConfigurationSerialization.registerClass(Locality.class);
+    }
+
     /**
      * Constant for locality, that is everywhere, where any other locality isn't
      * specified.
@@ -28,6 +40,11 @@ public class Locality {
 
     private final String name;
     private final Region region;
+
+    public Locality(Map<String, Object> serialized) {
+        this.name = String.valueOf(serialized.get("name"));
+        this.region = (Region) serialized.get("region");
+    }
 
     public Locality(String name, Region region) {
         this.name = name;
@@ -44,5 +61,13 @@ public class Locality {
 
     public boolean isWilderness() {
         return this == WILDERNESS;
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> serialized = new HashMap<String, Object>();
+        serialized.put("name", this.name);
+        serialized.put("region", this.region);
+        return serialized;
     }
 }
