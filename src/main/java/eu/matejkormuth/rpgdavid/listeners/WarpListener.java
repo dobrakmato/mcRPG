@@ -73,6 +73,7 @@ public class WarpListener implements Listener {
                                         .getPremiumMoney()
                                         .subtractSafe(transaction);
                             }
+                            event.getPlayer().teleport(loc);
                             event.getPlayer().sendMessage(
                                     ChatColor.GREEN
                                             + RpgPlugin.t("t_teleportsuccess"));

@@ -19,3 +19,5 @@ commands:
     aliases: [ne, nie]
   money:
     description: Command used for giving money.
+  setport:
+    description: Command for setting port locations.

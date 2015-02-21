@@ -58,6 +58,7 @@ import eu.matejkormuth.rpgdavid.commands.MoneyCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.NoCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PartyCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
+import eu.matejkormuth.rpgdavid.commands.SetPortCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.YesCommandExecutor;
 import eu.matejkormuth.rpgdavid.inventorymenu.Action;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
@@ -67,6 +68,7 @@ import eu.matejkormuth.rpgdavid.listeners.BookOfSpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.QuestsBookListener;
 import eu.matejkormuth.rpgdavid.listeners.ShopListener;
 import eu.matejkormuth.rpgdavid.listeners.SpellsListener;
+import eu.matejkormuth.rpgdavid.listeners.WarpListener;
 import eu.matejkormuth.rpgdavid.listeners.WeaponsListener;
 import eu.matejkormuth.rpgdavid.listeners.XPListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.AdventurerListener;
@@ -150,6 +152,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.getCommand("yes").setExecutor(new YesCommandExecutor());
         this.getCommand("no").setExecutor(new NoCommandExecutor());
         this.getCommand("money").setExecutor(new MoneyCommandExecutor());
+        this.getCommand("setport").setExecutor(new SetPortCommandExecutor());
 
         // Register event handlers.
         Bukkit.getPluginManager().registerEvents(this, this);
@@ -173,6 +176,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new ShopListener(), this);
         Bukkit.getPluginManager().registerEvents(new XPListener(), this);
         Bukkit.getPluginManager().registerEvents(new BanksListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WarpListener(), this);
 
         // Start periodic tasks.
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
@@ -589,5 +593,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             return null;
         }
         return v.toLocation(Bukkit.getWorld(world));
+    }
+
+    public void setPortLocation(String name, Location location) {
+        this.ports.set(name + ".vector", location.toVector());
+        this.ports.set(name + ".world", location.getWorld().getName());
     }
 }
