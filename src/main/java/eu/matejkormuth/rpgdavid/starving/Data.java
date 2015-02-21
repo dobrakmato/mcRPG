@@ -99,6 +99,8 @@ public class Data {
 
     private OfflinePlayer player;
 
+    // Fields annotated with Persist will be saved to file.
+
     @Persist(key = "bleedingTicks")
     private int bleedingTicks = 0;
     @Persist(key = "bleedingFlow")
@@ -117,6 +119,9 @@ public class Data {
     @Persist(key = "infected")
     private boolean infected = false;
 
+    @Persist(key = "sick")
+    private boolean sick = false;
+
     @Persist(key = "ableToSprint")
     private boolean ableToSprint = true;
 
@@ -133,11 +138,22 @@ public class Data {
         PersistInjector.inject(this, f);
     }
 
+    /**
+     * Serializes values on persist-annotated fields to data file saved by
+     * player's unique id.
+     * 
+     * @return instance of self
+     */
     public Data save() {
         PersistInjector.store(this, dataFileOf(this.player));
         return this;
     }
 
+    /**
+     * Removes this Data item from cached player Data-s.
+     * 
+     * @return instance of self
+     */
     public Data uncache() {
         cached.remove(this.player);
         return this;
@@ -152,8 +168,10 @@ public class Data {
      * <p>
      * Basically this resets player's game data.
      * </p>
+     * 
+     * @return instance of self
      */
-    public void reset() {
+    public Data reset() {
         // TODO: Externalize default values.
         this.ableToSprint = true;
         this.bleedingFlow = 0;
@@ -161,10 +179,13 @@ public class Data {
         this.bloodLevel = 5000;
         this.bodyTemperature = 37;
         this.infected = false;
+        this.sick = false;
         this.stamina = 800;
         this.staminaCapacity = 800;
         this.hydrationCapacity = 1200;
         this.hydrationLevel = 1200;
+        
+        return this;
     }
 
     // May return null.
@@ -238,6 +259,9 @@ public class Data {
 
     public void setInfected(boolean infected) {
         this.infected = infected;
+        if (infected) {
+            this.sick = true;
+        }
     }
 
     public boolean isInfected() {
@@ -266,5 +290,13 @@ public class Data {
 
     public void setHydrationLevel(int hydrationLevel) {
         this.hydrationLevel = hydrationLevel;
+    }
+
+    public void setSick(boolean sick) {
+        this.sick = sick;
+    }
+
+    public boolean isSick() {
+        return this.sick;
     }
 }

@@ -17,15 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.annotations;
+package eu.matejkormuth.rpgdavid.starving;
 
-/**
- * This annotation tells that annotated class / method contains NMS
- * (net.minecraft.server) dependend code.
- */
-public @interface NMSHooks {
-    /**
-     * Version of minecraft server this class is compactibile with.
-     */
-    public String version() default "";
+public enum Skills {
+    WEAPONS_USE, FIREARMS_USE, AGILITY, RESISTENCE, JUMPING;
 }
