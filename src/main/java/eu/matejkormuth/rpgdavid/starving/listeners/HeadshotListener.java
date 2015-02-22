@@ -59,7 +59,8 @@ public class HeadshotListener implements Listener {
                                         .getEyeLocation().add(
                                                 Math.random() - 0.5,
                                                 Math.random() - 0.5,
-                                                Math.random() - 0.5), 256);
+                                                Math.random() - 0.5),
+                                Double.MAX_VALUE);
                         // TODO: Improve particle effect on headshot.
                     }
                     event.setDamage(9999999D);

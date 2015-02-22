@@ -55,10 +55,12 @@ import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.BloodLevelDamageListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ExperiencePointsListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.ExplosionListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.FractureListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.HeadshotListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.LootListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.MoveListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
@@ -156,6 +158,8 @@ public class Starving implements Runnable, Listener {
         this.register(new ChatListener());
         this.register(new LootListener());
         this.register(new TabListListener());
+        this.register(new MoveListener());
+        this.register(new ExplosionListener());
         this.register(new FractureListener());
         this.register(new BloodLevelDamageListener());
         this.register(new ExperiencePointsListener());
@@ -170,6 +174,9 @@ public class Starving implements Runnable, Listener {
 
         // Print some useful info.
         this.printImplementations();
+
+        // Patch server.
+        new ServerZombiePatcher().patchAll();
     }
 
     /**

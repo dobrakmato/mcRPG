@@ -200,6 +200,10 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         this.moneyBank = new MoneyBank();
 
+        // Register BungeeCord plugin channel.
+        this.getServer().getMessenger()
+                .registerOutgoingPluginChannel(this, "BungeeCord");
+
         if (this.getConfig().getBoolean("debug", false)) {
             Debug.onEnable();
         }
@@ -219,6 +223,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         // Kick all players to avoid data loss.
         for (Player p : Bukkit.getOnlinePlayers()) {
+            // Kick him then.
             p.kickPlayer("Server is reloading, please reconnect.");
         }
 
