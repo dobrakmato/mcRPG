@@ -23,15 +23,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 
-public class StaminaRegenerationTask extends RepeatingTask {
+public class StaminaRegenerationTask extends RepeatingTask implements
+        IPersistable {
     @Persist(key = "STAMINA_INCREMENT")
     private float STAMINA_INCREMENT = 20;
 
     public StaminaRegenerationTask() {
-        PersistInjector.inject(this);
+        this.reloadConfiguration();
     }
 
     @Override
@@ -43,5 +45,15 @@ public class StaminaRegenerationTask extends RepeatingTask {
                 d.incrementStamina(STAMINA_INCREMENT);
             }
         }
+    }
+
+    @Override
+    public void reloadConfiguration() {
+        PersistInjector.inject(this);
+    }
+
+    @Override
+    public void saveConfiguration() {
+        PersistInjector.store(this);
     }
 }
