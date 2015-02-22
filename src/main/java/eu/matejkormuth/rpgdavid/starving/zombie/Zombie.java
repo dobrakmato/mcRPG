@@ -56,7 +56,11 @@ public class Zombie extends EntityZombie {
 
     protected Zombie(final Location spawnLocation) {
         this(((CraftWorld) spawnLocation.getWorld()).getHandle());
-        this.teleportTo(spawnLocation, true);
+        // Some magic to get zombies to work.
+        this.setLocation(spawnLocation.getX(), spawnLocation.getY(),
+                spawnLocation.getZ(), spawnLocation.getYaw(),
+                spawnLocation.getPitch());
+        ((CraftWorld) spawnLocation.getWorld()).getHandle().addEntity(this);
     }
 
     private Zombie(World world) {
