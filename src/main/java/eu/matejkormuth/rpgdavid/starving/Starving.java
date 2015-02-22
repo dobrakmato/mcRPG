@@ -26,10 +26,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import net.minecraft.server.v1_8_R1.BlockPosition;
 import net.minecraft.server.v1_8_R1.ChatMessage;
 import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.EnumTitleAction;
 import net.minecraft.server.v1_8_R1.IChatBaseComponent;
+import net.minecraft.server.v1_8_R1.PacketPlayOutBlockBreakAnimation;
 import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
@@ -62,6 +64,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.LootListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.MobDropsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.MoveListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.ProjectileListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ToolsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
@@ -76,6 +79,7 @@ import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
 import eu.matejkormuth.rpgdavid.starving.tasks.ScoreboardUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.StaminaRegenerationTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.HydrationDepletionTask;
+import eu.matejkormuth.rpgdavid.starving.tasks.TablistFooterClockTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
@@ -150,6 +154,8 @@ public class Starving implements Runnable, Listener {
         // Schedule all tasks.
         this.register(new BleedingTask()).schedule(1L);
         this.register(new TimeUpdater()).schedule(2L);
+        // TablistFooterClockTask MUST be registered after TimeUpdater.
+        this.register(new TablistFooterClockTask()).schedule(5L);
         this.register(new LocalityTeller()).schedule(20L);
         this.register(new BodyTemperatureUpdater()).schedule(20L);
         this.register(new StaminaRegenerationTask()).schedule(20L);
@@ -168,6 +174,7 @@ public class Starving implements Runnable, Listener {
         this.register(new FractureListener());
         this.register(new MobDropsListener());
         this.register(new ToolsListener());
+        this.register(new ProjectileListener());
         this.register(new BloodLevelDamageListener());
         this.register(new ExperiencePointsListener());
         // Register commands listener.
@@ -260,10 +267,18 @@ public class Starving implements Runnable, Listener {
 
     public void setTabListFooter(String tabListFooter) {
         this.tabListFooter = tabListFooter;
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            NMS.setPlayerListHeaderFooter(p, this.tabListHeader,
+                    this.tabListFooter);
+        }
     }
 
     public void setTabListHeader(String tabListHeader) {
         this.tabListHeader = tabListHeader;
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            NMS.setPlayerListHeaderFooter(p, this.tabListHeader,
+                    this.tabListFooter);
+        }
     }
 
     public Logger getLogger() {
@@ -326,6 +341,19 @@ public class Starving implements Runnable, Listener {
                     .sendPacket(new PacketPlayOutNamedSoundEffect(
                             soundEffectName, location.getX(), location.getY(),
                             location.getZ(), Float.MAX_VALUE, 1));
+        }
+
+        public static final void blockBreakAnimation(int eid, Location loc) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p.getLocation().distanceSquared(loc) < 16384) {
+                    ((CraftPlayer) p).getHandle().playerConnection
+                            .sendPacket(new PacketPlayOutBlockBreakAnimation(
+                                    eid, new BlockPosition(loc.getBlockX(), loc
+                                            .getBlockY(), loc.getBlockZ()),
+                                    Starving.getInstance().getRandom()
+                                            .nextInt(9)));
+                }
+            }
         }
 
         public static final void playNamedSoundEffect(Player player,

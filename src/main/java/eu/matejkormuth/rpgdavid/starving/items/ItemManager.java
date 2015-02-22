@@ -67,6 +67,12 @@ import eu.matejkormuth.rpgdavid.starving.items.consumables.MagicMushroom;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.Fanta;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.RedBull;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.Sprite;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.AK47;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.Deagle;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.Dragunov;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.M16;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.Mossberg500;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.SilencedDeagle;
 import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ChemicalItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Bandage;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Patch;
@@ -111,9 +117,19 @@ public class ItemManager implements Listener {
         this.register(new MagicMushroom());
         this.register(new DisinfectionTablets());
 
+        this.registerFirearms();
         this.registerMedical();
         this.registerDrinks();
         this.registerClothing();
+    }
+
+    private void registerFirearms() {
+        this.register(new AK47());
+        this.register(new Deagle());
+        this.register(new Dragunov());
+        this.register(new M16());
+        this.register(new Mossberg500());
+        this.register(new SilencedDeagle());
     }
 
     private void registerDrinks() {
