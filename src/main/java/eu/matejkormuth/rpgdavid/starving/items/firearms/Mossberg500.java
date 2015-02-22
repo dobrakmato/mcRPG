@@ -32,18 +32,20 @@ import org.bukkit.util.Vector;
 import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
 public class Mossberg500 extends Firearm {
     public Mossberg500() {
-        super("Mossberg500");
+        super(Mappings.MOSSBERG500, "Mossberg 500");
         this.setAmmoType(AmunitionType.LONG);
         this.setClipSize(6);
         this.setFireRate(1);
-        this.setInaccurancy(0.4f);
+        this.setInaccurancy(0.5f);
+        this.setScopedInaccurancy(0.05f);
         this.setNoiseLevel(1);
-        this.setProjectileSpeed(2.1f);
-        this.setRecoil(0.3f);
+        this.setProjectileSpeed(2f);
+        this.setRecoil(0.6f);
         this.setReloadTime(40);
     }
 

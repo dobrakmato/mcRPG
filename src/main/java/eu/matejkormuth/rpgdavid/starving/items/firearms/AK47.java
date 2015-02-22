@@ -20,18 +20,20 @@
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
 public class AK47 extends Firearm {
     public AK47() {
-        super("AK47");
+        super(Mappings.AK47, "AK47");
         this.setAmmoType(AmunitionType.LONG);
         this.setClipSize(30);
         this.setFireRate(10);
-        this.setInaccurancy(0.2f);
-        this.setNoiseLevel(1);
+        this.setInaccurancy(0.5f);
+        this.setScopedInaccurancy(0.05f);
+        this.setNoiseLevel(0.8f);
         this.setProjectileSpeed(2.1f);
-        this.setRecoil(0.2f);
+        this.setRecoil(0.5f);
         this.setReloadTime(40);
     }
 }

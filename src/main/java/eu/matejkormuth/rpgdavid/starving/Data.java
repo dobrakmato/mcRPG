@@ -139,6 +139,8 @@ public class Data {
 
     public StarvingScoreboard scoreboard;
 
+    private boolean scoped;
+
     private Data(OfflinePlayer player) {
         this.player = player;
 
@@ -316,5 +318,13 @@ public class Data {
 
     public boolean isSick() {
         return this.sick;
+    }
+
+    public boolean switchScoped() {
+        return this.scoped = !this.scoped;
+    }
+
+    public boolean isScoped() {
+        return this.scoped;
     }
 }

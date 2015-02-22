@@ -1,7 +1,7 @@
 "Parachute" -> GOLD_HOE:0
 "Chemicals" -> POTION:0
-"Transmitter" -> PRISMARINE_SHARD:0
 "Toolset" -> WORKBENCH:0
+"Transmitter" -> PRISMARINE_SHARD:0
 "Patch" -> SLIME_BALL:0
 "Projectile" -> SNOW_BALL:0
 "Bandage" -> PAPER:0
@@ -29,3 +29,11 @@
 "BulletproofVest" -> DIAMOND_CHESTPLATE:0
 "ThickPants" -> DIAMOND_LEGGINGS:0
 "ThickShoes" -> DIAMOND_BOOTS:0
+"AK47" -> DIAMOND:0
+"M16" -> GOLD_INGOT:0
+"Dragunov" -> IRON_INGOT:0
+"Mossberg500" -> EMERALD:0
+"DesertEagle" -> CLAY_BRICK:0
+"DesertEagleSilenced" -> CLAY_BALL:0
+"ColtAnaconda" -> FEATHER:0
+"NickiMinajAnaconda" -> INK_SACK:0

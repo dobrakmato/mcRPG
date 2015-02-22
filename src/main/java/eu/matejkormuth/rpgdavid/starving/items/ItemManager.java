@@ -68,11 +68,13 @@ import eu.matejkormuth.rpgdavid.starving.items.drinks.Fanta;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.RedBull;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.Sprite;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.AK47;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.Deagle;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.ColtAnaconda;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.DesertEagle;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Dragunov;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.M16;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Mossberg500;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.SilencedDeagle;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.NickyAnaconda;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.SilencedDesertEagle;
 import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ChemicalItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Bandage;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Patch;
@@ -125,11 +127,13 @@ public class ItemManager implements Listener {
 
     private void registerFirearms() {
         this.register(new AK47());
-        this.register(new Deagle());
+        this.register(new DesertEagle());
         this.register(new Dragunov());
         this.register(new M16());
         this.register(new Mossberg500());
-        this.register(new SilencedDeagle());
+        this.register(new SilencedDesertEagle());
+        this.register(new ColtAnaconda());
+        this.register(new NickyAnaconda());
     }
 
     private void registerDrinks() {

@@ -20,18 +20,21 @@
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
-public class SilencedDeagle extends Firearm {
-    public SilencedDeagle() {
-        super("SilencedDeagle");
+public class NickyAnaconda extends Firearm {
+    public NickyAnaconda() {
+        super(Mappings.NICKIMINAJANACONDA, "Nicky Anaconda");
         this.setAmmoType(AmunitionType.SHORT);
-        this.setClipSize(9);
+        this.setClipSize(6);
         this.setFireRate(1);
-        this.setInaccurancy(0.1f);
-        this.setNoiseLevel(0.1f);
-        this.setProjectileSpeed(2f);
-        this.setRecoil(0.1f);
-        this.setReloadTime(40);
+        this.setInaccurancy(0.2f);
+        this.setScopedInaccurancy(0.02f);
+        this.setScopedInaccurancy(0.01f);
+        this.setNoiseLevel(0.5f);
+        this.setProjectileSpeed(3f);
+        this.setRecoil(0.6f);
+        this.setReloadTime(20);
     }
 }

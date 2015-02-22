@@ -43,9 +43,9 @@ public class ProjectileListener extends Persistable implements Listener {
             Block b = event.getEntity().getLocation()
                     .add(event.getEntity().getVelocity().normalize())
                     .getBlock();
+            // Disable snowball
+            event.getEntity().remove();
             if (b.getType() != Material.AIR) {
-                // Disable snowball
-                event.getEntity().remove();
                 // Particle.
                 ParticleEffect.BLOCK_CRACK.display(
                         new ParticleEffect.BlockData(b.getType(), b.getData()),

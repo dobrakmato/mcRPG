@@ -28,9 +28,13 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.block.Action;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import eu.matejkormuth.bukkit.Actions;
+import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
@@ -49,12 +53,13 @@ public abstract class Firearm extends Item {
     private float projectileSpeed = 2; // multiplier
     private int reloadTime = 40; // ticks
     private float inaccurancy = 0.5f;
+    private float scopedInaccurancy = 0.2f;
     private float recoil = 0.5f;
 
-    public Firearm(String name) {
-        super(Material.GOLD_BARDING, name);
+    public Firearm(Material material, String name) {
+        super(material, name);
         this.setCategory(Category.FIREARMS);
-        this.setRarity(Rarity.COMMON);
+        this.setRarity(Rarity.UNCOMMON);
     }
 
     protected void setAmmoType(AmunitionType ammoType) {
@@ -93,6 +98,10 @@ public abstract class Firearm extends Item {
         this.recoil = recoil;
     }
 
+    protected void setScopedInaccurancy(float scopedInaccurancy) {
+        this.scopedInaccurancy = scopedInaccurancy;
+    }
+
     public AmunitionType getAmmoType() {
         return this.ammoType;
     }
@@ -117,6 +126,10 @@ public abstract class Firearm extends Item {
         return this.inaccurancy;
     }
 
+    public float getScopedInaccurancy() {
+        return this.scopedInaccurancy;
+    }
+
     public float getProjectileSpeed() {
         return this.projectileSpeed;
     }
@@ -137,8 +150,15 @@ public abstract class Firearm extends Item {
             // Compute values.
             Location projectileSpawn = player.getEyeLocation().add(
                     player.getEyeLocation().getDirection());
-            Vector randomVec = Vector.getRandom().subtract(HALF_VECTOR)
-                    .multiply(this.inaccurancy);
+            Vector randomVec;
+            if (Data.of(player).isScoped()) {
+                randomVec = Vector.getRandom().subtract(HALF_VECTOR)
+                        .multiply(this.scopedInaccurancy);
+            } else {
+                randomVec = Vector.getRandom().subtract(HALF_VECTOR)
+                        .multiply(this.inaccurancy);
+            }
+
             Vector projectileVelocity = player.getEyeLocation().getDirection()
                     .add(randomVec).multiply(this.projectileSpeed);
 
@@ -156,7 +176,12 @@ public abstract class Firearm extends Item {
             player.setVelocity(recoil);
         } else if (Actions.isLeftClick(action)) {
             // Scope tha gun.
-            // not now...
+            if (Data.of(player).switchScoped()) {
+                player.removePotionEffect(PotionEffectType.SLOW);
+            } else {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
+                        Time.ofMinutes(30).toTicks(), 2));
+            }
         }
         return InteractResult.useNone();
     }

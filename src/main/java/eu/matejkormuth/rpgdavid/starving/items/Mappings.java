@@ -3,7 +3,7 @@ package eu.matejkormuth.rpgdavid.starving.items;
 // This file is part of Starving 2.0 project.
 // This file was automatically generated.
 // Changes to this file wont be preserved!
-// Generated at: 22.2.2015 17:32
+// Generated at: 22.2.2015 18:08
 // This file is licensed under GPL-3.
 // Starving: <http://github.com/dobrakmato/mcRPG>
 
@@ -17,10 +17,10 @@ public class Mappings {
     public static final Material PARACHUTE = Material.GOLD_HOE;
     // "Chemicals" -> POTION:0
     public static final Material CHEMICALS = Material.POTION;
-    // "Transmitter" -> PRISMARINE_SHARD:0
-    public static final Material TRANSMITTER = Material.PRISMARINE_SHARD;
     // "Toolset" -> WORKBENCH:0
     public static final Material TOOLSET = Material.WORKBENCH;
+    // "Transmitter" -> PRISMARINE_SHARD:0
+    public static final Material TRANSMITTER = Material.PRISMARINE_SHARD;
     // "Patch" -> SLIME_BALL:0
     public static final Material PATCH = Material.SLIME_BALL;
     // "Projectile" -> SNOW_BALL:0
@@ -75,5 +75,21 @@ public class Mappings {
     public static final Material THICKPANTS = Material.DIAMOND_LEGGINGS;
     // "ThickShoes" -> DIAMOND_BOOTS:0
     public static final Material THICKSHOES = Material.DIAMOND_BOOTS;
+    // "AK47" -> DIAMOND:0
+    public static final Material AK47 = Material.DIAMOND;
+    // "M16" -> GOLD_INGOT:0
+    public static final Material M16 = Material.GOLD_INGOT;
+    // "Dragunov" -> IRON_INGOT:0
+    public static final Material DRAGUNOV = Material.IRON_INGOT;
+    // "Mossberg500" -> EMERALD:0
+    public static final Material MOSSBERG500 = Material.EMERALD;
+    // "DesertEagle" -> CLAY_BRICK:0
+    public static final Material DESERTEAGLE = Material.CLAY_BRICK;
+    // "DesertEagleSilenced" -> CLAY_BALL:0
+    public static final Material DESERTEAGLESILENCED = Material.CLAY_BALL;
+    // "ColtAnaconda" -> FEATHER:0
+    public static final Material COLTANACONDA = Material.FEATHER;
+    // "NickiMinajAnaconda" -> INK_SACK:0
+    public static final Material NICKIMINAJANACONDA = Material.INK_SACK;
 }
 
