@@ -265,6 +265,13 @@ public class ItemManager implements Listener {
     private void onItemStackMerge(final InventoryClickEvent event) {
         // Max stack emulation.
         if (event.getCursor() != null) {
+            // Beware: event.getCurrentItem() returns undocumented null, when
+            // throwing items out of inventory.
+            if (event.getCurrentItem() == null) {
+                // We have nothing to merge.
+                return;
+            }
+
             // If merging stacks of same type.
             if (event.getCurrentItem().getType()
                     .equals(event.getCursor().getType())) {
