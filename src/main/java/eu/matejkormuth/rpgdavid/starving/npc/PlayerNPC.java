@@ -33,8 +33,14 @@ import eu.matejkormuth.rpgdavid.starving.npc.path.Path;
 @NMSHooks(version = "v1_8_R1")
 public class PlayerNPC extends EntityHuman implements NPC {
 
-    public PlayerNPC(World world, GameProfile gameprofile) {
+    public PlayerNPC(Location spawnLocation, World world,
+            GameProfile gameprofile) {
         super(world, gameprofile);
+        // Magic to get NPC to work.
+        this.setLocation(spawnLocation.getX(), spawnLocation.getY(),
+                spawnLocation.getZ(), spawnLocation.getYaw(),
+                spawnLocation.getPitch());
+        world.addEntity(this);
     }
 
     @Override

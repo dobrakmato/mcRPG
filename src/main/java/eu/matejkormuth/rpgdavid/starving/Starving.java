@@ -60,8 +60,10 @@ import eu.matejkormuth.rpgdavid.starving.listeners.FractureListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.HeadshotListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.LootListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.MobDropsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.MoveListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.ToolsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
@@ -105,10 +107,13 @@ public class Starving implements Runnable, Listener {
     private String tabListHeader = "Welcome to &cStarving 2.0!";
     private String tabListFooter = "http://www.starving.eu";
 
+    private List<Object> registered;
+
     public void onEnable() {
         instance = this;
 
         this.persistablesList = new ArrayList<>();
+        this.registered = new ArrayList<>();
 
         // Initialize logger to special StarvingLogger.
         this.log = new StarvingLogger();
@@ -161,6 +166,8 @@ public class Starving implements Runnable, Listener {
         this.register(new MoveListener());
         this.register(new ExplosionListener());
         this.register(new FractureListener());
+        this.register(new MobDropsListener());
+        this.register(new ToolsListener());
         this.register(new BloodLevelDamageListener());
         this.register(new ExperiencePointsListener());
         // Register commands listener.
@@ -188,6 +195,9 @@ public class Starving implements Runnable, Listener {
      * @return passed object
      */
     private <T> T register(T object) {
+        // Register all.
+        this.registered.add(object);
+
         if (object instanceof Listener) {
             this.getLogger().info(
                     " New listener: " + object.getClass().getName());
@@ -286,6 +296,28 @@ public class Starving implements Runnable, Listener {
         Data.of(event.getPlayer()).uncache().save();
     }
 
+    public Plugin getPlugin() {
+        return this.corePlugin;
+    }
+
+    public Locality getLocality(final Location location) {
+        return Locality.WILDERNESS;
+    }
+
+    public boolean isDebug() {
+        return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getRegistered(Class<T> clazz) {
+        for (Object o : this.registered) {
+            if (clazz.isInstance(o)) {
+                return (T) o;
+            }
+        }
+        return null;
+    }
+
     @NMSHooks(version = "v1_8_R1")
     public static final class NMS {
         public static final void playNamedSoundEffectGlobally(Player player,
@@ -351,13 +383,5 @@ public class Starving implements Runnable, Listener {
                     .sendPacket(new PacketPlayOutChat(new ChatMessage(message),
                             (byte) 2));
         }
-    }
-
-    public Plugin getPlugin() {
-        return this.corePlugin;
-    }
-
-    public Locality getLocality(final Location location) {
-        return Locality.WILDERNESS;
     }
 }

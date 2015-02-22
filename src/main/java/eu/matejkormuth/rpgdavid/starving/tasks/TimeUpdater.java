@@ -46,4 +46,11 @@ public class TimeUpdater extends RepeatingTask {
             w.setFullTime(this.fullTime);
         }
     }
+
+    public void vanllaSetMoveTime(long time) {
+        for (World w : this.worlds) {
+            w.setTime(time);
+        }
+        this.fullTime = this.worlds.get(0).getFullTime();
+    }
 }

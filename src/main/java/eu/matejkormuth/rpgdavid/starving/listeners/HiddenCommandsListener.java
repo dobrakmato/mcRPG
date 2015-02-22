@@ -22,18 +22,22 @@ package eu.matejkormuth.rpgdavid.starving.listeners;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.inventory.Recipe;
 
+import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
 import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieWithDog;
 
 public class HiddenCommandsListener implements Listener {
@@ -95,9 +99,32 @@ public class HiddenCommandsListener implements Listener {
 
             event.getPlayer().getInventory().addItem(ci.toItemStack());
         }
+        // Command for setting entities target.
+        else if (event.getMessage().contains("/settarget")) {
+            String[] parts = event.getMessage().split(" ");
+            int entity = Integer.valueOf(parts[1]);
+            int target = Integer.valueOf(parts[2]);
+            for (Entity e : Worlds.first().getEntities()) {
+                if (e.getEntityId() == target) {
+                    Starving.getInstance().getZombieManager().get(entity)
+                            .setFollowTarget(e);
+                }
+            }
+        }
         // Command for spawning zombie walking the dog.
         else if (event.getMessage().contains("/zombieeaster")) {
             ZombieWithDog.spawn(event.getPlayer().getLocation());
+        }
+        // Command for settings time.
+        else if (event.getMessage().contains("/time set")) {
+            String[] parts = event.getMessage().split(" ");
+            int time = Integer.valueOf(parts[2]);
+            event.getPlayer().sendMessage(
+                    ChatColor.YELLOW + "[Starving] Shifting time...");
+            Starving.getInstance().getRegistered(TimeUpdater.class)
+                    .vanllaSetMoveTime(time);
+            event.getPlayer().sendMessage(
+                    ChatColor.GREEN + "[Starving] Time set!");
         }
         // Command for spawning zombie.
         else if (event.getMessage().contains("/zombie")) {

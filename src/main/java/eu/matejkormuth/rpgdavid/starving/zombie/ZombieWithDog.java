@@ -23,9 +23,12 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Wolf;
 
+import eu.matejkormuth.rpgdavid.starving.Starving;
+
 public class ZombieWithDog {
     public static void spawn(Location location) {
-        Zombie zombie = new Zombie(location);
+        Zombie zombie = Starving.getInstance().getZombieManager()
+                .spawnAt(location);
         Wolf dog = (Wolf) location.getWorld().spawnEntity(location,
                 EntityType.WOLF);
         dog.setAngry(true);

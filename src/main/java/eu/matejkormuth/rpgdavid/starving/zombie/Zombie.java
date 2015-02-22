@@ -28,6 +28,7 @@ import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R1.util.UnsafeList;
 
 import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import net.minecraft.server.v1_8_R1.BlockPosition;
 import net.minecraft.server.v1_8_R1.DamageSource;
@@ -61,6 +62,11 @@ public class Zombie extends EntityZombie {
                 spawnLocation.getZ(), spawnLocation.getYaw(),
                 spawnLocation.getPitch());
         ((CraftWorld) spawnLocation.getWorld()).getHandle().addEntity(this);
+
+        if (Starving.getInstance().isDebug()) {
+            this.setCustomName("ID:" + this.getId());
+            this.setCustomNameVisible(true);
+        }
     }
 
     private Zombie(World world) {
@@ -108,6 +114,7 @@ public class Zombie extends EntityZombie {
                 this.doNavigateToPoint();
             } else {
                 this.cancelNavigation(NavigationFailReason.TIMEOUT);
+                return; // Cancel execution of navigation.
             }
         }
     }
@@ -126,6 +133,15 @@ public class Zombie extends EntityZombie {
         this.navigatingToPoint = false;
         System.out.println("Navigation of " + this.getId() + " failed: "
                 + reason.toString());
+        if (Starving.getInstance().isDebug()) {
+            if (reason == NavigationFailReason.ENTITY_DIED) {
+                this.setCustomName("SU:" + this.getId());
+                this.setCustomNameVisible(true);
+            } else {
+                this.setCustomName("FA:" + this.getId());
+                this.setCustomNameVisible(true);
+            }
+        }
     }
 
     private void doNavigateToPoint() {
@@ -136,6 +152,7 @@ public class Zombie extends EntityZombie {
         if (dx < NAVIGATION_EPSILON && dy < NAVIGATION_EPSILON
                 && dz < NAVIGATION_EPSILON) {
             this.cancelNavigation(NavigationFailReason.REACHED_TARGET_POINT);
+            return; // Cancel execution of navigation.
         } else {
             // Navigate to point
 
@@ -169,6 +186,7 @@ public class Zombie extends EntityZombie {
                         .getBlockAt((int) nextX, (int) (this.locY + 1.5D),
                                 (int) nextZ).getType().isSolid()) {
                     this.cancelNavigation(NavigationFailReason.HIT_WALL);
+                    return; // Cancel execution of navigation.
                 } else {
                     // Jump over the block.
                     this.jump();
@@ -183,11 +201,22 @@ public class Zombie extends EntityZombie {
     }
 
     private void doFollowTarget() {
+        if (Starving.getInstance().isDebug()) {
+            this.setCustomName("FO:" + this.getId() + "->"
+                    + this.followingTarget.getId());
+            this.setCustomNameVisible(true);
+        }
+
+        if (!followingTarget.isAlive()) {
+            this.cancelNavigation(NavigationFailReason.ENTITY_DIED);
+            return; // Cancel execution of navigation.
+        }
+
         // Check if zombie lost sight.
         if (distanceToFollowing() > this.followDistanceLimit) {
             // Lost sight.
             this.cancelNavigation(NavigationFailReason.ENTITY_OUT_OF_SIGHT);
-            return;
+            return; // Cancel execution of navigation.
         }
 
         // Rotate head.
@@ -222,6 +251,7 @@ public class Zombie extends EntityZombie {
                     .getBlockAt((int) nextX, (int) (this.locY + 1.5D),
                             (int) nextZ).getType().isSolid()) {
                 this.cancelNavigation(NavigationFailReason.HIT_WALL);
+                return; // Cancel execution of navigation.
             } else {
                 // Jump over the block.
                 this.jump();
@@ -321,6 +351,6 @@ public class Zombie extends EntityZombie {
     }
 
     public static enum NavigationFailReason {
-        ENTITY_OUT_OF_SIGHT, HIT_WALL, TIMEOUT, REACHED_TARGET_POINT;
+        ENTITY_OUT_OF_SIGHT, HIT_WALL, TIMEOUT, REACHED_TARGET_POINT, ENTITY_DIED;
     }
 }

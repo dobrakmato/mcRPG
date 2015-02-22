@@ -19,6 +19,10 @@
  */
 package eu.matejkormuth.rpgdavid.starving.zombie;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
@@ -28,20 +32,25 @@ import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 
 public class ZombieManager extends Persistable {
     // Zombie speed constatnts.
-    public static final double LOW_SPEED = 0.6d;
-    public static final double NORMAL_SPEED = 1.0d;
-    public static final double HIGH_SPEED = 1.5d;
+    @Persist(key = "LOW_SPEED")
+    public static double LOW_SPEED = 0.6d;
+    @Persist(key = "NORMAL_SPEED")
+    public static double NORMAL_SPEED = 1.0d;
+    @Persist(key = "HIGH_SPEED")
+    public static double HIGH_SPEED = 1.5d;
 
     private final ZombiePool pool;
+    private List<WeakReference<Zombie>> zombies;
 
     @Persist(key = "poolLocation")
-    private Location poolLocation = new Location(Worlds.first(), 0, 0, 0);
+    private Location poolLocation = new Location(Worlds.first(), 1122, 76, 576);
 
     @Persist(key = "poolSize")
     private int poolSize;
 
     public ZombieManager() {
         this.pool = new ZombiePool(this.poolLocation, this.poolSize);
+        this.zombies = new ArrayList<>();
     }
 
     public void add() {
@@ -53,6 +62,19 @@ public class ZombieManager extends Persistable {
     }
 
     public Zombie spawnAt(Location location) {
-        return new Zombie(location);
+        Zombie z = new Zombie(location);
+        this.zombies.add(new WeakReference<Zombie>(z));
+        return z;
+    }
+
+    public Zombie get(int entity) {
+        for (WeakReference<Zombie> z : this.zombies) {
+            if (z.get() != null) {
+                if (z.get().getId() == entity) {
+                    return z.get();
+                }
+            }
+        }
+        return null;
     }
 }
