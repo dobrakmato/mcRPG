@@ -343,12 +343,13 @@ public class Starving implements Runnable, Listener {
                             location.getZ(), Float.MAX_VALUE, 1));
         }
 
-        public static final void blockBreakAnimation(int eid, Location loc) {
+        public static final void blockBreakAnimation(Location loc) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p.getLocation().distanceSquared(loc) < 16384) {
                     ((CraftPlayer) p).getHandle().playerConnection
                             .sendPacket(new PacketPlayOutBlockBreakAnimation(
-                                    eid, new BlockPosition(loc.getBlockX(), loc
+                                    Starving.getInstance().random.nextInt(),
+                                    new BlockPosition(loc.getBlockX(), loc
                                             .getBlockY(), loc.getBlockZ()),
                                     Starving.getInstance().getRandom()
                                             .nextInt(9)));

@@ -33,7 +33,7 @@ import eu.matejkormuth.rpgdavid.money.Currency;
 import eu.matejkormuth.rpgdavid.money.Money;
 import eu.matejkormuth.rpgdavid.money.Money.MoneyException;
 
-public class WarpListener implements Listener {
+public class PortListener implements Listener {
     private static final String SIGNIFICANT_LINE = "[Port]";
 
     @EventHandler

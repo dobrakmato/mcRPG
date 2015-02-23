@@ -68,7 +68,7 @@ import eu.matejkormuth.rpgdavid.listeners.BookOfSpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.QuestsBookListener;
 import eu.matejkormuth.rpgdavid.listeners.ShopListener;
 import eu.matejkormuth.rpgdavid.listeners.SpellsListener;
-import eu.matejkormuth.rpgdavid.listeners.WarpListener;
+import eu.matejkormuth.rpgdavid.listeners.PortListener;
 import eu.matejkormuth.rpgdavid.listeners.WeaponsListener;
 import eu.matejkormuth.rpgdavid.listeners.XPListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.AdventurerListener;
@@ -156,43 +156,52 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         // Register event handlers.
         Bukkit.getPluginManager().registerEvents(this, this);
-
-        Bukkit.getPluginManager().registerEvents(new SpellsListener(), this);
-        Bukkit.getPluginManager().registerEvents(new WeaponsListener(), this);
-
         Bukkit.getPluginManager().registerEvents(new ModifiersListener(), this);
-        Bukkit.getPluginManager()
-                .registerEvents(new AdventurerListener(), this);
-        Bukkit.getPluginManager().registerEvents(new HunterListener(), this);
-        Bukkit.getPluginManager().registerEvents(new UndeadListener(), this);
-        Bukkit.getPluginManager().registerEvents(new KnightListener(), this);
-        Bukkit.getPluginManager().registerEvents(new VampireListener(), this);
 
-        Bukkit.getPluginManager().registerEvents(new BookOfSpellsListener(),
-                this);
-        Bukkit.getPluginManager()
-                .registerEvents(new QuestsBookListener(), this);
+        if (!this.isStarving()) {
+            Bukkit.getPluginManager()
+                    .registerEvents(new SpellsListener(), this);
+            Bukkit.getPluginManager().registerEvents(new WeaponsListener(),
+                    this);
 
-        Bukkit.getPluginManager().registerEvents(new ShopListener(), this);
-        Bukkit.getPluginManager().registerEvents(new XPListener(), this);
-        Bukkit.getPluginManager().registerEvents(new BanksListener(), this);
-        Bukkit.getPluginManager().registerEvents(new WarpListener(), this);
+            Bukkit.getPluginManager().registerEvents(new AdventurerListener(),
+                    this);
+            Bukkit.getPluginManager()
+                    .registerEvents(new HunterListener(), this);
+            Bukkit.getPluginManager()
+                    .registerEvents(new UndeadListener(), this);
+            Bukkit.getPluginManager()
+                    .registerEvents(new KnightListener(), this);
+            Bukkit.getPluginManager().registerEvents(new VampireListener(),
+                    this);
+
+            Bukkit.getPluginManager().registerEvents(
+                    new BookOfSpellsListener(), this);
+            Bukkit.getPluginManager().registerEvents(new QuestsBookListener(),
+                    this);
+
+            Bukkit.getPluginManager().registerEvents(new ShopListener(), this);
+            Bukkit.getPluginManager().registerEvents(new XPListener(), this);
+            Bukkit.getPluginManager().registerEvents(new BanksListener(), this);
+            Bukkit.getPluginManager().registerEvents(new PortListener(), this);
+        }
 
         // Start periodic tasks.
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
-                new TimeModifiersUpdater(), 0L, 20L);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
-                new ManaUpdater(), 0L, 1L);
-        if (!this.isStarving()) {
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
-                    this.scoreboardsList, 0L, 5L);
-        }
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this.cooldowns,
                 20 * 60L, 20 * 60L);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
-                new NoWaterWalkUpdater(), 0L, 10L);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
-                new HunterArrowGivingUpdater(), 0L, 20 * 60L);
+
+        if (!this.isStarving()) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+                    new TimeModifiersUpdater(), 0L, 20L);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+                    new ManaUpdater(), 0L, 1L);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+                    this.scoreboardsList, 0L, 5L);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+                    new NoWaterWalkUpdater(), 0L, 10L);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+                    new HunterArrowGivingUpdater(), 0L, 20 * 60L);
+        }
 
         // Load quests and QuestManager.
         this.questManager = new QuestManager();
@@ -345,14 +354,17 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
             // Clear display name.
             event.getPlayer().setDisplayName(event.getPlayer().getName());
-            // Show character chooser.
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-                @Override
-                public void run() {
-                    RpgPlugin.this.characterChooserMenu.showTo(event
-                            .getPlayer());
-                }
-            }, 5L);
+            if (!this.isStarving()) {
+                // Show character chooser.
+                Bukkit.getScheduler().scheduleSyncDelayedTask(this,
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                RpgPlugin.this.characterChooserMenu
+                                        .showTo(event.getPlayer());
+                            }
+                        }, 5L);
+            }
         } else {
             // Has character.
             Character character = this.getProfile(event.getPlayer())
@@ -371,10 +383,12 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                     "Welcome back! Current quest(s): " + ChatColor.LIGHT_PURPLE
                             + quests.toString());
 
-            // Apply scoreboard.
-            PlayerStatsScoreboard scoreboard = new PlayerStatsScoreboard(
-                    event.getPlayer());
-            this.scoreboardsList.add(scoreboard);
+            if (!this.isStarving()) {
+                // Apply scoreboard.
+                PlayerStatsScoreboard scoreboard = new PlayerStatsScoreboard(
+                        event.getPlayer());
+                this.scoreboardsList.add(scoreboard);
+            }
         }
     }
 
@@ -402,16 +416,7 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         if (this.isStarving()) {
             // Remove character.
             this.getProfile(event.getPlayer()).setCharacter(null);
-            // Remove scoreboard.
-            this.scoreboardsList.remove(event.getPlayer());
-            // Show character selection after respawn.
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-                @Override
-                public void run() {
-                    RpgPlugin.this.characterChooserMenu.showTo(event
-                            .getPlayer());
-                }
-            }, 20L);
+            // Removed unused legacy code.
         }
     }
 
