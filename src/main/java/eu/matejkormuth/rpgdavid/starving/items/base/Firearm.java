@@ -19,6 +19,7 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.base;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -34,6 +35,7 @@ import org.bukkit.util.Vector;
 
 import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.Category;
@@ -68,6 +70,7 @@ public abstract class Firearm extends Item {
 
     protected void setClipSize(int clipSize) {
         this.clipSize = clipSize;
+        this.ammo = this.clipSize;
     }
 
     protected void setAmmo(int ammo) {
@@ -147,42 +150,70 @@ public abstract class Firearm extends Item {
             Block clickedBlock, BlockFace clickedFace) {
         if (Actions.isRightClick(action)) {
 
-            // Compute values.
-            Location projectileSpawn = player.getEyeLocation().add(
-                    player.getEyeLocation().getDirection());
-            Vector randomVec;
-            if (Data.of(player).isScoped()) {
-                randomVec = Vector.getRandom().subtract(HALF_VECTOR)
-                        .multiply(this.scopedInaccurancy);
-            } else {
-                randomVec = Vector.getRandom().subtract(HALF_VECTOR)
-                        .multiply(this.inaccurancy);
-            }
-
-            Vector projectileVelocity = player.getEyeLocation().getDirection()
-                    .add(randomVec).multiply(this.projectileSpeed);
-
-            // Spawn projectile.
-            Snowball projectile = (Snowball) player.getWorld().spawnEntity(
-                    projectileSpawn, EntityType.SNOWBALL);
-            projectile.setVelocity(projectileVelocity);
+            Vector projectileVelocity = computeAndFire(player);
 
             // Play fire sound.
-            player.playSound(player.getLocation(), Sound.NOTE_PIANO, 0.5F, 2F);
+            playFireSound(player);
 
             // Make recoil.
-            Vector recoil = projectileVelocity.multiply(-1);
-            recoil.setY(player.getVelocity().getY());
-            player.setVelocity(recoil);
-        } else if (Actions.isLeftClick(action)) {
-            // Scope tha gun.
-            if (Data.of(player).switchScoped()) {
-                player.removePotionEffect(PotionEffectType.SLOW);
+            makeRecoil(player, projectileVelocity);
+
+            // Lower ammo count.
+            if (ammo == 1) {
+                // Reload
+                this.ammo = this.clipSize;
             } else {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
-                        Time.ofMinutes(30).toTicks(), 2));
+                this.ammo--;
             }
+            Starving.NMS.sendAboveActionBarMessage(player,
+                    ChatColor.YELLOW.toString() + this.ammo + "/"
+                            + this.clipSize);
+        } else if (Actions.isLeftClick(action)) {
+            toggleScope(player);
         }
         return InteractResult.useNone();
+    }
+
+    protected Vector computeAndFire(Player player) {
+        // Compute values.
+        Location projectileSpawn = player.getEyeLocation().add(
+                player.getEyeLocation().getDirection());
+        Vector randomVec;
+        if (Data.of(player).isScoped()) {
+            randomVec = Vector.getRandom().subtract(HALF_VECTOR)
+                    .multiply(this.inaccurancy);
+        } else {
+            randomVec = Vector.getRandom().subtract(HALF_VECTOR)
+                    .multiply(this.scopedInaccurancy);
+        }
+
+        Vector projectileVelocity = player.getEyeLocation().getDirection()
+                .add(randomVec).multiply(this.projectileSpeed);
+
+        // Spawn projectile.
+        Snowball projectile = (Snowball) player.getWorld().spawnEntity(
+                projectileSpawn, EntityType.SNOWBALL);
+        projectile.setVelocity(projectileVelocity);
+        return projectileVelocity;
+    }
+
+    protected void playFireSound(Player player) {
+        player.playSound(player.getLocation(), Sound.NOTE_PIANO, 0.5F, 2F);
+    }
+
+    protected void makeRecoil(Player player, Vector projectileVelocity) {
+        Vector recoil = projectileVelocity.multiply(-0.01f);
+        recoil.setY(player.getVelocity().getY());
+        player.setVelocity(recoil);
+    }
+
+    protected void toggleScope(Player player) {
+        // Scope tha gun.
+        if (Data.of(player).switchScoped()) {
+            player.removePotionEffect(PotionEffectType.SLOW);
+        } else {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Time
+                    .ofMinutes(30).toTicks(), 2));
+        }
     }
 }

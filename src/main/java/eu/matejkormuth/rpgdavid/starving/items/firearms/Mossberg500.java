@@ -20,18 +20,13 @@
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
 import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
-import org.bukkit.event.block.Action;
+
 import org.bukkit.util.Vector;
 
-import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
-import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
@@ -50,27 +45,12 @@ public class Mossberg500 extends Firearm {
     }
 
     @Override
-    public InteractResult onInteract(Player player, Action action,
-            Block clickedBlock, BlockFace clickedFace) {
-        if (Actions.isRightClick(action)) {
-
-            Vector projectileVelocity = fire(player);
-            for (int i = 0; i < 5; i++) {
-                fire(player);
-            }
-
-            // Play fire sound.
-            player.playSound(player.getLocation(), Sound.NOTE_PIANO, 0.5F, 2F);
-
-            // Make recoil.
-            Vector recoil = projectileVelocity.multiply(-1);
-            recoil.setY(player.getVelocity().getY());
-            player.setVelocity(recoil);
-        } else if (Actions.isLeftClick(action)) {
-            // Scope tha gun.
-            // not now...
+    protected Vector computeAndFire(Player player) {
+        Vector projectileVelocity = fire(player);
+        for (int i = 0; i < 5; i++) {
+            fire(player);
         }
-        return InteractResult.useNone();
+        return projectileVelocity;
     }
 
     private Vector fire(Player player) {
