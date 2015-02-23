@@ -19,10 +19,10 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.base;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
@@ -58,10 +58,17 @@ public abstract class Firearm extends Item {
     private float scopedInaccurancy = 0.2f;
     private float recoil = 0.5f;
 
+    private final String reloadSound;
+    private final String fireSound;
+
     public Firearm(Material material, String name) {
         super(material, name);
         this.setCategory(Category.FIREARMS);
         this.setRarity(Rarity.UNCOMMON);
+
+        // Setup sounds.
+        this.reloadSound = this.getClass().getSimpleName() + "_reload";
+        this.fireSound = this.getClass().getSimpleName() + "_fire";
     }
 
     protected void setAmmoType(AmunitionType ammoType) {
@@ -145,6 +152,14 @@ public abstract class Firearm extends Item {
         return this.reloadTime;
     }
 
+    public String getFireSound() {
+        return this.fireSound;
+    }
+
+    public String getReloadSound() {
+        return this.reloadSound;
+    }
+
     @Override
     public InteractResult onInteract(Player player, Action action,
             Block clickedBlock, BlockFace clickedFace) {
@@ -161,6 +176,7 @@ public abstract class Firearm extends Item {
             // Lower ammo count.
             if (ammo == 1) {
                 // Reload
+                this.playReloadSound(player);
                 this.ammo = this.clipSize;
             } else {
                 this.ammo--;
@@ -177,7 +193,7 @@ public abstract class Firearm extends Item {
     protected Vector computeAndFire(Player player) {
         // Compute values.
         Location projectileSpawn = player.getEyeLocation().add(
-                player.getEyeLocation().getDirection());
+                player.getEyeLocation().getDirection().multiply(2));
         Vector randomVec;
         if (Data.of(player).isScoped()) {
             randomVec = Vector.getRandom().subtract(HALF_VECTOR)
@@ -198,7 +214,17 @@ public abstract class Firearm extends Item {
     }
 
     protected void playFireSound(Player player) {
-        player.playSound(player.getLocation(), Sound.NOTE_PIANO, 0.5F, 2F);
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            Starving.NMS.playNamedSoundEffect(p, this.getFireSound(),
+                    player.getLocation(), 2, 1);
+        }
+    }
+
+    protected void playReloadSound(Player player) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            Starving.NMS.playNamedSoundEffect(p, this.getReloadSound(),
+                    player.getLocation(), 2, 1);
+        }
     }
 
     protected void makeRecoil(Player player, Vector projectileVelocity) {

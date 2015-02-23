@@ -3,7 +3,7 @@ package eu.matejkormuth.rpgdavid.starving.items;
 // This file is part of Starving 2.0 project.
 // This file was automatically generated.
 // Changes to this file wont be preserved!
-// Generated at: 22.2.2015 19:25
+// Generated at: 23.2.2015 21:58
 // This file is licensed under GPL-3.
 // Starving: <http://github.com/dobrakmato/mcRPG>
 
@@ -91,5 +91,13 @@ public class Mappings {
     public static final Material COLTANACONDA = Material.FEATHER;
     // "NickiMinajAnaconda" -> INK_SACK:0
     public static final Material NICKIMINAJANACONDA = Material.INK_SACK;
+    // "Arrow" -> ARROW:0
+    public static final Material ARROW = Material.ARROW;
+    // "Bow" -> BOW:0
+    public static final Material BOW = Material.BOW;
+    // "CorssbowUnloaded" -> COAL:0
+    public static final Material CORSSBOWUNLOADED = Material.COAL;
+    // "CrossbowLoaded" -> COAL:1
+    public static final Material CROSSBOWLOADED = Material.COAL;
 }
 

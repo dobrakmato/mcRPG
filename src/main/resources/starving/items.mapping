@@ -37,3 +37,7 @@
 "DesertEagleSilenced" -> CLAY_BALL:0
 "ColtAnaconda" -> FEATHER:0
 "NickiMinajAnaconda" -> INK_SACK:0
+"Arrow" -> ARROW:0
+"Bow" -> BOW:0
+"CorssbowUnloaded" -> COAL:0
+"CrossbowLoaded" -> COAL:1

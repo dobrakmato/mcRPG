@@ -137,9 +137,12 @@ public class Data {
     @Persist(key = "hydrationCapacity")
     private float hydrationCapacity = 1200;
 
-    public StarvingScoreboard scoreboard;
-
+    @Persist(key = "scoped")
     private boolean scoped;
+    @Persist(key = "unconscious")
+    private boolean unconscious;
+
+    public StarvingScoreboard scoreboard;
 
     private Data(OfflinePlayer player) {
         this.player = player;
@@ -326,5 +329,13 @@ public class Data {
 
     public boolean isScoped() {
         return this.scoped;
+    }
+
+    public boolean isUnconscious() {
+        return this.unconscious;
+    }
+
+    public void setUnconscious(boolean unconscious) {
+        this.unconscious = unconscious;
     }
 }
