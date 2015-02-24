@@ -36,7 +36,7 @@ public class MoveListener extends Persistable implements Listener {
     @EventHandler
     private void onPlayerMove(final PlayerMoveEvent event) {
         float dist = (float) event.getTo().distanceSquared(event.getFrom());
-        Data.of(event.getPlayer()).decrementStamina(dist / 4);
+        Data.of(event.getPlayer()).decrementStamina(dist);
     }
 
     @EventHandler

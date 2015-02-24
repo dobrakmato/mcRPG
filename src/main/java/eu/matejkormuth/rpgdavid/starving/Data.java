@@ -203,6 +203,8 @@ public class Data {
         this.staminaCapacity = 800;
         this.hydrationCapacity = 1200;
         this.hydrationLevel = 1200;
+        this.unconscious = false;
+        this.scoped = false;
 
         return this;
     }
@@ -257,11 +259,11 @@ public class Data {
     }
 
     public void incrementStamina(float amount) {
-        this.stamina += stamina;
+        this.stamina += amount;
     }
 
     public void decrementStamina(float amount) {
-        this.stamina -= stamina;
+        this.stamina -= amount;
     }
 
     public void setStaminaCapacity(float staminaCapacity) {
