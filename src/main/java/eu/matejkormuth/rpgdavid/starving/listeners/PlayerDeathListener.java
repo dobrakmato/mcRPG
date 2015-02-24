@@ -19,6 +19,7 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +29,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.Time;
 
 public class PlayerDeathListener implements Listener {
@@ -53,7 +55,24 @@ public class PlayerDeathListener implements Listener {
             p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Time
                     .ofMinutes(1).toTicks(), 4));
 
+            Bukkit.getScheduler().scheduleSyncDelayedTask(
+                    Starving.getInstance().getPlugin(), new KillPlayerTask(p),
+                    Time.ofMinutes(1).toLongTicks());
+
             return true;
+        }
+    }
+
+    private class KillPlayerTask implements Runnable {
+        private Player player;
+
+        public KillPlayerTask(Player player) {
+            this.player = player;
+        }
+
+        @Override
+        public void run() {
+            this.player.damage(9999999D);
         }
     }
 }

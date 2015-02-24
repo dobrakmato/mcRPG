@@ -27,6 +27,8 @@ public class TablistFooterClockTask extends RepeatingTask {
 
     private TimeUpdater updater;
 
+    private String text = "Test posuvneho textu ";
+
     public TablistFooterClockTask() {
         this.updater = Starving.getInstance().getRegistered(TimeUpdater.class);
     }
@@ -34,7 +36,13 @@ public class TablistFooterClockTask extends RepeatingTask {
     @Override
     public void run() {
         String time = formatTime();
-        Starving.getInstance().setTabListFooter(FOOTER_LINK + " | " + time);
+        text = shift(this.text);
+        Starving.getInstance().setTabListFooter(
+                FOOTER_LINK + " | " + time + " | " + text);
+    }
+
+    private static String shift(String s) {
+        return s.charAt(s.length() - 1) + s.substring(0, s.length() - 1);
     }
 
     private String formatTime() {

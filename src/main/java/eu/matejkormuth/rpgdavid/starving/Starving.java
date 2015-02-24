@@ -40,6 +40,7 @@ import net.minecraft.server.v1_8_R1.PacketPlayOutUpdateTime;
 import net.minecraft.server.v1_8_R1.PlayerConnection;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
@@ -47,6 +48,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
@@ -311,6 +313,14 @@ public class Starving implements Runnable, Listener {
     private void onPlayerDisconnect(final PlayerQuitEvent event) {
         // Save data of the player.
         Data.of(event.getPlayer()).uncache().save();
+    }
+
+    @EventHandler
+    private void onPlayerRespawn(final PlayerRespawnEvent event) {
+        // TODO: Load last savepoint instead.
+        event.getPlayer().sendMessage(
+                ChatColor.YELLOW + "Data has been reseted!");
+        Data.of(event.getPlayer()).reset();
     }
 
     public Plugin getPlugin() {
