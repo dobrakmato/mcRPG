@@ -28,9 +28,9 @@ import org.bukkit.entity.Entity;
 
 import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 
-public class ZombieManager extends Persistable {
+public class ZombieManager extends AbstractPersistable {
     // Zombie speed constatnts.
     @Persist(key = "LOW_SPEED")
     public static double LOW_SPEED = 0.6d;

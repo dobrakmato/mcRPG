@@ -23,12 +23,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
-import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 
 public class StaminaRegenerationTask extends RepeatingTask implements
-        IPersistable {
+        Persistable {
     @Persist(key = "STAMINA_INCREMENT")
     private float STAMINA_INCREMENT = 20;
 

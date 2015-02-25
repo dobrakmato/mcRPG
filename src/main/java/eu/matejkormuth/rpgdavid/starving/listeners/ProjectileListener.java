@@ -30,9 +30,9 @@ import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 
-public class ProjectileListener extends Persistable implements Listener {
+public class ProjectileListener extends AbstractPersistable implements Listener {
     @Persist(key = "PARTICLE_AMOUNT")
     private static int PARTICLE_AMOUNT = 25;
 

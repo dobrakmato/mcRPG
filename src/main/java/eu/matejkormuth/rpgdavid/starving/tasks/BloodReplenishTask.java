@@ -23,11 +23,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
-import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 
-public class BloodReplenishTask extends RepeatingTask implements IPersistable {
+public class BloodReplenishTask extends RepeatingTask implements Persistable {
     @Persist(key = "BLOOD_REPLENISH_AMOUNT")
     private float BLOOD_REPLENISH_AMOUNT = 0.00002777777f;
 

@@ -20,27 +20,39 @@
 package eu.matejkormuth.rpgdavid.starving.persistence;
 
 /**
- * <p>
- * Represents instance-less (or only one instance) object.
- * </p>
- * <p>
- * <b>This is used for classes that should be persistable but for some reason
- * can't extend {@link Persistable} abstract class.</b> Persistable abstract
- * class also implements this interface. This interface allows to have classes
- * that extends {@link Persistable} and classes that implements this interface
- * in same colelction to store their configuration at application shutdown easy.
- * </p>
- * <p>
- * You have to manually implement {@link PersistInjector#store(Object)} and
- * {@link PersistInjector#inject(Object)} methods or their overloads.
- * </p>
- *
- * @see Persistable
+ * Class that injects {@link Persist} annotated configuration values to
+ * sub-class automatically in constructor.
+ * 
  * @see Persist
  * @see PersistInjector
+ * @see AbstractPersistableInstance
  */
-public interface IPersistable {
-    public void reloadConfiguration();
+public abstract class AbstractPersistable implements Persistable {
+    /**
+     * Main constructor with this implementation:
+     * 
+     * <pre>
+     * public AbstractPersistable() {
+     *     PersistInjector.inject(this);
+     * }
+     * </pre>
+     */
+    public AbstractPersistable() {
+        // Automatically inject values from configuration.
+        PersistInjector.inject(this);
+    }
 
-    public void saveConfiguration();
+    /**
+     * Re-loads annotated values from properties file on HDD.
+     */
+    public void reloadConfiguration() {
+        PersistInjector.inject(this);
+    }
+
+    /**
+     * Stores annotated values in properties file on HDD.
+     */
+    public void saveConfiguration() {
+        PersistInjector.store(this);
+    }
 }

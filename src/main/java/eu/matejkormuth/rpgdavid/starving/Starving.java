@@ -72,9 +72,9 @@ import eu.matejkormuth.rpgdavid.starving.listeners.ProjectileListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ToolsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
-import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
-import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
+import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BloodLevelConsuquencesTask;
@@ -113,7 +113,7 @@ public class Starving implements Runnable, Listener {
     private ItemManager itemManager;
     private ImpulseProcessor impulseProcessor;
 
-    private List<IPersistable> persistablesList;
+    private List<Persistable> persistablesList;
 
     private String tabListHeader = "Welcome to &cStarving 2.0!";
     private String tabListFooter = "http://www.starving.eu";
@@ -208,7 +208,7 @@ public class Starving implements Runnable, Listener {
 
     /**
      * Proxy method to allow easier registration of Listeners and to be sure
-     * that {@link Persistable}s, are saved when plugin's being disabled.
+     * that {@link AbstractPersistable}s, are saved when plugin's being disabled.
      * 
      * This metod returns passed object.
      * 
@@ -225,10 +225,10 @@ public class Starving implements Runnable, Listener {
                     this.corePlugin);
         }
 
-        if (object instanceof IPersistable) {
+        if (object instanceof Persistable) {
             this.getLogger().info(
-                    " New IPersistable: " + object.getClass().getName());
-            this.persistablesList.add((IPersistable) object);
+                    " New Persistable: " + object.getClass().getName());
+            this.persistablesList.add((Persistable) object);
         }
 
         return object;
@@ -257,7 +257,7 @@ public class Starving implements Runnable, Listener {
         DataDefaults.get().saveConfiguration();
 
         // Save configuration of all persistables.
-        for (IPersistable persistable : this.persistablesList) {
+        for (Persistable persistable : this.persistablesList) {
             persistable.saveConfiguration();
         }
     }

@@ -31,7 +31,7 @@ import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 import eu.matejkormuth.rpgdavid.starving.scoreboard.StarvingScoreboard;
 
 /**
@@ -40,7 +40,7 @@ import eu.matejkormuth.rpgdavid.starving.scoreboard.StarvingScoreboard;
  * <b>PlayerData</b>, but that's too long or <b>PData</b>, but that's too
  * confusing. <i>Fields of this class are serialized using
  * {@link PersistInjector} although the class does not extend
- * {@link Persistable}</i>.
+ * {@link AbstractPersistable}</i>.
  * </p>
  * <p>
  * You can obtain player data by calling static {@link Data#of(Player)} method

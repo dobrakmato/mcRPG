@@ -25,12 +25,12 @@ import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.EnviromentType;
-import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 
 public class BodyTemperatureUpdater extends RepeatingTask implements
-        IPersistable {
+        Persistable {
 
     @Persist(key = "temperatureLowering")
     private float temperatureLowering = 0.05F;

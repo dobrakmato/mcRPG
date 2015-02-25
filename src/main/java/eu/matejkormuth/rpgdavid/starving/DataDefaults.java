@@ -19,7 +19,7 @@
  */
 package eu.matejkormuth.rpgdavid.starving;
 
-import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 
 /**
  * <p>
@@ -28,11 +28,11 @@ import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
  * configuration file at server startup</i>.
  * </p>
  * <p>
- * This class is singleton because of {@link Persistable} implementation that
+ * This class is singleton because of {@link AbstractPersistable} implementation that
  * loads values from properties file during object construction.
  * </p>
  */
-public class DataDefaults extends Persistable {
+public class DataDefaults extends AbstractPersistable {
     private static DataDefaults instance;
 
     /**

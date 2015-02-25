@@ -26,13 +26,13 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation that specified that value of this field will be injected from
- * configuration. You have to extend {@link Persistable} class,
- * {@link PersistableInstance} class or manually call
+ * configuration. You have to extend {@link AbstractPersistable} class,
+ * {@link AbstractPersistableInstance} class or manually call
  * {@link PersistInjector#inject(Object)}
  * 
- * @see Persistable
+ * @see AbstractPersistable
  * @see PersistInjector
- * @see PersistableInstance
+ * @see AbstractPersistableInstance
  */
 @Target(value = { ElementType.FIELD })
 @Retention(value = RetentionPolicy.RUNTIME)

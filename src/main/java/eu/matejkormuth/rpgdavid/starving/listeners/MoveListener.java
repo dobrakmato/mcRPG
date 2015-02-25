@@ -26,9 +26,9 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 
-public class MoveListener extends Persistable implements Listener {
+public class MoveListener extends AbstractPersistable implements Listener {
     @Persist(key = "STAMINA_LEVEL_REQUIRED_FOR_SPRINT")
     private static int STAMINA_LEVEL_REQUIRED_FOR_SPRINT = 200;
 

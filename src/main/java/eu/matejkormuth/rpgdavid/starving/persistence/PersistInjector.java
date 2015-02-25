@@ -35,8 +35,8 @@ import eu.matejkormuth.bukkit.Worlds;
  * Class that injects values to Objects or stores (saves) values from HDD.
  * 
  * @see Persist
- * @see Persistable
- * @see PersistableInstance
+ * @see AbstractPersistable
+ * @see AbstractPersistableInstance
  */
 public class PersistInjector {
     private static String confPath;
