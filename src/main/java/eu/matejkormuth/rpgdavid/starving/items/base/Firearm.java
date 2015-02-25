@@ -57,6 +57,8 @@ public abstract class Firearm extends Item {
     private float inaccurancy = 0.5f;
     private float scopedInaccurancy = 0.2f;
     private float recoil = 0.5f;
+    private float resistenceChange = 0.0f; // damage resistence in percents
+    private float biteProbabiltyChange = 00.0f;
 
     private final String reloadSound;
     private final String fireSound;

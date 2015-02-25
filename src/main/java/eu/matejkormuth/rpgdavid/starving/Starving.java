@@ -58,6 +58,7 @@ import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.BloodLevelDamageListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.ChunksListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ExperiencePointsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ExplosionListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.FractureListener;
@@ -78,6 +79,7 @@ import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BloodLevelConsuquencesTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BodyTemperatureUpdater;
+import eu.matejkormuth.rpgdavid.starving.tasks.HydrationLevelConsequencesTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
 import eu.matejkormuth.rpgdavid.starving.tasks.ScoreboardUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.StaminaRegenerationTask;
@@ -144,6 +146,7 @@ public class Starving implements Runnable, Listener {
                 + "/conf/");
         confDirectory.mkdirs();
         new File(this.dataFolder.getAbsolutePath() + "/pdatas/").mkdirs();
+        new File(this.dataFolder.getAbsolutePath() + "/chunkdata/").mkdirs();
         PersistInjector
                 .setConfigurationsFolder(confDirectory.getAbsolutePath());
 
@@ -164,6 +167,7 @@ public class Starving implements Runnable, Listener {
         this.register(new StaminaRegenerationTask()).schedule(20L);
         this.register(new BloodLevelConsuquencesTask()).schedule(20L);
         this.register(new HydrationDepletionTask()).schedule(20L);
+        this.register(new HydrationLevelConsequencesTask()).schedule(20L);
         this.register(new ScoreboardUpdater()).schedule(20L);
 
         // Register starving listeners.
@@ -177,6 +181,7 @@ public class Starving implements Runnable, Listener {
         this.register(new FractureListener());
         this.register(new MobDropsListener());
         this.register(new ToolsListener());
+        this.register(new ChunksListener());
         this.register(new ProjectileListener());
         this.register(new BloodLevelDamageListener());
         this.register(new ExperiencePointsListener());
