@@ -246,6 +246,14 @@ public class Data {
         this.bloodLevel = bloodLevel;
     }
 
+    public void incrementBloodLevel(float amount) {
+        this.bloodLevel += amount;
+    }
+
+    public void decrementBloodLevel(float amount) {
+        this.bloodLevel -= amount;
+    }
+    
     public boolean isBleeding() {
         return this.bleedingTicks > 0;
     }

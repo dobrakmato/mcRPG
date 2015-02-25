@@ -78,6 +78,7 @@ import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BloodLevelConsuquencesTask;
+import eu.matejkormuth.rpgdavid.starving.tasks.BloodReplenishTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BodyTemperatureUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.HydrationLevelConsequencesTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
@@ -168,6 +169,7 @@ public class Starving implements Runnable, Listener {
         this.register(new BloodLevelConsuquencesTask()).schedule(20L);
         this.register(new HydrationDepletionTask()).schedule(20L);
         this.register(new HydrationLevelConsequencesTask()).schedule(20L);
+        this.register(new BloodReplenishTask()).schedule(20L);
         this.register(new ScoreboardUpdater()).schedule(20L);
 
         // Register starving listeners.

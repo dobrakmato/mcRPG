@@ -20,32 +20,17 @@
 package eu.matejkormuth.rpgdavid.starving.tasks;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-
-import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
 
-public class BleedingTask extends RepeatingTask {
+public class BloodReplenishTask extends RepeatingTask {
+    private float BLOOD_REPLENISH_AMOUNT = 0.00002777777f;
+
     @Override
     public void run() {
-        Data d = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
-            d = Data.of(p);
-            if (d.isBleeding()) {
-                d.decrementBloodLevel(d.getBleedingFlow());
-                d.decrementBleedingTicks();
-
-                // Display graphical effect.
-                this.displayBleedParticle(p);
-            }
+            Data.of(p).incrementBloodLevel(BLOOD_REPLENISH_AMOUNT);
         }
-    }
-
-    private void displayBleedParticle(Player p) {
-        ParticleEffect.BLOCK_CRACK.display(new ParticleEffect.BlockData(
-                Material.REDSTONE_BLOCK, (byte) 0), 0.15f, 0.15f, 0.15f, 1, 20,
-                p.getEyeLocation().add(0, -0.25, 0), 256);
     }
 }
