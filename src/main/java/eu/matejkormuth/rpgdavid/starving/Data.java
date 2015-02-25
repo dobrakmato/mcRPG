@@ -141,6 +141,8 @@ public class Data {
     private boolean scoped;
     @Persist(key = "unconscious")
     private boolean unconscious;
+    @Persist(key = "hallucinating")
+    private boolean hallucinating;
 
     public StarvingScoreboard scoreboard;
 
@@ -205,6 +207,7 @@ public class Data {
         this.hydrationLevel = 1200;
         this.unconscious = false;
         this.scoped = false;
+        this.hallucinating = false;
 
         return this;
     }
@@ -253,7 +256,7 @@ public class Data {
     public void decrementBloodLevel(float amount) {
         this.bloodLevel -= amount;
     }
-    
+
     public boolean isBleeding() {
         return this.bleedingTicks > 0;
     }
@@ -347,5 +350,13 @@ public class Data {
 
     public void setUnconscious(boolean unconscious) {
         this.unconscious = unconscious;
+    }
+
+    public void setHallucinating(boolean halucinating) {
+        this.hallucinating = halucinating;
+    }
+
+    public boolean isHallucinating() {
+        return this.hallucinating;
     }
 }

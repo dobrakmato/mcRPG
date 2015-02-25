@@ -20,31 +20,40 @@
 package eu.matejkormuth.rpgdavid.starving.tasks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
-import eu.matejkormuth.rpgdavid.starving.persistence.IPersistable;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
-import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
+import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.Time;
 
-public class BloodReplenishTask extends RepeatingTask implements IPersistable {
-    @Persist(key = "BLOOD_REPLENISH_AMOUNT")
-    private float BLOOD_REPLENISH_AMOUNT = 0.00002777777f;
-
+public class HallucinationsTask extends RepeatingTask {
     @Override
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            Data.of(p).incrementBloodLevel(BLOOD_REPLENISH_AMOUNT);
+            if (Data.of(p).isHallucinating()) {
+                this.hallucinate(p);
+            }
         }
     }
 
-    @Override
-    public void reloadConfiguration() {
-        PersistInjector.inject(this);
-    }
+    private void hallucinate(Player p) {
+        if (!p.hasPotionEffect(PotionEffectType.CONFUSION)) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, Time
+                    .ofSeconds(10).toTicks(), 3));
+        }
 
-    @Override
-    public void saveConfiguration() {
-        PersistInjector.store(this);
+        if (Starving.getInstance().getRandom().nextInt(10) < 3) {
+            if (!p.hasPotionEffect(PotionEffectType.BLINDNESS)) {
+                p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,
+                        Time.ofSeconds(6).toTicks(), 3));
+            }
+        }
+
+        p.playSound(p.getLocation(), Sound.PORTAL_TRAVEL, 1f, 1f);
+        
+        // TODO: Make more effects.
     }
 }

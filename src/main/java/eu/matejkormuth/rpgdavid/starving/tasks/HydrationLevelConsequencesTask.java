@@ -31,6 +31,17 @@ public class HydrationLevelConsequencesTask extends RepeatingTask {
         for (Player p : Bukkit.getOnlinePlayers()) {
             d = Data.of(p);
 
+            // Player gets hallucinations when dehydrated.
+            if (d.getBloodLevel() < 300) {
+                if (!d.isHallucinating()) {
+                    d.setHallucinating(true);
+                }
+            } else {
+                if (d.isHallucinating()) {
+                    d.setHallucinating(false);
+                }
+            }
+
             // Without water the player dies instantly.
             if (d.getHydrationLevel() <= 0) {
                 p.damage(999999D);
