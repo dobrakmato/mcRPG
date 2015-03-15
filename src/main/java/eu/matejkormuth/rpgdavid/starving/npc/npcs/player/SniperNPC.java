@@ -1,4 +1,4 @@
-package eu.matejkormuth.rpgdavid.starving.npc.player;
+package eu.matejkormuth.rpgdavid.starving.npc.npcs.player;
 
 import net.minecraft.server.v1_8_R1.World;
 
@@ -8,7 +8,7 @@ import org.bukkit.Material;
 import com.mojang.authlib.GameProfile;
 
 import eu.matejkormuth.bukkit.Items;
-import eu.matejkormuth.rpgdavid.starving.npc.PlayerNPC;
+import eu.matejkormuth.rpgdavid.starving.npc.npcs.PlayerNPC;
 
 public class SniperNPC extends PlayerNPC {
     public SniperNPC(Location spawnLocation, World world,

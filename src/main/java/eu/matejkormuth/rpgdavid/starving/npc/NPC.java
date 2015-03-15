@@ -20,27 +20,18 @@
 package eu.matejkormuth.rpgdavid.starving.npc;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-import eu.matejkormuth.rpgdavid.starving.npc.path.Path;
-
 public interface NPC {
-    void teleport(Location location);
+	boolean isActive();
 
-    void teleport(Location location, TeleportCause cause);
+	void setActive(boolean active);
+	
+	Location getLocation();
 
-    void lookAt(Location location);
+	void teleport(Location location);
 
-    void lookAt(Entity entity);
-    
-    void setLook(float pitch, float yaw);
-    
-    void walkTo(Location location);
-    
-    void walkBy(Path path);
-    
-    void follow(Entity entity);
-    
-    void despawn();
+	void teleport(Location location, TeleportCause cause);
+
+	void remove();
 }

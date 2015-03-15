@@ -51,7 +51,7 @@ public class EntityBodyMovement {
                 this.e.locZ + dZ, 1);
     }
 
-    public void jump() {
+    public void forceJump() {
         this.e.getControllerJump().a();
         this.e.getControllerJump().b();
     }
