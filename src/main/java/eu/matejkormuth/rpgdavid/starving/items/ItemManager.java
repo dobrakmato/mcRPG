@@ -83,7 +83,7 @@ import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedM16;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedMP5;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedMossberg500;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedNickyAnaconda;
-import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ChemicalItemMetaWrapper;
+import eu.matejkormuth.rpgdavid.starving.items.itemmeta.deprecated.ChemicalItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Bandage;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Patch;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Splint;
@@ -92,6 +92,8 @@ import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Parachute;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Toolset;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Transmitter;
+import eu.matejkormuth.rpgdavid.starving.items.ranged.Crossbow;
+import eu.matejkormuth.rpgdavid.starving.items.ranged.LoadedCrossbow;
 
 public class ItemManager implements Listener {
 	private Set<Item> items;
@@ -105,7 +107,7 @@ public class ItemManager implements Listener {
 		// Register all items.
 		this.registerAll();
 		this.registerAdditionalRecipes();
-		// Regsiter events.
+		// Register events.
 		Bukkit.getPluginManager().registerEvents(this,
 				Starving.getInstance().getPlugin());
 		Starving.getInstance()
@@ -115,8 +117,8 @@ public class ItemManager implements Listener {
 	}
 
 	private void registerAdditionalRecipes() {
-		// TODO: Register chemical crafting recipies.
-		// TODO: Register water crafting recipies.
+		// TODO: Register chemical crafting recipes.
+		// TODO: Register water crafting recipes.
 	}
 
 	private void registerAll() {
@@ -128,9 +130,15 @@ public class ItemManager implements Listener {
 		this.register(new DisinfectionTablets());
 
 		this.registerFirearms();
+		this.registerRanged();
 		this.registerMedical();
 		this.registerDrinks();
 		this.registerClothing();
+	}
+
+	private void registerRanged() {
+		this.register(new Crossbow());
+		this.register(new LoadedCrossbow());
 	}
 
 	private void registerFirearms() {
