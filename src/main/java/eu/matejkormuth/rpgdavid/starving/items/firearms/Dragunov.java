@@ -19,9 +19,11 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
 import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
@@ -29,8 +31,13 @@ import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
 public class Dragunov extends Firearm {
-    public Dragunov() {
-        super(Mappings.DRAGUNOV, "Dragunov");
+	
+	public Dragunov() {
+		this(Mappings.DRAGUNOV, "Dragunov");
+	}
+	
+    public Dragunov(Material mapping, String name) {
+    	super(mapping, name);
         this.setAmmoType(AmunitionType.LONG);
         this.setClipSize(10);
         this.setFireRate(1);

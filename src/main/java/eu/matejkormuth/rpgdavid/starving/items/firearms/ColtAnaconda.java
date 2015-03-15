@@ -19,22 +19,29 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
+import org.bukkit.Material;
+
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
 public class ColtAnaconda extends Firearm {
-    public ColtAnaconda() {
-        super(Mappings.COLTANACONDA, "Colt Anaconda");
-        this.setAmmoType(AmunitionType.SHORT);
-        this.setClipSize(6);
-        this.setFireRate(1);
-        this.setInaccurancy(0.2f);
-        this.setScopedInaccurancy(0.02f);
-        this.setScopedInaccurancy(0.01f);
-        this.setNoiseLevel(0.5f);
-        this.setProjectileSpeed(3f);
-        this.setRecoil(0.6f);
-        this.setReloadTime(20);
-    }
+
+	public ColtAnaconda() {
+		this(Mappings.COLTANACONDA, "Colt Anaconda");
+	}
+
+	public ColtAnaconda(Material mapping, String name) {
+		super(mapping, name);
+		this.setAmmoType(AmunitionType.SHORT);
+		this.setClipSize(6);
+		this.setFireRate(1);
+		this.setInaccurancy(0.2f);
+		this.setScopedInaccurancy(0.02f);
+		this.setScopedInaccurancy(0.01f);
+		this.setNoiseLevel(0.5f);
+		this.setProjectileSpeed(3f);
+		this.setRecoil(0.6f);
+		this.setReloadTime(20);
+	}
 }

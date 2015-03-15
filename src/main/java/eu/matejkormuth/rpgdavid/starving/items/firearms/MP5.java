@@ -19,21 +19,28 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
+import org.bukkit.Material;
+
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
-public class DesertEagle extends Firearm {
-    public DesertEagle() {
-        super(Mappings.DESERTEAGLE, "Desert Eagle");
-        this.setAmmoType(AmunitionType.SHORT);
-        this.setClipSize(9);
-        this.setFireRate(1);
-        this.setInaccurancy(0.2f);
-        this.setScopedInaccurancy(0.02f);
-        this.setNoiseLevel(1);
-        this.setProjectileSpeed(3.1f);
-        this.setRecoil(0.6f);
-        this.setReloadTime(20);
-    }
+public class MP5 extends Firearm {
+
+	public MP5() {
+		this(Mappings.MP5, "MP5");
+	}
+
+	public MP5(Material mapping, String name) {
+		super(mapping, name);
+		this.setAmmoType(AmunitionType.SHORT);
+		this.setClipSize(30);
+		this.setFireRate(10);
+		this.setInaccurancy(0.5f);
+		this.setScopedInaccurancy(0.05f);
+		this.setNoiseLevel(0.6f);
+		this.setProjectileSpeed(3.5f);
+		this.setRecoil(0.35f);
+		this.setReloadTime(60);
+	}
 }

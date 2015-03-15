@@ -19,21 +19,28 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
+import org.bukkit.Material;
+
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
 public class M16 extends Firearm {
-    public M16() {
-        super(Mappings.M16, "M16");
-        this.setAmmoType(AmunitionType.LONG);
-        this.setClipSize(45);
-        this.setFireRate(14);
-        this.setInaccurancy(0.4f);
-        this.setScopedInaccurancy(0.04f);
-        this.setNoiseLevel(0.7f);
-        this.setProjectileSpeed(3.5f);
-        this.setRecoil(0.55f);
-        this.setReloadTime(40);
-    }
+
+	public M16() {
+		this(Mappings.M16, "M16");
+	}
+
+	public M16(Material mapping, String name) {
+		super(mapping, name);
+		this.setAmmoType(AmunitionType.LONG);
+		this.setClipSize(45);
+		this.setFireRate(14);
+		this.setInaccurancy(0.4f);
+		this.setScopedInaccurancy(0.04f);
+		this.setNoiseLevel(0.7f);
+		this.setProjectileSpeed(3.5f);
+		this.setRecoil(0.55f);
+		this.setReloadTime(40);
+	}
 }
