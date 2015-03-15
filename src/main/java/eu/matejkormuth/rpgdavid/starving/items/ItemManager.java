@@ -69,12 +69,20 @@ import eu.matejkormuth.rpgdavid.starving.items.drinks.RedBull;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.Sprite;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.AK47;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.ColtAnaconda;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.DesertEagle;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.Glock;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Dragunov;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.M16;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Mossberg500;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.NickyAnaconda;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.SilencedDesertEagle;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.MP5;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedAK47;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedColtAnaconda;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedDragunov;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedGlock;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedM16;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedMP5;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedMossberg500;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedNickyAnaconda;
 import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ChemicalItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Bandage;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Patch;
@@ -86,248 +94,259 @@ import eu.matejkormuth.rpgdavid.starving.items.misc.Toolset;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Transmitter;
 
 public class ItemManager implements Listener {
-    private Set<Item> items;
+	private Set<Item> items;
 
-    private EnumMap<Rarity, List<Item>> rarityMapping;
-    private EnumMap<Category, List<Item>> categoryMapping;
+	private EnumMap<Rarity, List<Item>> rarityMapping;
+	private EnumMap<Category, List<Item>> categoryMapping;
 
-    public ItemManager() {
-        Starving.getInstance().getLogger().info("Initializing ItemManager...");
-        this.items = new HashSet<Item>();
-        // Register all items.
-        this.registerAll();
-        this.registerAdditionalRecipes();
-        // Regsiter events.
-        Bukkit.getPluginManager().registerEvents(this,
-                Starving.getInstance().getPlugin());
-        Starving.getInstance()
-                .getLogger()
-                .info("We have " + this.items.size()
-                        + " different registered items!");
-    }
+	public ItemManager() {
+		Starving.getInstance().getLogger().info("Initializing ItemManager...");
+		this.items = new HashSet<Item>();
+		// Register all items.
+		this.registerAll();
+		this.registerAdditionalRecipes();
+		// Regsiter events.
+		Bukkit.getPluginManager().registerEvents(this,
+				Starving.getInstance().getPlugin());
+		Starving.getInstance()
+				.getLogger()
+				.info("We have " + this.items.size()
+						+ " different registered items!");
+	}
 
-    private void registerAdditionalRecipes() {
-        // TODO: Register chemical crafting recipies.
-        // TODO: Register water crafting recipies.
-    }
+	private void registerAdditionalRecipes() {
+		// TODO: Register chemical crafting recipies.
+		// TODO: Register water crafting recipies.
+	}
 
-    private void registerAll() {
-        this.register(new Parachute());
-        this.register(new GalvanicCell());
-        this.register(new Transmitter());
-        this.register(new Toolset());
-        this.register(new MagicMushroom());
-        this.register(new DisinfectionTablets());
+	private void registerAll() {
+		this.register(new Parachute());
+		this.register(new GalvanicCell());
+		this.register(new Transmitter());
+		this.register(new Toolset());
+		this.register(new MagicMushroom());
+		this.register(new DisinfectionTablets());
 
-        this.registerFirearms();
-        this.registerMedical();
-        this.registerDrinks();
-        this.registerClothing();
-    }
+		this.registerFirearms();
+		this.registerMedical();
+		this.registerDrinks();
+		this.registerClothing();
+	}
 
-    private void registerFirearms() {
-        this.register(new AK47());
-        this.register(new DesertEagle());
-        this.register(new Dragunov());
-        this.register(new M16());
-        this.register(new Mossberg500());
-        this.register(new SilencedDesertEagle());
-        this.register(new ColtAnaconda());
-        this.register(new NickyAnaconda());
-    }
+	private void registerFirearms() {
+		// Unscoped variations.
+		this.register(new AK47());
+		this.register(new Glock());
+		this.register(new Dragunov());
+		this.register(new M16());
+		this.register(new Mossberg500());
+		this.register(new MP5());
+		this.register(new ColtAnaconda());
+		this.register(new NickyAnaconda());
 
-    private void registerDrinks() {
-        this.register(new Fanta());
-        this.register(new Sprite());
-        this.register(new RedBull());
-    }
+		// Scoped variations.
+		this.register(new ScopedAK47());
+		this.register(new ScopedGlock());
+		this.register(new ScopedDragunov());
+		this.register(new ScopedM16());
+		this.register(new ScopedMossberg500());
+		this.register(new ScopedMP5());
+		this.register(new ScopedColtAnaconda());
+		this.register(new ScopedNickyAnaconda());
+	}
 
-    private void registerClothing() {
-        this.register(new Boots());
-        this.register(new BulletproofVest());
-        this.register(new CamoflageHelmet());
-        this.register(new CamoflageThickPants());
-        this.register(new CamoflageThickShirt());
-        this.register(new Cap());
-        this.register(new Hat());
-        this.register(new Jeans());
-        this.register(new RemVest());
-        this.register(new RubberShoes());
-        this.register(new Sandals());
-        this.register(new Shield());
-        this.register(new Shirt());
-        this.register(new Shoes());
-        this.register(new Shorts());
-        this.register(new ThickPants());
-        this.register(new ThickShoes());
-        this.register(new TShirt());
-        this.register(new Windbreaker());
-        this.register(new WinterPants());
-    }
+	private void registerDrinks() {
+		this.register(new Fanta());
+		this.register(new Sprite());
+		this.register(new RedBull());
+	}
 
-    private void registerMedical() {
-        this.register(new Bandage());
-        this.register(new Patch());
-        this.register(new Splint());
-    }
+	private void registerClothing() {
+		this.register(new Boots());
+		this.register(new BulletproofVest());
+		this.register(new CamoflageHelmet());
+		this.register(new CamoflageThickPants());
+		this.register(new CamoflageThickShirt());
+		this.register(new Cap());
+		this.register(new Hat());
+		this.register(new Jeans());
+		this.register(new RemVest());
+		this.register(new RubberShoes());
+		this.register(new Sandals());
+		this.register(new Shield());
+		this.register(new Shirt());
+		this.register(new Shoes());
+		this.register(new Shorts());
+		this.register(new ThickPants());
+		this.register(new ThickShoes());
+		this.register(new TShirt());
+		this.register(new Windbreaker());
+		this.register(new WinterPants());
+	}
 
-    private void register(final Item item) {
-        if (this.items.contains(item)) {
-            // Do not register more then once.
-            return;
-        }
-        // If is item craftable, register recipe.
-        if (item instanceof Craftable) {
-            Bukkit.addRecipe(((Craftable) item).getRecipe());
-        }
-        // Add to set.
-        this.items.add(item);
-    }
+	private void registerMedical() {
+		this.register(new Bandage());
+		this.register(new Patch());
+		this.register(new Splint());
+	}
 
-    public Item findItem(final ItemStack itemStack) {
-        // Special case for chemicals.
-        if (this.isChemical(itemStack)) {
-            // TODO: Try to look at known chemical compounds.
-            return new ParsedChemicalItem(new ChemicalItemMetaWrapper(
-                    itemStack.getItemMeta()).get());
-        }
+	private void register(final Item item) {
+		if (this.items.contains(item)) {
+			// Do not register more then once.
+			return;
+		}
+		// If is item craftable, register recipe.
+		if (item instanceof Craftable) {
+			Bukkit.addRecipe(((Craftable) item).getRecipe());
+		}
+		// Add to set.
+		this.items.add(item);
+	}
 
-        // For every other item.
-        for (Item item : this.items) {
-            if (item.matches(itemStack)) {
-                return item;
-            }
-        }
-        return null;
-    }
+	public Item findItem(final ItemStack itemStack) {
+		// Special case for chemicals.
+		if (this.isChemical(itemStack)) {
+			// TODO: Try to look at known chemical compounds.
+			return new ParsedChemicalItem(new ChemicalItemMetaWrapper(
+					itemStack.getItemMeta()).get());
+		}
 
-    public boolean isItemOf(final ItemStack itemStack,
-            Class<? extends Item> type) {
-        Item i = this.findItem(itemStack);
-        if (i == null) {
-            return false;
-        }
-        // TODO: This might have bad performance.
-        return i.getClass().equals(type);
-    }
+		// For every other item.
+		for (Item item : this.items) {
+			if (item.matches(itemStack)) {
+				return item;
+			}
+		}
+		return null;
+	}
 
-    private boolean isChemical(ItemStack itemStack) {
-        if (itemStack == null) {
-            return false;
-        }
+	public boolean isItemOf(final ItemStack itemStack,
+			Class<? extends Item> type) {
+		Item i = this.findItem(itemStack);
+		if (i == null) {
+			return false;
+		}
+		// TODO: This might have bad performance.
+		return i.getClass().equals(type);
+	}
 
-        if (itemStack.getType() != Material.POTION) {
-            return false;
-        }
-        if (itemStack.hasItemMeta()) {
-            List<String> l = itemStack.getItemMeta().getLore();
-            return l.size() > 1 && l.get(0).contains("chemical");
-        }
-        return false;
-    }
+	private boolean isChemical(ItemStack itemStack) {
+		if (itemStack == null) {
+			return false;
+		}
 
-    public List<Item> getItems() {
-        return new ArrayList<>(this.items);
-    }
+		if (itemStack.getType() != Material.POTION) {
+			return false;
+		}
+		if (itemStack.hasItemMeta()) {
+			List<String> l = itemStack.getItemMeta().getLore();
+			return l.size() > 1 && l.get(0).contains("chemical");
+		}
+		return false;
+	}
 
-    @EventHandler
-    private void onInteract(final PlayerInteractEvent event) {
-        Item item = this.findItem(event.getItem());
-        if (item != null) {
-            InteractResult result = item.onInteract(event.getPlayer(),
-                    event.getAction(), event.getClickedBlock(),
-                    event.getBlockFace());
+	public List<Item> getItems() {
+		return new ArrayList<>(this.items);
+	}
 
-            if (result.getUsedAmount() > event.getItem().getAmount()) {
-                throw new IllegalArgumentException(
-                        "Used amount is bigger then itemStack amount!");
-            }
+	@EventHandler
+	private void onInteract(final PlayerInteractEvent event) {
+		Item item = this.findItem(event.getItem());
+		if (item != null) {
+			InteractResult result = item.onInteract(event.getPlayer(),
+					event.getAction(), event.getClickedBlock(),
+					event.getBlockFace());
 
-            // Simulate use.
-            if (result.isUsed()) {
-                // If use all.
-                if (result.getUsedAmount() == -1) {
-                    event.getItem().setAmount(0);
-                } else {
-                    event.getItem().setAmount(
-                            event.getItem().getAmount()
-                                    - result.getUsedAmount());
-                }
-            }
+			if (result.getUsedAmount() > event.getItem().getAmount()) {
+				throw new IllegalArgumentException(
+						"Used amount is bigger then itemStack amount!");
+			}
 
-            event.setCancelled(true);
-        }
-    }
+			// Simulate use.
+			if (result.isUsed()) {
+				// If use all.
+				if (result.getUsedAmount() == -1) {
+					event.getItem().setAmount(0);
+				} else {
+					event.getItem().setAmount(
+							event.getItem().getAmount()
+									- result.getUsedAmount());
+				}
+			}
 
-    @EventHandler
-    private void onInteractWith(final PlayerInteractEntityEvent event) {
-        Item item = this.findItem(event.getPlayer().getItemInHand());
-        if (item != null) {
-            item.onInteractWith(event.getPlayer(), event.getRightClicked());
-            event.setCancelled(true);
-        }
-    }
+			event.setCancelled(true);
+		}
+	}
 
-    @EventHandler
-    private void onConsume(final PlayerItemConsumeEvent event) {
-        Item item = this.findItem(event.getItem());
-        if (item != null) {
-            if (item instanceof ConsumableItem) {
-                ((ConsumableItem) item).onConsume(event.getPlayer());
-                event.setCancelled(true);
-            }
-        }
-    }
+	@EventHandler
+	private void onInteractWith(final PlayerInteractEntityEvent event) {
+		Item item = this.findItem(event.getPlayer().getItemInHand());
+		if (item != null) {
+			item.onInteractWith(event.getPlayer(), event.getRightClicked());
+			event.setCancelled(true);
+		}
+	}
 
-    // Crafting and max. stack amount emulation.
+	@EventHandler
+	private void onConsume(final PlayerItemConsumeEvent event) {
+		Item item = this.findItem(event.getItem());
+		if (item != null) {
+			if (item instanceof ConsumableItem) {
+				((ConsumableItem) item).onConsume(event.getPlayer());
+				event.setCancelled(true);
+			}
+		}
+	}
 
-    @EventHandler
-    private void onItemStackMerge(final InventoryClickEvent event) {
-        // Max stack emulation.
-        if (event.getCursor() != null) {
-            // Beware: event.getCurrentItem() returns undocumented null, when
-            // throwing items out of inventory.
-            if (event.getCurrentItem() == null) {
-                // We have nothing to merge.
-                return;
-            }
+	// Crafting and max. stack amount emulation.
 
-            // If merging stacks of same type.
-            if (event.getCurrentItem().getType()
-                    .equals(event.getCursor().getType())) {
-                Item item1 = this.findItem(event.getCurrentItem());
-                Item item2 = this.findItem(event.getCursor());
-                // Check if both are custom.
-                if (item1 != null && item2 != null) {
-                    int totalAmount = event.getCurrentItem().getAmount()
-                            + event.getCursor().getAmount();
-                    // Check if this merge exceeds maxStackAmount.
-                    if (item1.getMaxStackAmount() > totalAmount) {
-                        // Disable this merge.
-                        event.setCancelled(true);
-                    }
-                }
-            }
-        }
-    }
+	@EventHandler
+	private void onItemStackMerge(final InventoryClickEvent event) {
+		// Max stack emulation.
+		if (event.getCursor() != null) {
+			// Beware: event.getCurrentItem() returns undocumented null, when
+			// throwing items out of inventory.
+			if (event.getCurrentItem() == null) {
+				// We have nothing to merge.
+				return;
+			}
 
-    /**
-     * Helper class to allow easy initialization of {@link ChemicalItem} through
-     * {@link ChemicalItemMetaWrapper}.
-     */
-    private static class ParsedChemicalItem extends ChemicalItem {
-        public ParsedChemicalItem(ChemicalCompound chemicalCompound) {
-            super("ParsedChemicalItem", chemicalCompound);
-        }
+			// If merging stacks of same type.
+			if (event.getCurrentItem().getType()
+					.equals(event.getCursor().getType())) {
+				Item item1 = this.findItem(event.getCurrentItem());
+				Item item2 = this.findItem(event.getCursor());
+				// Check if both are custom.
+				if (item1 != null && item2 != null) {
+					int totalAmount = event.getCurrentItem().getAmount()
+							+ event.getCursor().getAmount();
+					// Check if this merge exceeds maxStackAmount.
+					if (item1.getMaxStackAmount() > totalAmount) {
+						// Disable this merge.
+						event.setCancelled(true);
+					}
+				}
+			}
+		}
+	}
 
-        @Override
-        public Recipe getRecipe() {
-            // This class does not provide recipe.
-            return null;
-        }
+	/**
+	 * Helper class to allow easy initialization of {@link ChemicalItem} through
+	 * {@link ChemicalItemMetaWrapper}.
+	 */
+	private static class ParsedChemicalItem extends ChemicalItem {
+		public ParsedChemicalItem(ChemicalCompound chemicalCompound) {
+			super("ParsedChemicalItem", chemicalCompound);
+		}
 
-        @Override
-        protected void onConsume0(Player player) {
-        }
-    }
+		@Override
+		public Recipe getRecipe() {
+			// This class does not provide recipe.
+			return null;
+		}
+
+		@Override
+		protected void onConsume0(Player player) {
+		}
+	}
 }

@@ -33,6 +33,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import com.darkblade12.particleeffect.ParticleEffect;
+
 import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.Starving;
@@ -43,205 +45,207 @@ import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 
 public abstract class Firearm extends Item {
-    protected static final Vector HALF_VECTOR = new Vector(0.5, 0.5, 0.5);
+	protected static final Vector HALF_VECTOR = new Vector(0.5, 0.5, 0.5);
 
-    private int clipSize;
-    private int ammo;
+	private int clipSize;
+	private int ammo;
 
-    private AmunitionType ammoType;
+	private AmunitionType ammoType;
 
-    private int fireRate = 1; // per second
-    private float noiseLevel = 1; // impulse power
-    private float projectileSpeed = 2; // multiplier
-    private int reloadTime = 40; // ticks
-    private float inaccurancy = 0.5f;
-    private float scopedInaccurancy = 0.2f;
-    private float recoil = 0.5f;
-    private float resistenceChange = 0.0f; // damage resistence in percents
-    private float biteProbabiltyChange = 00.0f;
+	private int fireRate = 1; // per second
+	private float noiseLevel = 1; // impulse power
+	private float projectileSpeed = 2; // multiplier
+	private int reloadTime = 40; // ticks
+	private float inaccurancy = 0.5f;
+	private float scopedInaccurancy = 0.2f;
+	private float recoil = 0.5f;
 
-    private final String reloadSound;
-    private final String fireSound;
+	private final String reloadSound;
+	private final String fireSound;
 
-    public Firearm(Material material, String name) {
-        super(material, name);
-        this.setCategory(Category.FIREARMS);
-        this.setRarity(Rarity.UNCOMMON);
+	public Firearm(Material material, String name) {
+		super(material, name);
+		this.setCategory(Category.FIREARMS);
+		this.setRarity(Rarity.UNCOMMON);
+		this.setMaxStackAmount(1);
 
-        // Setup sounds.
-        this.reloadSound = this.getClass().getSimpleName() + "_reload";
-        this.fireSound = this.getClass().getSimpleName() + "_fire";
-    }
+		// Setup sounds.
+		this.reloadSound = this.getClass().getSimpleName() + "_reload";
+		this.fireSound = this.getClass().getSimpleName() + "_fire";
+	}
 
-    protected void setAmmoType(AmunitionType ammoType) {
-        this.ammoType = ammoType;
-    }
+	protected void setAmmoType(AmunitionType ammoType) {
+		this.ammoType = ammoType;
+	}
 
-    protected void setClipSize(int clipSize) {
-        this.clipSize = clipSize;
-        this.ammo = this.clipSize;
-    }
+	protected void setClipSize(int clipSize) {
+		this.clipSize = clipSize;
+		this.ammo = this.clipSize;
+	}
 
-    protected void setAmmo(int ammo) {
-        this.ammo = ammo;
-    }
+	protected void setAmmo(int ammo) {
+		this.ammo = ammo;
+	}
 
-    protected void setFireRate(int fireRate) {
-        this.fireRate = fireRate;
-    }
+	protected void setFireRate(int fireRate) {
+		this.fireRate = fireRate;
+	}
 
-    protected void setNoiseLevel(float noiseLevel) {
-        this.noiseLevel = noiseLevel;
-    }
+	protected void setNoiseLevel(float noiseLevel) {
+		this.noiseLevel = noiseLevel;
+	}
 
-    protected void setProjectileSpeed(float projectileSpeed) {
-        this.projectileSpeed = projectileSpeed;
-    }
+	protected void setProjectileSpeed(float projectileSpeed) {
+		this.projectileSpeed = projectileSpeed;
+	}
 
-    protected void setReloadTime(int reloadTime) {
-        this.reloadTime = reloadTime;
-    }
+	protected void setReloadTime(int reloadTime) {
+		this.reloadTime = reloadTime;
+	}
 
-    protected void setInaccurancy(float inaccurancy) {
-        this.inaccurancy = inaccurancy;
-    }
+	protected void setInaccurancy(float inaccurancy) {
+		this.inaccurancy = inaccurancy;
+	}
 
-    protected void setRecoil(float recoil) {
-        this.recoil = recoil;
-    }
+	protected void setRecoil(float recoil) {
+		this.recoil = recoil;
+	}
 
-    protected void setScopedInaccurancy(float scopedInaccurancy) {
-        this.scopedInaccurancy = scopedInaccurancy;
-    }
+	protected void setScopedInaccurancy(float scopedInaccurancy) {
+		this.scopedInaccurancy = scopedInaccurancy;
+	}
 
-    public AmunitionType getAmmoType() {
-        return this.ammoType;
-    }
+	public AmunitionType getAmmoType() {
+		return this.ammoType;
+	}
 
-    public int getClipSize() {
-        return this.clipSize;
-    }
+	public int getClipSize() {
+		return this.clipSize;
+	}
 
-    public int getAmmo() {
-        return this.ammo;
-    }
+	public int getAmmo() {
+		return this.ammo;
+	}
 
-    public int getFireRate() {
-        return this.fireRate;
-    }
+	public int getFireRate() {
+		return this.fireRate;
+	}
 
-    public float getNoiseLevel() {
-        return this.noiseLevel;
-    }
+	public float getNoiseLevel() {
+		return this.noiseLevel;
+	}
 
-    public float getInaccurancy() {
-        return this.inaccurancy;
-    }
+	public float getInaccurancy() {
+		return this.inaccurancy;
+	}
 
-    public float getScopedInaccurancy() {
-        return this.scopedInaccurancy;
-    }
+	public float getScopedInaccurancy() {
+		return this.scopedInaccurancy;
+	}
 
-    public float getProjectileSpeed() {
-        return this.projectileSpeed;
-    }
+	public float getProjectileSpeed() {
+		return this.projectileSpeed;
+	}
 
-    public float getRecoil() {
-        return this.recoil;
-    }
+	public float getRecoil() {
+		return this.recoil;
+	}
 
-    public int getReloadTime() {
-        return this.reloadTime;
-    }
+	public int getReloadTime() {
+		return this.reloadTime;
+	}
 
-    public String getFireSound() {
-        return this.fireSound;
-    }
+	public String getFireSound() {
+		return this.fireSound;
+	}
 
-    public String getReloadSound() {
-        return this.reloadSound;
-    }
+	public String getReloadSound() {
+		return this.reloadSound;
+	}
 
-    @Override
-    public InteractResult onInteract(Player player, Action action,
-            Block clickedBlock, BlockFace clickedFace) {
-        if (Actions.isRightClick(action)) {
+	@Override
+	public InteractResult onInteract(Player player, Action action,
+			Block clickedBlock, BlockFace clickedFace) {
+		if (Actions.isRightClick(action)) {
 
-            Vector projectileVelocity = computeAndFire(player);
+			Vector projectileVelocity = computeAndFire(player);
 
-            // Play fire sound.
-            playFireSound(player);
+			// Play fire sound.
+			playFireSound(player);
 
-            // Make recoil.
-            makeRecoil(player, projectileVelocity);
+			// Make recoil.
+			makeRecoil(player, projectileVelocity);
 
-            // Lower ammo count.
-            if (ammo == 1) {
-                // Reload
-                this.playReloadSound(player);
-                this.ammo = this.clipSize;
-            } else {
-                this.ammo--;
-            }
-            Starving.NMS.sendAboveActionBarMessage(player,
-                    ChatColor.YELLOW.toString() + this.ammo + "/"
-                            + this.clipSize);
-        } else if (Actions.isLeftClick(action)) {
-            toggleScope(player);
-        }
-        return InteractResult.useNone();
-    }
+			// Lower ammo count.
+			if (ammo == 1) {
+				// Reload
+				this.playReloadSound(player);
+				this.ammo = this.clipSize;
+			} else {
+				this.ammo--;
+			}
+			Starving.NMS.sendAboveActionBarMessage(player,
+					ChatColor.YELLOW.toString() + this.ammo + "/"
+							+ this.clipSize);
+		} else if (Actions.isLeftClick(action)) {
+			toggleScope(player);
+		}
+		return InteractResult.useNone();
+	}
 
-    protected Vector computeAndFire(Player player) {
-        // Compute values.
-        Location projectileSpawn = player.getEyeLocation().add(
-                player.getEyeLocation().getDirection().multiply(2));
-        Vector randomVec;
-        if (Data.of(player).isScoped()) {
-            randomVec = Vector.getRandom().subtract(HALF_VECTOR)
-                    .multiply(this.inaccurancy);
-        } else {
-            randomVec = Vector.getRandom().subtract(HALF_VECTOR)
-                    .multiply(this.scopedInaccurancy);
-        }
+	protected Vector computeAndFire(Player player) {
+		// Compute values.
+		Location projectileSpawn = player.getEyeLocation().add(
+				player.getEyeLocation().getDirection().multiply(2));
+		Vector randomVec;
+		if (Data.of(player).isScoped()) {
+			randomVec = Vector.getRandom().subtract(HALF_VECTOR)
+					.multiply(this.inaccurancy);
+		} else {
+			randomVec = Vector.getRandom().subtract(HALF_VECTOR)
+					.multiply(this.scopedInaccurancy);
+		}
 
-        Vector projectileVelocity = player.getEyeLocation().getDirection()
-                .add(randomVec).multiply(this.projectileSpeed);
+		Vector projectileVelocity = player.getEyeLocation().getDirection()
+				.add(randomVec).multiply(this.projectileSpeed);
 
-        // Spawn projectile.
-        Snowball projectile = (Snowball) player.getWorld().spawnEntity(
-                projectileSpawn, EntityType.SNOWBALL);
-        projectile.setVelocity(projectileVelocity);
-        return projectileVelocity;
-    }
+		// Spawn projectile.
+		Snowball projectile = (Snowball) player.getWorld().spawnEntity(
+				projectileSpawn, EntityType.SNOWBALL);
+		projectile.setVelocity(projectileVelocity);
+		// Display effect.
+		ParticleEffect.SMOKE_NORMAL.display(0, 0, 0, 0, 20, projectileSpawn,
+				Double.MAX_VALUE);
+		return projectileVelocity;
+	}
 
-    protected void playFireSound(Player player) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            Starving.NMS.playNamedSoundEffect(p, this.getFireSound(),
-                    player.getLocation(), 2, 1);
-        }
-    }
+	protected void playFireSound(Player player) {
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			Starving.NMS.playNamedSoundEffect(p, this.getFireSound(),
+					player.getLocation(), 2, 1);
+		}
+	}
 
-    protected void playReloadSound(Player player) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            Starving.NMS.playNamedSoundEffect(p, this.getReloadSound(),
-                    player.getLocation(), 2, 1);
-        }
-    }
+	protected void playReloadSound(Player player) {
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			Starving.NMS.playNamedSoundEffect(p, this.getReloadSound(),
+					player.getLocation(), 2, 1);
+		}
+	}
 
-    protected void makeRecoil(Player player, Vector projectileVelocity) {
-        Vector recoil = projectileVelocity.multiply(-0.01f);
-        recoil.setY(player.getVelocity().getY());
-        player.setVelocity(recoil);
-    }
+	protected void makeRecoil(Player player, Vector projectileVelocity) {
+		Vector recoil = projectileVelocity.multiply(-0.01f);
+		recoil.setY(player.getVelocity().getY());
+		player.setVelocity(recoil);
+	}
 
-    protected void toggleScope(Player player) {
-        // Scope tha gun.
-        if (Data.of(player).switchScoped()) {
-            player.removePotionEffect(PotionEffectType.SLOW);
-        } else {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Time
-                    .ofMinutes(30).toTicks(), 2));
-        }
-    }
+	protected void toggleScope(Player player) {
+		// Scope tha gun.
+		if (Data.of(player).switchScoped()) {
+			player.removePotionEffect(PotionEffectType.SLOW);
+		} else {
+			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Time
+					.ofMinutes(30).toTicks(), 2));
+		}
+	}
 }
