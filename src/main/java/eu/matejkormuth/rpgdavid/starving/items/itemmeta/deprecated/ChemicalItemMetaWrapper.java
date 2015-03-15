@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items.itemmeta;
+package eu.matejkormuth.rpgdavid.starving.items.itemmeta.deprecated;
 
 import java.util.ArrayList;
 import java.util.List;
