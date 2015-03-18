@@ -22,11 +22,7 @@ package eu.matejkormuth.rpgdavid.starving.items.firearms;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-import eu.matejkormuth.rpgdavid.starving.Data;
-import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
@@ -52,12 +48,6 @@ public class Dragunov extends Firearm {
 
     @Override
     protected void toggleScope(Player player, ItemStack is) {
-        // Scope tha gun.
-        if (Data.of(player).switchScoped()) {
-            player.removePotionEffect(PotionEffectType.SLOW);
-        } else {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Time
-                    .ofMinutes(30).toTicks(), 6));
-        }
+        this.toggleScope(player, is, 6);
     }
 }

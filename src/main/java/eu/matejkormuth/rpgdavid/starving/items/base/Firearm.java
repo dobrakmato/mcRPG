@@ -45,7 +45,6 @@ import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.itemmeta.FirearmItemMetaWrapper;
-import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.transformers.FirearmTransformer;
 
 public abstract class Firearm extends Item {
@@ -242,6 +241,10 @@ public abstract class Firearm extends Item {
 	}
 
 	protected void toggleScope(Player player, ItemStack is) {
+		this.toggleScope(player, is, 2);
+	}
+	
+	protected void toggleScope(Player player, ItemStack is, int slownessLevel) {
 		// Scope tha gun.
 		if (Data.of(player).switchScoped()) {
 			// Transform item.
@@ -255,7 +258,7 @@ public abstract class Firearm extends Item {
 			ItemStack scoped = FirearmTransformer.toScoped(is);
 			player.setItemInHand(scoped);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Time
-					.ofMinutes(30).toTicks(), 2));
+					.ofMinutes(30).toTicks(), slownessLevel));
 		}
 	}
 
