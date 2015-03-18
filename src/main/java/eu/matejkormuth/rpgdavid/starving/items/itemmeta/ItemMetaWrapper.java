@@ -1,5 +1,6 @@
 package eu.matejkormuth.rpgdavid.starving.items.itemmeta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +22,10 @@ public abstract class ItemMetaWrapper implements LoreAccessor {
 
 	@Override
 	public List<String> getLore() {
+		if (this.meta.getLore() == null) {
+			return new ArrayList<>();
+		}
+
 		return this.meta.getLore();
 	}
 
@@ -28,7 +33,7 @@ public abstract class ItemMetaWrapper implements LoreAccessor {
 	public void setLore(List<String> lore) {
 		this.meta.setLore(lore);
 	}
-	
+
 	public void apply(ItemStack is) {
 		is.setItemMeta(this.meta);
 	}

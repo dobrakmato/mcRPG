@@ -7,7 +7,7 @@ public class FirearmItemMetaWrapper extends ItemMetaWrapper {
 	public FirearmItemMetaWrapper(ItemStack stack) {
 		super(stack);
 	}
-	
+
 	// Ammo
 
 	public int getCurrentAmmo() {

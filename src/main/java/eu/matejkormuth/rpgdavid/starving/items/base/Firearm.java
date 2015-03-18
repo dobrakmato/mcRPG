@@ -180,8 +180,10 @@ public abstract class Firearm extends Item {
 				this.playReloadSound(player);
 				wrapper.setCurrentAmmo(this.getClipSize());
 			} else {
+				System.out.println("current ammo: " + wrapper.getCurrentAmmo());
 				wrapper.setCurrentAmmo(ammo - 1);
 			}
+			System.out.println("current ammo: " + wrapper.getCurrentAmmo());
 			wrapper.apply(is);
 			player.setItemInHand(is);
 			Starving.NMS.sendAboveActionBarMessage(player,
@@ -243,11 +245,13 @@ public abstract class Firearm extends Item {
 		// Scope tha gun.
 		if (Data.of(player).switchScoped()) {
 			// Transform item.
+			player.sendMessage("unscoping");
 			ItemStack nonScoped = FirearmTransformer.fromScoped(is);
 			player.setItemInHand(nonScoped);
 			player.removePotionEffect(PotionEffectType.SLOW);
 		} else {
 			// Transform item.
+			player.sendMessage("scoping"); 
 			ItemStack scoped = FirearmTransformer.toScoped(is);
 			player.setItemInHand(scoped);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Time

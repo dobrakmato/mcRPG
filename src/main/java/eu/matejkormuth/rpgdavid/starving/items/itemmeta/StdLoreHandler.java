@@ -18,15 +18,19 @@ public class StdLoreHandler implements KeyValueHandler {
 			String line = lore.get(i);
 			if (line.startsWith(key + SEPARATOR)) {
 				lore.set(i, key + SEPARATOR + " " + value);
+				accessor.setLore(lore);
+				return;
 			}
 		}
+		lore.add(key + SEPARATOR + " " + value);
+		accessor.setLore(lore);
 	}
 
 	@Override
 	public String get(String key) {
 		for (String line : accessor.getLore()) {
 			if (line.startsWith(key + SEPARATOR)) {
-				return line.substring(line.indexOf(SEPARATOR)).trim();
+				return line.substring(line.indexOf(SEPARATOR) + 1).trim();
 			}
 		}
 		return null;
