@@ -22,7 +22,10 @@ package eu.matejkormuth.rpgdavid.starving.listeners;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import net.minecraft.server.v1_8_R1.PacketPlayOutGameStateChange;
+
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,95 +44,120 @@ import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieWithDog;
 
 public class HiddenCommandsListener implements Listener {
-    @EventHandler
-    private void onCommand(final PlayerCommandPreprocessEvent event) {
-        // Command for listing all items.
-        if (event.getMessage().equalsIgnoreCase("/items")) {
-            List<Item> items = Starving.getInstance().getItemManager()
-                    .getItems();
-            for (int j = 0; j < items.size(); j++) {
-                Item i = items.get(j);
-                event.getPlayer().sendMessage(j + " - " + i.getName());
-            }
-        }
-        // Command for giving custom items.
-        else if (event.getMessage().contains("/itemsgive")) {
-            List<Item> items = Starving.getInstance().getItemManager()
-                    .getItems();
-            for (int j = 0; j < items.size(); j++) {
-                Item i = items.get(j);
-                if (j == Integer.valueOf(event.getMessage().split(
-                        Pattern.quote(" "))[1])) {
-                    event.getPlayer().getInventory().addItem(i.toItemStack());
-                }
+	@EventHandler
+	private void onCommand(final PlayerCommandPreprocessEvent event) {
+		// Command for listing all items.
+		if (event.getMessage().equalsIgnoreCase("/items")) {
+			List<Item> items = Starving.getInstance().getItemManager()
+					.getItems();
+			for (int j = 0; j < items.size(); j++) {
+				Item i = items.get(j);
+				event.getPlayer().sendMessage(j + " - " + i.getName());
+			}
+		}
+		// Command for giving custom items.
+		else if (event.getMessage().contains("/itemsgive")) {
+			List<Item> items = Starving.getInstance().getItemManager()
+					.getItems();
+			for (int j = 0; j < items.size(); j++) {
+				Item i = items.get(j);
+				if (j == Integer.valueOf(event.getMessage().split(
+						Pattern.quote(" "))[1])) {
+					event.getPlayer().getInventory().addItem(i.toItemStack());
+				}
 
-            }
-        }
-        // Command for giving custom chemicals.
-        else if (event.getMessage().contains("/chemical")) {
-            if (!event.getMessage().contains(" ")) {
-                event.getPlayer().sendMessage("args missing!");
-            }
+			}
+		}
+		// Command for giving custom chemicals.
+		else if (event.getMessage().contains("/chemical")) {
+			if (!event.getMessage().contains(" ")) {
+				event.getPlayer().sendMessage("args missing!");
+			}
 
-            String args = event.getMessage().split(Pattern.quote(" "))[1];
-            String[] chemicals = args.split(Pattern.quote(","));
+			String args = event.getMessage().split(Pattern.quote(" "))[1];
+			String[] chemicals = args.split(Pattern.quote(","));
 
-            ChemicalItem ci = new ChemicalItem("spawnedChemicalItem",
-                    new ChemicalCompound()) {
-                @Override
-                public Recipe getRecipe() {
-                    return null;
-                }
+			ChemicalItem ci = new ChemicalItem("spawnedChemicalItem",
+					new ChemicalCompound()) {
+				@Override
+				public Recipe getRecipe() {
+					return null;
+				}
 
-                @Override
-                protected void onConsume0(Player player) {
-                }
-            };
+				@Override
+				protected void onConsume0(Player player) {
+				}
+			};
 
-            for (String chemical : chemicals) {
-                String[] parts = chemical.split(Pattern.quote(":"));
-                String name = parts[0];
-                String amount = parts[1];
-                for (Chemical ch : Chemicals.all()) {
-                    if (ch.getName().equalsIgnoreCase(name)) {
-                        ci.getContents().add(ch, Float.valueOf(amount));
-                    }
-                }
-            }
+			for (String chemical : chemicals) {
+				String[] parts = chemical.split(Pattern.quote(":"));
+				String name = parts[0];
+				String amount = parts[1];
+				for (Chemical ch : Chemicals.all()) {
+					if (ch.getName().equalsIgnoreCase(name)) {
+						ci.getContents().add(ch, Float.valueOf(amount));
+					}
+				}
+			}
 
-            event.getPlayer().getInventory().addItem(ci.toItemStack());
-        }
-        // Command for setting entities target.
-        else if (event.getMessage().contains("/settarget")) {
-            String[] parts = event.getMessage().split(" ");
-            int entity = Integer.valueOf(parts[1]);
-            int target = Integer.valueOf(parts[2]);
-            for (Entity e : Worlds.first().getEntities()) {
-                if (e.getEntityId() == target) {
-                    Starving.getInstance().getZombieManager().get(entity)
-                            .setFollowTarget(e);
-                }
-            }
-        }
-        // Command for spawning zombie walking the dog.
-        else if (event.getMessage().contains("/zombieeaster")) {
-            ZombieWithDog.spawn(event.getPlayer().getLocation());
-        }
-        // Command for settings time.
-        else if (event.getMessage().contains("/time set")) {
-            String[] parts = event.getMessage().split(" ");
-            int time = Integer.valueOf(parts[2]);
-            event.getPlayer().sendMessage(
-                    ChatColor.YELLOW + "[Starving] Shifting time...");
-            Starving.getInstance().getRegistered(TimeUpdater.class)
-                    .vanllaSetMoveTime(time);
-            event.getPlayer().sendMessage(
-                    ChatColor.GREEN + "[Starving] Time set!");
-        }
-        // Command for spawning zombie.
-        else if (event.getMessage().contains("/zombie")) {
-            Starving.getInstance().getZombieManager()
-                    .spawnAt(event.getPlayer().getLocation());
-        }
-    }
+			event.getPlayer().getInventory().addItem(ci.toItemStack());
+		}
+		// Command for setting entities target.
+		else if (event.getMessage().contains("/settarget")) {
+			String[] parts = event.getMessage().split(" ");
+			int entity = Integer.valueOf(parts[1]);
+			int target = Integer.valueOf(parts[2]);
+			for (Entity e : Worlds.first().getEntities()) {
+				if (e.getEntityId() == target) {
+					Starving.getInstance().getZombieManager().get(entity)
+							.setFollowTarget(e);
+				}
+			}
+		}
+		// Command for spawning zombie walking the dog.
+		else if (event.getMessage().contains("/zombieeaster")) {
+			ZombieWithDog.spawn(event.getPlayer().getLocation());
+		}
+		// Command for settings time.
+		else if (event.getMessage().contains("/time set")) {
+			String[] parts = event.getMessage().split(" ");
+			int time = Integer.valueOf(parts[2]);
+			event.getPlayer().sendMessage(
+					ChatColor.YELLOW + "[Starving] Shifting time...");
+			Starving.getInstance().getRegistered(TimeUpdater.class)
+					.vanllaSetMoveTime(time);
+			event.getPlayer().sendMessage(
+					ChatColor.GREEN + "[Starving] Time set!");
+		}
+		// Command for spawning zombie.
+		else if (event.getMessage().contains("/zombie")) {
+			String[] parts = event.getMessage().split(" ");
+			if (parts.length == 2) {
+				int count = Integer.valueOf(parts[1]);
+
+				for (int i = 0; i < count; i++) {
+					Starving.getInstance()
+							.getZombieManager()
+							.spawnAt(
+									event.getPlayer()
+											.getLocation()
+											.add((Math.random() - 0.5) * count
+													/ 4,
+													0,
+													(Math.random() - 0.5)
+															* count / 4));
+				}
+			} else {
+				Starving.getInstance().getZombieManager()
+						.spawnAt(event.getPlayer().getLocation());
+			}
+		}
+		// Command for testing some random things.
+		else if (event.getMessage().contains("/darkness")) {
+			((CraftPlayer) event.getPlayer()).getHandle().playerConnection
+					.sendPacket(new PacketPlayOutGameStateChange(7, 0.001f));
+			((CraftPlayer) event.getPlayer()).getHandle().playerConnection
+					.sendPacket(new PacketPlayOutGameStateChange(8, 160));
+		}
+	}
 }

@@ -31,6 +31,7 @@ import net.minecraft.server.v1_8_R1.ChatMessage;
 import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.EnumTitleAction;
 import net.minecraft.server.v1_8_R1.IChatBaseComponent;
+import net.minecraft.server.v1_8_R1.PacketPlayOutAnimation;
 import net.minecraft.server.v1_8_R1.PacketPlayOutBlockBreakAnimation;
 import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
@@ -43,7 +44,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -92,348 +95,377 @@ import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
 public class Starving implements Runnable, Listener {
-    private static Starving instance;
 
-    public static Starving getInstance() {
-        if (instance == null) {
-            instance = new Starving();
-        }
-        return instance;
-    }
+	// Ticks elapsed since server start.
+	public static long ticksElapsed;
 
-    private Starving() {
-    }
+	private static Starving instance;
 
-    private Random random = new Random();
+	public static Starving getInstance() {
+		if (instance == null) {
+			instance = new Starving();
+		}
+		return instance;
+	}
 
-    private Logger log;
-    private File dataFolder;
-    private ZombieManager zombieManager;
-    private AmbientSoundManager ambientSoundManager;
-    private Plugin corePlugin;
-    private ItemManager itemManager;
-    private ImpulseProcessor impulseProcessor;
+	private Starving() {
+	}
 
-    private List<Persistable> persistablesList;
+	private Random random = new Random();
 
-    private String tabListHeader = "Welcome to &cStarving 2.0!";
-    private String tabListFooter = "http://www.starving.eu";
+	private Logger log;
+	private File dataFolder;
+	private ZombieManager zombieManager;
+	private AmbientSoundManager ambientSoundManager;
+	private Plugin corePlugin;
+	private ItemManager itemManager;
+	private ImpulseProcessor impulseProcessor;
 
-    private List<Object> registered;
+	private List<Persistable> persistablesList;
 
-    public void onEnable() {
-        instance = this;
+	private String tabListHeader = "Welcome to &cStarving 2.0!";
+	private String tabListFooter = "http://www.starving.eu";
 
-        this.persistablesList = new ArrayList<>();
-        this.registered = new ArrayList<>();
+	private List<Object> registered;
 
-        // Initialize logger to special StarvingLogger.
-        this.log = new StarvingLogger();
-        this.log.setParent(RpgPlugin.getInstance().getLogger());
+	public void onEnable() {
+		instance = this;
 
-        this.corePlugin = RpgPlugin.getInstance();
+		this.persistablesList = new ArrayList<>();
+		this.registered = new ArrayList<>();
 
-        this.dataFolder = new File(RpgPlugin.getInstance().getDataFolder()
-                .getParent()
-                + "/Starving/");
-        this.dataFolder.mkdirs();
+		// Initialize logger to special StarvingLogger.
+		this.log = new StarvingLogger();
+		this.log.setParent(RpgPlugin.getInstance().getLogger());
 
-        // Set game rules.
-        this.getLogger().info("Setting starving game rules...");
-        for (World w : Bukkit.getWorlds()) {
-            w.setGameRuleValue("doMobSpawning", "false");
-        }
+		this.corePlugin = RpgPlugin.getInstance();
 
-        // Initialize PersistInjector
-        File confDirectory = new File(this.dataFolder.getAbsolutePath()
-                + "/conf/");
-        confDirectory.mkdirs();
-        new File(this.dataFolder.getAbsolutePath() + "/pdatas/").mkdirs();
-        new File(this.dataFolder.getAbsolutePath() + "/chunkdata/").mkdirs();
-        PersistInjector
-                .setConfigurationsFolder(confDirectory.getAbsolutePath());
+		this.dataFolder = new File(RpgPlugin.getInstance().getDataFolder()
+				.getParent()
+				+ "/Starving/");
+		this.dataFolder.mkdirs();
 
-        // Initialize all managers.
-        this.zombieManager = new ZombieManager();
-        this.ambientSoundManager = new AmbientSoundManager();
-        this.itemManager = new ItemManager();
+		// Set game rules.
+		this.getLogger().info("Setting starving game rules...");
+		for (World w : Bukkit.getWorlds()) {
+			w.setGameRuleValue("doMobSpawning", "false");
+		}
 
-        this.impulseProcessor = new BufferedImpulseProcessor();
+		// Initialize PersistInjector
+		File confDirectory = new File(this.dataFolder.getAbsolutePath()
+				+ "/conf/");
+		confDirectory.mkdirs();
+		new File(this.dataFolder.getAbsolutePath() + "/pdatas/").mkdirs();
+		new File(this.dataFolder.getAbsolutePath() + "/chunkdata/").mkdirs();
+		PersistInjector
+				.setConfigurationsFolder(confDirectory.getAbsolutePath());
 
-        // Schedule all tasks.
-        this.register(new BleedingTask()).schedule(1L);
-        this.register(new TimeUpdater()).schedule(2L);
-        // TablistFooterClockTask MUST be registered after TimeUpdater.
-        this.register(new TablistFooterClockTask()).schedule(5L);
-        this.register(new LocalityTeller()).schedule(20L);
-        this.register(new BodyTemperatureUpdater()).schedule(20L);
-        this.register(new StaminaRegenerationTask()).schedule(20L);
-        this.register(new BloodLevelConsuquencesTask()).schedule(20L);
-        this.register(new HydrationDepletionTask()).schedule(20L);
-        this.register(new HydrationLevelConsequencesTask()).schedule(20L);
-        this.register(new BloodReplenishTask()).schedule(20L);
-        this.register(new ScoreboardUpdater()).schedule(20L);
-        this.register(new HallucinationsTask()).schedule(200L);
+		// Initialize all managers.
+		this.zombieManager = new ZombieManager();
+		this.ambientSoundManager = new AmbientSoundManager();
+		this.itemManager = new ItemManager();
 
-        // Register starving listeners.
-        this.register(new ZombieListener());
-        this.register(new HeadshotListener());
-        this.register(new ChatListener());
-        this.register(new LootListener());
-        this.register(new TabListListener());
-        this.register(new MoveListener());
-        this.register(new ExplosionListener());
-        this.register(new FractureListener());
-        this.register(new MobDropsListener());
-        this.register(new ToolsListener());
-        this.register(new ChunksListener());
-        this.register(new ZombieCombustListener());
-        this.register(new ProjectileListener());
-        this.register(new BloodLevelDamageListener());
-        this.register(new ExperiencePointsListener());
-        this.register(new PlayerDeathListener());
-        // Register commands listener.
-        this.register(new HiddenCommandsListener());
-        // Register this as listener.
-        this.register(this);
+		this.impulseProcessor = new BufferedImpulseProcessor();
 
-        // Register starving repeating tasks.
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(
-                RpgPlugin.getInstance(), this, 0L, 1L);
+		// Schedule all tasks.
+		this.register(new BleedingTask()).schedule(1L);
+		this.register(new TimeUpdater()).schedule(2L);
+		// TablistFooterClockTask MUST be registered after TimeUpdater.
+		this.register(new TablistFooterClockTask()).schedule(5L);
+		this.register(new LocalityTeller()).schedule(20L);
+		this.register(new BodyTemperatureUpdater()).schedule(20L);
+		this.register(new StaminaRegenerationTask()).schedule(20L);
+		this.register(new BloodLevelConsuquencesTask()).schedule(20L);
+		this.register(new HydrationDepletionTask()).schedule(20L);
+		this.register(new HydrationLevelConsequencesTask()).schedule(20L);
+		this.register(new BloodReplenishTask()).schedule(20L);
+		this.register(new ScoreboardUpdater()).schedule(20L);
+		this.register(new HallucinationsTask()).schedule(200L);
 
-        // Print some useful info.
-        this.printImplementations();
+		// Register starving listeners.
+		this.register(new ZombieListener());
+		this.register(new HeadshotListener());
+		this.register(new ChatListener());
+		this.register(new LootListener());
+		this.register(new TabListListener());
+		this.register(new MoveListener());
+		this.register(new ExplosionListener());
+		this.register(new FractureListener());
+		this.register(new MobDropsListener());
+		this.register(new ToolsListener());
+		this.register(new ChunksListener());
+		this.register(new ZombieCombustListener());
+		this.register(new ProjectileListener());
+		this.register(new BloodLevelDamageListener());
+		this.register(new ExperiencePointsListener());
+		this.register(new PlayerDeathListener());
+		// Register commands listener.
+		this.register(new HiddenCommandsListener());
+		// Register this as listener.
+		this.register(this);
 
-        // Patch server.
-        new ServerZombiePatcher().patchAll();
-    }
+		// Register starving repeating tasks.
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(
+				RpgPlugin.getInstance(), this, 0L, 1L);
 
-    /**
-     * Proxy method to allow easier registration of Listeners and to be sure
-     * that {@link AbstractPersistable}s, are saved when plugin's being disabled.
-     * 
-     * This metod returns passed object.
-     * 
-     * @return passed object
-     */
-    private <T> T register(T object) {
-        // Register all.
-        this.registered.add(object);
+		// Print some useful info.
+		this.printImplementations();
 
-        if (object instanceof Listener) {
-            this.getLogger().info(
-                    " New listener: " + object.getClass().getName());
-            Bukkit.getPluginManager().registerEvents((Listener) object,
-                    this.corePlugin);
-        }
+		// Patch server.
+		new ServerZombiePatcher().patchAll();
+	}
 
-        if (object instanceof Persistable) {
-            this.getLogger().info(
-                    " New Persistable: " + object.getClass().getName());
-            this.persistablesList.add((Persistable) object);
-        }
+	/**
+	 * Proxy method to allow easier registration of Listeners and to be sure
+	 * that {@link AbstractPersistable}s, are saved when plugin's being
+	 * disabled.
+	 * 
+	 * This metod returns passed object.
+	 * 
+	 * @return passed object
+	 */
+	private <T> T register(T object) {
+		// Register all.
+		this.registered.add(object);
 
-        return object;
-    }
+		if (object instanceof Listener) {
+			this.getLogger().info(
+					" New listener: " + object.getClass().getName());
+			Bukkit.getPluginManager().registerEvents((Listener) object,
+					this.corePlugin);
+		}
 
-    private void printImplementations() {
-        this.getLogger().info("Using following implementations:");
-        this.getLogger().info(
-                " ImpulseProcessor: "
-                        + this.impulseProcessor.getClass().getName());
-        this.getLogger().info(
-                " ZombieManager: " + this.zombieManager.getClass().getName());
-        this.getLogger().info(
-                " aSoundManager: "
-                        + this.ambientSoundManager.getClass().getName());
-    }
+		if (object instanceof Persistable) {
+			this.getLogger().info(
+					" New Persistable: " + object.getClass().getName());
+			this.persistablesList.add((Persistable) object);
+		}
 
-    public void onDisable() {
-        this.zombieManager.saveConfiguration();
+		return object;
+	}
 
-        // Save all cached Data-s.
-        for (Data d : Data.cached()) {
-            d.save().uncache();
-        }
+	private void printImplementations() {
+		this.getLogger().info("Using following implementations:");
+		this.getLogger().info(
+				" ImpulseProcessor: "
+						+ this.impulseProcessor.getClass().getName());
+		this.getLogger().info(
+				" ZombieManager: " + this.zombieManager.getClass().getName());
+		this.getLogger().info(
+				" aSoundManager: "
+						+ this.ambientSoundManager.getClass().getName());
+	}
 
-        DataDefaults.get().saveConfiguration();
+	public void onDisable() {
+		this.zombieManager.saveConfiguration();
 
-        // Save configuration of all persistables.
-        for (Persistable persistable : this.persistablesList) {
-            persistable.saveConfiguration();
-        }
-    }
+		// Save all cached Data-s.
+		for (Data d : Data.cached()) {
+			d.save().uncache();
+		}
 
-    public void run() {
-        // Tick.
-    }
+		DataDefaults.get().saveConfiguration();
 
-    public Random getRandom() {
-        return this.random;
-    }
+		// Save configuration of all persistables.
+		for (Persistable persistable : this.persistablesList) {
+			persistable.saveConfiguration();
+		}
+	}
 
-    public String getTabListFooter() {
-        return this.tabListFooter;
-    }
+	public void run() {
+		// Tick.
+		ticksElapsed++;
+	}
 
-    public String getTabListHeader() {
-        return this.tabListHeader;
-    }
+	public Random getRandom() {
+		return this.random;
+	}
 
-    public void setTabListFooter(String tabListFooter) {
-        this.tabListFooter = tabListFooter;
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            NMS.setPlayerListHeaderFooter(p, this.tabListHeader,
-                    this.tabListFooter);
-        }
-    }
+	public String getTabListFooter() {
+		return this.tabListFooter;
+	}
 
-    public void setTabListHeader(String tabListHeader) {
-        this.tabListHeader = tabListHeader;
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            NMS.setPlayerListHeaderFooter(p, this.tabListHeader,
-                    this.tabListFooter);
-        }
-    }
+	public String getTabListHeader() {
+		return this.tabListHeader;
+	}
 
-    public Logger getLogger() {
-        return this.log;
-    }
+	public void setTabListFooter(String tabListFooter) {
+		this.tabListFooter = tabListFooter;
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			NMS.setPlayerListHeaderFooter(p, this.tabListHeader,
+					this.tabListFooter);
+		}
+	}
 
-    public ImpulseProcessor getImpulseProcessor() {
-        return this.impulseProcessor;
-    }
+	public void setTabListHeader(String tabListHeader) {
+		this.tabListHeader = tabListHeader;
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			NMS.setPlayerListHeaderFooter(p, this.tabListHeader,
+					this.tabListFooter);
+		}
+	}
 
-    public File getDataFolder() {
-        return dataFolder;
-    }
+	public Logger getLogger() {
+		return this.log;
+	}
 
-    public ZombieManager getZombieManager() {
-        return this.zombieManager;
-    }
+	public ImpulseProcessor getImpulseProcessor() {
+		return this.impulseProcessor;
+	}
 
-    public ItemManager getItemManager() {
-        return this.itemManager;
-    }
+	public File getDataFolder() {
+		return dataFolder;
+	}
 
-    public AmbientSoundManager getAmbientSoundManager() {
-        return ambientSoundManager;
-    }
+	public ZombieManager getZombieManager() {
+		return this.zombieManager;
+	}
 
-    @EventHandler
-    private void onPlayerDisconnect(final PlayerQuitEvent event) {
-        // Save data of the player.
-        Data.of(event.getPlayer()).uncache().save();
-    }
+	public ItemManager getItemManager() {
+		return this.itemManager;
+	}
 
-    @EventHandler
-    private void onPlayerRespawn(final PlayerRespawnEvent event) {
-        // TODO: Load last savepoint instead.
-        event.getPlayer().sendMessage(
-                ChatColor.YELLOW + "Data has been reseted!");
-        Data.of(event.getPlayer()).reset();
-    }
+	public AmbientSoundManager getAmbientSoundManager() {
+		return ambientSoundManager;
+	}
 
-    public Plugin getPlugin() {
-        return this.corePlugin;
-    }
+	@EventHandler
+	private void onPlayerDisconnect(final PlayerQuitEvent event) {
+		// Save data of the player.
+		Data.of(event.getPlayer()).uncache().save();
+	}
 
-    public Locality getLocality(final Location location) {
-        return Locality.WILDERNESS;
-    }
+	@EventHandler
+	private void onPlayerRespawn(final PlayerRespawnEvent event) {
+		// TODO: Load last savepoint instead.
+		event.getPlayer().sendMessage(
+				ChatColor.YELLOW + "Data has been reseted!");
+		Data.of(event.getPlayer()).reset();
+	}
 
-    public boolean isDebug() {
-        return true;
-    }
+	public Plugin getPlugin() {
+		return this.corePlugin;
+	}
 
-    @SuppressWarnings("unchecked")
-    public <T> T getRegistered(Class<T> clazz) {
-        for (Object o : this.registered) {
-            if (clazz.isInstance(o)) {
-                return (T) o;
-            }
-        }
-        return null;
-    }
+	public Locality getLocality(final Location location) {
+		return Locality.WILDERNESS;
+	}
 
-    @NMSHooks(version = "v1_8_R1")
-    public static final class NMS {
-        public static final void playNamedSoundEffectGlobally(Player player,
-                String soundEffectName, Location location) {
-            ((CraftPlayer) player).getHandle().playerConnection
-                    .sendPacket(new PacketPlayOutNamedSoundEffect(
-                            soundEffectName, location.getX(), location.getY(),
-                            location.getZ(), Float.MAX_VALUE, 1));
-        }
+	public boolean isDebug() {
+		return true;
+	}
 
-        public static final void blockBreakAnimation(Location loc) {
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                if (p.getLocation().distanceSquared(loc) < 16384) {
-                    ((CraftPlayer) p).getHandle().playerConnection
-                            .sendPacket(new PacketPlayOutBlockBreakAnimation(
-                                    Starving.getInstance().random.nextInt(),
-                                    new BlockPosition(loc.getBlockX(), loc
-                                            .getBlockY(), loc.getBlockZ()),
-                                    Starving.getInstance().getRandom()
-                                            .nextInt(9)));
-                }
-            }
-        }
+	@SuppressWarnings("unchecked")
+	public <T> T getRegistered(Class<T> clazz) {
+		for (Object o : this.registered) {
+			if (clazz.isInstance(o)) {
+				return (T) o;
+			}
+		}
+		return null;
+	}
 
-        public static final void playNamedSoundEffect(Player player,
-                String soundEffectName, Location location, float volume,
-                float pitch) {
-            ((CraftPlayer) player).getHandle().playerConnection
-                    .sendPacket(new PacketPlayOutNamedSoundEffect(
-                            soundEffectName, location.getX(), location.getY(),
-                            location.getZ(), volume, pitch));
-        }
+	@NMSHooks(version = "v1_8_R1")
+	public static final class NMS {
+		public static final void playNamedSoundEffectGlobally(Player player,
+				String soundEffectName, Location location) {
+			((CraftPlayer) player).getHandle().playerConnection
+					.sendPacket(new PacketPlayOutNamedSoundEffect(
+							soundEffectName, location.getX(), location.getY(),
+							location.getZ(), Float.MAX_VALUE, 1));
+		}
 
-        public static final void setPlayerListHeaderFooter(Player player,
-                String header, String footer) {
-            CraftPlayer cplayer = (CraftPlayer) player;
-            PlayerConnection connection = cplayer.getHandle().playerConnection;
-            IChatBaseComponent hj = ChatSerializer.a("{'text':'"
-                    + header.replace("&", "§") + "'}");
-            IChatBaseComponent fj = ChatSerializer.a("{'text':'"
-                    + footer.replace("&", "§") + "'}");
-            PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-            try {
-                Field headerField = packet.getClass().getDeclaredField("a");
-                headerField.setAccessible(true);
-                headerField.set(packet, hj);
-                headerField.setAccessible(!headerField.isAccessible());
+		public static final void blockBreakAnimation(Location loc) {
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				if (p.getLocation().distanceSquared(loc) < 16384) {
+					((CraftPlayer) p).getHandle().playerConnection
+							.sendPacket(new PacketPlayOutBlockBreakAnimation(
+									Starving.getInstance().random.nextInt(),
+									new BlockPosition(loc.getBlockX(), loc
+											.getBlockY(), loc.getBlockZ()),
+									Starving.getInstance().getRandom()
+											.nextInt(9)));
+				}
+			}
+		}
 
-                Field footerField = packet.getClass().getDeclaredField("b");
-                footerField.setAccessible(true);
-                footerField.set(packet, fj);
-                footerField.setAccessible(!headerField.isAccessible());
+		public static final void playNamedSoundEffect(Player player,
+				String soundEffectName, Location location, float volume,
+				float pitch) {
+			((CraftPlayer) player).getHandle().playerConnection
+					.sendPacket(new PacketPlayOutNamedSoundEffect(
+							soundEffectName, location.getX(), location.getY(),
+							location.getZ(), volume, pitch));
+		}
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            connection.sendPacket(packet);
-        }
+		public static final void setPlayerListHeaderFooter(Player player,
+				String header, String footer) {
+			CraftPlayer cplayer = (CraftPlayer) player;
+			PlayerConnection connection = cplayer.getHandle().playerConnection;
+			IChatBaseComponent hj = ChatSerializer.a("{'text':'"
+					+ header.replace("&", "§") + "'}");
+			IChatBaseComponent fj = ChatSerializer.a("{'text':'"
+					+ footer.replace("&", "§") + "'}");
+			PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+			try {
+				Field headerField = packet.getClass().getDeclaredField("a");
+				headerField.setAccessible(true);
+				headerField.set(packet, hj);
+				headerField.setAccessible(!headerField.isAccessible());
 
-        public static final void updateTime(Player player, long time) {
-            ((CraftPlayer) player).getHandle().playerConnection
-                    .sendPacket(new PacketPlayOutUpdateTime(time, time, true));
-        }
+				Field footerField = packet.getClass().getDeclaredField("b");
+				footerField.setAccessible(true);
+				footerField.set(packet, fj);
+				footerField.setAccessible(!headerField.isAccessible());
 
-        public static final void sendTitle(Player p, Locality loc, int fadeIn,
-                int fadeOut, int stay) {
-            PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(
-                    EnumTitleAction.TITLE, new ChatMessage(loc.getName()),
-                    fadeIn, stay, fadeOut);
-            ((CraftPlayer) p).getHandle().playerConnection
-                    .sendPacket(titlePacket);
-        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			connection.sendPacket(packet);
+		}
 
-        public static final void sendAboveActionBarMessage(Player player,
-                String message) {
-            ((CraftPlayer) player).getHandle().playerConnection
-                    .sendPacket(new PacketPlayOutChat(new ChatMessage(message),
-                            (byte) 2));
-        }
-    }
+		public static final void updateTime(Player player, long time) {
+			((CraftPlayer) player).getHandle().playerConnection
+					.sendPacket(new PacketPlayOutUpdateTime(time, time, true));
+		}
+
+		public static final void sendTitle(Player p, Locality loc, int fadeIn,
+				int fadeOut, int stay) {
+			PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(
+					EnumTitleAction.TITLE, new ChatMessage(loc.getName()),
+					fadeIn, stay, fadeOut);
+			((CraftPlayer) p).getHandle().playerConnection
+					.sendPacket(titlePacket);
+		}
+
+		public static final void sendAboveActionBarMessage(Player player,
+				String message) {
+			((CraftPlayer) player).getHandle().playerConnection
+					.sendPacket(new PacketPlayOutChat(new ChatMessage(message),
+							(byte) 2));
+		}
+
+		public static void sendAnimation(Entity entity, int animationId) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (player.getLocation().distanceSquared(entity.getLocation()) < 1024) {
+					((CraftPlayer) player).getHandle().playerConnection
+							.sendPacket(new PacketPlayOutAnimation(
+									((CraftEntity) entity).getHandle(),
+									animationId));
+				}
+			}
+		}
+
+		public static void sendAnimation(
+				net.minecraft.server.v1_8_R1.Entity entity, int animationId) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (player.getLocation().distanceSquared(
+						entity.getBukkitEntity().getLocation()) < 1024) {
+					((CraftPlayer) player).getHandle().playerConnection
+							.sendPacket(new PacketPlayOutAnimation(entity,
+									animationId));
+				}
+			}
+		}
+	}
 }

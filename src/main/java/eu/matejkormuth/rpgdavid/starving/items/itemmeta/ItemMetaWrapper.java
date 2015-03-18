@@ -28,4 +28,8 @@ public abstract class ItemMetaWrapper implements LoreAccessor {
 	public void setLore(List<String> lore) {
 		this.meta.setLore(lore);
 	}
+	
+	public void apply(ItemStack is) {
+		is.setItemMeta(this.meta);
+	}
 }

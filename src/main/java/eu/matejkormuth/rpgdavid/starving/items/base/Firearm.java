@@ -29,6 +29,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -43,12 +44,15 @@ import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
+import eu.matejkormuth.rpgdavid.starving.items.itemmeta.FirearmItemMetaWrapper;
+import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ItemMetaWrapper;
+import eu.matejkormuth.rpgdavid.starving.items.transformers.FirearmTransformer;
 
 public abstract class Firearm extends Item {
 	protected static final Vector HALF_VECTOR = new Vector(0.5, 0.5, 0.5);
 
 	private int clipSize;
-	private int ammo;
+	// private int ammo;
 
 	private AmunitionType ammoType;
 
@@ -80,11 +84,6 @@ public abstract class Firearm extends Item {
 
 	protected void setClipSize(int clipSize) {
 		this.clipSize = clipSize;
-		this.ammo = this.clipSize;
-	}
-
-	protected void setAmmo(int ammo) {
-		this.ammo = ammo;
 	}
 
 	protected void setFireRate(int fireRate) {
@@ -121,10 +120,6 @@ public abstract class Firearm extends Item {
 
 	public int getClipSize() {
 		return this.clipSize;
-	}
-
-	public int getAmmo() {
-		return this.ammo;
 	}
 
 	public int getFireRate() {
@@ -167,6 +162,8 @@ public abstract class Firearm extends Item {
 	public InteractResult onInteract(Player player, Action action,
 			Block clickedBlock, BlockFace clickedFace) {
 		if (Actions.isRightClick(action)) {
+			ItemStack is = player.getItemInHand();
+			FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(is);
 
 			Vector projectileVelocity = computeAndFire(player);
 
@@ -177,18 +174,21 @@ public abstract class Firearm extends Item {
 			makeRecoil(player, projectileVelocity);
 
 			// Lower ammo count.
+			int ammo = wrapper.getCurrentAmmo();
 			if (ammo == 1) {
 				// Reload
 				this.playReloadSound(player);
-				this.ammo = this.clipSize;
+				wrapper.setCurrentAmmo(this.getClipSize());
 			} else {
-				this.ammo--;
+				wrapper.setCurrentAmmo(ammo - 1);
 			}
+			wrapper.apply(is);
+			player.setItemInHand(is);
 			Starving.NMS.sendAboveActionBarMessage(player,
-					ChatColor.YELLOW.toString() + this.ammo + "/"
-							+ this.clipSize);
+					ChatColor.YELLOW.toString() + ammo + "/" + this.clipSize);
 		} else if (Actions.isLeftClick(action)) {
-			toggleScope(player);
+			ItemStack is = player.getItemInHand();
+			toggleScope(player, is);
 		}
 		return InteractResult.useNone();
 	}
@@ -239,13 +239,37 @@ public abstract class Firearm extends Item {
 		player.setVelocity(recoil);
 	}
 
-	protected void toggleScope(Player player) {
+	protected void toggleScope(Player player, ItemStack is) {
 		// Scope tha gun.
 		if (Data.of(player).switchScoped()) {
+			// Transform item.
+			ItemStack nonScoped = FirearmTransformer.fromScoped(is);
+			player.setItemInHand(nonScoped);
 			player.removePotionEffect(PotionEffectType.SLOW);
 		} else {
+			// Transform item.
+			ItemStack scoped = FirearmTransformer.toScoped(is);
+			player.setItemInHand(scoped);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Time
 					.ofMinutes(30).toTicks(), 2));
 		}
+	}
+
+	@Override
+	public ItemStack toItemStack() {
+		ItemStack raw = super.toItemStack();
+		FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(raw);
+		wrapper.setCurrentAmmo(this.getClipSize());
+		wrapper.apply(raw);
+		return raw;
+	}
+
+	@Override
+	public ItemStack toItemStack(int amount) {
+		ItemStack raw = super.toItemStack(amount);
+		FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(raw);
+		wrapper.setCurrentAmmo(this.getClipSize());
+		wrapper.apply(raw);
+		return raw;
 	}
 }

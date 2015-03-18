@@ -211,6 +211,19 @@ public class ItemManager implements Listener {
 		this.items.add(item);
 	}
 
+	public ItemStack newItemStack(Class<? extends Item> clazz) {
+		return this.newItemStack(clazz, 1);
+	}
+
+	public ItemStack newItemStack(Class<? extends Item> clazz, int amount) {
+		for (Item i : this.items) {
+			if (clazz.isInstance(i)) {
+				return i.toItemStack(amount);
+			}
+		}
+		return null;
+	}
+
 	public Item findItem(final ItemStack itemStack) {
 		// Special case for chemicals.
 		if (this.isChemical(itemStack)) {

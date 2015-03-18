@@ -18,7 +18,6 @@
  */
 package eu.matejkormuth.rpgdavid.quests;
 
-
-public abstract class JavascriptQuest extends AbstractQuest {
+public abstract class JavascriptQuest {
 
 }

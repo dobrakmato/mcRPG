@@ -29,7 +29,7 @@ import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound.MutableFloat;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals.CompoundRecipe;
-import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ChemicalItemMetaWrapper;
+import eu.matejkormuth.rpgdavid.starving.items.itemmeta.deprecated.ChemicalItemMetaWrapper;
 
 public abstract class ChemicalItem extends ConsumableItem implements Craftable {
     /**
