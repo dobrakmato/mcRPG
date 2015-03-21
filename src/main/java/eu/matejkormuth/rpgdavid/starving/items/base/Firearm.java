@@ -248,13 +248,11 @@ public abstract class Firearm extends Item {
 		// Scope tha gun.
 		if (Data.of(player).switchScoped()) {
 			// Transform item.
-			player.sendMessage("unscoping");
 			ItemStack nonScoped = FirearmTransformer.fromScoped(is);
 			player.setItemInHand(nonScoped);
 			player.removePotionEffect(PotionEffectType.SLOW);
 		} else {
 			// Transform item.
-			player.sendMessage("scoping"); 
 			ItemStack scoped = FirearmTransformer.toScoped(is);
 			player.setItemInHand(scoped);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Time
