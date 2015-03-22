@@ -509,8 +509,8 @@ public class Starving implements Runnable, Listener {
 		double z = this.warpsConfig.getDouble(name + ".z");
 		double pitch = this.warpsConfig.getDouble(name + ".pitch");
 		double yaw = this.warpsConfig.getDouble(name + ".yaw");
-		String wname = this.warpsConfig.getString(name = ".world");
-		return new Location(Worlds.by(wname), x, y, z, (float) yaw,
+		String wname = this.warpsConfig.getString(name + ".world");
+		return new Location(Bukkit.getWorld(wname), x, y, z, (float) yaw,
 				(float) pitch);
 	}
 

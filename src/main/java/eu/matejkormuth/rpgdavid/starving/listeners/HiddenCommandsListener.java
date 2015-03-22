@@ -19,11 +19,14 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import net.minecraft.server.v1_8_R1.PacketPlayOutGameStateChange;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -31,6 +34,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.Recipe;
 
 import eu.matejkormuth.bukkit.Worlds;
@@ -38,8 +42,10 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
+import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.items.comparators.ItemNameComparator;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieWithDog;
 
@@ -158,6 +164,19 @@ public class HiddenCommandsListener implements Listener {
 					.sendPacket(new PacketPlayOutGameStateChange(7, 0.001f));
 			((CraftPlayer) event.getPlayer()).getHandle().playerConnection
 					.sendPacket(new PacketPlayOutGameStateChange(8, 160));
+		}
+		// Command for opening custom items inventory.
+		else if (event.getMessage().contains("/itemsinv")) {
+			ItemManager im = Starving.getInstance().getItemManager();
+			int size = (im.getItems().size() / 9);
+			Inventory inv = Bukkit.createInventory(null, 9 * (size + 1),
+					ChatColor.GOLD + "Custom items: ");
+			List<Item> sorted = im.getItems();
+			Collections.sort(sorted, new ItemNameComparator());
+			for (Item i : sorted) {
+				inv.addItem(i.toItemStack());
+			}
+			event.getPlayer().openInventory(inv);
 		}
 	}
 }

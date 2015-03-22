@@ -30,6 +30,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -39,10 +40,17 @@ import org.bukkit.inventory.Recipe;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
+import eu.matejkormuth.rpgdavid.starving.items.base.BlockWithData;
 import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.Log2D12;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.Log2D13;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.LogD12;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.LogD13;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.LogD14;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.LogD15;
 import eu.matejkormuth.rpgdavid.starving.items.clothing.Boots;
 import eu.matejkormuth.rpgdavid.starving.items.clothing.BulletproofVest;
 import eu.matejkormuth.rpgdavid.starving.items.clothing.CamoflageHelmet;
@@ -134,6 +142,21 @@ public class ItemManager implements Listener {
 		this.registerMedical();
 		this.registerDrinks();
 		this.registerClothing();
+		this.registerBlocks();
+	}
+
+	private void registerBlocks() {
+		this.registerBlocksWithData();
+	}
+
+	private void registerBlocksWithData() {
+		this.register(new LogD12());
+		this.register(new LogD13());
+		this.register(new LogD14());
+		this.register(new LogD15());
+		
+		this.register(new Log2D12());
+		this.register(new Log2D13());
 	}
 
 	private void registerRanged() {
@@ -315,6 +338,17 @@ public class ItemManager implements Listener {
 			if (item instanceof ConsumableItem) {
 				((ConsumableItem) item).onConsume(event.getPlayer());
 				event.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler
+	private void onBlockPlace(final BlockPlaceEvent event) {
+		Item item = this.findItem(event.getItemInHand());
+		if (item != null) {
+			if (item instanceof BlockWithData) {
+				((BlockWithData) item).onPlaced(event.getPlayer(),
+						event.getBlockPlaced());
 			}
 		}
 	}
