@@ -18,8 +18,11 @@
  */
 package eu.matejkormuth.rpgdavid.listeners;
 
+import java.io.File;
 import java.util.EnumMap;
+import java.util.Map.Entry;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -32,59 +35,47 @@ import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class XPListener implements Listener {
-    private static EnumMap<EntityType, Integer> xps;
+	private static EnumMap<EntityType, Integer> xps;
 
-    static {
-        xps = new EnumMap<>(EntityType.class);
-        xps.put(EntityType.BAT, 1);
-        xps.put(EntityType.BLAZE, 5);
-        xps.put(EntityType.CAVE_SPIDER, 4);
-        xps.put(EntityType.CHICKEN, 1);
-        xps.put(EntityType.COW, 1);
-        xps.put(EntityType.CREEPER, 3);
-        xps.put(EntityType.ENDERMAN, 7);
-        xps.put(EntityType.ENDERMITE, 5);
-        xps.put(EntityType.GHAST, 6);
-        xps.put(EntityType.GIANT, 5);
-        xps.put(EntityType.GUARDIAN, 10);
-        xps.put(EntityType.HORSE, 1);
-        xps.put(EntityType.IRON_GOLEM, 3);
-        xps.put(EntityType.MAGMA_CUBE, 4);
-        xps.put(EntityType.MUSHROOM_COW, 1);
-        xps.put(EntityType.OCELOT, 1);
-        xps.put(EntityType.PIG, 1);
-        xps.put(EntityType.PIG_ZOMBIE, 4);
-        xps.put(EntityType.RABBIT, 1);
-        xps.put(EntityType.SHEEP, 1);
-        xps.put(EntityType.SKELETON, 3);
-        xps.put(EntityType.SLIME, 2);
-        xps.put(EntityType.SNOWMAN, 1);
-        xps.put(EntityType.SPIDER, 3);
-        xps.put(EntityType.SQUID, 0);
-        xps.put(EntityType.VILLAGER, 0);
-        xps.put(EntityType.WITCH, 4);
-        xps.put(EntityType.WITHER, 10);
-        xps.put(EntityType.WOLF, 2);
-        xps.put(EntityType.ZOMBIE, 5);
-    }
+	static {
+		xps = new EnumMap<>(EntityType.class);
+		loadXpMap();
+	}
 
-    @EventHandler
-    private void onEntityKilled(final EntityDamageByEntityEvent event) {
-        // Only living entities.
-        if (event.getEntity() instanceof LivingEntity) {
-            // If is this killing hit.
-            if (((Damageable) event.getEntity()).getHealth()
-                    - event.getDamage() <= 0) {
-                // If damager is player.
-                if (event.getDamager() instanceof Player) {
-                    Profile p = RpgPlugin.getInstance().getProfile(
-                            (Player) event.getDamager());
-                    if (p != null) {
-                        // Give XP.
-                        p.giveXp(xps.get(event.getEntityType()));
-                    }
-                }
-            }
-        }
-    }
+	private static void loadXpMap() {
+		File f = RpgPlugin.getInstance().getFile("xps.yml");
+		if (!f.exists()) {
+			RpgPlugin
+					.getInstance()
+					.getLogger()
+					.severe("XP configuration file (xps.yml) not found! Plugin may not function properly!");
+		} else {
+			YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
+			for (Entry<String, Object> value : config.getValues(false)
+					.entrySet()) {
+				xps.put(EntityType.valueOf(value.getKey()),
+						Integer.valueOf(value.getValue().toString()));
+			}
+		}
+	}
+
+	@EventHandler
+	private void onEntityKilled(final EntityDamageByEntityEvent event) {
+		// Only living entities.
+		if (event.getEntity() instanceof LivingEntity) {
+			// If is this killing hit.
+			if (((Damageable) event.getEntity()).getHealth()
+					- event.getDamage() <= 0) {
+				// If damager is player.
+				if (event.getDamager() instanceof Player) {
+					Profile p = RpgPlugin.getInstance().getProfile(
+							(Player) event.getDamager());
+					if (p != null) {
+						// Give XP.
+						p.giveXp(xps.get(event.getEntityType()));
+					}
+				}
+			}
+		}
+	}
 }
