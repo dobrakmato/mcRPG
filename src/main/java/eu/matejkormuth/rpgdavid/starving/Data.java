@@ -56,307 +56,307 @@ import eu.matejkormuth.rpgdavid.starving.scoreboard.StarvingScoreboard;
  * </p>
  */
 public class Data {
-    private static final Map<OfflinePlayer, Data> cached;
+	private static final Map<OfflinePlayer, Data> cached;
 
-    static {
-        cached = new HashMap<>();
-    }
+	static {
+		cached = new HashMap<>();
+	}
 
-    public static Collection<Data> cached() {
-        return cached.values();
-    }
+	public static Collection<Data> cached() {
+		return cached.values();
+	}
 
-    private static File dataFileOf(OfflinePlayer player) {
-        return RpgPlugin.getInstance().getFile("pdatas",
-                player.getUniqueId().toString() + ".data");
-    }
+	private static File dataFileOf(OfflinePlayer player) {
+		return Starving.getInstance().getFile(
+				"pdatas/" + player.getUniqueId().toString() + ".data");
+	}
 
-    /**
-     * <p>
-     * Returns Data object related to specified player. This method first checks
-     * if Data object is cached. If not, it either loads data from harddisk or
-     * creates a new default Data object.
-     * </p>
-     * This method never returns null.
-     * 
-     * @param player
-     *            player object of which data soud be loaded
-     * @return Data object which holds all informations related to this player
-     */
-    public static Data of(OfflinePlayer player) {
-        if (cached.containsKey(player)) {
-            return cached.get(player);
-        } else {
-            File f = null;
-            if ((f = dataFileOf(player)).exists()) {
-                return loadData(f, player);
-            } else {
-                return createData(player);
-            }
-        }
-    }
+	/**
+	 * <p>
+	 * Returns Data object related to specified player. This method first checks
+	 * if Data object is cached. If not, it either loads data from harddisk or
+	 * creates a new default Data object.
+	 * </p>
+	 * This method never returns null.
+	 * 
+	 * @param player
+	 *            player object of which data soud be loaded
+	 * @return Data object which holds all informations related to this player
+	 */
+	public static Data of(OfflinePlayer player) {
+		if (cached.containsKey(player)) {
+			return cached.get(player);
+		} else {
+			File f = null;
+			if ((f = dataFileOf(player)).exists()) {
+				return loadData(f, player);
+			} else {
+				return createData(player);
+			}
+		}
+	}
 
-    private static Data loadData(File f, OfflinePlayer player) {
-        return new Data(f, player);
-    }
+	private static Data loadData(File f, OfflinePlayer player) {
+		return new Data(f, player);
+	}
 
-    private static Data createData(OfflinePlayer player) {
-        return new Data(player);
-    }
+	private static Data createData(OfflinePlayer player) {
+		return new Data(player);
+	}
 
-    private OfflinePlayer player;
+	private OfflinePlayer player;
 
-    // Fields annotated with Persist will be saved to file.
+	// Fields annotated with Persist will be saved to file.
 
-    @Persist(key = "bleedingTicks")
-    private int bleedingTicks = 0;
-    @Persist(key = "bleedingFlow")
-    private float bleedingFlow = 0;
-    @Persist(key = "bloodLevel")
-    private float bloodLevel = 5000;
+	@Persist(key = "bleedingTicks")
+	private int bleedingTicks = 0;
+	@Persist(key = "bleedingFlow")
+	private float bleedingFlow = 0;
+	@Persist(key = "bloodLevel")
+	private float bloodLevel = 5000;
 
-    @Persist(key = "stamina")
-    private float stamina = 800;
-    @Persist(key = "staminaCapacity")
-    private float staminaCapacity = 800;
+	@Persist(key = "stamina")
+	private float stamina = 800;
+	@Persist(key = "staminaCapacity")
+	private float staminaCapacity = 800;
 
-    @Persist(key = "bodyTemperature")
-    private float bodyTemperature;
+	@Persist(key = "bodyTemperature")
+	private float bodyTemperature;
 
-    @Persist(key = "infected")
-    private boolean infected = false;
+	@Persist(key = "infected")
+	private boolean infected = false;
 
-    @Persist(key = "sick")
-    private boolean sick = false;
+	@Persist(key = "sick")
+	private boolean sick = false;
 
-    @Persist(key = "ableToSprint")
-    private boolean ableToSprint = true;
+	@Persist(key = "ableToSprint")
+	private boolean ableToSprint = true;
 
-    @Persist(key = "hydrationLevel")
-    private float hydrationLevel = 1200;
-    @Persist(key = "hydrationCapacity")
-    private float hydrationCapacity = 1200;
+	@Persist(key = "hydrationLevel")
+	private float hydrationLevel = 1200;
+	@Persist(key = "hydrationCapacity")
+	private float hydrationCapacity = 1200;
 
-    @Persist(key = "scoped")
-    private boolean scoped;
-    @Persist(key = "unconscious")
-    private boolean unconscious;
-    @Persist(key = "hallucinating")
-    private boolean hallucinating;
+	@Persist(key = "scoped")
+	private boolean scoped;
+	@Persist(key = "unconscious")
+	private boolean unconscious;
+	@Persist(key = "hallucinating")
+	private boolean hallucinating;
 
-    public StarvingScoreboard scoreboard;
+	public StarvingScoreboard scoreboard;
 
-    private Data(OfflinePlayer player) {
-        this.player = player;
+	private Data(OfflinePlayer player) {
+		this.player = player;
 
-        cached.put(player, this);
-    }
+		cached.put(player, this);
+	}
 
-    public Data(File f, OfflinePlayer p) {
-        PersistInjector.inject(this, f);
-        this.player = p;
+	public Data(File f, OfflinePlayer p) {
+		PersistInjector.inject(this, f);
+		this.player = p;
 
-        cached.put(player, this);
-    }
+		cached.put(player, this);
+	}
 
-    /**
-     * Serializes values on persist-annotated fields to data file saved by
-     * player's unique id.
-     * 
-     * @return instance of self
-     */
-    public Data save() {
-        PersistInjector.store(this, dataFileOf(this.player));
-        return this;
-    }
+	/**
+	 * Serializes values on persist-annotated fields to data file saved by
+	 * player's unique id.
+	 * 
+	 * @return instance of self
+	 */
+	public Data save() {
+		PersistInjector.store(this, dataFileOf(this.player));
+		return this;
+	}
 
-    /**
-     * Removes this Data item from cached player Data-s.
-     * 
-     * @return instance of self
-     */
-    public Data uncache() {
-        cached.remove(this.player);
-        return this;
-    }
+	/**
+	 * Removes this Data item from cached player Data-s.
+	 * 
+	 * @return instance of self
+	 */
+	public Data uncache() {
+		cached.remove(this.player);
+		return this;
+	}
 
-    /**
-     * <p>
-     * Resets all fields (excluding player field) in this instance of Data to
-     * their default state. Note that this method does not remove file on disk
-     * nor automatically saves state to disk.
-     * </p>
-     * <p>
-     * Basically this resets player's game data.
-     * </p>
-     * 
-     * @return instance of self
-     */
-    public Data reset() {
-        // TODO: Externalize default values.
-        this.ableToSprint = true;
-        this.bleedingFlow = 0;
-        this.bleedingTicks = 0;
-        this.bloodLevel = 5000;
-        this.bodyTemperature = 37;
-        this.infected = false;
-        this.sick = false;
-        this.stamina = 800;
-        this.staminaCapacity = 800;
-        this.hydrationCapacity = 1200;
-        this.hydrationLevel = 1200;
-        this.unconscious = false;
-        this.scoped = false;
-        this.hallucinating = false;
+	/**
+	 * <p>
+	 * Resets all fields (excluding player field) in this instance of Data to
+	 * their default state. Note that this method does not remove file on disk
+	 * nor automatically saves state to disk.
+	 * </p>
+	 * <p>
+	 * Basically this resets player's game data.
+	 * </p>
+	 * 
+	 * @return instance of self
+	 */
+	public Data reset() {
+		// TODO: Externalize default values.
+		this.ableToSprint = true;
+		this.bleedingFlow = 0;
+		this.bleedingTicks = 0;
+		this.bloodLevel = 5000;
+		this.bodyTemperature = 37;
+		this.infected = false;
+		this.sick = false;
+		this.stamina = 800;
+		this.staminaCapacity = 800;
+		this.hydrationCapacity = 1200;
+		this.hydrationLevel = 1200;
+		this.unconscious = false;
+		this.scoped = false;
+		this.hallucinating = false;
 
-        return this;
-    }
+		return this;
+	}
 
-    // May return null.
-    public OfflinePlayer getPlayer() {
-        return this.player;
-    }
+	// May return null.
+	public OfflinePlayer getPlayer() {
+		return this.player;
+	}
 
-    public final Profile getProfile() {
-        return RpgPlugin.getInstance().getProfile(this.player);
-    }
+	public final Profile getProfile() {
+		return RpgPlugin.getInstance().getProfile(this.player);
+	}
 
-    public int getBleedingTicks() {
-        return this.bleedingTicks;
-    }
+	public int getBleedingTicks() {
+		return this.bleedingTicks;
+	}
 
-    public void setBleedingTicks(int bleedingTicks) {
-        this.bleedingTicks = bleedingTicks;
-    }
+	public void setBleedingTicks(int bleedingTicks) {
+		this.bleedingTicks = bleedingTicks;
+	}
 
-    public void decrementBleedingTicks() {
-        this.bleedingTicks--;
-    }
+	public void decrementBleedingTicks() {
+		this.bleedingTicks--;
+	}
 
-    public float getBleedingFlow() {
-        return this.bleedingFlow;
-    }
+	public float getBleedingFlow() {
+		return this.bleedingFlow;
+	}
 
-    public void setBleedingFlow(float bleedingFlow) {
-        this.bleedingFlow = bleedingFlow;
-    }
+	public void setBleedingFlow(float bleedingFlow) {
+		this.bleedingFlow = bleedingFlow;
+	}
 
-    public float getBloodLevel() {
-        return this.bloodLevel;
-    }
+	public float getBloodLevel() {
+		return this.bloodLevel;
+	}
 
-    public void setBloodLevel(float bloodLevel) {
-        this.bloodLevel = bloodLevel;
-    }
+	public void setBloodLevel(float bloodLevel) {
+		this.bloodLevel = bloodLevel;
+	}
 
-    public void incrementBloodLevel(float amount) {
-        this.bloodLevel += amount;
-    }
+	public void incrementBloodLevel(float amount) {
+		this.bloodLevel += amount;
+	}
 
-    public void decrementBloodLevel(float amount) {
-        this.bloodLevel -= amount;
-    }
+	public void decrementBloodLevel(float amount) {
+		this.bloodLevel -= amount;
+	}
 
-    public boolean isBleeding() {
-        return this.bleedingTicks > 0;
-    }
+	public boolean isBleeding() {
+		return this.bleedingTicks > 0;
+	}
 
-    public float getStamina() {
-        return this.stamina;
-    }
+	public float getStamina() {
+		return this.stamina;
+	}
 
-    public float getStaminaCapacity() {
-        return this.staminaCapacity;
-    }
+	public float getStaminaCapacity() {
+		return this.staminaCapacity;
+	}
 
-    public void incrementStamina(float amount) {
-        this.stamina += amount;
-    }
+	public void incrementStamina(float amount) {
+		this.stamina += amount;
+	}
 
-    public void decrementStamina(float amount) {
-        this.stamina -= amount;
-    }
+	public void decrementStamina(float amount) {
+		this.stamina -= amount;
+	}
 
-    public void setStaminaCapacity(float staminaCapacity) {
-        this.staminaCapacity = staminaCapacity;
-    }
+	public void setStaminaCapacity(float staminaCapacity) {
+		this.staminaCapacity = staminaCapacity;
+	}
 
-    public float getBodyTemperature() {
-        return this.bodyTemperature;
-    }
+	public float getBodyTemperature() {
+		return this.bodyTemperature;
+	}
 
-    public void setBodyTemperature(float bodyTemperature) {
-        this.bodyTemperature = bodyTemperature;
-    }
+	public void setBodyTemperature(float bodyTemperature) {
+		this.bodyTemperature = bodyTemperature;
+	}
 
-    public void setInfected(boolean infected) {
-        this.infected = infected;
-        if (infected) {
-            this.sick = true;
-        }
-    }
+	public void setInfected(boolean infected) {
+		this.infected = infected;
+		if (infected) {
+			this.sick = true;
+		}
+	}
 
-    public boolean isInfected() {
-        return this.infected;
-    }
+	public boolean isInfected() {
+		return this.infected;
+	}
 
-    public void setAbleToSprint(boolean ableToSprint) {
-        this.ableToSprint = ableToSprint;
-    }
+	public void setAbleToSprint(boolean ableToSprint) {
+		this.ableToSprint = ableToSprint;
+	}
 
-    public boolean isAbleToSprint() {
-        return this.ableToSprint;
-    }
+	public boolean isAbleToSprint() {
+		return this.ableToSprint;
+	}
 
-    public float getHydrationCapacity() {
-        return this.hydrationCapacity;
-    }
+	public float getHydrationCapacity() {
+		return this.hydrationCapacity;
+	}
 
-    public void setHydrationCapacity(float hydrationCapacity) {
-        this.hydrationCapacity = hydrationCapacity;
-    }
+	public void setHydrationCapacity(float hydrationCapacity) {
+		this.hydrationCapacity = hydrationCapacity;
+	}
 
-    public float getHydrationLevel() {
-        return this.hydrationLevel;
-    }
+	public float getHydrationLevel() {
+		return this.hydrationLevel;
+	}
 
-    public void setHydrationLevel(float hydrationLevel) {
-        this.hydrationLevel = hydrationLevel;
-    }
+	public void setHydrationLevel(float hydrationLevel) {
+		this.hydrationLevel = hydrationLevel;
+	}
 
-    public void incrementHydrationLevel(float amount) {
-        this.hydrationLevel += amount;
-    }
+	public void incrementHydrationLevel(float amount) {
+		this.hydrationLevel += amount;
+	}
 
-    public void setSick(boolean sick) {
-        this.sick = sick;
-    }
+	public void setSick(boolean sick) {
+		this.sick = sick;
+	}
 
-    public boolean isSick() {
-        return this.sick;
-    }
+	public boolean isSick() {
+		return this.sick;
+	}
 
-    public boolean switchScoped() {
-        return this.scoped = !this.scoped;
-    }
+	public boolean switchScoped() {
+		return this.scoped = !this.scoped;
+	}
 
-    public boolean isScoped() {
-        return this.scoped;
-    }
+	public boolean isScoped() {
+		return this.scoped;
+	}
 
-    public boolean isUnconscious() {
-        return this.unconscious;
-    }
+	public boolean isUnconscious() {
+		return this.unconscious;
+	}
 
-    public void setUnconscious(boolean unconscious) {
-        this.unconscious = unconscious;
-    }
+	public void setUnconscious(boolean unconscious) {
+		this.unconscious = unconscious;
+	}
 
-    public void setHallucinating(boolean halucinating) {
-        this.hallucinating = halucinating;
-    }
+	public void setHallucinating(boolean halucinating) {
+		this.hallucinating = halucinating;
+	}
 
-    public boolean isHallucinating() {
-        return this.hallucinating;
-    }
+	public boolean isHallucinating() {
+		return this.hallucinating;
+	}
 }

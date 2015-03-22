@@ -21,3 +21,9 @@ commands:
     description: Command used for giving money.
   setport:
     description: Command for setting port locations.
+  warp:
+    description: Teleports you to specified warp.
+  setwarp:
+    description: Creates new warp where are you standing.
+  setspeed:
+    description: Sets players's walking and flying speed.

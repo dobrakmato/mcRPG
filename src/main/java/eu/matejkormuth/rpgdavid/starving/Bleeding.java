@@ -1,6 +1,7 @@
 /*
- *  mcRPG is a open source rpg bukkit/spigot plugin.
- *  Copyright (C) 2015 Matej Kormuth 
+ *  Starving is a open source bukkit/spigot mmo game.
+ *  Copyright (C) 2014-2015 Matej Kormuth
+ *  This file is a part of Starving. <http://www.starving.eu>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

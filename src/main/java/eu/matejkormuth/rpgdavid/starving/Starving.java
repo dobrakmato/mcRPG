@@ -53,9 +53,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
+import eu.matejkormuth.rpgdavid.starving.commands.SetSpeedCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.commands.SetWarpCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.commands.WarpCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
@@ -123,6 +128,8 @@ public class Starving implements Runnable, Listener {
 
 	private List<Persistable> persistablesList;
 
+	private Configuration warpsConfig;
+
 	private String tabListHeader = "Welcome to &cStarving 2.0!";
 	private String tabListFooter = "http://www.starving.eu";
 
@@ -145,6 +152,9 @@ public class Starving implements Runnable, Listener {
 				+ "/Starving/");
 		this.dataFolder.mkdirs();
 
+		// Load configurations.
+		this.warpsConfig = new Configuration(this.getFile("warps.yml"));
+
 		// Set game rules.
 		this.getLogger().info("Setting starving game rules...");
 		for (World w : Bukkit.getWorlds()) {
@@ -166,6 +176,14 @@ public class Starving implements Runnable, Listener {
 		this.itemManager = new ItemManager();
 
 		this.impulseProcessor = new BufferedImpulseProcessor();
+
+		// Register all command executors.
+		this.getPlugin().getCommand("warp")
+				.setExecutor(new WarpCommandExecutor());
+		this.getPlugin().getCommand("setwarp")
+				.setExecutor(new SetWarpCommandExecutor());
+		this.getPlugin().getCommand("setspeed")
+				.setExecutor(new SetSpeedCommandExecutor());
 
 		// Schedule all tasks.
 		this.register(new BleedingTask()).schedule(1L);
@@ -259,6 +277,9 @@ public class Starving implements Runnable, Listener {
 	public void onDisable() {
 		this.zombieManager.saveConfiguration();
 
+		// Save configurations.
+		this.warpsConfig.save();
+
 		// Save all cached Data-s.
 		for (Data d : Data.cached()) {
 			d.save().uncache();
@@ -343,8 +364,8 @@ public class Starving implements Runnable, Listener {
 		Data.of(event.getPlayer()).reset();
 	}
 
-	public Plugin getPlugin() {
-		return this.corePlugin;
+	public JavaPlugin getPlugin() {
+		return (JavaPlugin) this.corePlugin;
 	}
 
 	public Locality getLocality(final Location location) {
@@ -467,5 +488,33 @@ public class Starving implements Runnable, Listener {
 				}
 			}
 		}
+	}
+
+	public void setWarp(String name, Location location) {
+		this.warpsConfig.set(name + ".x", location.getX());
+		this.warpsConfig.set(name + ".y", location.getY());
+		this.warpsConfig.set(name + ".z", location.getZ());
+		this.warpsConfig.set(name + ".pitch", location.getPitch());
+		this.warpsConfig.set(name + ".yaw", location.getYaw());
+		this.warpsConfig.set(name + ".world", location.getWorld().getName());
+	}
+
+	public boolean isWarp(String name) {
+		return this.warpsConfig.contains(name + ".x");
+	}
+
+	public Location getWarp(String name) {
+		double x = this.warpsConfig.getDouble(name + ".x");
+		double y = this.warpsConfig.getDouble(name + ".y");
+		double z = this.warpsConfig.getDouble(name + ".z");
+		double pitch = this.warpsConfig.getDouble(name + ".pitch");
+		double yaw = this.warpsConfig.getDouble(name + ".yaw");
+		String wname = this.warpsConfig.getString(name = ".world");
+		return new Location(Worlds.by(wname), x, y, z, (float) yaw,
+				(float) pitch);
+	}
+
+	public File getFile(String string) {
+		return new File(this.dataFolder.getAbsolutePath() + "/" + string);
 	}
 }
