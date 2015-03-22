@@ -19,12 +19,11 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.firearms.scoped;
 
-import org.bukkit.Material;
-
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Glock;
 
 public class ScopedGlock extends Glock {
 	public ScopedGlock() {
-		super(Material.APPLE, "Glock (scoped)");
+		super(Mappings.GLOCK_SCOPED_DEFAULT, "Glock (scoped)");
 	}
 }

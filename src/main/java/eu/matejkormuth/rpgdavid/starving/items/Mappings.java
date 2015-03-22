@@ -3,7 +3,7 @@ package eu.matejkormuth.rpgdavid.starving.items;
 // This file is part of Starving 2.0 project.
 // This file was automatically generated.
 // Changes to this file wont be preserved!
-// Generated at: 18.3.2015 17:25
+// Generated at: 22.3.2015 19:07
 // This file is licensed under GPL-3.
 // Starving: <http://github.com/dobrakmato/mcRPG>
 
@@ -77,16 +77,46 @@ public class Mappings {
     public static final Material THICKSHOES = Material.DIAMOND_BOOTS;
     // "AK47" -> DIAMOND:0
     public static final Material AK47 = Material.DIAMOND;
-    // "M16" -> GOLD_INGOT:0
-    public static final Material M16 = Material.GOLD_INGOT;
+    // "M16" -> IRON_INGOT:0
+    public static final Material M16 = Material.IRON_INGOT;
+    // "M16_SCOPED_DEFAULT" -> WOOL:0
+    public static final Material M16_SCOPED_DEFAULT = Material.WOOL;
+    // "M16_WITH_SILENCER" -> WOOL:1
+    public static final Material M16_WITH_SILENCER = Material.WOOL;
+    // "M16_WITH_FOREGRIP" -> WOOL:2
+    public static final Material M16_WITH_FOREGRIP = Material.WOOL;
+    // "M16_WITH_SCOPE" -> WOOL:3
+    public static final Material M16_WITH_SCOPE = Material.WOOL;
+    // "M16_WITH_SILENCER_FOREGRIP" -> WOOL:4
+    public static final Material M16_WITH_SILENCER_FOREGRIP = Material.WOOL;
+    // "M16_WITH_SILENCER_SCOPE" -> WOOL:5
+    public static final Material M16_WITH_SILENCER_SCOPE = Material.WOOL;
+    // "M16_WITH_SCOPE_FOREGRIP" -> WOOL:6
+    public static final Material M16_WITH_SCOPE_FOREGRIP = Material.WOOL;
+    // "M16_WITH_SILENCER_SCOPE_FOREGRIP" -> WOOL:7
+    public static final Material M16_WITH_SILENCER_SCOPE_FOREGRIP = Material.WOOL;
+    // "Revolver" -> WOOL:8
+    public static final Material REVOLVER = Material.WOOL;
+    // "Revolver_SCOPED_DEFAULT" -> WOOL:9
+    public static final Material REVOLVER_SCOPED_DEFAULT = Material.WOOL;
+    // "Revolver_WITH_SILENCER" -> WOOL:10
+    public static final Material REVOLVER_WITH_SILENCER = Material.WOOL;
+    // "Revolver_WITH_SCOPE" -> WOOL:11
+    public static final Material REVOLVER_WITH_SCOPE = Material.WOOL;
+    // "Revolver_WITH_SILENCER_SCOPE" -> WOOL:12
+    public static final Material REVOLVER_WITH_SILENCER_SCOPE = Material.WOOL;
     // "Dragunov" -> IRON_INGOT:0
     public static final Material DRAGUNOV = Material.IRON_INGOT;
     // "Mossberg500" -> EMERALD:0
     public static final Material MOSSBERG500 = Material.EMERALD;
     // "MP5" -> CLAY_BALL:0
     public static final Material MP5 = Material.CLAY_BALL;
-    // "Glock" -> CLAY_BRICK:0
-    public static final Material GLOCK = Material.CLAY_BRICK;
+    // "Glock" -> WOOL:13
+    public static final Material GLOCK = Material.WOOL;
+    // "Glock_SCOPED_DEFAULT" -> WOOL:14
+    public static final Material GLOCK_SCOPED_DEFAULT = Material.WOOL;
+    // "Glock_WITH_SILENCER" -> WOOL:15
+    public static final Material GLOCK_WITH_SILENCER = Material.WOOL;
     // "ColtAnaconda" -> FEATHER:0
     public static final Material COLTANACONDA = Material.FEATHER;
     // "NickiMinajAnaconda" -> QUARTZ:0
@@ -103,8 +133,6 @@ public class Mappings {
     public static final Material BLAZEROD = Material.BLAZE_ROD;
     // "Vaccine" -> MAGMA_CREAM:0
     public static final Material VACCINE = Material.MAGMA_CREAM;
-    // "GeneralScope" -> INK_SACK:0
-    public static final Material GENERALSCOPE = Material.INK_SACK;
     // "GeneralSilencer" -> INK_SACK:1
     public static final Material GENERALSILENCER = Material.INK_SACK;
     // "GeneralFiregrip" -> INK_SACK:2
@@ -117,14 +145,6 @@ public class Mappings {
     public static final Material SCOPE6X = Material.COAL_ORE;
     // "Scope8x" -> LAPIS_ORE:0
     public static final Material SCOPE8X = Material.LAPIS_ORE;
-    // "Scope2xRedDot" -> DIAMOND_ORE:0
-    public static final Material SCOPE2XREDDOT = Material.DIAMOND_ORE;
-    // "Scope4xRedDot" -> REDSTONE_ORE:0
-    public static final Material SCOPE4XREDDOT = Material.REDSTONE_ORE;
-    // "Scope6xRedDot" -> EMERALD_ORE:0
-    public static final Material SCOPE6XREDDOT = Material.EMERALD_ORE;
-    // "Scope8xRedDot" -> QUARTZ_ORE:0
-    public static final Material SCOPE8XREDDOT = Material.QUARTZ_ORE;
     // "RedDot" -> GLOWSTONE:0
     public static final Material REDDOT = Material.GLOWSTONE;
     // "WoodenStick" -> STONE_HOE:0

@@ -19,12 +19,11 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.firearms.scoped;
 
-import org.bukkit.Material;
-
+import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.M16;
 
 public class ScopedM16 extends M16 {
 	public ScopedM16() {
-		super(Material.APPLE, "M16 (scoped)");
+		super(Mappings.M16_SCOPED_DEFAULT, "M16 (scoped)");
 	}
 }
