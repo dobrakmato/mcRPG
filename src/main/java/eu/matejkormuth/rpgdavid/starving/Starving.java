@@ -89,6 +89,7 @@ import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BloodLevelConsuquencesTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BloodReplenishTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BodyTemperatureUpdater;
+import eu.matejkormuth.rpgdavid.starving.tasks.FlashlightTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.HallucinationsTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.HydrationLevelConsequencesTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
@@ -187,6 +188,7 @@ public class Starving implements Runnable, Listener {
 
 		// Schedule all tasks.
 		this.register(new BleedingTask()).schedule(1L);
+		this.register(new FlashlightTask()).schedule(1L);
 		this.register(new TimeUpdater()).schedule(2L);
 		// TablistFooterClockTask MUST be registered after TimeUpdater.
 		this.register(new TablistFooterClockTask()).schedule(5L);

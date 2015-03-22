@@ -99,6 +99,10 @@ import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedM16;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedMP5;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedMossberg500;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedNickyAnaconda;
+import eu.matejkormuth.rpgdavid.starving.items.food.CannedMeat;
+import eu.matejkormuth.rpgdavid.starving.items.food.CannedVegetables;
+import eu.matejkormuth.rpgdavid.starving.items.food.Raspberry;
+import eu.matejkormuth.rpgdavid.starving.items.food.Strawberry;
 import eu.matejkormuth.rpgdavid.starving.items.itemmeta.deprecated.ChemicalItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Bandage;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Patch;
@@ -147,12 +151,20 @@ public class ItemManager implements Listener {
 		this.register(new DisinfectionTablets());
 		this.register(new Flashlight());
 
+		this.registerFood();
 		this.registerFirearms();
 		this.registerRanged();
 		this.registerMedical();
 		this.registerDrinks();
 		this.registerClothing();
 		this.registerBlocks();
+	}
+
+	private void registerFood() {
+		this.register(new CannedMeat());
+		this.register(new CannedVegetables());
+		this.register(new Raspberry());
+		this.register(new Strawberry());
 	}
 
 	private void registerBlocks() {
