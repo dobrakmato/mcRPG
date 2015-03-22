@@ -104,6 +104,7 @@ import eu.matejkormuth.rpgdavid.starving.items.medical.Bandage;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Patch;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Splint;
 import eu.matejkormuth.rpgdavid.starving.items.misc.DisinfectionTablets;
+import eu.matejkormuth.rpgdavid.starving.items.misc.Flashlight;
 import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Parachute;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Toolset;
@@ -144,6 +145,7 @@ public class ItemManager implements Listener {
 		this.register(new Toolset());
 		this.register(new MagicMushroom());
 		this.register(new DisinfectionTablets());
+		this.register(new Flashlight());
 
 		this.registerFirearms();
 		this.registerRanged();

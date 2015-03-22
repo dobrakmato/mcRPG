@@ -17,12 +17,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items.itemmeta;
+package eu.matejkormuth.rpgdavid.starving.items.itemmeta.concrete;
 
-import java.util.List;
+import org.bukkit.inventory.ItemStack;
 
-public interface LoreAccessor {
-	List<String> getLore();
+import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ItemMetaWrapper;
 
-	void setLore(List<String> lore);
+public class FlashlightItemMetaWrapper extends ItemMetaWrapper {
+
+	// Keys
+	private static final String SWITCHED_ON_KEY = "Switched on";
+
+	public FlashlightItemMetaWrapper(ItemStack stack) {
+		super(stack);
+	}
+	
+	public boolean isSwitchedOn() {
+		return this.valueHandler.getBoolean(SWITCHED_ON_KEY);
+	}
+	
+	public void setSwitchedOn(boolean switchedOn) {
+		this.valueHandler.set(SWITCHED_ON_KEY, switchedOn);
+	}
+	
 }

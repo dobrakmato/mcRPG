@@ -144,6 +144,9 @@ public class Data {
 	@Persist(key = "hallucinating")
 	private boolean hallucinating;
 
+	@Persist(key = "flashlightOn")
+	private boolean flashlightOn;
+
 	public StarvingScoreboard scoreboard;
 
 	private Data(OfflinePlayer player) {
@@ -208,6 +211,7 @@ public class Data {
 		this.unconscious = false;
 		this.scoped = false;
 		this.hallucinating = false;
+		this.flashlightOn = false;
 
 		return this;
 	}
@@ -358,5 +362,13 @@ public class Data {
 
 	public boolean isHallucinating() {
 		return this.hallucinating;
+	}
+
+	public boolean isFlashlightOn() {
+		return this.flashlightOn;
+	}
+
+	public void setFlashlightOn(boolean flashlightOn) {
+		this.flashlightOn = flashlightOn;
 	}
 }

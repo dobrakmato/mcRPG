@@ -44,7 +44,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
-import eu.matejkormuth.rpgdavid.starving.items.itemmeta.FirearmItemMetaWrapper;
+import eu.matejkormuth.rpgdavid.starving.items.itemmeta.concrete.FirearmItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.transformers.FirearmTransformer;
 
 public abstract class Firearm extends Item {
