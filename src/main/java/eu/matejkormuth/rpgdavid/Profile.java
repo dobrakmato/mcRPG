@@ -38,8 +38,8 @@ public class Profile implements Serializable {
     private int maxMana = 900;
 
     // Currencies
-    private Money normalMoney = new Money(100, Currencies.NORMAL);
-    private Money premiumMoney = new Money(10, Currencies.PREMIUM);
+    private Money normalMoney = new Money(0, Currencies.NORMAL);
+    private Money premiumMoney = new Money(0, Currencies.PREMIUM);
 
     // Character properties.
     private int magican_currentSpell;
