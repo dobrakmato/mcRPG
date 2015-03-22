@@ -51,6 +51,14 @@ import eu.matejkormuth.rpgdavid.starving.items.blocks.LogD12;
 import eu.matejkormuth.rpgdavid.starving.items.blocks.LogD13;
 import eu.matejkormuth.rpgdavid.starving.items.blocks.LogD14;
 import eu.matejkormuth.rpgdavid.starving.items.blocks.LogD15;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.oakstairs.OakStairsD1;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.oakstairs.OakStairsD2;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.oakstairs.OakStairsD3;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.oakstairs.OakStairsD4;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.oakstairs.OakStairsD5;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.oakstairs.OakStairsD6;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.oakstairs.OakStairsD7;
+import eu.matejkormuth.rpgdavid.starving.items.blocks.oakstairs.OakStairsD8;
 import eu.matejkormuth.rpgdavid.starving.items.clothing.Boots;
 import eu.matejkormuth.rpgdavid.starving.items.clothing.BulletproofVest;
 import eu.matejkormuth.rpgdavid.starving.items.clothing.CamoflageHelmet;
@@ -154,9 +162,18 @@ public class ItemManager implements Listener {
 		this.register(new LogD13());
 		this.register(new LogD14());
 		this.register(new LogD15());
-		
+
 		this.register(new Log2D12());
 		this.register(new Log2D13());
+
+		this.register(new OakStairsD1());
+		this.register(new OakStairsD2());
+		this.register(new OakStairsD3());
+		this.register(new OakStairsD4());
+		this.register(new OakStairsD5());
+		this.register(new OakStairsD6());
+		this.register(new OakStairsD7());
+		this.register(new OakStairsD8());
 	}
 
 	private void registerRanged() {
@@ -296,11 +313,11 @@ public class ItemManager implements Listener {
 	@EventHandler
 	private void onInteract(final PlayerInteractEvent event) {
 		Item item = this.findItem(event.getItem());
-		
-		if(item instanceof BlockWithData) {
+
+		if (item instanceof BlockWithData) {
 			return;
 		}
-		
+
 		if (item != null) {
 			InteractResult result = item.onInteract(event.getPlayer(),
 					event.getAction(), event.getClickedBlock(),
@@ -330,11 +347,11 @@ public class ItemManager implements Listener {
 	@EventHandler
 	private void onInteractWith(final PlayerInteractEntityEvent event) {
 		Item item = this.findItem(event.getPlayer().getItemInHand());
-		
-		if(item instanceof BlockWithData) {
+
+		if (item instanceof BlockWithData) {
 			return;
 		}
-		
+
 		if (item != null) {
 			item.onInteractWith(event.getPlayer(), event.getRightClicked());
 			event.setCancelled(true);
