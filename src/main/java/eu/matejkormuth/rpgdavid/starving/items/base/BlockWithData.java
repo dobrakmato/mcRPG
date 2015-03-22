@@ -37,9 +37,9 @@ public abstract class BlockWithData extends Item {
 		this.data = data;
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation") 
 	public void onPlaced(Player player, Block blockPlaced) {
-		blockPlaced.setData(data);
+		blockPlaced.setData(data, true);
 	}
 
 	@Override

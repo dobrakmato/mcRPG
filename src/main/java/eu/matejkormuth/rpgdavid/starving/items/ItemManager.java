@@ -296,6 +296,11 @@ public class ItemManager implements Listener {
 	@EventHandler
 	private void onInteract(final PlayerInteractEvent event) {
 		Item item = this.findItem(event.getItem());
+		
+		if(item instanceof BlockWithData) {
+			return;
+		}
+		
 		if (item != null) {
 			InteractResult result = item.onInteract(event.getPlayer(),
 					event.getAction(), event.getClickedBlock(),
@@ -325,6 +330,11 @@ public class ItemManager implements Listener {
 	@EventHandler
 	private void onInteractWith(final PlayerInteractEntityEvent event) {
 		Item item = this.findItem(event.getPlayer().getItemInHand());
+		
+		if(item instanceof BlockWithData) {
+			return;
+		}
+		
 		if (item != null) {
 			item.onInteractWith(event.getPlayer(), event.getRightClicked());
 			event.setCancelled(true);
