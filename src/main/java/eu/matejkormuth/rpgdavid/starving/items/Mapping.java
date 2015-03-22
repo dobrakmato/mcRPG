@@ -17,15 +17,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items.firearms.scoped;
+package eu.matejkormuth.rpgdavid.starving.items;
 
 import org.bukkit.Material;
 
-import eu.matejkormuth.rpgdavid.starving.items.Mapping;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.Dragunov;
+/**
+ * Class that represents mapping (material + data byte).
+ */
+public final class Mapping {
+	private final Material material;
+	private final byte data;
 
-public class ScopedDragunov extends Dragunov {
-	public ScopedDragunov() {
-		super(new Mapping(Material.APPLE), "Dragunov (scoped)");
+	public Mapping(final Material material) {
+		this.material = material;
+		this.data = (byte) 0;
+	}
+	
+	public Mapping(final Material material, final int data) {
+		this.material = material;
+		this.data = (byte) data;
+	}
+
+	public byte getData() {
+		return data;
+	}
+
+	public Material getMaterial() {
+		return material;
 	}
 }

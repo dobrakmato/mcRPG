@@ -19,15 +19,14 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.base;
 
-import org.bukkit.Material;
-
 import eu.matejkormuth.rpgdavid.starving.items.ClothingType;
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 
 public class ClothingItem extends Item {
     private ClothingType type;
 
-    public ClothingItem(Material material, String name) {
-        super(material, name);
+    public ClothingItem(Mapping mapping, String name) {
+        super(mapping, name);
     }
 
     protected void setType(ClothingType type) {

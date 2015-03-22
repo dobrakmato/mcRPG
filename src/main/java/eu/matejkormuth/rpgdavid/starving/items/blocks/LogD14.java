@@ -21,12 +21,13 @@ package eu.matejkormuth.rpgdavid.starving.items.blocks;
 
 import org.bukkit.Material;
 
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.base.BlockWithData;
 
 public class LogD14 extends BlockWithData {
 
 	public LogD14() {
-		super(Material.LOG, "Log D14", (byte) 14);
+		super(new Mapping(Material.LOG), "Log D14", (byte) 14);
 	}
 
 }

@@ -19,9 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
-import org.bukkit.Material;
-
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
@@ -31,7 +30,7 @@ public class NickyAnaconda extends Firearm {
 		this(Mappings.NICKIMINAJANACONDA, "Nicky Anaconda");
 	}
 
-	public NickyAnaconda(Material mapping, String name) {
+	public NickyAnaconda(Mapping mapping, String name) {
 		super(mapping, name);
 		this.setAmmoType(AmunitionType.SHORT);
 		this.setClipSize(6);

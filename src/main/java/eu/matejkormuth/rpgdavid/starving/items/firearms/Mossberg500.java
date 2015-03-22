@@ -20,7 +20,6 @@
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -29,6 +28,7 @@ import org.bukkit.util.Vector;
 import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
@@ -38,7 +38,7 @@ public class Mossberg500 extends Firearm {
 		this(Mappings.MOSSBERG500, "Mossberg 500");
 	}
 
-	public Mossberg500(Material mapping, String name) {
+	public Mossberg500(Mapping mapping, String name) {
 		super(mapping, name);
 		this.setAmmoType(AmunitionType.LONG);
 		this.setClipSize(6);

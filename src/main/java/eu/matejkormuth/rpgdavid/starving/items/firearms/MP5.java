@@ -19,9 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
-import org.bukkit.Material;
-
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
@@ -31,7 +30,7 @@ public class MP5 extends Firearm {
 		this(Mappings.MP5, "MP5");
 	}
 
-	public MP5(Material mapping, String name) {
+	public MP5(Mapping mapping, String name) {
 		super(mapping, name);
 		this.setAmmoType(AmunitionType.SHORT);
 		this.setClipSize(30);

@@ -21,10 +21,11 @@ package eu.matejkormuth.rpgdavid.starving.items.firearms.scoped;
 
 import org.bukkit.Material;
 
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.NickyAnaconda;
 
 public class ScopedNickyAnaconda extends NickyAnaconda {
 	public ScopedNickyAnaconda() {
-		super(Material.APPLE, "Nicky Anaconda (scoped)");
+		super(new Mapping(Material.APPLE), "Nicky Anaconda (scoped)");
 	}
 }

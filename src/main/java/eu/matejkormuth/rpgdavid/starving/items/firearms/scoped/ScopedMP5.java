@@ -21,10 +21,11 @@ package eu.matejkormuth.rpgdavid.starving.items.firearms.scoped;
 
 import org.bukkit.Material;
 
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.MP5;
 
 public class ScopedMP5 extends MP5 {
 	public ScopedMP5() {
-		super(Material.APPLE, "MP5 (scoped)");
+		super(new Mapping(Material.APPLE), "MP5 (scoped)");
 	}
 }

@@ -22,12 +22,13 @@ package eu.matejkormuth.rpgdavid.starving.items.misc;
 import org.bukkit.Material;
 
 import eu.matejkormuth.rpgdavid.starving.items.Category;
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class DisinfectionTablets extends Item {
     public DisinfectionTablets() {
-        super(Material.BAKED_POTATO, "Disinfection Tablets");
+        super(new Mapping(Material.BAKED_POTATO), "Disinfection Tablets");
 
         // Item properties.
         this.setMaxStackAmount(8);

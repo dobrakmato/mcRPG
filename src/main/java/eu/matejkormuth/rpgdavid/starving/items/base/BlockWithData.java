@@ -22,18 +22,19 @@ package eu.matejkormuth.rpgdavid.starving.items.base;
 import java.util.Arrays;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
+
 public abstract class BlockWithData extends Item {
 
 	private byte data;
 
-	public BlockWithData(Material material, String name, byte data) {
-		super(material, name);
+	public BlockWithData(Mapping mapping, String name, byte data) {
+		super(mapping, name);
 		this.data = data;
 	}
 

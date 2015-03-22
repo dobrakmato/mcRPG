@@ -22,7 +22,6 @@ package eu.matejkormuth.rpgdavid.starving.items.base;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
@@ -43,6 +42,7 @@ import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.itemmeta.FirearmItemMetaWrapper;
 import eu.matejkormuth.rpgdavid.starving.items.transformers.FirearmTransformer;
@@ -66,8 +66,8 @@ public abstract class Firearm extends Item {
 	private final String reloadSound;
 	private final String fireSound;
 
-	public Firearm(Material material, String name) {
-		super(material, name);
+	public Firearm(Mapping mapping, String name) {
+		super(mapping, name);
 		this.setCategory(Category.FIREARMS);
 		this.setRarity(Rarity.UNCOMMON);
 		this.setMaxStackAmount(1);
@@ -243,7 +243,7 @@ public abstract class Firearm extends Item {
 	protected void toggleScope(Player player, ItemStack is) {
 		this.toggleScope(player, is, 2);
 	}
-	
+
 	protected void toggleScope(Player player, ItemStack is, int slownessLevel) {
 		// Scope tha gun.
 		if (Data.of(player).switchScoped()) {

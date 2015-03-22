@@ -21,10 +21,11 @@ package eu.matejkormuth.rpgdavid.starving.items.firearms.scoped;
 
 import org.bukkit.Material;
 
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.AK47;
 
 public class ScopedAK47 extends AK47 {
 	public ScopedAK47() {
-		super(Material.APPLE, "AK47 (scoped)");
+		super(new Mapping(Material.APPLE), "AK47 (scoped)");
 	}
 }

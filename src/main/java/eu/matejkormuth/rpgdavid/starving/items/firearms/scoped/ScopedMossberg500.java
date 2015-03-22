@@ -21,10 +21,11 @@ package eu.matejkormuth.rpgdavid.starving.items.firearms.scoped;
 
 import org.bukkit.Material;
 
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Mossberg500;
 
 public class ScopedMossberg500 extends Mossberg500 {
 	public ScopedMossberg500() {
-		super(Material.APPLE, "Mossberg 500 (scoped)");
+		super(new Mapping(Material.APPLE), "Mossberg 500 (scoped)");
 	}
 }

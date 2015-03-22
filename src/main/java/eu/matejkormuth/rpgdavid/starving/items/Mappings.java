@@ -3,7 +3,7 @@ package eu.matejkormuth.rpgdavid.starving.items;
 // This file is part of Starving 2.0 project.
 // This file was automatically generated.
 // Changes to this file wont be preserved!
-// Generated at: 22.3.2015 19:07
+// Generated at: 22.3.2015 19:48
 // This file is licensed under GPL-3.
 // Starving: <http://github.com/dobrakmato/mcRPG>
 
@@ -14,156 +14,156 @@ public class Mappings {
     }
 
     // "Parachute" -> GOLD_HOE:0
-    public static final Material PARACHUTE = Material.GOLD_HOE;
+    public static final Mapping PARACHUTE = new Mapping(Material.GOLD_HOE, 0);
     // "Chemicals" -> POTION:0
-    public static final Material CHEMICALS = Material.POTION;
+    public static final Mapping CHEMICALS = new Mapping(Material.POTION, 0);
     // "Toolset" -> WORKBENCH:0
-    public static final Material TOOLSET = Material.WORKBENCH;
+    public static final Mapping TOOLSET = new Mapping(Material.WORKBENCH, 0);
     // "Transmitter" -> PRISMARINE_SHARD:0
-    public static final Material TRANSMITTER = Material.PRISMARINE_SHARD;
+    public static final Mapping TRANSMITTER = new Mapping(Material.PRISMARINE_SHARD, 0);
     // "Patch" -> SLIME_BALL:0
-    public static final Material PATCH = Material.SLIME_BALL;
+    public static final Mapping PATCH = new Mapping(Material.SLIME_BALL, 0);
     // "Projectile" -> SNOW_BALL:0
-    public static final Material PROJECTILE = Material.SNOW_BALL;
+    public static final Mapping PROJECTILE = new Mapping(Material.SNOW_BALL, 0);
     // "Bandage" -> PAPER:0
-    public static final Material BANDAGE = Material.PAPER;
+    public static final Mapping BANDAGE = new Mapping(Material.PAPER, 0);
     // "Voltaic Battery" -> FERMENTED_SPIDER_EYE:0
-    public static final Material VOLTAIC_BATTERY = Material.FERMENTED_SPIDER_EYE;
+    public static final Mapping VOLTAIC_BATTERY = new Mapping(Material.FERMENTED_SPIDER_EYE, 0);
     // "Lantern" -> BLAZE_POWDER:0
-    public static final Material LANTERN = Material.BLAZE_POWDER;
+    public static final Mapping LANTERN = new Mapping(Material.BLAZE_POWDER, 0);
     // "Splint" -> PRISMARINE_CRYSTALS:0
-    public static final Material SPLINT = Material.PRISMARINE_CRYSTALS;
+    public static final Mapping SPLINT = new Mapping(Material.PRISMARINE_CRYSTALS, 0);
     // "Coin" -> GOLD_NUGGET:0
-    public static final Material COIN = Material.GOLD_NUGGET;
+    public static final Mapping COIN = new Mapping(Material.GOLD_NUGGET, 0);
     // "Cap" -> LEATHER_HELMET:0
-    public static final Material CAP = Material.LEATHER_HELMET;
+    public static final Mapping CAP = new Mapping(Material.LEATHER_HELMET, 0);
     // "T-Shirt" -> LEATHER_CHESTPLATE:0
-    public static final Material T_SHIRT = Material.LEATHER_CHESTPLATE;
+    public static final Mapping T_SHIRT = new Mapping(Material.LEATHER_CHESTPLATE, 0);
     // "Jeans" -> LEATHER_LEGGINGS:0
-    public static final Material JEANS = Material.LEATHER_LEGGINGS;
+    public static final Mapping JEANS = new Mapping(Material.LEATHER_LEGGINGS, 0);
     // "Shoes" -> LEATHER_BOOTS:0
-    public static final Material SHOES = Material.LEATHER_BOOTS;
+    public static final Mapping SHOES = new Mapping(Material.LEATHER_BOOTS, 0);
     // "Hat" -> CHAINMAIL_HELMET:0
-    public static final Material HAT = Material.CHAINMAIL_HELMET;
+    public static final Mapping HAT = new Mapping(Material.CHAINMAIL_HELMET, 0);
     // "Shirt" -> CHAINMAIL_CHESTPLATE:0
-    public static final Material SHIRT = Material.CHAINMAIL_CHESTPLATE;
+    public static final Mapping SHIRT = new Mapping(Material.CHAINMAIL_CHESTPLATE, 0);
     // "Shorts" -> CHAINMAIL_LEGGINGS:0
-    public static final Material SHORTS = Material.CHAINMAIL_LEGGINGS;
+    public static final Mapping SHORTS = new Mapping(Material.CHAINMAIL_LEGGINGS, 0);
     // "Sandals" -> CHAINMAIL_BOOTS:0
-    public static final Material SANDALS = Material.CHAINMAIL_BOOTS;
+    public static final Mapping SANDALS = new Mapping(Material.CHAINMAIL_BOOTS, 0);
     // "RemVest" -> IRON_HELMET:0
-    public static final Material REMVEST = Material.IRON_HELMET;
+    public static final Mapping REMVEST = new Mapping(Material.IRON_HELMET, 0);
     // "Windbreaker" -> IRON_CHESTPLATE:0
-    public static final Material WINDBREAKER = Material.IRON_CHESTPLATE;
+    public static final Mapping WINDBREAKER = new Mapping(Material.IRON_CHESTPLATE, 0);
     // "WinterPants" -> IRON_LEGGINGS:0
-    public static final Material WINTERPANTS = Material.IRON_LEGGINGS;
+    public static final Mapping WINTERPANTS = new Mapping(Material.IRON_LEGGINGS, 0);
     // "Boots" -> IRON_BOOTS:0
-    public static final Material BOOTS = Material.IRON_BOOTS;
+    public static final Mapping BOOTS = new Mapping(Material.IRON_BOOTS, 0);
     // "CamoflageHelmet" -> GOLD_HELMET:0
-    public static final Material CAMOFLAGEHELMET = Material.GOLD_HELMET;
+    public static final Mapping CAMOFLAGEHELMET = new Mapping(Material.GOLD_HELMET, 0);
     // "CamoflageThickShirt" -> GOLD_CHESTPLATE:0
-    public static final Material CAMOFLAGETHICKSHIRT = Material.GOLD_CHESTPLATE;
+    public static final Mapping CAMOFLAGETHICKSHIRT = new Mapping(Material.GOLD_CHESTPLATE, 0);
     // "CamoflageThickPants" -> GOLD_LEGGINGS:0
-    public static final Material CAMOFLAGETHICKPANTS = Material.GOLD_LEGGINGS;
+    public static final Mapping CAMOFLAGETHICKPANTS = new Mapping(Material.GOLD_LEGGINGS, 0);
     // "RubberShoes" -> GOLD_BOOTS:0
-    public static final Material RUBBERSHOES = Material.GOLD_BOOTS;
+    public static final Mapping RUBBERSHOES = new Mapping(Material.GOLD_BOOTS, 0);
     // "Shield" -> DIAMOND_HELMET:0
-    public static final Material SHIELD = Material.DIAMOND_HELMET;
+    public static final Mapping SHIELD = new Mapping(Material.DIAMOND_HELMET, 0);
     // "BulletproofVest" -> DIAMOND_CHESTPLATE:0
-    public static final Material BULLETPROOFVEST = Material.DIAMOND_CHESTPLATE;
+    public static final Mapping BULLETPROOFVEST = new Mapping(Material.DIAMOND_CHESTPLATE, 0);
     // "ThickPants" -> DIAMOND_LEGGINGS:0
-    public static final Material THICKPANTS = Material.DIAMOND_LEGGINGS;
+    public static final Mapping THICKPANTS = new Mapping(Material.DIAMOND_LEGGINGS, 0);
     // "ThickShoes" -> DIAMOND_BOOTS:0
-    public static final Material THICKSHOES = Material.DIAMOND_BOOTS;
+    public static final Mapping THICKSHOES = new Mapping(Material.DIAMOND_BOOTS, 0);
     // "AK47" -> DIAMOND:0
-    public static final Material AK47 = Material.DIAMOND;
+    public static final Mapping AK47 = new Mapping(Material.DIAMOND, 0);
     // "M16" -> IRON_INGOT:0
-    public static final Material M16 = Material.IRON_INGOT;
+    public static final Mapping M16 = new Mapping(Material.IRON_INGOT, 0);
     // "M16_SCOPED_DEFAULT" -> WOOL:0
-    public static final Material M16_SCOPED_DEFAULT = Material.WOOL;
+    public static final Mapping M16_SCOPED_DEFAULT = new Mapping(Material.WOOL, 0);
     // "M16_WITH_SILENCER" -> WOOL:1
-    public static final Material M16_WITH_SILENCER = Material.WOOL;
+    public static final Mapping M16_WITH_SILENCER = new Mapping(Material.WOOL, 1);
     // "M16_WITH_FOREGRIP" -> WOOL:2
-    public static final Material M16_WITH_FOREGRIP = Material.WOOL;
+    public static final Mapping M16_WITH_FOREGRIP = new Mapping(Material.WOOL, 2);
     // "M16_WITH_SCOPE" -> WOOL:3
-    public static final Material M16_WITH_SCOPE = Material.WOOL;
+    public static final Mapping M16_WITH_SCOPE = new Mapping(Material.WOOL, 3);
     // "M16_WITH_SILENCER_FOREGRIP" -> WOOL:4
-    public static final Material M16_WITH_SILENCER_FOREGRIP = Material.WOOL;
+    public static final Mapping M16_WITH_SILENCER_FOREGRIP = new Mapping(Material.WOOL, 4);
     // "M16_WITH_SILENCER_SCOPE" -> WOOL:5
-    public static final Material M16_WITH_SILENCER_SCOPE = Material.WOOL;
+    public static final Mapping M16_WITH_SILENCER_SCOPE = new Mapping(Material.WOOL, 5);
     // "M16_WITH_SCOPE_FOREGRIP" -> WOOL:6
-    public static final Material M16_WITH_SCOPE_FOREGRIP = Material.WOOL;
+    public static final Mapping M16_WITH_SCOPE_FOREGRIP = new Mapping(Material.WOOL, 6);
     // "M16_WITH_SILENCER_SCOPE_FOREGRIP" -> WOOL:7
-    public static final Material M16_WITH_SILENCER_SCOPE_FOREGRIP = Material.WOOL;
+    public static final Mapping M16_WITH_SILENCER_SCOPE_FOREGRIP = new Mapping(Material.WOOL, 7);
     // "Revolver" -> WOOL:8
-    public static final Material REVOLVER = Material.WOOL;
+    public static final Mapping REVOLVER = new Mapping(Material.WOOL, 8);
     // "Revolver_SCOPED_DEFAULT" -> WOOL:9
-    public static final Material REVOLVER_SCOPED_DEFAULT = Material.WOOL;
+    public static final Mapping REVOLVER_SCOPED_DEFAULT = new Mapping(Material.WOOL, 9);
     // "Revolver_WITH_SILENCER" -> WOOL:10
-    public static final Material REVOLVER_WITH_SILENCER = Material.WOOL;
+    public static final Mapping REVOLVER_WITH_SILENCER = new Mapping(Material.WOOL, 10);
     // "Revolver_WITH_SCOPE" -> WOOL:11
-    public static final Material REVOLVER_WITH_SCOPE = Material.WOOL;
+    public static final Mapping REVOLVER_WITH_SCOPE = new Mapping(Material.WOOL, 11);
     // "Revolver_WITH_SILENCER_SCOPE" -> WOOL:12
-    public static final Material REVOLVER_WITH_SILENCER_SCOPE = Material.WOOL;
+    public static final Mapping REVOLVER_WITH_SILENCER_SCOPE = new Mapping(Material.WOOL, 12);
     // "Dragunov" -> IRON_INGOT:0
-    public static final Material DRAGUNOV = Material.IRON_INGOT;
+    public static final Mapping DRAGUNOV = new Mapping(Material.IRON_INGOT, 0);
     // "Mossberg500" -> EMERALD:0
-    public static final Material MOSSBERG500 = Material.EMERALD;
+    public static final Mapping MOSSBERG500 = new Mapping(Material.EMERALD, 0);
     // "MP5" -> CLAY_BALL:0
-    public static final Material MP5 = Material.CLAY_BALL;
+    public static final Mapping MP5 = new Mapping(Material.CLAY_BALL, 0);
     // "Glock" -> WOOL:13
-    public static final Material GLOCK = Material.WOOL;
+    public static final Mapping GLOCK = new Mapping(Material.WOOL, 13);
     // "Glock_SCOPED_DEFAULT" -> WOOL:14
-    public static final Material GLOCK_SCOPED_DEFAULT = Material.WOOL;
+    public static final Mapping GLOCK_SCOPED_DEFAULT = new Mapping(Material.WOOL, 14);
     // "Glock_WITH_SILENCER" -> WOOL:15
-    public static final Material GLOCK_WITH_SILENCER = Material.WOOL;
+    public static final Mapping GLOCK_WITH_SILENCER = new Mapping(Material.WOOL, 15);
     // "ColtAnaconda" -> FEATHER:0
-    public static final Material COLTANACONDA = Material.FEATHER;
+    public static final Mapping COLTANACONDA = new Mapping(Material.FEATHER, 0);
     // "NickiMinajAnaconda" -> QUARTZ:0
-    public static final Material NICKIMINAJANACONDA = Material.QUARTZ;
+    public static final Mapping NICKIMINAJANACONDA = new Mapping(Material.QUARTZ, 0);
     // "Arrow" -> ARROW:0
-    public static final Material ARROW = Material.ARROW;
+    public static final Mapping ARROW = new Mapping(Material.ARROW, 0);
     // "Bow" -> BOW:0
-    public static final Material BOW = Material.BOW;
+    public static final Mapping BOW = new Mapping(Material.BOW, 0);
     // "CorssbowUnloaded" -> COAL:0
-    public static final Material CORSSBOWUNLOADED = Material.COAL;
+    public static final Mapping CORSSBOWUNLOADED = new Mapping(Material.COAL, 0);
     // "CrossbowLoaded" -> COAL:1
-    public static final Material CROSSBOWLOADED = Material.COAL;
+    public static final Mapping CROSSBOWLOADED = new Mapping(Material.COAL, 1);
     // "BlazeRod" -> BLAZE_ROD:0
-    public static final Material BLAZEROD = Material.BLAZE_ROD;
+    public static final Mapping BLAZEROD = new Mapping(Material.BLAZE_ROD, 0);
     // "Vaccine" -> MAGMA_CREAM:0
-    public static final Material VACCINE = Material.MAGMA_CREAM;
+    public static final Mapping VACCINE = new Mapping(Material.MAGMA_CREAM, 0);
     // "GeneralSilencer" -> INK_SACK:1
-    public static final Material GENERALSILENCER = Material.INK_SACK;
+    public static final Mapping GENERALSILENCER = new Mapping(Material.INK_SACK, 1);
     // "GeneralFiregrip" -> INK_SACK:2
-    public static final Material GENERALFIREGRIP = Material.INK_SACK;
+    public static final Mapping GENERALFIREGRIP = new Mapping(Material.INK_SACK, 2);
     // "Scope2x" -> GOLD_ORE:0
-    public static final Material SCOPE2X = Material.GOLD_ORE;
+    public static final Mapping SCOPE2X = new Mapping(Material.GOLD_ORE, 0);
     // "Scope4x" -> IRON_ORE:0
-    public static final Material SCOPE4X = Material.IRON_ORE;
+    public static final Mapping SCOPE4X = new Mapping(Material.IRON_ORE, 0);
     // "Scope6x" -> COAL_ORE:0
-    public static final Material SCOPE6X = Material.COAL_ORE;
+    public static final Mapping SCOPE6X = new Mapping(Material.COAL_ORE, 0);
     // "Scope8x" -> LAPIS_ORE:0
-    public static final Material SCOPE8X = Material.LAPIS_ORE;
+    public static final Mapping SCOPE8X = new Mapping(Material.LAPIS_ORE, 0);
     // "RedDot" -> GLOWSTONE:0
-    public static final Material REDDOT = Material.GLOWSTONE;
+    public static final Mapping REDDOT = new Mapping(Material.GLOWSTONE, 0);
     // "WoodenStick" -> STONE_HOE:0
-    public static final Material WOODENSTICK = Material.STONE_HOE;
+    public static final Mapping WOODENSTICK = new Mapping(Material.STONE_HOE, 0);
     // "WoodenStickWithMetalRods" -> IRON_HOE:0
-    public static final Material WOODENSTICKWITHMETALRODS = Material.IRON_HOE;
+    public static final Mapping WOODENSTICKWITHMETALRODS = new Mapping(Material.IRON_HOE, 0);
     // "WoodenStickWithMetalRodsAndKnife" -> DIAMOND_HOE:0
-    public static final Material WOODENSTICKWITHMETALRODSANDKNIFE = Material.DIAMOND_HOE;
+    public static final Mapping WOODENSTICKWITHMETALRODSANDKNIFE = new Mapping(Material.DIAMOND_HOE, 0);
     // "IronPipe" -> IRON_SPADE:0
-    public static final Material IRONPIPE = Material.IRON_SPADE;
+    public static final Mapping IRONPIPE = new Mapping(Material.IRON_SPADE, 0);
     // "IronPipeWithMetalRods" -> GOLD_SPADE:0
-    public static final Material IRONPIPEWITHMETALRODS = Material.GOLD_SPADE;
+    public static final Mapping IRONPIPEWITHMETALRODS = new Mapping(Material.GOLD_SPADE, 0);
     // "IronPipeWithMetalRodsAndKnife" -> DIAMOND_SPADE:0
-    public static final Material IRONPIPEWITHMETALRODSANDKNIFE = Material.DIAMOND_SPADE;
+    public static final Mapping IRONPIPEWITHMETALRODSANDKNIFE = new Mapping(Material.DIAMOND_SPADE, 0);
     // "Axe" -> DIAMOND_PICKAXE:0
-    public static final Material AXE = Material.DIAMOND_PICKAXE;
+    public static final Mapping AXE = new Mapping(Material.DIAMOND_PICKAXE, 0);
     // "Knife" -> FLINT:0
-    public static final Material KNIFE = Material.FLINT;
+    public static final Mapping KNIFE = new Mapping(Material.FLINT, 0);
     // "Machete" -> STONE_SPADE:0
-    public static final Material MACHETE = Material.STONE_SPADE;
+    public static final Mapping MACHETE = new Mapping(Material.STONE_SPADE, 0);
 }
 

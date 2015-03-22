@@ -37,11 +37,12 @@ import org.bukkit.util.Vector;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 
 public class MagicMushroom extends ConsumableItem {
     public MagicMushroom() {
-        super(0, 0, Material.RED_MUSHROOM, "Magic mushroom");
+        super(0, 0, new Mapping(Material.RED_MUSHROOM), "Magic mushroom");
     }
 
     @Override

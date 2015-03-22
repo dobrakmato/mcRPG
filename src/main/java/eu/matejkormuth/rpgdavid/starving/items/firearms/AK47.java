@@ -19,9 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.firearms;
 
-import org.bukkit.Material;
-
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
@@ -30,7 +29,7 @@ public class AK47 extends Firearm {
         this(Mappings.AK47, "AK47");
     }
     
-    public AK47(Material mapping, String name) {
+    public AK47(Mapping mapping, String name) {
         super(mapping, name);
         this.setAmmoType(AmunitionType.LONG);
         this.setClipSize(30);

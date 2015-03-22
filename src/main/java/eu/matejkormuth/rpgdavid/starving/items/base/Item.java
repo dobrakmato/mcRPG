@@ -28,6 +28,7 @@ import org.bukkit.event.block.Action;
 
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
+import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 
 public abstract class Item extends ItemBase {
@@ -38,8 +39,8 @@ public abstract class Item extends ItemBase {
     private float resistanceChange = 0.0f; // damage resistance in percents
     private float biteProbabiltyChange = 00.0f;
 
-    public Item(Material material, String name) {
-        super(material, 1, name);
+    public Item(Mapping mapping, String name) {
+        super(mapping.getMaterial(), mapping.getData(), 1, name);
     }
 
     public InteractResult onInteract(Player player, Action action,

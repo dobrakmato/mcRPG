@@ -23,57 +23,61 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 public abstract class ItemBase {
-    protected final ItemStack itemStack;
+	protected final ItemStack itemStack;
 
-    public ItemBase(final Material material, final int amount, final String name) {
-        this.itemStack = new ItemStack(material, amount);
-        ItemMeta meta = this.itemStack.getItemMeta();
-        meta.setDisplayName(ChatColor.RESET + name);
-        this.itemStack.setItemMeta(meta);
-    }
+	@SuppressWarnings("deprecation")
+	public ItemBase(final Material material, final byte data, final int amount,
+			final String name) {
+		this.itemStack = new ItemStack(material, amount);
+		this.itemStack.setData(new MaterialData(material, data));
+		ItemMeta meta = this.itemStack.getItemMeta();
+		meta.setDisplayName(ChatColor.RESET + name);
+		this.itemStack.setItemMeta(meta);
+	}
 
-    /**
-     * Checks whether specified {@link ItemStack} matches this {@link ItemBase}.
-     * 
-     * @param obj
-     *            ItemStack to compare to this ItemBase
-     * @return true if this ItemBase does have same material and name as
-     *         specified ItemStack, false otherwise
-     */
-    public boolean matches(final ItemStack obj) {
-        if (obj == null) {
-            return false;
-        }
+	/**
+	 * Checks whether specified {@link ItemStack} matches this {@link ItemBase}.
+	 * 
+	 * @param obj
+	 *            ItemStack to compare to this ItemBase
+	 * @return true if this ItemBase does have same material and name as
+	 *         specified ItemStack, false otherwise
+	 */
+	public boolean matches(final ItemStack obj) {
+		if (obj == null) {
+			return false;
+		}
 
-        if (this.itemStack == obj) {
-            return true;
-        }
+		if (this.itemStack == obj) {
+			return true;
+		}
 
-        if (obj instanceof ItemStack) {
-            return ((ItemStack) obj).getType().equals(this.itemStack.getType())
-                    && ((ItemStack) obj).hasItemMeta()
-                    && ((ItemStack) obj)
-                            .getItemMeta()
-                            .getDisplayName()
-                            .equals(this.itemStack.getItemMeta()
-                                    .getDisplayName());
-        }
-        return false;
-    }
+		if (obj instanceof ItemStack) {
+			return ((ItemStack) obj).getType().equals(this.itemStack.getType())
+					&& ((ItemStack) obj).hasItemMeta()
+					&& ((ItemStack) obj)
+							.getItemMeta()
+							.getDisplayName()
+							.equals(this.itemStack.getItemMeta()
+									.getDisplayName());
+		}
+		return false;
+	}
 
-    public String getName() {
-        return this.itemStack.getItemMeta().getDisplayName();
-    }
+	public String getName() {
+		return this.itemStack.getItemMeta().getDisplayName();
+	}
 
-    public ItemStack toItemStack() {
-        return this.itemStack.clone();
-    }
+	public ItemStack toItemStack() {
+		return this.itemStack.clone();
+	}
 
-    public ItemStack toItemStack(int amount) {
-        ItemStack is = this.itemStack.clone();
-        is.setAmount(amount);
-        return is;
-    }
+	public ItemStack toItemStack(int amount) {
+		ItemStack is = this.itemStack.clone();
+		is.setAmount(amount);
+		return is;
+	}
 }
