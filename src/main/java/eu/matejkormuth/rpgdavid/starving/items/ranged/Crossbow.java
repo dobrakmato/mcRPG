@@ -19,13 +19,44 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.ranged;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
+
+import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.items.transformers.CrossbowTransformer;
 
 public class Crossbow extends Item {
 
 	public Crossbow() {
 		super(Mappings.CORSSBOWUNLOADED, "Crossbow");
+	}
+
+	@Override
+	public InteractResult onInteract(Player player, Action action,
+			Block clickedBlock, BlockFace clickedFace) {
+		if (player.getInventory().contains(Material.ARROW)) {
+			player.playSound(player.getLocation(), Sound.BAT_TAKEOFF, 1.0f,
+					0.5f);
+			// Remove one arrow.
+			player.getInventory().remove(new ItemStack(Material.ARROW, 1));
+
+			ItemStack loaded = CrossbowTransformer.toLoaded();
+			player.setItemInHand(loaded);
+		} else {
+			// Player has no arrows.
+			player.sendMessage(ChatColor.RED
+					+ "Crossbow is loaded with arrows!");
+		}
+
+		return InteractResult.transform();
 	}
 
 }

@@ -27,11 +27,13 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.items.transformers.CrossbowTransformer;
 
 public class LoadedCrossbow extends Item {
 	private float projectileSpeed = 2f;
@@ -46,7 +48,8 @@ public class LoadedCrossbow extends Item {
 		// Fire arrow.
 		this.fire(player);
 		// Transform.
-		
+		ItemStack unloaded = CrossbowTransformer.toUnloaded();
+		player.setItemInHand(unloaded);
 		return InteractResult.transform();
 	}
 
