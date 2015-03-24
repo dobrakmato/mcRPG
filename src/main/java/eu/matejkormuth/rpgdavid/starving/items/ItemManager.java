@@ -27,10 +27,12 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -45,6 +47,7 @@ import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.items.base.MeleeWeapon;
 import eu.matejkormuth.rpgdavid.starving.items.blocks.Log2D12;
 import eu.matejkormuth.rpgdavid.starving.items.blocks.Log2D13;
 import eu.matejkormuth.rpgdavid.starving.items.blocks.LogD12;
@@ -85,12 +88,12 @@ import eu.matejkormuth.rpgdavid.starving.items.drinks.RedBull;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.Sprite;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.AK47;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.ColtAnaconda;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.Glock;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Dragunov;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.Glock;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.M16;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.MP5;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Mossberg500;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.NickyAnaconda;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.MP5;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedAK47;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedColtAnaconda;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedDragunov;
@@ -107,6 +110,13 @@ import eu.matejkormuth.rpgdavid.starving.items.itemmeta.deprecated.ChemicalItemM
 import eu.matejkormuth.rpgdavid.starving.items.medical.Bandage;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Patch;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Splint;
+import eu.matejkormuth.rpgdavid.starving.items.melee.IronPipe;
+import eu.matejkormuth.rpgdavid.starving.items.melee.IronPipeWithMetaRodsAndKnife;
+import eu.matejkormuth.rpgdavid.starving.items.melee.IronPipeWithMetalRods;
+import eu.matejkormuth.rpgdavid.starving.items.melee.Knife;
+import eu.matejkormuth.rpgdavid.starving.items.melee.WoodenStick;
+import eu.matejkormuth.rpgdavid.starving.items.melee.WoodenStickWithMetalRods;
+import eu.matejkormuth.rpgdavid.starving.items.melee.WoodenStickWithMetalRodsAndKnife;
 import eu.matejkormuth.rpgdavid.starving.items.misc.DisinfectionTablets;
 import eu.matejkormuth.rpgdavid.starving.items.misc.Flashlight;
 import eu.matejkormuth.rpgdavid.starving.items.misc.GalvanicCell;
@@ -154,10 +164,21 @@ public class ItemManager implements Listener {
 		this.registerFood();
 		this.registerFirearms();
 		this.registerRanged();
+		this.registerMelee();
 		this.registerMedical();
 		this.registerDrinks();
 		this.registerClothing();
 		this.registerBlocks();
+	}
+
+	private void registerMelee() {
+		this.register(new IronPipe());
+		this.register(new IronPipeWithMetalRods());
+		this.register(new IronPipeWithMetaRodsAndKnife());
+		this.register(new Knife());
+		this.register(new WoodenStick());
+		this.register(new WoodenStickWithMetalRods());
+		this.register(new WoodenStickWithMetalRodsAndKnife());
 	}
 
 	private void registerFood() {
@@ -390,6 +411,25 @@ public class ItemManager implements Listener {
 			if (item instanceof BlockWithData) {
 				((BlockWithData) item).onPlaced(event.getPlayer(),
 						event.getBlockPlaced());
+			}
+		}
+	}
+
+	@EventHandler
+	private void onAttack(final EntityDamageByEntityEvent event) {
+		if (event.getDamager() instanceof Player) {
+			if (((Player) event.getDamager()).getItemInHand() != null) {
+				Item item = this.findItem(((Player) event.getDamager())
+						.getItemInHand());
+				if (item != null) {
+					if (item instanceof MeleeWeapon) {
+						((MeleeWeapon) item).onAttack(
+								(Player) event.getDamager(),
+								(LivingEntity) event.getEntity(),
+								event.getDamage());
+						event.setCancelled(true);
+					}
+				}
 			}
 		}
 	}

@@ -55,7 +55,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.commands.SetSpeedCommandExecutor;
@@ -81,9 +80,9 @@ import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ToolsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieCombustListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
-import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BloodLevelConsuquencesTask;
@@ -91,11 +90,11 @@ import eu.matejkormuth.rpgdavid.starving.tasks.BloodReplenishTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BodyTemperatureUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.FlashlightTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.HallucinationsTask;
+import eu.matejkormuth.rpgdavid.starving.tasks.HydrationDepletionTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.HydrationLevelConsequencesTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.LocalityTeller;
 import eu.matejkormuth.rpgdavid.starving.tasks.ScoreboardUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.StaminaRegenerationTask;
-import eu.matejkormuth.rpgdavid.starving.tasks.HydrationDepletionTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.TablistFooterClockTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
@@ -369,11 +368,11 @@ public class Starving implements Runnable, Listener {
 	public JavaPlugin getPlugin() {
 		return (JavaPlugin) this.corePlugin;
 	}
-
+	
 	public Locality getLocality(final Location location) {
 		return Locality.WILDERNESS;
 	}
-
+	
 	public boolean isDebug() {
 		return true;
 	}
