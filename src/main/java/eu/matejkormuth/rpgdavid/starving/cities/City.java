@@ -36,4 +36,9 @@ public class City extends Locality {
     public void setType(CityType type) {
         this.type = type;
     }
+    
+    @Override
+    public boolean isPvpFree() {
+    	return true;
+    }
 }

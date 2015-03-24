@@ -74,6 +74,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.HiddenCommandsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.LootListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.MobDropsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.MoveListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.PVPListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.PlayerDeathListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ProjectileListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
@@ -207,6 +208,7 @@ public class Starving implements Runnable, Listener {
 		this.register(new ChatListener());
 		this.register(new LootListener());
 		this.register(new TabListListener());
+		this.register(new PVPListener());
 		this.register(new MoveListener());
 		this.register(new ExplosionListener());
 		this.register(new FractureListener());
@@ -368,11 +370,11 @@ public class Starving implements Runnable, Listener {
 	public JavaPlugin getPlugin() {
 		return (JavaPlugin) this.corePlugin;
 	}
-	
+
 	public Locality getLocality(final Location location) {
 		return Locality.WILDERNESS;
 	}
-	
+
 	public boolean isDebug() {
 		return true;
 	}
