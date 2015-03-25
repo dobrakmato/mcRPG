@@ -27,12 +27,12 @@ import java.util.jar.Manifest;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class VersionListener implements Listener {
 	@EventHandler
-	private void onVersionCommand(final AsyncPlayerChatEvent event) {
-		if (event.getMessage().equalsIgnoreCase("/version")) {
+	private void onVersionCommand(final PlayerCommandPreprocessEvent event) {
+		if (event.getMessage().contains("/version")) {
 			// Output self version.
 			URLClassLoader cl = ((URLClassLoader) this.getClass()
 					.getClassLoader());
