@@ -7,6 +7,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <build.unknown>UNKNOWN</build.unknown>
+    <build.number>${build.unknown}</build.number>
+    <build.revision>${build.unknown}</build.revision>
   </properties>
 
   <dependencies>
@@ -112,6 +115,19 @@
             <configuration>
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+
+              <transformers>
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <manifestEntries>
+                    <Implementation-Title>${project.name}</Implementation-Title>
+                    <Implementation-Version>${project.version}</Implementation-Version>
+                    <Implementation-Build-Number>${build.number}</Implementation-Build-Number>
+                    <Implementation-SCM-Revision>${build.revision}</Implementation-SCM-Revision>
+                  </manifestEntries>
+                </transformer>
+
+              </transformers>
             </configuration>
           </execution>
         </executions>

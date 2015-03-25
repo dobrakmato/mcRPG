@@ -79,6 +79,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.PlayerDeathListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ProjectileListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ToolsListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.VersionListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieCombustListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
@@ -209,6 +210,7 @@ public class Starving implements Runnable, Listener {
 		this.register(new LootListener());
 		this.register(new TabListListener());
 		this.register(new PVPListener());
+		this.register(new VersionListener());
 		this.register(new MoveListener());
 		this.register(new ExplosionListener());
 		this.register(new FractureListener());
