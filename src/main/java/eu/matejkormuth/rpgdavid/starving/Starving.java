@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 import net.minecraft.server.v1_8_R1.BlockPosition;
@@ -104,7 +105,7 @@ import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 public class Starving implements Runnable, Listener {
 
 	// Ticks elapsed since server start.
-	public static long ticksElapsed;
+	public static AtomicLong ticksElapsed;
 
 	private static Starving instance;
 
@@ -300,7 +301,7 @@ public class Starving implements Runnable, Listener {
 
 	public void run() {
 		// Tick.
-		ticksElapsed++;
+		ticksElapsed.incrementAndGet();
 	}
 
 	public Random getRandom() {

@@ -32,114 +32,115 @@ import eu.matejkormuth.rpgdavid.starving.chemistry.chemicals.Water;
 import eu.matejkormuth.rpgdavid.starving.chemistry.compounds.Vodka;
 
 public final class Chemicals {
-    private Chemicals() {
-    }
+	private Chemicals() {
+	}
 
-    // Source basic chemicals.
-    public static final Chemical WATER = new Water();
-    public static final Chemical ETHANOL = new Ethanol();
-    public static final Chemical ACID = new Acid();
-    public static final Chemical ALKALI = new Alkali();
-    public static final Chemical CHLORINE = new Chlorine();
+	// Source basic chemicals.
+	public static final Chemical WATER = new Water();
+	public static final Chemical ETHANOL = new Ethanol();
+	public static final Chemical ACID = new Acid();
+	public static final Chemical ALKALI = new Alkali();
+	public static final Chemical CHLORINE = new Chlorine();
 
-    public static List<Chemical> all() {
-        return chemicals;
-    }
+	public static List<Chemical> all() {
+		return chemicals;
+	}
 
-    private final static List<Chemical> chemicals;
-    static {
-        chemicals = new ArrayList<>();
-        try {
-            for (Field f : Chemicals.class.getDeclaredFields()) {
-                if (f.getType().isAssignableFrom(Chemical.class)) {
-                    chemicals.add((Chemical) f.get(null));
-                }
-            }
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
+	private final static List<Chemical> chemicals;
+	static {
+		chemicals = new ArrayList<>();
+		try {
+			for (Field f : Chemicals.class.getDeclaredFields()) {
+				if (f.getType().isAssignableFrom(Chemical.class)) {
+					chemicals.add((Chemical) f.get(null));
+				}
+			}
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
 
-    // Chemical chemicals.
-    public static final class Compounds {
-        private Compounds() {
-        }
+	// Chemical chemicals.
+	public static final class Compounds {
+		private Compounds() {
+		}
 
-        // Constants
-        public static final CompoundRecipe VODKA = new Vodka();
+		// Constants
+		public static final CompoundRecipe VODKA = new Vodka();
 
-        // Methods.
-        public static final List<CompoundRecipe> getAll() {
-            return compounds;
-        }
+		// Methods.
+		public static final List<CompoundRecipe> getAll() {
+			return compounds;
+		}
 
-        // Cache list of all chemicals.
-        private final static List<CompoundRecipe> compounds;
-        static {
-            compounds = new ArrayList<>();
-            try {
-                for (Field f : Compounds.class.getDeclaredFields()) {
-                    if (f.getType().isAssignableFrom(CompoundRecipe.class)) {
-                        compounds.add((CompoundRecipe) f.get(null));
-                    }
-                }
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+		// Cache list of all chemicals.
+		private final static List<CompoundRecipe> compounds;
+		static {
+			compounds = new ArrayList<>();
+			try {
+				for (Field f : Compounds.class.getDeclaredFields()) {
+					if (f.getType().isAssignableFrom(CompoundRecipe.class)) {
+						compounds.add((CompoundRecipe) f.get(null));
+					}
+				}
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    // Helper classes.
-    public static abstract class CompoundRecipe extends Chemical {
-        public CompoundRecipe(String name) {
-            super(name);
-        }
+	// Helper classes.
+	public static abstract class CompoundRecipe extends Chemical {
+		public CompoundRecipe(String name) {
+			super(name);
+		}
 
-        public abstract boolean isRecipeOf(ChemicalCompound compound);
-    }
+		public abstract boolean isRecipeOf(ChemicalCompound compound);
+	}
 
-    public static class RatioCompoundOf2 extends CompoundRecipe {
-        private Chemical ch1;
-        private float ratio;
-        private Chemical ch2;
+	public static class RatioCompoundOf2 extends CompoundRecipe {
+		private static final float EPSILON = 0.0001f;
+		private Chemical ch1;
+		private float ratio;
+		private Chemical ch2;
 
-        public RatioCompoundOf2(String name, Chemical chemical1, float p1,
-                Chemical chemical2, float p2) {
-            super(name);
+		public RatioCompoundOf2(String name, Chemical chemical1, float p1,
+				Chemical chemical2, float p2) {
+			super(name);
 
-            Objects.requireNonNull(chemical1);
-            Objects.requireNonNull(chemical2);
+			Objects.requireNonNull(chemical1);
+			Objects.requireNonNull(chemical2);
 
-            if (p1 == 0 || p2 == 0) {
-                throw new IllegalArgumentException(
-                        "Percentages cannot be 0.0F!");
-            }
+			if (p1 == 0 || p2 == 0) {
+				throw new IllegalArgumentException(
+						"Percentages cannot be 0.0F!");
+			}
 
-            this.ch1 = chemical1;
-            this.ch2 = chemical2;
-            this.ratio = p1 / p2;
-        }
+			this.ch1 = chemical1;
+			this.ch2 = chemical2;
+			this.ratio = p1 / p2;
+		}
 
-        public Chemical getCh1() {
-            return this.ch1;
-        }
+		public Chemical getCh1() {
+			return this.ch1;
+		}
 
-        public Chemical getCh2() {
-            return this.ch2;
-        }
+		public Chemical getCh2() {
+			return this.ch2;
+		}
 
-        public float getRatio() {
-            return this.ratio;
-        }
+		public float getRatio() {
+			return this.ratio;
+		}
 
-        @Override
-        public boolean isRecipeOf(ChemicalCompound compound) {
-            if (compound.getChemicalsCount() == 2) {
-                float r = compound.getAmount(this.ch1)
-                        / compound.getAmount(this.ch2);
-                return this.ratio == r;
-            }
-            return false;
-        }
-    }
+		@Override
+		public boolean isRecipeOf(ChemicalCompound compound) {
+			if (compound.getChemicalsCount() == 2) {
+				float r = compound.getAmount(this.ch1)
+						/ compound.getAmount(this.ch2);
+				return Math.abs(this.ratio - r) < EPSILON;
+			}
+			return false;
+		}
+	}
 }

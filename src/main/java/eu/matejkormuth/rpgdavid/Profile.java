@@ -18,7 +18,6 @@
  */
 package eu.matejkormuth.rpgdavid;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,166 +26,165 @@ import java.util.UUID;
 import eu.matejkormuth.rpgdavid.money.Currencies;
 import eu.matejkormuth.rpgdavid.money.Money;
 
-public class Profile implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Profile {
+	// Main properties.
+	private UUID uuid;
+	private Character character;
+	private long xp = 10L;
+	private int mana = 600;
+	private int maxMana = 900;
 
-    // Main properties.
-    private UUID uuid;
-    private Character character;
-    private long xp = 10L;
-    private int mana = 600;
-    private int maxMana = 900;
+	// Currencies
+	private Money normalMoney = new Money(0, Currencies.NORMAL);
+	private Money premiumMoney = new Money(0, Currencies.PREMIUM);
 
-    // Currencies
-    private Money normalMoney = new Money(0, Currencies.NORMAL);
-    private Money premiumMoney = new Money(0, Currencies.PREMIUM);
+	// Character properties.
+	private int magican_currentSpell;
 
-    // Character properties.
-    private int magican_currentSpell;
+	// Quest properties.
+	private List<String> activeQuests;
+	private Map<String, Boolean> quests;
 
-    // Quest properties.
-    private List<String> activeQuests;
-    private Map<String, Boolean> quests;
-    public Profile() {
-        this.quests = new HashMap<String, Boolean>();
-    }
+	public Profile() {
+		this.quests = new HashMap<String, Boolean>();
+	}
 
-    protected Profile(UUID uuid, Character character) {
-        this.uuid = uuid;
-        this.character = character;
-        this.quests = new HashMap<String, Boolean>();
-    }
+	protected Profile(UUID uuid, Character character) {
+		this.uuid = uuid;
+		this.character = character;
+		this.quests = new HashMap<String, Boolean>();
+	}
 
-    public Character getCharacter() {
-        return character;
-    }
+	public Character getCharacter() {
+		return character;
+	}
 
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
+	public void setCharacter(Character character) {
+		this.character = character;
+	}
 
-    public UUID getUniqueId() {
-        return uuid;
-    }
+	public UUID getUniqueId() {
+		return uuid;
+	}
 
-    public void setUniqueId(UUID uuid) {
-        this.uuid = uuid;
-    }
+	public void setUniqueId(UUID uuid) {
+		this.uuid = uuid;
+	}
 
-    public boolean hasCharacter() {
-        return this.character != null;
-    }
+	public boolean hasCharacter() {
+		return this.character != null;
+	}
 
-    public long getXp() {
-        return xp;
-    }
+	public long getXp() {
+		return xp;
+	}
 
-    public void setXp(long xp) {
-        this.xp = xp;
-    }
+	public void setXp(long xp) {
+		this.xp = xp;
+	}
 
-    public void giveXp(final int amount) {
-        this.xp += amount;
-    }
+	public void giveXp(final int amount) {
+		this.xp += amount;
+	}
 
-    public List<String> getActiveQuestIds() {
-        return this.activeQuests;
-    }
+	public List<String> getActiveQuestIds() {
+		return this.activeQuests;
+	}
 
-    public void setActiveQuestIds(List<String> activeQuests) {
-        this.activeQuests = activeQuests;
-    }
+	public void setActiveQuestIds(List<String> activeQuests) {
+		this.activeQuests = activeQuests;
+	}
 
-    public boolean isQuestActive(String questId) {
-        return this.activeQuests.contains(questId);
-    }
+	public boolean isQuestActive(String questId) {
+		return this.activeQuests.contains(questId);
+	}
 
-    public boolean addActiveQuest(String questId) {
-        if (this.activeQuests.contains(questId)) {
-            return false;
-        }
-        this.activeQuests.add(questId);
-        return true;
-    }
+	public boolean addActiveQuest(String questId) {
+		if (this.activeQuests.contains(questId)) {
+			return false;
+		}
+		this.activeQuests.add(questId);
+		return true;
+	}
 
-    public boolean removeActiveQuest(String questId) {
-        return this.activeQuests.remove(questId);
-    }
+	public boolean removeActiveQuest(String questId) {
+		return this.activeQuests.remove(questId);
+	}
 
-    public void setMana(int mana) {
-        this.mana = mana;
-    }
+	public void setMana(int mana) {
+		this.mana = mana;
+	}
 
-    public int getMana() {
-        return mana;
-    }
+	public int getMana() {
+		return mana;
+	}
 
-    public void giveMana(final int amount) {
-        if (this.mana + amount < this.maxMana) {
-            this.mana += amount;
-        } else {
-            this.mana = this.maxMana;
-        }
-    }
+	public void giveMana(final int amount) {
+		if (this.mana + amount < this.maxMana) {
+			this.mana += amount;
+		} else {
+			this.mana = this.maxMana;
+		}
+	}
 
-    public boolean takeMana(final int amount) {
-        if (this.mana >= amount) {
-            this.mana -= amount;
-            return true;
-        }
-        return false;
-    }
+	public boolean takeMana(final int amount) {
+		if (this.mana >= amount) {
+			this.mana -= amount;
+			return true;
+		}
+		return false;
+	}
 
-    public void setMaxMana(int maxMana) {
-        this.maxMana = maxMana;
-    }
+	public void setMaxMana(int maxMana) {
+		this.maxMana = maxMana;
+	}
 
-    public int getMaxMana() {
-        return maxMana;
-    }
+	public int getMaxMana() {
+		return maxMana;
+	}
 
-    public Money getNormalMoney() {
-        return normalMoney;
-    }
+	public Money getNormalMoney() {
+		return normalMoney;
+	}
 
-    public Money getPremiumMoney() {
-        return premiumMoney;
-    }
+	public Money getPremiumMoney() {
+		return premiumMoney;
+	}
 
-    public void setPremiumMoney(Money premiumMoney) {
-        this.premiumMoney = premiumMoney;
-    }
+	public void setPremiumMoney(Money premiumMoney) {
+		this.premiumMoney = premiumMoney;
+	}
 
-    public void setNormalMoney(Money normalMoney) {
-        this.normalMoney = normalMoney;
-    }
+	public void setNormalMoney(Money normalMoney) {
+		this.normalMoney = normalMoney;
+	}
 
-    public void setQuestCompleted(String questId, boolean completed) {
-        this.quests.put(questId, completed);
-    }
+	public void setQuestCompleted(String questId, boolean completed) {
+		this.quests.put(questId, completed);
+	}
 
-    public boolean isQuestCompleted(String questId) {
-        if (this.quests.containsKey(questId)) {
-            return this.quests.get(questId).booleanValue();
-        }
-        return false;
-    }
+	public boolean isQuestCompleted(String questId) {
+		if (this.quests.containsKey(questId)) {
+			return this.quests.get(questId).booleanValue();
+		}
+		return false;
+	}
 
-    public Map<String, Boolean> getCompletedQuests() {
-        return this.quests;
-    }
+	public Map<String, Boolean> getCompletedQuests() {
+		return this.quests;
+	}
 
-    public void setCompletedQuests(Map<String, Boolean> completedQuests) {
-        this.quests = completedQuests;
-    }
+	public void setCompletedQuests(Map<String, Boolean> completedQuests) {
+		this.quests = completedQuests;
+	}
 
-    // --- MAGICAN METHODS
+	// --- MAGICAN METHODS
 
-    public void setMagican_currentSpell(int magican_currentSpell) {
-        this.magican_currentSpell = magican_currentSpell;
-    }
+	public void setMagican_currentSpell(int magican_currentSpell) {
+		this.magican_currentSpell = magican_currentSpell;
+	}
 
-    public int getMagican_currentSpell() {
-        return magican_currentSpell;
-    }
+	public int getMagican_currentSpell() {
+		return magican_currentSpell;
+	}
 }

@@ -22,29 +22,41 @@ package eu.matejkormuth.rpgdavid.starving.npc.path;
 import java.util.Iterator;
 
 public class Path implements Iterable<PathNode> {
-    private PathNode[] nodes;
+	private PathNode[] nodes;
 
-    @Override
-    public Iterator<PathNode> iterator() {
-        return new Itr();
-    }
+	public Path(PathNode[] nodes) {
+		this.nodes = nodes;
+	}
 
-    private class Itr implements Iterator<PathNode> {
-        private int index = 0;
+	@Override
+	public Iterator<PathNode> iterator() {
+		return new Itr();
+	}
 
-        @Override
-        public boolean hasNext() {
-            return index < nodes.length && nodes[index] != null;
-        }
+	public PathNode getNode(int index) {
+		return this.nodes[index];
+	}
 
-        @Override
-        public PathNode next() {
-            return nodes[index++];
-        }
+	public int getNodeCount() {
+		return this.nodes.length;
+	}
 
-        @Override
-        public void remove() throws UnsupportedOperationException {
-            throw new UnsupportedOperationException();
-        }
-    }
+	private class Itr implements Iterator<PathNode> {
+		private int index = 0;
+
+		@Override
+		public boolean hasNext() {
+			return index < nodes.length && nodes[index] != null;
+		}
+
+		@Override
+		public PathNode next() {
+			return nodes[index++];
+		}
+
+		@Override
+		public void remove() throws UnsupportedOperationException {
+			throw new UnsupportedOperationException();
+		}
+	}
 }

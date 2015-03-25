@@ -68,10 +68,11 @@ public class ZombieManager extends AbstractPersistable {
 	}
 
 	public Zombie get(int entity) {
+		Zombie zombie = null;
 		for (WeakReference<Zombie> z : this.zombies) {
-			if (z.get() != null) {
-				if (z.get().getId() == entity) {
-					return z.get();
+			if ((zombie = z.get()) != null) {
+				if (zombie.getId() == entity) {
+					return zombie;
 				}
 			}
 		}

@@ -142,7 +142,7 @@ public class Zombie extends EntityZombie {
 			}
 		} else {
 			// Only two times per second.
-			if (Starving.ticksElapsed % 10 == 0) {
+			if (Starving.ticksElapsed.get() % 10 == 0) {
 				this.eyeSense();
 				this.checkInsideWall();
 			}
@@ -275,8 +275,8 @@ public class Zombie extends EntityZombie {
 		double dLength = Math.sqrt(dX * dX + dZ * dZ);
 		dX = dX / dLength * this.speed;
 		dZ = dZ / dLength * this.speed;
-		double nextX = this.locX + dX;
-		double nextZ = this.locZ + dZ;
+		double nextX = this.locX - dX;
+		double nextZ = this.locZ - dZ;
 
 		unstuckGround();
 
@@ -388,6 +388,10 @@ public class Zombie extends EntityZombie {
 	}
 
 	public void setFollowTarget(final org.bukkit.entity.Entity e) {
+		if (e == null) {
+			this.followingTarget = null;
+		}
+
 		this.followingTarget = ((CraftEntity) e).getHandle();
 	}
 
