@@ -21,6 +21,7 @@ package eu.matejkormuth.rpgdavid.starving.npc.npcs;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import com.mojang.authlib.GameProfile;
@@ -29,6 +30,7 @@ import net.minecraft.server.v1_8_R1.EntityHuman;
 import net.minecraft.server.v1_8_R1.World;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
+import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.AbstractBehaviour;
 import eu.matejkormuth.rpgdavid.starving.npc.interfaces.EntityFollower;
 import eu.matejkormuth.rpgdavid.starving.npc.interfaces.LivingNPC;
 import eu.matejkormuth.rpgdavid.starving.npc.interfaces.PathFollower;
@@ -128,6 +130,44 @@ public class PlayerNPC extends EntityHuman implements NPC, PathFollower,
 	public Location getLocation() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean hasBehaviour(
+			Class<? extends AbstractBehaviour> abstractBehaviour) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public <T extends AbstractBehaviour> T getBehaviour(
+			Class<? extends AbstractBehaviour> abstractBehaviour) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addBehaviour(AbstractBehaviour behaviour) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean hasLineofSight(LivingEntity e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setYaw(float yaw) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPitch(float pitch) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

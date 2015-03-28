@@ -19,6 +19,9 @@
  */
 package eu.matejkormuth.rpgdavid.starving.cities;
 
+import java.util.Collections;
+import java.util.Set;
+
 import eu.matejkormuth.rpgdavid.starving.Locality;
 import eu.matejkormuth.rpgdavid.starving.Region;
 
@@ -40,5 +43,9 @@ public class City extends Locality {
     @Override
     public boolean isPvpFree() {
     	return true;
+    }
+    
+    public Set<Shop> getShops() {
+    	return Collections.emptySet();
     }
 }
