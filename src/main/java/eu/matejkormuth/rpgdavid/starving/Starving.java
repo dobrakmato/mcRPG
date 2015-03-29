@@ -85,6 +85,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.ToolsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.VersionListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieCombustListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
+import eu.matejkormuth.rpgdavid.starving.npc.NPCManager;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
@@ -130,6 +131,7 @@ public class Starving implements Runnable, Listener {
     private Plugin corePlugin;
     private ItemManager itemManager;
     private ImpulseProcessor impulseProcessor;
+    private NPCManager npcManager;
 
     private List<Persistable> persistablesList;
 
@@ -181,6 +183,8 @@ public class Starving implements Runnable, Listener {
         this.itemManager = new ItemManager();
 
         this.impulseProcessor = new BufferedImpulseProcessor();
+
+        this.npcManager = new NPCManager();
 
         // Register all command executors.
         this.getPlugin().getCommand("warp")
@@ -355,8 +359,12 @@ public class Starving implements Runnable, Listener {
         return this.itemManager;
     }
 
+    public NPCManager getNPCManager() {
+        return this.npcManager;
+    }
+
     public AmbientSoundManager getAmbientSoundManager() {
-        return ambientSoundManager;
+        return this.ambientSoundManager;
     }
 
     @EventHandler

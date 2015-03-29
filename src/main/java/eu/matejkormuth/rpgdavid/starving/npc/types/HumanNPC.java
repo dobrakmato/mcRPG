@@ -42,6 +42,8 @@ import com.mojang.authlib.GameProfile;
 import eu.matejkormuth.rpgdavid.starving.Debug;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
+import eu.matejkormuth.rpgdavid.starving.npc.NPCRegistry;
+import eu.matejkormuth.rpgdavid.starving.npc.K;
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.AbstractBehaviour;
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.BehaviourHolder;
 import eu.matejkormuth.rpgdavid.starving.npc.util.NullNetworkManager;
@@ -51,16 +53,22 @@ import eu.matejkormuth.rpgdavid.starving.npc.util.NullSocket;
 @NMSHooks(version = "v1_8_R1")
 public class HumanNPC extends EntityPlayer implements NPC {
 
+    // Reference of NPCRegistry of this NPC.
+    private NPCRegistry registry;
     // Behaviour holder.
     private BehaviourHolder holder;
     // Whether this entity is active or not.
     private boolean active = true;
 
-    public HumanNPC(GameProfile gameprofile, Location spawnLocation) {
+    public HumanNPC(NPCRegistry registry, GameProfile gameprofile,
+            Location spawnLocation) {
         super(MinecraftServer.getServer(), ((CraftWorld) spawnLocation
                 .getWorld()).getHandle(), gameprofile,
                 new PlayerInteractManager(((CraftWorld) spawnLocation
                         .getWorld()).getHandle()));
+        // Set NPCRegisrty.
+        this.registry = registry;
+
         // Replace playerConnection with custom connection.
         try {
             Socket socket = new NullSocket();
@@ -92,8 +100,13 @@ public class HumanNPC extends EntityPlayer implements NPC {
     // Override vanilla methods.
     @Override
     protected void doTick() {
+        this.registry.profiler.start(K.NPC_DO_TICK);
         // Sets head rotation to yaw;
         this.aI = this.yaw;
+        this.registry.profiler.start(K.NPC_BEHAVIOURS);
+        this.holder.tick();
+        this.registry.profiler.start(K.NPC_BEHAVIOURS);
+        this.registry.profiler.end(K.NPC_DO_TICK);
     }
 
     // Some extensional methods.
@@ -124,10 +137,6 @@ public class HumanNPC extends EntityPlayer implements NPC {
 
     public void addBehaviour(AbstractBehaviour abstractBehaviour) {
         holder.addBehaviour(abstractBehaviour);
-    }
-
-    public void tick() {
-        holder.tick();
     }
 
     // Other NPC methods.
@@ -200,14 +209,18 @@ public class HumanNPC extends EntityPlayer implements NPC {
     }
 
     @Override
-    public void remove() {
-        this.dead = true;
-        // TODO: Inform NPCRegistry about dead.
-    }
-
-    @Override
     public boolean v() {
         return false;
     }
 
+    @Override
+    public NPCRegistry getRegistry() {
+        return this.registry;
+    }
+
+    @Override
+    public void remove0() {
+        this.dead = true;
+        // TODO: Inform NPCRegistry about dead.
+    }
 }

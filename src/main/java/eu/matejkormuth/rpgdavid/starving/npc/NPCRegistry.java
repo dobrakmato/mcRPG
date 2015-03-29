@@ -20,7 +20,9 @@
 package eu.matejkormuth.rpgdavid.starving.npc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -32,11 +34,37 @@ import eu.matejkormuth.rpgdavid.starving.npc.types.HumanNPC;
 
 public class NPCRegistry {
 
+    private final Map<Integer, NPC> entityByIds;
+    private final String name;
+    public final NPCProfiler profiler;
+
+    public NPCRegistry(String name, NPCProfiler profiler) {
+        this.entityByIds = new HashMap<>();
+        this.name = name;
+        this.profiler = profiler;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public NPC getNPC(int entityId) {
+        return entityByIds.get(entityId);
+    }
+
     public PlayerNPCBuilder createPlayer() {
         return new PlayerNPCBuilder();
     }
 
-    public static class PlayerNPCBuilder {
+    protected void addNPC(NPC npc) {
+        this.entityByIds.put(npc.getId(), npc);
+    }
+
+    protected void removeNPC(NPC npc) {
+        this.entityByIds.remove(npc.getId());
+    }
+
+    public class PlayerNPCBuilder {
         protected List<AbstractBehaviour> behaviours;
         protected Location spawn;
         private GameProfile profile;
@@ -75,8 +103,9 @@ public class NPCRegistry {
         }
 
         private NPC buildPlayerNpc() {
-            HumanNPC npc = new HumanNPC(
+            HumanNPC npc = new HumanNPC(NPCRegistry.this,
                     this.profile, this.spawn);
+            NPCRegistry.this.addNPC(npc);
             return npc;
         }
     }

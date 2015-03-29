@@ -171,8 +171,9 @@ public class HiddenCommandsListener implements Listener {
         // Command for testing some random things.
         else if (event.getMessage().contains("/npctest")) {
             String name = "debilko" + (int) Math.floor(Math.random() * 1000000);
-            NPC npc = new NPCRegistry().createPlayer().withProfile(
-                    UUID.nameUUIDFromBytes(name.getBytes()), name)
+            NPC npc = Starving.getInstance().getNPCManager().getMainRegistry()
+                    .createPlayer().withProfile(
+                            UUID.nameUUIDFromBytes(name.getBytes()), name)
                     .withSpawnLocation(
                             event.getPlayer().getLocation()).spawn();
 

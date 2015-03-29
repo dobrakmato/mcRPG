@@ -50,7 +50,14 @@ public interface NPC {
 
     void teleport(Location location, TeleportCause cause);
 
-    void remove();
+    default void remove() {
+        this.getRegistry().removeNPC(this);
+        this.remove0();
+    }
+
+    void remove0();
+
+    NPCRegistry getRegistry();
 
     boolean hasBehaviour(Class<? extends AbstractBehaviour> abstractBehaviour);
 
