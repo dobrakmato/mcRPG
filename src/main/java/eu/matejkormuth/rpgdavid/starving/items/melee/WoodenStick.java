@@ -25,10 +25,10 @@ import eu.matejkormuth.rpgdavid.starving.items.base.MeleeWeapon;
 
 public class WoodenStick extends MeleeWeapon {
 
-	public WoodenStick() {
-		super(Mappings.WOODENSTICK, "Wooden Stick", 5D, 30);
-		this.setRarity(Rarity.COMMON);
-		this.setMaxStackAmount(3);
-	}
+    public WoodenStick() {
+        super(Mappings.WOODENSTICK, "Wooden Stick", 5D, 30);
+        this.setRarity(Rarity.COMMON);
+        this.setMaxStackAmount(3);
+    }
 
 }

@@ -24,38 +24,38 @@ import org.bukkit.entity.Player;
 import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 
 public abstract class ConsumableItem extends Item {
-	private int foodLevelIncrement;
-	private float saturationIncrement;
+    private int foodLevelIncrement;
+    private float saturationIncrement;
 
-	public ConsumableItem(final int foodLevelIncrement,
-			final float saturationIncrement, final Mapping mapping,
-			final String name) {
-		super(mapping, name);
-		this.foodLevelIncrement = foodLevelIncrement;
-		this.saturationIncrement = saturationIncrement;
-	}
+    public ConsumableItem(final int foodLevelIncrement,
+            final float saturationIncrement, final Mapping mapping,
+            final String name) {
+        super(mapping, name);
+        this.foodLevelIncrement = foodLevelIncrement;
+        this.saturationIncrement = saturationIncrement;
+    }
 
-	public void onConsume(final Player player) {
-		player.setFoodLevel(player.getFoodLevel() + this.foodLevelIncrement);
-		player.setSaturation(player.getSaturation() + this.saturationIncrement);
-		this.onConsume0(player);
-	}
+    public void onConsume(final Player player) {
+        player.setFoodLevel(player.getFoodLevel() + this.foodLevelIncrement);
+        player.setSaturation(player.getSaturation() + this.saturationIncrement);
+        this.onConsume0(player);
+    }
 
-	public int getFoodLevelIncrement() {
-		return this.foodLevelIncrement;
-	}
+    public int getFoodLevelIncrement() {
+        return this.foodLevelIncrement;
+    }
 
-	public float getSaturationIncrement() {
-		return this.saturationIncrement;
-	}
+    public float getSaturationIncrement() {
+        return this.saturationIncrement;
+    }
 
-	protected void setFoodLevelIncrement(int foodLevelIncrement) {
-		this.foodLevelIncrement = foodLevelIncrement;
-	}
+    protected void setFoodLevelIncrement(int foodLevelIncrement) {
+        this.foodLevelIncrement = foodLevelIncrement;
+    }
 
-	protected void setSaturationIncrement(float saturationIncrement) {
-		this.saturationIncrement = saturationIncrement;
-	}
+    protected void setSaturationIncrement(float saturationIncrement) {
+        this.saturationIncrement = saturationIncrement;
+    }
 
-	protected abstract void onConsume0(Player player);
+    protected abstract void onConsume0(Player player);
 }

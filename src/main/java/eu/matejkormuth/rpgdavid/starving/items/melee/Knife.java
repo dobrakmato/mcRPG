@@ -28,19 +28,19 @@ import eu.matejkormuth.rpgdavid.starving.items.base.MeleeWeapon;
 
 public class Knife extends MeleeWeapon {
 
-	public Knife() {
-		super(Mappings.KNIFE, "Knife", 4, 1);
-		this.setRarity(Rarity.COMMON);
-		this.setMaxStackAmount(12);
-	}
+    public Knife() {
+        super(Mappings.KNIFE, "Knife", 4, 1);
+        this.setRarity(Rarity.COMMON);
+        this.setMaxStackAmount(12);
+    }
 
-	@Override
-	public void onAttack(Player damager, LivingEntity entity, double damage) {
-		// If player is behind the zombie, he get 20 HP damage bonus.
+    @Override
+    public void onAttack(Player damager, LivingEntity entity, double damage) {
+        // If player is behind the zombie, he get 20 HP damage bonus.
 
-		// TODO: Please implement.
+        // TODO: Please implement.
 
-		super.onAttack(damager, entity, damage);
-	}
+        super.onAttack(damager, entity, damage);
+    }
 
 }

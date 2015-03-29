@@ -25,19 +25,19 @@ import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ItemMetaWrapper;
 
 public class FlashlightItemMetaWrapper extends ItemMetaWrapper {
 
-	// Keys
-	private static final String SWITCHED_ON_KEY = "Switched on";
+    // Keys
+    private static final String SWITCHED_ON_KEY = "Switched on";
 
-	public FlashlightItemMetaWrapper(ItemStack stack) {
-		super(stack);
-	}
-	
-	public boolean isSwitchedOn() {
-		return this.valueHandler.getBoolean(SWITCHED_ON_KEY);
-	}
-	
-	public void setSwitchedOn(boolean switchedOn) {
-		this.valueHandler.set(SWITCHED_ON_KEY, switchedOn);
-	}
-	
+    public FlashlightItemMetaWrapper(ItemStack stack) {
+        super(stack);
+    }
+
+    public boolean isSwitchedOn() {
+        return this.valueHandler.getBoolean(SWITCHED_ON_KEY);
+    }
+
+    public void setSwitchedOn(boolean switchedOn) {
+        this.valueHandler.set(SWITCHED_ON_KEY, switchedOn);
+    }
+
 }

@@ -31,40 +31,40 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.AbstractBehaviour;
 
 public interface NPC {
-	boolean isActive();
+    boolean isActive();
 
-	void setActive(boolean active);
+    void setActive(boolean active);
 
-	Location getLocation();
+    Location getLocation();
 
-	void teleport(Location location);
+    void teleport(Location location);
 
-	void teleport(Location location, TeleportCause cause);
+    void teleport(Location location, TeleportCause cause);
 
-	void remove();
+    void remove();
 
-	boolean hasBehaviour(Class<? extends AbstractBehaviour> abstractBehaviour);
+    boolean hasBehaviour(Class<? extends AbstractBehaviour> abstractBehaviour);
 
-	<T extends AbstractBehaviour> T getBehaviour(
-			Class<? extends AbstractBehaviour> abstractBehaviour);
+    <T extends AbstractBehaviour> T getBehaviour(
+            Class<? extends AbstractBehaviour> abstractBehaviour);
 
-	void addBehaviour(AbstractBehaviour behaviour);
+    void addBehaviour(AbstractBehaviour behaviour);
 
-	default Collection<Player> getNearbyPlayers(double maxDistance) {
-		ArrayList<Player> al = new ArrayList<>();
-		Location l = this.getLocation();
-		double squaredDistMax = maxDistance * maxDistance;
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (l.distanceSquared(p.getLocation()) < squaredDistMax) {
-				al.add(p);
-			}
-		}
-		return al;
-	}
+    default Collection<Player> getNearbyPlayers(double maxDistance) {
+        ArrayList<Player> al = new ArrayList<>();
+        Location l = this.getLocation();
+        double squaredDistMax = maxDistance * maxDistance;
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (l.distanceSquared(p.getLocation()) < squaredDistMax) {
+                al.add(p);
+            }
+        }
+        return al;
+    }
 
-	boolean hasLineofSight(LivingEntity e);
+    boolean hasLineofSight(LivingEntity e);
 
-	void setYaw(float yaw);
+    void setYaw(float yaw);
 
-	void setPitch(float pitch);
+    void setPitch(float pitch);
 }

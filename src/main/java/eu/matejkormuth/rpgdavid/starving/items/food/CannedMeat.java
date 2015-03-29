@@ -27,12 +27,12 @@ import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 
 public class CannedMeat extends ConsumableItem {
 
-	public CannedMeat() {
-		super(10, 10, new Mapping(Material.COOKED_MUTTON), "Canned Meat");
-	}
+    public CannedMeat() {
+        super(10, 10, new Mapping(Material.COOKED_MUTTON), "Canned Meat");
+    }
 
-	@Override
-	protected void onConsume0(Player player) {
-	}
+    @Override
+    protected void onConsume0(Player player) {
+    }
 
 }

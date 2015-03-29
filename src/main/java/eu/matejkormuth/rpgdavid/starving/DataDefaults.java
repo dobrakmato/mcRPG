@@ -28,8 +28,8 @@ import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
  * configuration file at server startup</i>.
  * </p>
  * <p>
- * This class is singleton because of {@link AbstractPersistable} implementation that
- * loads values from properties file during object construction.
+ * This class is singleton because of {@link AbstractPersistable} implementation
+ * that loads values from properties file during object construction.
  * </p>
  */
 public class DataDefaults extends AbstractPersistable {
@@ -51,6 +51,6 @@ public class DataDefaults extends AbstractPersistable {
     private DataDefaults() {
         super();
     }
-    
+
     // TODO: Add all deafults.
 }

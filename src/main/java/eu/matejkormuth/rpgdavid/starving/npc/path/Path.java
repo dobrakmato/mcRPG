@@ -22,41 +22,41 @@ package eu.matejkormuth.rpgdavid.starving.npc.path;
 import java.util.Iterator;
 
 public class Path implements Iterable<PathNode> {
-	private PathNode[] nodes;
+    private PathNode[] nodes;
 
-	public Path(PathNode[] nodes) {
-		this.nodes = nodes;
-	}
+    public Path(PathNode[] nodes) {
+        this.nodes = nodes;
+    }
 
-	@Override
-	public Iterator<PathNode> iterator() {
-		return new Itr();
-	}
+    @Override
+    public Iterator<PathNode> iterator() {
+        return new Itr();
+    }
 
-	public PathNode getNode(int index) {
-		return this.nodes[index];
-	}
+    public PathNode getNode(int index) {
+        return this.nodes[index];
+    }
 
-	public int getNodeCount() {
-		return this.nodes.length;
-	}
+    public int getNodeCount() {
+        return this.nodes.length;
+    }
 
-	private class Itr implements Iterator<PathNode> {
-		private int index = 0;
+    private class Itr implements Iterator<PathNode> {
+        private int index = 0;
 
-		@Override
-		public boolean hasNext() {
-			return index < nodes.length && nodes[index] != null;
-		}
+        @Override
+        public boolean hasNext() {
+            return index < nodes.length && nodes[index] != null;
+        }
 
-		@Override
-		public PathNode next() {
-			return nodes[index++];
-		}
+        @Override
+        public PathNode next() {
+            return nodes[index++];
+        }
 
-		@Override
-		public void remove() throws UnsupportedOperationException {
-			throw new UnsupportedOperationException();
-		}
-	}
+        @Override
+        public void remove() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+    }
 }

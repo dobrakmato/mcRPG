@@ -39,13 +39,13 @@ public class City extends Locality {
     public void setType(CityType type) {
         this.type = type;
     }
-    
+
     @Override
     public boolean isPvpFree() {
-    	return true;
+        return true;
     }
-    
+
     public Set<Shop> getShops() {
-    	return Collections.emptySet();
+        return Collections.emptySet();
     }
 }

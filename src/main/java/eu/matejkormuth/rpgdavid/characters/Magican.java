@@ -27,7 +27,8 @@ import eu.matejkormuth.rpgdavid.items.BookOfSpells;
 public class Magican extends Character {
     public Magican() {
         super("Kouzelník", RpgPlugin.getInstance().getConfig()
-                .getString("translation_magican"), new Modifiers(1, 1, 1,
-                1, 1), Armors.EMPTY_ARMOR, new BookOfSpells());
+                .getString("translation_magican"),
+                new Modifiers(1, 1, 1, 1, 1), Armors.EMPTY_ARMOR,
+                new BookOfSpells());
     }
 }

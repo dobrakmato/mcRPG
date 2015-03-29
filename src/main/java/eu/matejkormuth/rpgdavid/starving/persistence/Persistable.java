@@ -25,10 +25,11 @@ package eu.matejkormuth.rpgdavid.starving.persistence;
  * </p>
  * <p>
  * <b>This is used for classes that should be persistable but for some reason
- * can't extend {@link AbstractPersistable} abstract class.</b> AbstractPersistable abstract
- * class also implements this interface. This interface allows to have classes
- * that extends {@link AbstractPersistable} and classes that implements this interface
- * in same colelction to store their configuration at application shutdown easy.
+ * can't extend {@link AbstractPersistable} abstract class.</b>
+ * AbstractPersistable abstract class also implements this interface. This
+ * interface allows to have classes that extends {@link AbstractPersistable} and
+ * classes that implements this interface in same colelction to store their
+ * configuration at application shutdown easy.
  * </p>
  * <p>
  * You have to manually implement {@link PersistInjector#store(Object)} and

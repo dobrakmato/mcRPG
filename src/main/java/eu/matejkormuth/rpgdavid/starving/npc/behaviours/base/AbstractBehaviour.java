@@ -23,18 +23,18 @@ import eu.matejkormuth.rpgdavid.starving.npc.NPC;
 
 public abstract class AbstractBehaviour {
 
-	protected NPC owner;
+    protected NPC owner;
 
-	public void setOwner(NPC npc) {
-		if (this.owner != null) {
-			throw new IllegalStateException("behaviour owner already set to "
-					+ owner.toString());
-		}
+    public void setOwner(NPC npc) {
+        if (this.owner != null) {
+            throw new IllegalStateException("behaviour owner already set to "
+                    + owner.toString());
+        }
 
-		this.owner = npc;
-	}
+        this.owner = npc;
+    }
 
-	public void tick(long currentTick) {
-	}
+    public void tick(long currentTick) {
+    }
 
 }

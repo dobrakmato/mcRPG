@@ -26,33 +26,33 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public abstract class BehaviourHolder {
 
-	private Map<Class<? extends AbstractBehaviour>, AbstractBehaviour> abstractBehaviours;
+    private Map<Class<? extends AbstractBehaviour>, AbstractBehaviour> abstractBehaviours;
 
-	public BehaviourHolder() {
-		abstractBehaviours = new HashMap<>();
-	}
+    public BehaviourHolder() {
+        abstractBehaviours = new HashMap<>();
+    }
 
-	public <T extends AbstractBehaviour> T getBehaviour(Class<T> type) {
-		return cast(type, abstractBehaviours.get(type));
-	}
+    public <T extends AbstractBehaviour> T getBehaviour(Class<T> type) {
+        return cast(type, abstractBehaviours.get(type));
+    }
 
-	public boolean hasBehaviour(Class<? extends AbstractBehaviour> type) {
-		return abstractBehaviours.containsKey(type);
-	}
+    public boolean hasBehaviour(Class<? extends AbstractBehaviour> type) {
+        return abstractBehaviours.containsKey(type);
+    }
 
-	@SuppressWarnings("unchecked")
-	public <T> T cast(Class<T> type, Object obj) {
-		return (T) obj;
-	}
+    @SuppressWarnings("unchecked")
+    public <T> T cast(Class<T> type, Object obj) {
+        return (T) obj;
+    }
 
-	public void addBehaviour(AbstractBehaviour abstractBehaviour) {
-		abstractBehaviours.put(abstractBehaviour.getClass(), abstractBehaviour);
-	}
+    public void addBehaviour(AbstractBehaviour abstractBehaviour) {
+        abstractBehaviours.put(abstractBehaviour.getClass(), abstractBehaviour);
+    }
 
-	public void tick() {
-		long currentTick = Starving.ticksElapsed.get();
-		for (AbstractBehaviour behaviour : abstractBehaviours.values()) {
-			behaviour.tick(currentTick);
-		}
-	}
+    public void tick() {
+        long currentTick = Starving.ticksElapsed.get();
+        for (AbstractBehaviour behaviour : abstractBehaviours.values()) {
+            behaviour.tick(currentTick);
+        }
+    }
 }

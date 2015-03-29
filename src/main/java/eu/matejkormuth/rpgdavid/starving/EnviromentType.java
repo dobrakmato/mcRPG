@@ -27,28 +27,28 @@ public enum EnviromentType {
     public static final EnviromentType byBiome(Biome biome) {
         // Table by issue 33.
         switch (biome) {
-        case OCEAN:
-            return COLD;
-        case PLAINS:
-            return NORMAL;
-        case BEACH:
-            return WARM;
-        case FOREST:
-            return WARM;
-        case TAIGA:
-            return COLD;
-        case EXTREME_HILLS:
-            return COLD;
-        case JUNGLE:
-            return WARM;
-        case MESA:
-            return WARM;
-        case SAVANNA:
-            return WARM;
-        case DESERT:
-            return WARM;
-        default:
-            return NORMAL;
+            case OCEAN:
+                return COLD;
+            case PLAINS:
+                return NORMAL;
+            case BEACH:
+                return WARM;
+            case FOREST:
+                return WARM;
+            case TAIGA:
+                return COLD;
+            case EXTREME_HILLS:
+                return COLD;
+            case JUNGLE:
+                return WARM;
+            case MESA:
+                return WARM;
+            case SAVANNA:
+                return WARM;
+            case DESERT:
+                return WARM;
+            default:
+                return NORMAL;
         }
     }
 }

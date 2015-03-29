@@ -27,7 +27,8 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class GrapplingHook extends ItemStack {
     public static final double MAX_USE_DISTANCE = 6.0D;
-    private static final String HOOK_NAME = ChatColor.RESET + RpgPlugin.t("t_grapplinghook");
+    private static final String HOOK_NAME = ChatColor.RESET
+            + RpgPlugin.t("t_grapplinghook");
 
     public GrapplingHook() {
         super(Material.CARROT_STICK);

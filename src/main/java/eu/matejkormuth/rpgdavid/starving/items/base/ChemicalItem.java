@@ -34,71 +34,71 @@ import eu.matejkormuth.rpgdavid.starving.items.itemmeta.deprecated.ChemicalItemM
 
 public abstract class ChemicalItem extends ConsumableItem implements Craftable {
 
-	private static Mapping CHEMICAL_ITEM_MAPPING = new Mapping(Material.POTION,
-			0);
-	/**
-	 * Contents of water bottle.
-	 */
-	private ChemicalCompound contents;
+    private static Mapping CHEMICAL_ITEM_MAPPING = new Mapping(Material.POTION,
+            0);
+    /**
+     * Contents of water bottle.
+     */
+    private ChemicalCompound contents;
 
-	public ChemicalItem(String name) {
-		this(name, new ChemicalCompound());
-	}
+    public ChemicalItem(String name) {
+        this(name, new ChemicalCompound());
+    }
 
-	public ChemicalItem(String name, ChemicalCompound compound) {
-		// Chemicals do not modify any food values.
-		super(0, 0, CHEMICAL_ITEM_MAPPING, name);
-		this.contents = compound;
-	}
+    public ChemicalItem(String name, ChemicalCompound compound) {
+        // Chemicals do not modify any food values.
+        super(0, 0, CHEMICAL_ITEM_MAPPING, name);
+        this.contents = compound;
+    }
 
-	public ChemicalCompound getContents() {
-		return this.contents;
-	}
+    public ChemicalCompound getContents() {
+        return this.contents;
+    }
 
-	@Override
-	public void onConsume(Player player) {
-		this.evaluateEffects(player);
-		// Add total amount of liquid to player's hydaration.
-		Data.of(player).incrementHydrationLevel(this.contents.getTotalAmount());
-		// Post event to sub class.
-		this.onConsume0(player);
-	}
+    @Override
+    public void onConsume(Player player) {
+        this.evaluateEffects(player);
+        // Add total amount of liquid to player's hydaration.
+        Data.of(player).incrementHydrationLevel(this.contents.getTotalAmount());
+        // Post event to sub class.
+        this.onConsume0(player);
+    }
 
-	private void evaluateEffects(Player player) {
-		// TODO: Need discussion about effects.
+    private void evaluateEffects(Player player) {
+        // TODO: Need discussion about effects.
 
-		// Consumed pure chemical.
-		if (this.contents.getChemicalsCount() == 1) {
-			Chemical chemical = this.contents.getChemicals().iterator().next();
-			chemical.onPureConsumedBy(player, this.contents.getAmount(chemical));
-		}
+        // Consumed pure chemical.
+        if (this.contents.getChemicalsCount() == 1) {
+            Chemical chemical = this.contents.getChemicals().iterator().next();
+            chemical.onPureConsumedBy(player, this.contents.getAmount(chemical));
+        }
 
-		// Consumed pure compound.
-		for (CompoundRecipe recipe : Chemicals.Compounds.getAll()) {
-			if (recipe.isRecipeOf(this.contents)) {
-				float amount = 0;
-				for (MutableFloat f : this.contents.getContents().values()) {
-					amount += f.getValue();
-				}
-				recipe.onPureConsumedBy(player, amount);
-			}
-		}
-	}
+        // Consumed pure compound.
+        for (CompoundRecipe recipe : Chemicals.Compounds.getAll()) {
+            if (recipe.isRecipeOf(this.contents)) {
+                float amount = 0;
+                for (MutableFloat f : this.contents.getContents().values()) {
+                    amount += f.getValue();
+                }
+                recipe.onPureConsumedBy(player, amount);
+            }
+        }
+    }
 
-	protected abstract void onConsume0(Player player);
+    protected abstract void onConsume0(Player player);
 
-	@Override
-	public ItemStack toItemStack() {
-		ItemStack is = super.toItemStack();
-		is.setItemMeta(new ChemicalItemMetaWrapper(is.getItemMeta())
-				.set(this.contents));
-		return is;
-	}
+    @Override
+    public ItemStack toItemStack() {
+        ItemStack is = super.toItemStack();
+        is.setItemMeta(new ChemicalItemMetaWrapper(is.getItemMeta())
+                .set(this.contents));
+        return is;
+    }
 
-	@Override
-	public ItemStack toItemStack(int amount) {
-		ItemStack is = this.toItemStack();
-		is.setAmount(amount);
-		return is;
-	}
+    @Override
+    public ItemStack toItemStack(int amount) {
+        ItemStack is = this.toItemStack();
+        is.setAmount(amount);
+        return is;
+    }
 }

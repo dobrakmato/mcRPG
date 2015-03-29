@@ -25,7 +25,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Mossberg500;
 
 public class ScopedMossberg500 extends Mossberg500 {
-	public ScopedMossberg500() {
-		super(new Mapping(Material.APPLE), "Mossberg 500 (scoped)");
-	}
+    public ScopedMossberg500() {
+        super(new Mapping(Material.APPLE), "Mossberg 500 (scoped)");
+    }
 }

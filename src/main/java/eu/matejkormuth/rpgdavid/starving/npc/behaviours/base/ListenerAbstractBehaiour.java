@@ -25,12 +25,12 @@ import org.bukkit.event.Listener;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public class ListenerAbstractBehaiour extends AbstractBehaviour implements
-		Listener {
+        Listener {
 
-	public ListenerAbstractBehaiour() {
-		// Register events automatically.
-		Bukkit.getPluginManager().registerEvents(this,
-				Starving.getInstance().getPlugin());
-	}
+    public ListenerAbstractBehaiour() {
+        // Register events automatically.
+        Bukkit.getPluginManager().registerEvents(this,
+                Starving.getInstance().getPlugin());
+    }
 
 }

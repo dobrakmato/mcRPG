@@ -42,416 +42,416 @@ import net.minecraft.server.v1_8_R1.World;
 
 @NMSHooks(version = "v1_8_R1")
 public class Zombie extends EntityZombie {
-	private static final long NAVIGATION_TIMEOUT = 60 * 1000; // 60 seconds
-	private static final long NAVIGATION_EPSILON = 5; // 5 blocks
+    private static final long NAVIGATION_TIMEOUT = 60 * 1000; // 60 seconds
+    private static final long NAVIGATION_EPSILON = 5; // 5 blocks
 
-	private static final int HORIZONAL_HALF_FOV = 90 / 2; // 45 degrees
-	private static final int VERTICAL_HALF_FOV = 60 / 2; // 30 degrees
+    private static final int HORIZONAL_HALF_FOV = 90 / 2; // 45 degrees
+    private static final int VERTICAL_HALF_FOV = 60 / 2; // 30 degrees
 
-	private Entity followingTarget = null;
-	private float speed = 0.25f;
-	private double followDistanceLimit = 2043f;
+    private Entity followingTarget = null;
+    private float speed = 0.25f;
+    private double followDistanceLimit = 2043f;
 
-	private long navigationStart = Long.MAX_VALUE;
-	private boolean navigatingToPoint = false;
-	private double navigationX;
-	private double navigationY;
-	private double navigationZ;
+    private long navigationStart = Long.MAX_VALUE;
+    private boolean navigatingToPoint = false;
+    private double navigationX;
+    private double navigationY;
+    private double navigationZ;
 
-	private long lastJump = Long.MAX_VALUE;
-	private boolean disabled;
+    private long lastJump = Long.MAX_VALUE;
+    private boolean disabled;
 
-	protected Zombie(final Location spawnLocation) {
-		this(((CraftWorld) spawnLocation.getWorld()).getHandle());
-		// Some magic to get zombies to work.
-		this.setLocation(spawnLocation.getX(), spawnLocation.getY(),
-				spawnLocation.getZ(), spawnLocation.getYaw(),
-				spawnLocation.getPitch());
-		((CraftWorld) spawnLocation.getWorld()).getHandle().addEntity(this);
+    protected Zombie(final Location spawnLocation) {
+        this(((CraftWorld) spawnLocation.getWorld()).getHandle());
+        // Some magic to get zombies to work.
+        this.setLocation(spawnLocation.getX(), spawnLocation.getY(),
+                spawnLocation.getZ(), spawnLocation.getYaw(),
+                spawnLocation.getPitch());
+        ((CraftWorld) spawnLocation.getWorld()).getHandle().addEntity(this);
 
-		if (Starving.getInstance().isDebug()) {
-			this.setCustomName("ID:" + this.getId());
-			this.setCustomNameVisible(true);
-		}
-	}
+        if (Starving.getInstance().isDebug()) {
+            this.setCustomName("ID:" + this.getId());
+            this.setCustomNameVisible(true);
+        }
+    }
 
-	private Zombie(World world) {
-		super(world);
-		// Do not burn zombies.
-		this.fireProof = true;
-		this.maxFireTicks = 0;
-		// Remove AI.
-		this.removeAI();
-		this.getBukkitEntity().setMetadata("starving", new FlagMetadataValue());
-	}
+    private Zombie(World world) {
+        super(world);
+        // Do not burn zombies.
+        this.fireProof = true;
+        this.maxFireTicks = 0;
+        // Remove AI.
+        this.removeAI();
+        this.getBukkitEntity().setMetadata("starving", new FlagMetadataValue());
+    }
 
-	@SuppressWarnings("rawtypes")
-	private void removeAI() {
-		try {
-			Field b = PathfinderGoalSelector.class.getDeclaredField("b");
-			Field c = PathfinderGoalSelector.class.getDeclaredField("c");
-			if (!b.isAccessible()) {
-				b.setAccessible(true);
-			}
-			if (!c.isAccessible()) {
-				c.setAccessible(true);
-			}
-			b.set(this.goalSelector, new UnsafeList());
-			c.set(this.goalSelector, new UnsafeList());
-			b.set(this.targetSelector, new UnsafeList());
-			c.set(this.targetSelector, new UnsafeList());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    @SuppressWarnings("rawtypes")
+    private void removeAI() {
+        try {
+            Field b = PathfinderGoalSelector.class.getDeclaredField("b");
+            Field c = PathfinderGoalSelector.class.getDeclaredField("c");
+            if (!b.isAccessible()) {
+                b.setAccessible(true);
+            }
+            if (!c.isAccessible()) {
+                c.setAccessible(true);
+            }
+            b.set(this.goalSelector, new UnsafeList());
+            c.set(this.goalSelector, new UnsafeList());
+            b.set(this.targetSelector, new UnsafeList());
+            c.set(this.targetSelector, new UnsafeList());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
-	@Override
-	public void K() {
-		super.K();
-		this.onTick();
-	}
+    @Override
+    public void K() {
+        super.K();
+        this.onTick();
+    }
 
-	@Override
-	protected boolean d(DamageSource arg0, float arg1) {
-		if (this.cancelDamage(arg0, arg1)) {
-			return false;
-		}
-		return super.d(arg0, arg1);
-	}
+    @Override
+    protected boolean d(DamageSource arg0, float arg1) {
+        if (this.cancelDamage(arg0, arg1)) {
+            return false;
+        }
+        return super.d(arg0, arg1);
+    }
 
-	private boolean cancelDamage(DamageSource source, float damage) {
-		if (source == DamageSource.STUCK) {
-			// Try to escape wall.
-			checkInsideWall();
-			return true;
-		}
-		return false;
-	}
+    private boolean cancelDamage(DamageSource source, float damage) {
+        if (source == DamageSource.STUCK) {
+            // Try to escape wall.
+            checkInsideWall();
+            return true;
+        }
+        return false;
+    }
 
-	private void onTick() {
-		if (this.followingTarget != null) {
-			this.doFollowTarget();
-		} else if (this.navigatingToPoint) {
-			// Check for navigation timeout.
-			if (this.navigationStart + NAVIGATION_TIMEOUT > System
-					.currentTimeMillis()) {
-				this.doNavigateToPoint();
-			} else {
-				this.cancelNavigation(NavigationFailReason.TIMEOUT);
-				return; // Cancel execution of navigation.
-			}
-		} else {
-			// Only two times per second.
-			if (Starving.ticksElapsed.get() % 10 == 0) {
-				this.eyeSense();
-				this.checkInsideWall();
-			}
-		}
-	}
+    private void onTick() {
+        if (this.followingTarget != null) {
+            this.doFollowTarget();
+        } else if (this.navigatingToPoint) {
+            // Check for navigation timeout.
+            if (this.navigationStart + NAVIGATION_TIMEOUT > System
+                    .currentTimeMillis()) {
+                this.doNavigateToPoint();
+            } else {
+                this.cancelNavigation(NavigationFailReason.TIMEOUT);
+                return; // Cancel execution of navigation.
+            }
+        } else {
+            // Only two times per second.
+            if (Starving.ticksElapsed.get() % 10 == 0) {
+                this.eyeSense();
+                this.checkInsideWall();
+            }
+        }
+    }
 
-	private void checkInsideWall() {
-		if (this.world.getWorld()
-				.getBlockAt((int) locX, (int) locY, (int) locZ).getType()
-				.isSolid()) {
-			if (this.world.getWorld()
-					.getBlockAt((int) locX, (int) (locY + 1.5d), (int) locZ)
-					.getType().isSolid()) {
-				// Inside wall.
-				Bukkit.broadcastMessage("Inside wall!");
-				double length = Math.sqrt(Math.pow(
-						Math.abs(Math.floor(locX) - locX), 2)
-						+ Math.pow(Math.abs(Math.floor(locZ) - locZ), 2));
-				double backX = Math.sin(this.yaw) * length;
-				double backZ = Math.cos(this.yaw) * length;
-				this.updatePosition(locX - backX, locZ - backZ);
-			} else {
-				// Inside block.
-				this.jump();
-			}
-		}
-	}
+    private void checkInsideWall() {
+        if (this.world.getWorld()
+                .getBlockAt((int) locX, (int) locY, (int) locZ).getType()
+                .isSolid()) {
+            if (this.world.getWorld()
+                    .getBlockAt((int) locX, (int) (locY + 1.5d), (int) locZ)
+                    .getType().isSolid()) {
+                // Inside wall.
+                Bukkit.broadcastMessage("Inside wall!");
+                double length = Math.sqrt(Math.pow(
+                        Math.abs(Math.floor(locX) - locX), 2)
+                        + Math.pow(Math.abs(Math.floor(locZ) - locZ), 2));
+                double backX = Math.sin(this.yaw) * length;
+                double backZ = Math.cos(this.yaw) * length;
+                this.updatePosition(locX - backX, locZ - backZ);
+            } else {
+                // Inside block.
+                this.jump();
+            }
+        }
+    }
 
-	private void eyeSense() {
-		// We are targeting players.
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			// Do not target creative players.
-			if (p.getGameMode() == GameMode.CREATIVE) {
-				continue;
-			}
+    private void eyeSense() {
+        // We are targeting players.
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            // Do not target creative players.
+            if (p.getGameMode() == GameMode.CREATIVE) {
+                continue;
+            }
 
-			// Only players in radius of 11.
-			if (this.squaredDistanceTo(((CraftPlayer) p).getHandle()) <= 121) {
-				// Check for horizontal FOV.
-				if (Math.abs(this.yaw - p.getLocation().getYaw()) < HORIZONAL_HALF_FOV) {
-					// Check for vertical FOV.
-					if (Math.abs(this.pitch - p.getLocation().getPitch()) < VERTICAL_HALF_FOV) {
-						// This is our target.
-						this.setFollowTarget(p);
-					}
-				}
-			}
-		}
-	}
+            // Only players in radius of 11.
+            if (this.squaredDistanceTo(((CraftPlayer) p).getHandle()) <= 121) {
+                // Check for horizontal FOV.
+                if (Math.abs(this.yaw - p.getLocation().getYaw()) < HORIZONAL_HALF_FOV) {
+                    // Check for vertical FOV.
+                    if (Math.abs(this.pitch - p.getLocation().getPitch()) < VERTICAL_HALF_FOV) {
+                        // This is our target.
+                        this.setFollowTarget(p);
+                    }
+                }
+            }
+        }
+    }
 
-	public void jump() {
-		if (this.lastJump > System.currentTimeMillis() + 50) {
-			this.getControllerJump().a();
-			this.lastJump = System.currentTimeMillis();
-		}
-	}
+    public void jump() {
+        if (this.lastJump > System.currentTimeMillis() + 50) {
+            this.getControllerJump().a();
+            this.lastJump = System.currentTimeMillis();
+        }
+    }
 
-	private void cancelNavigation(NavigationFailReason reason) {
-		this.followingTarget = null;
-		this.navigatingToPoint = false;
-		System.out.println("Navigation of " + this.getId() + " failed: "
-				+ reason.toString());
-		if (Starving.getInstance().isDebug()) {
-			if (reason == NavigationFailReason.ENTITY_DIED) {
-				this.setCustomName("SU:" + this.getId());
-				this.setCustomNameVisible(true);
-			} else {
-				this.setCustomName("FA:" + this.getId());
-				this.setCustomNameVisible(true);
-			}
-		}
-	}
+    private void cancelNavigation(NavigationFailReason reason) {
+        this.followingTarget = null;
+        this.navigatingToPoint = false;
+        System.out.println("Navigation of " + this.getId() + " failed: "
+                + reason.toString());
+        if (Starving.getInstance().isDebug()) {
+            if (reason == NavigationFailReason.ENTITY_DIED) {
+                this.setCustomName("SU:" + this.getId());
+                this.setCustomNameVisible(true);
+            } else {
+                this.setCustomName("FA:" + this.getId());
+                this.setCustomNameVisible(true);
+            }
+        }
+    }
 
-	private void doNavigateToPoint() {
-		// Check if we not reached wanted point.
-		double dx = Math.abs(this.navigationX - this.locX);
-		double dy = Math.abs(this.navigationY - this.locY);
-		double dz = Math.abs(this.navigationZ - this.locZ);
-		if (dx < NAVIGATION_EPSILON && dy < NAVIGATION_EPSILON
-				&& dz < NAVIGATION_EPSILON) {
-			this.cancelNavigation(NavigationFailReason.REACHED_TARGET_POINT);
-			return; // Cancel execution of navigation.
-		} else {
-			// Navigate to point
+    private void doNavigateToPoint() {
+        // Check if we not reached wanted point.
+        double dx = Math.abs(this.navigationX - this.locX);
+        double dy = Math.abs(this.navigationY - this.locY);
+        double dz = Math.abs(this.navigationZ - this.locZ);
+        if (dx < NAVIGATION_EPSILON && dy < NAVIGATION_EPSILON
+                && dz < NAVIGATION_EPSILON) {
+            this.cancelNavigation(NavigationFailReason.REACHED_TARGET_POINT);
+            return; // Cancel execution of navigation.
+        } else {
+            // Navigate to point
 
-			// We don't need to rotate head each tick, because target point is
-			// not moving.
+            // We don't need to rotate head each tick, because target point is
+            // not moving.
 
-			// Calculate shift and next position.
-			double dX = this.navigationX - this.locX;
-			double dZ = this.navigationZ - this.locZ;
-			// Normalize and multiply by speed.
-			double dLength = Math.sqrt(dX * dX + dZ * dZ);
-			dX = dX / dLength * this.speed;
-			dZ = dZ / dLength * this.speed;
-			double nextX = this.locX + dX;
-			double nextZ = this.locZ + dZ;
+            // Calculate shift and next position.
+            double dX = this.navigationX - this.locX;
+            double dZ = this.navigationZ - this.locZ;
+            // Normalize and multiply by speed.
+            double dLength = Math.sqrt(dX * dX + dZ * dZ);
+            dX = dX / dLength * this.speed;
+            dZ = dZ / dLength * this.speed;
+            double nextX = this.locX + dX;
+            double nextZ = this.locZ + dZ;
 
-			unstuckGround();
+            unstuckGround();
 
-			swingArms();
+            swingArms();
 
-			if (checkWallhit(nextX, nextZ))
-				return;
+            if (checkWallhit(nextX, nextZ))
+                return;
 
-			// Update position.
-			updatePosition(nextX, nextZ);
-		}
-	}
+            // Update position.
+            updatePosition(nextX, nextZ);
+        }
+    }
 
-	private void doFollowTarget() {
-		if (Starving.getInstance().isDebug()) {
-			this.setCustomName("FO:" + this.getId() + "->"
-					+ this.followingTarget.getId());
-			this.setCustomNameVisible(true);
-		}
+    private void doFollowTarget() {
+        if (Starving.getInstance().isDebug()) {
+            this.setCustomName("FO:" + this.getId() + "->"
+                    + this.followingTarget.getId());
+            this.setCustomNameVisible(true);
+        }
 
-		if (checkDeadTarget())
-			return;
+        if (checkDeadTarget())
+            return;
 
-		if (checkLostSight())
-			return;
+        if (checkLostSight())
+            return;
 
-		// Rotate head.
-		rotateBody();
+        // Rotate head.
+        rotateBody();
 
-		// Calculate shift and next position.
-		double dX = this.followingTarget.locX - this.locX;
-		double dZ = this.followingTarget.locZ - this.locZ;
-		double dLength = Math.sqrt(dX * dX + dZ * dZ);
-		dX = dX / dLength * this.speed;
-		dZ = dZ / dLength * this.speed;
-		double nextX = this.locX - dX;
-		double nextZ = this.locZ - dZ;
+        // Calculate shift and next position.
+        double dX = this.followingTarget.locX - this.locX;
+        double dZ = this.followingTarget.locZ - this.locZ;
+        double dLength = Math.sqrt(dX * dX + dZ * dZ);
+        dX = dX / dLength * this.speed;
+        dZ = dZ / dLength * this.speed;
+        double nextX = this.locX - dX;
+        double nextZ = this.locZ - dZ;
 
-		unstuckGround();
+        unstuckGround();
 
-		if (checkWallhit(nextX, nextZ))
-			return;
+        if (checkWallhit(nextX, nextZ))
+            return;
 
-		// If is zombie near player damage player.
-		if (this.distanceToFollowing() < 1.5F) {
-			Starving.NMS.sendAnimation(this, 0);
-			this.followingTarget.damageEntity(DamageSource.mobAttack(this),
-					(float) Math.random() * 2);
-		}
+        // If is zombie near player damage player.
+        if (this.distanceToFollowing() < 1.5F) {
+            Starving.NMS.sendAnimation(this, 0);
+            this.followingTarget.damageEntity(DamageSource.mobAttack(this),
+                    (float) Math.random() * 2);
+        }
 
-		// Update position.
-		updatePosition(nextX, nextZ);
-	}
+        // Update position.
+        updatePosition(nextX, nextZ);
+    }
 
-	private void updatePosition(double nextX, double nextZ) {
-		this.setPositionRotation(nextX, this.locY, nextZ, yaw, pitch);
-		this.positionChanged = true;
-	}
+    private void updatePosition(double nextX, double nextZ) {
+        this.setPositionRotation(nextX, this.locY, nextZ, yaw, pitch);
+        this.positionChanged = true;
+    }
 
-	private boolean checkWallhit(double nextX, double nextZ) {
-		// Don't walk into a block.
-		if (this.world.getWorld()
-				.getBlockAt((int) nextX, (int) this.locY, (int) nextZ)
-				.getType().isSolid()) {
-			// If it is a wall, we can't jump over it, navigation fail.
-			if (this.world
-					.getWorld()
-					.getBlockAt((int) nextX, (int) (this.locY + 1.5D),
-							(int) nextZ).getType().isSolid()) {
-				this.cancelNavigation(NavigationFailReason.HIT_WALL);
-				return true; // Cancel execution of navigation.
-			} else {
-				// Jump over the block.
-				this.jump();
-			}
-		}
-		return false;
-	}
+    private boolean checkWallhit(double nextX, double nextZ) {
+        // Don't walk into a block.
+        if (this.world.getWorld()
+                .getBlockAt((int) nextX, (int) this.locY, (int) nextZ)
+                .getType().isSolid()) {
+            // If it is a wall, we can't jump over it, navigation fail.
+            if (this.world
+                    .getWorld()
+                    .getBlockAt((int) nextX, (int) (this.locY + 1.5D),
+                            (int) nextZ).getType().isSolid()) {
+                this.cancelNavigation(NavigationFailReason.HIT_WALL);
+                return true; // Cancel execution of navigation.
+            } else {
+                // Jump over the block.
+                this.jump();
+            }
+        }
+        return false;
+    }
 
-	private void swingArms() {
-		// Swing arms.
-		if (Starving.getInstance().getRandom().nextInt(2) == 1) {
-			Starving.NMS.sendAnimation(this, 0);
-		}
-	}
+    private void swingArms() {
+        // Swing arms.
+        if (Starving.getInstance().getRandom().nextInt(2) == 1) {
+            Starving.NMS.sendAnimation(this, 0);
+        }
+    }
 
-	private void unstuckGround() {
-		// If stuck in ground, jump.
-		if (this.world.getWorld()
-				.getBlockAt((int) this.locX, (int) this.locY, (int) this.locZ)
-				.getType().isSolid()) {
-			this.getControllerJump().a();
-		}
-	}
+    private void unstuckGround() {
+        // If stuck in ground, jump.
+        if (this.world.getWorld()
+                .getBlockAt((int) this.locX, (int) this.locY, (int) this.locZ)
+                .getType().isSolid()) {
+            this.getControllerJump().a();
+        }
+    }
 
-	private boolean checkLostSight() {
-		// Check if zombie lost sight.
-		if (distanceToFollowing() > this.followDistanceLimit) {
-			// Lost sight.
-			this.cancelNavigation(NavigationFailReason.ENTITY_OUT_OF_SIGHT);
-			return true; // Cancel execution of navigation.
-		}
-		return false;
-	}
+    private boolean checkLostSight() {
+        // Check if zombie lost sight.
+        if (distanceToFollowing() > this.followDistanceLimit) {
+            // Lost sight.
+            this.cancelNavigation(NavigationFailReason.ENTITY_OUT_OF_SIGHT);
+            return true; // Cancel execution of navigation.
+        }
+        return false;
+    }
 
-	private void rotateBody() {
-		this.yaw = -1
-				* (float) (TrigMath.atan2(
-						this.followingTarget.locX - this.locX,
-						this.followingTarget.locZ - this.locZ) * 180 / Math.PI);
-		this.pitch = 0;
-		// Update head rotation.
-		this.aI = yaw;
-	}
+    private void rotateBody() {
+        this.yaw = -1
+                * (float) (TrigMath.atan2(
+                        this.followingTarget.locX - this.locX,
+                        this.followingTarget.locZ - this.locZ) * 180 / Math.PI);
+        this.pitch = 0;
+        // Update head rotation.
+        this.aI = yaw;
+    }
 
-	private boolean checkDeadTarget() {
-		if (!followingTarget.isAlive()) {
-			this.cancelNavigation(NavigationFailReason.ENTITY_DIED);
-			return true; // Cancel execution of navigation.
-		}
-		return false;
-	}
+    private boolean checkDeadTarget() {
+        if (!followingTarget.isAlive()) {
+            this.cancelNavigation(NavigationFailReason.ENTITY_DIED);
+            return true; // Cancel execution of navigation.
+        }
+        return false;
+    }
 
-	private double distanceToFollowing() {
-		return Math.pow((this.locX - this.followingTarget.locX), 2)
-				+ Math.pow((this.locY - this.followingTarget.locY), 2)
-				+ Math.pow((this.locZ - this.followingTarget.locZ), 2);
-	}
+    private double distanceToFollowing() {
+        return Math.pow((this.locX - this.followingTarget.locX), 2)
+                + Math.pow((this.locY - this.followingTarget.locY), 2)
+                + Math.pow((this.locZ - this.followingTarget.locZ), 2);
+    }
 
-	private double squaredDistanceTo(Entity e) {
-		return Math.pow((this.locX - e.locX), 2)
-				+ Math.pow((this.locY - e.locY), 2)
-				+ Math.pow((this.locZ - e.locZ), 2);
-	}
+    private double squaredDistanceTo(Entity e) {
+        return Math.pow((this.locX - e.locX), 2)
+                + Math.pow((this.locY - e.locY), 2)
+                + Math.pow((this.locZ - e.locZ), 2);
+    }
 
-	public org.bukkit.entity.Entity getFollowTarget() {
-		return this.followingTarget.getBukkitEntity();
-	}
+    public org.bukkit.entity.Entity getFollowTarget() {
+        return this.followingTarget.getBukkitEntity();
+    }
 
-	public float getSpeed() {
-		return speed;
-	}
+    public float getSpeed() {
+        return speed;
+    }
 
-	public void setSpeed(float speed) {
-		this.speed = speed;
-	}
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 
-	public void setFollowTarget(final org.bukkit.entity.Entity e) {
-		if (e == null) {
-			this.followingTarget = null;
-		}
+    public void setFollowTarget(final org.bukkit.entity.Entity e) {
+        if (e == null) {
+            this.followingTarget = null;
+        }
 
-		this.followingTarget = ((CraftEntity) e).getHandle();
-	}
+        this.followingTarget = ((CraftEntity) e).getHandle();
+    }
 
-	public void navigateTo(double x, double y, double z) {
-		this.navigationStart = System.currentTimeMillis();
-		this.navigationX = x;
-		this.navigationY = y;
-		this.navigationZ = z;
-		this.navigatingToPoint = true;
+    public void navigateTo(double x, double y, double z) {
+        this.navigationStart = System.currentTimeMillis();
+        this.navigationX = x;
+        this.navigationY = y;
+        this.navigationZ = z;
+        this.navigatingToPoint = true;
 
-		// Rotate zombie.
-		this.yaw = -1
-				* (float) (TrigMath.atan2(this.navigationX - this.locX,
-						this.navigationZ - this.locZ) * 180 / Math.PI);
-		this.pitch = 0;
-		// Update head rotation.
-		this.aI = yaw;
-	}
+        // Rotate zombie.
+        this.yaw = -1
+                * (float) (TrigMath.atan2(this.navigationX - this.locX,
+                        this.navigationZ - this.locZ) * 180 / Math.PI);
+        this.pitch = 0;
+        // Update head rotation.
+        this.aI = yaw;
+    }
 
-	public void destroy() {
-		this.followingTarget = null;
-		this.navigatingToPoint = false;
-		this.dead = true;
-	}
+    public void destroy() {
+        this.followingTarget = null;
+        this.navigatingToPoint = false;
+        this.dead = true;
+    }
 
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
-		// Update disablity.
-		if (disabled) {
-			// TODO: Enable. this.setInvisible(true);
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+        // Update disablity.
+        if (disabled) {
+            // TODO: Enable. this.setInvisible(true);
 
-		} else {
-			this.setInvisible(false);
+        } else {
+            this.setInvisible(false);
 
-			this.followingTarget = null;
-			this.navigatingToPoint = false;
-		}
-	}
+            this.followingTarget = null;
+            this.navigatingToPoint = false;
+        }
+    }
 
-	public boolean isDisabled() {
-		return this.disabled;
-	}
+    public boolean isDisabled() {
+        return this.disabled;
+    }
 
-	public void teleport(Location location) {
-		this.getBukkitEntity().teleport(location);
-	}
+    public void teleport(Location location) {
+        this.getBukkitEntity().teleport(location);
+    }
 
-	public org.bukkit.entity.Zombie getBukkitZombieEntity() {
-		return (org.bukkit.entity.Zombie) super.getBukkitEntity();
-	}
+    public org.bukkit.entity.Zombie getBukkitZombieEntity() {
+        return (org.bukkit.entity.Zombie) super.getBukkitEntity();
+    }
 
-	public CraftEntity getCraftBukkitEntity() {
-		return super.getBukkitEntity();
-	}
+    public CraftEntity getCraftBukkitEntity() {
+        return super.getBukkitEntity();
+    }
 
-	public static boolean isStarvingZombie(org.bukkit.entity.Entity entity) {
-		return entity.hasMetadata("starving");
-	}
+    public static boolean isStarvingZombie(org.bukkit.entity.Entity entity) {
+        return entity.hasMetadata("starving");
+    }
 
-	public static enum NavigationFailReason {
-		ENTITY_OUT_OF_SIGHT, HIT_WALL, TIMEOUT, REACHED_TARGET_POINT, ENTITY_DIED;
-	}
+    public static enum NavigationFailReason {
+        ENTITY_OUT_OF_SIGHT, HIT_WALL, TIMEOUT, REACHED_TARGET_POINT, ENTITY_DIED;
+    }
 }

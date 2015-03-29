@@ -36,36 +36,36 @@ import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.transformers.CrossbowTransformer;
 
 public class LoadedCrossbow extends Item {
-	private float projectileSpeed = 2f;
+    private float projectileSpeed = 2f;
 
-	public LoadedCrossbow() {
-		super(Mappings.CROSSBOWLOADED, "Crossbow (loaded)");
-	}
+    public LoadedCrossbow() {
+        super(Mappings.CROSSBOWLOADED, "Crossbow (loaded)");
+    }
 
-	@Override
-	public InteractResult onInteract(Player player, Action action,
-			Block clickedBlock, BlockFace clickedFace) {
-		// Fire arrow.
-		this.fire(player);
-		// Transform.
-		ItemStack unloaded = CrossbowTransformer.toUnloaded();
-		player.setItemInHand(unloaded);
-		return InteractResult.transform();
-	}
+    @Override
+    public InteractResult onInteract(Player player, Action action,
+            Block clickedBlock, BlockFace clickedFace) {
+        // Fire arrow.
+        this.fire(player);
+        // Transform.
+        ItemStack unloaded = CrossbowTransformer.toUnloaded();
+        player.setItemInHand(unloaded);
+        return InteractResult.transform();
+    }
 
-	private void fire(Player player) {
-		// Compute values.
-		Location projectileSpawn = player.getEyeLocation().add(
-				player.getEyeLocation().getDirection().multiply(2));
-		Vector projectileVelocity = player.getEyeLocation().getDirection()
-				.multiply(this.projectileSpeed);
-		// Create entity and set velocity.
-		Arrow arrow = (Arrow) player.getWorld().spawnEntity(projectileSpawn,
-				EntityType.ARROW);
-		arrow.setVelocity(projectileVelocity);
-		// Play sound.
-		player.getWorld().playSound(projectileSpawn, Sound.IRONGOLEM_THROW,
-				2.5f, 1f);
-	}
+    private void fire(Player player) {
+        // Compute values.
+        Location projectileSpawn = player.getEyeLocation().add(
+                player.getEyeLocation().getDirection().multiply(2));
+        Vector projectileVelocity = player.getEyeLocation().getDirection()
+                .multiply(this.projectileSpeed);
+        // Create entity and set velocity.
+        Arrow arrow = (Arrow) player.getWorld().spawnEntity(projectileSpawn,
+                EntityType.ARROW);
+        arrow.setVelocity(projectileVelocity);
+        // Play sound.
+        player.getWorld().playSound(projectileSpawn, Sound.IRONGOLEM_THROW,
+                2.5f, 1f);
+    }
 
 }

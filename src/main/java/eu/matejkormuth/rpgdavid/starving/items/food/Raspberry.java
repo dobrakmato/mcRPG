@@ -27,12 +27,12 @@ import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 
 public class Raspberry extends ConsumableItem {
 
-	public Raspberry() {
-		super(1, 2, new Mapping(Material.CARROT_ITEM), "Raspberry");
-	}
+    public Raspberry() {
+        super(1, 2, new Mapping(Material.CARROT_ITEM), "Raspberry");
+    }
 
-	@Override
-	protected void onConsume0(Player player) {
-	}
+    @Override
+    protected void onConsume0(Player player) {
+    }
 
 }

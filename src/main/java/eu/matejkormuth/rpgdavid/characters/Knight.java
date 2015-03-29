@@ -31,11 +31,10 @@ import eu.matejkormuth.rpgdavid.inventoryutils.ItemUtils;
 public class Knight extends Character {
     public Knight() {
         super("Rytíř", RpgPlugin.getInstance().getConfig()
-                .getString("translation_knight"),
-                new Modifiers(1.1F, 1, 1, 1, 1), new Armor(new ItemStack(
-                        Material.IRON_HELMET), new ItemStack(
-                        Material.IRON_CHESTPLATE), null, null), ItemUtils
-                        .unbreaking(ItemStackBuilder.of(Material.IRON_SWORD)
-                                .build(), 3));
+                .getString("translation_knight"), new Modifiers(1.1F, 1, 1, 1,
+                1), new Armor(new ItemStack(Material.IRON_HELMET),
+                new ItemStack(Material.IRON_CHESTPLATE), null, null),
+                ItemUtils.unbreaking(ItemStackBuilder.of(Material.IRON_SWORD)
+                        .build(), 3));
     }
 }

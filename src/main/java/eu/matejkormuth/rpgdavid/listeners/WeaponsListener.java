@@ -84,13 +84,18 @@ public class WeaponsListener implements Listener {
                         event.getPlayer()
                                 .sendMessage(
                                         ChatColor.RED
-                                                + RpgPlugin.t("t_itemcooldown").replace("%s", "" + RpgPlugin
-                                                        .getInstance()
-                                                        .getCooldowns()
-                                                        .getTimeLeft(
-                                                                event.getPlayer(),
-                                                                CD_GRAPPLING_HOOK)
-                                                / 1000));
+                                                + RpgPlugin
+                                                        .t("t_itemcooldown")
+                                                        .replace(
+                                                                "%s",
+                                                                ""
+                                                                        + RpgPlugin
+                                                                                .getInstance()
+                                                                                .getCooldowns()
+                                                                                .getTimeLeft(
+                                                                                        event.getPlayer(),
+                                                                                        CD_GRAPPLING_HOOK)
+                                                                        / 1000));
                     }
                 }
             }

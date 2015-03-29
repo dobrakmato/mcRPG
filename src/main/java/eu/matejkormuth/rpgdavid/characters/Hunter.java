@@ -30,9 +30,8 @@ import eu.matejkormuth.rpgdavid.inventoryutils.ItemUtils;
 public class Hunter extends Character {
     public Hunter() {
         super("Lovec", RpgPlugin.getInstance().getConfig()
-                .getString("translation_hunter"),
-                new Modifiers(1, 1.1F, 1, 1, 1), Armors.EMPTY_ARMOR, ItemUtils
-                        .unbreaking(new ItemStack(Material.BOW), 3),
-                new ItemStack(Material.ARROW, 20));
+                .getString("translation_hunter"), new Modifiers(1, 1.1F, 1, 1,
+                1), Armors.EMPTY_ARMOR, ItemUtils.unbreaking(new ItemStack(
+                Material.BOW), 3), new ItemStack(Material.ARROW, 20));
     }
 }

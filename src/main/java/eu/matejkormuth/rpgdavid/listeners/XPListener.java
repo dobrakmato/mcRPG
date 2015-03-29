@@ -35,47 +35,47 @@ import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class XPListener implements Listener {
-	private static EnumMap<EntityType, Integer> xps;
+    private static EnumMap<EntityType, Integer> xps;
 
-	static {
-		xps = new EnumMap<>(EntityType.class);
-		loadXpMap();
-	}
+    static {
+        xps = new EnumMap<>(EntityType.class);
+        loadXpMap();
+    }
 
-	private static void loadXpMap() {
-		File f = RpgPlugin.getInstance().getFile("xps.yml");
-		if (!f.exists()) {
-			RpgPlugin
-					.getInstance()
-					.getLogger()
-					.severe("XP configuration file (xps.yml) not found! Plugin may not function properly!");
-		} else {
-			YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
-			for (Entry<String, Object> value : config.getValues(false)
-					.entrySet()) {
-				xps.put(EntityType.valueOf(value.getKey()),
-						Integer.valueOf(value.getValue().toString()));
-			}
-		}
-	}
+    private static void loadXpMap() {
+        File f = RpgPlugin.getInstance().getFile("xps.yml");
+        if (!f.exists()) {
+            RpgPlugin
+                    .getInstance()
+                    .getLogger()
+                    .severe("XP configuration file (xps.yml) not found! Plugin may not function properly!");
+        } else {
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
+            for (Entry<String, Object> value : config.getValues(false)
+                    .entrySet()) {
+                xps.put(EntityType.valueOf(value.getKey()),
+                        Integer.valueOf(value.getValue().toString()));
+            }
+        }
+    }
 
-	@EventHandler
-	private void onEntityKilled(final EntityDamageByEntityEvent event) {
-		// Only living entities.
-		if (event.getEntity() instanceof LivingEntity) {
-			// If is this killing hit.
-			if (((Damageable) event.getEntity()).getHealth()
-					- event.getDamage() <= 0) {
-				// If damager is player.
-				if (event.getDamager() instanceof Player) {
-					Profile p = RpgPlugin.getInstance().getProfile(
-							(Player) event.getDamager());
-					if (p != null) {
-						// Give XP.
-						p.giveXp(xps.get(event.getEntityType()));
-					}
-				}
-			}
-		}
-	}
+    @EventHandler
+    private void onEntityKilled(final EntityDamageByEntityEvent event) {
+        // Only living entities.
+        if (event.getEntity() instanceof LivingEntity) {
+            // If is this killing hit.
+            if (((Damageable) event.getEntity()).getHealth()
+                    - event.getDamage() <= 0) {
+                // If damager is player.
+                if (event.getDamager() instanceof Player) {
+                    Profile p = RpgPlugin.getInstance().getProfile(
+                            (Player) event.getDamager());
+                    if (p != null) {
+                        // Give XP.
+                        p.giveXp(xps.get(event.getEntityType()));
+                    }
+                }
+            }
+        }
+    }
 }

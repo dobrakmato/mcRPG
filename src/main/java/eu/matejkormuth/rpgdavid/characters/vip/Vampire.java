@@ -31,8 +31,8 @@ public class Vampire extends Character {
         super(
                 "Upír",
                 RpgPlugin.getInstance().getConfig()
-                .getString("translation_vampire"),
-                Modifiers.DEFAULT, new Armor(
-                        new ItemStack(Material.GOLD_HELMET), null, null, null));
+                        .getString("translation_vampire"),
+                Modifiers.DEFAULT,
+                new Armor(new ItemStack(Material.GOLD_HELMET), null, null, null));
     }
 }

@@ -8,7 +8,8 @@ package eu.matejkormuth.rpgdavid.starving.persistence;
  * @see PersistInjector
  * @see AbstractPersistable
  */
-public abstract class AbstractPersistableInstance implements PersistableInstance {
+public abstract class AbstractPersistableInstance implements
+        PersistableInstance {
     /**
      * Id of this instance of this object.
      */
@@ -32,24 +33,30 @@ public abstract class AbstractPersistableInstance implements PersistableInstance
         PersistInjector.inject(this, this.persistableInstanceId);
     }
 
-    /* (non-Javadoc)
-     * @see eu.matejkormuth.rpgdavid.starving.persistence.PersistableInstance#getPersistableInstanceId()
+    /*
+     * (non-Javadoc)
+     * @see eu.matejkormuth.rpgdavid.starving.persistence.PersistableInstance#
+     * getPersistableInstanceId()
      */
     @Override
     public int getPersistableInstanceId() {
         return this.persistableInstanceId;
     }
 
-    /* (non-Javadoc)
-     * @see eu.matejkormuth.rpgdavid.starving.persistence.PersistableInstance#reloadConfiguration()
+    /*
+     * (non-Javadoc)
+     * @see eu.matejkormuth.rpgdavid.starving.persistence.PersistableInstance#
+     * reloadConfiguration()
      */
     @Override
     public void reloadConfiguration() {
         PersistInjector.inject(this, this.persistableInstanceId);
     }
 
-    /* (non-Javadoc)
-     * @see eu.matejkormuth.rpgdavid.starving.persistence.PersistableInstance#saveConfiguration()
+    /*
+     * (non-Javadoc)
+     * @see eu.matejkormuth.rpgdavid.starving.persistence.PersistableInstance#
+     * saveConfiguration()
      */
     @Override
     public void saveConfiguration() {

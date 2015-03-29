@@ -28,13 +28,13 @@ import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
 public class Dragunov extends Firearm {
-	
-	public Dragunov() {
-		this(Mappings.DRAGUNOV, "Dragunov");
-	}
-	
+
+    public Dragunov() {
+        this(Mappings.DRAGUNOV, "Dragunov");
+    }
+
     public Dragunov(Mapping mapping, String name) {
-    	super(mapping, name);
+        super(mapping, name);
         this.setAmmoType(AmunitionType.LONG);
         this.setClipSize(10);
         this.setFireRate(1);

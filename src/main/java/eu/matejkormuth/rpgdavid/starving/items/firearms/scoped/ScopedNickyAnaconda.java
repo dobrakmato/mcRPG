@@ -25,7 +25,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.NickyAnaconda;
 
 public class ScopedNickyAnaconda extends NickyAnaconda {
-	public ScopedNickyAnaconda() {
-		super(new Mapping(Material.APPLE), "Nicky Anaconda (scoped)");
-	}
+    public ScopedNickyAnaconda() {
+        super(new Mapping(Material.APPLE), "Nicky Anaconda (scoped)");
+    }
 }

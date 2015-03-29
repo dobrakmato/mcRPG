@@ -26,20 +26,20 @@ import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
 public class Glock extends Firearm {
 
-	public Glock() {
-		this(Mappings.GLOCK, "Glock");
-	}
+    public Glock() {
+        this(Mappings.GLOCK, "Glock");
+    }
 
-	public Glock(Mapping mapping, String name) {
-		super(mapping, name);
-		this.setAmmoType(AmunitionType.SHORT);
-		this.setClipSize(10);
-		this.setFireRate(1);
-		this.setInaccurancy(0.2f);
-		this.setScopedInaccurancy(0.02f);
-		this.setNoiseLevel(0.5f);
-		this.setProjectileSpeed(3.1f);
-		this.setRecoil(0.25f);
-		this.setReloadTime(20);
-	}
+    public Glock(Mapping mapping, String name) {
+        super(mapping, name);
+        this.setAmmoType(AmunitionType.SHORT);
+        this.setClipSize(10);
+        this.setFireRate(1);
+        this.setInaccurancy(0.2f);
+        this.setScopedInaccurancy(0.02f);
+        this.setNoiseLevel(0.5f);
+        this.setProjectileSpeed(3.1f);
+        this.setRecoil(0.25f);
+        this.setReloadTime(20);
+    }
 }

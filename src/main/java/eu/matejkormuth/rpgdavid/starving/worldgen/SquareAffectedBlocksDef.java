@@ -23,44 +23,44 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 public class SquareAffectedBlocksDef extends PaintedAffectedBlocksDef implements
-		AffectedBlocksDefinition {
+        AffectedBlocksDefinition {
 
-	private int minX;
-	private int maxX;
-	private int minY;
-	private int maxY;
-	private int minZ;
-	private int maxZ;
+    private int minX;
+    private int maxX;
+    private int minY;
+    private int maxY;
+    private int minZ;
+    private int maxZ;
 
-	public SquareAffectedBlocksDef(int radius, Location center) {
-		super(radius, center);
+    public SquareAffectedBlocksDef(int radius, Location center) {
+        super(radius, center);
 
-		this.minX = center.getBlockX() - radius;
-		this.maxX = center.getBlockX() + radius;
-		if (this.isFullHeight()) {
-			this.minY = center.getBlockY() - radius;
-			this.maxY = center.getBlockY() + radius;
-		}
-		this.minZ = center.getBlockZ() - radius;
-		this.maxZ = center.getBlockZ() + radius;
-	}
+        this.minX = center.getBlockX() - radius;
+        this.maxX = center.getBlockX() + radius;
+        if (this.isFullHeight()) {
+            this.minY = center.getBlockY() - radius;
+            this.maxY = center.getBlockY() + radius;
+        }
+        this.minZ = center.getBlockZ() - radius;
+        this.maxZ = center.getBlockZ() + radius;
+    }
 
-	@Override
-	public Block[] getAffectedBlocks() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Block[] getAffectedBlocks() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public boolean isAffected(Block block) {
-		// TODO: isAffected(Block);
-		return false;
-	}
+    @Override
+    public boolean isAffected(Block block) {
+        // TODO: isAffected(Block);
+        return false;
+    }
 
-	@Override
-	public boolean isFullHeight() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean isFullHeight() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 }

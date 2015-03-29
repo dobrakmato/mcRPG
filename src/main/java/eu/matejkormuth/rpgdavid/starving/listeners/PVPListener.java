@@ -29,18 +29,18 @@ import eu.matejkormuth.rpgdavid.starving.Locality;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public class PVPListener implements Listener {
-	@EventHandler
-	private void onPlayerDamagePlayer(final EntityDamageByEntityEvent event) {
-		if (event.getDamager() instanceof Player
-				&& event.getEntity() instanceof Player) {
-			// Check for PVP-free zone.
-			Locality locality = Starving.getInstance().getLocality(
-					event.getDamager().getLocation());
-			if (locality.isPvpFree()) {
-				event.setCancelled(true);
-				event.getDamager().sendMessage(
-						ChatColor.RED + "This is PVP-free zone!");
-			}
-		}
-	}
+    @EventHandler
+    private void onPlayerDamagePlayer(final EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player
+                && event.getEntity() instanceof Player) {
+            // Check for PVP-free zone.
+            Locality locality = Starving.getInstance().getLocality(
+                    event.getDamager().getLocation());
+            if (locality.isPvpFree()) {
+                event.setCancelled(true);
+                event.getDamager().sendMessage(
+                        ChatColor.RED + "This is PVP-free zone!");
+            }
+        }
+    }
 }

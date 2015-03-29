@@ -28,14 +28,14 @@ import org.bukkit.event.world.ChunkUnloadEvent;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public class ZombieListener implements Listener {
-	@EventHandler
-	private void onChunkUnload(final ChunkUnloadEvent event) {
-		for (Entity e : event.getChunk().getEntities()) {
-			if (e.getType() == EntityType.ZOMBIE) {
-				if (e.hasMetadata("starving")) {
-					Starving.getInstance().getZombieManager().remove(e);
-				}
-			}
-		}
-	}
+    @EventHandler
+    private void onChunkUnload(final ChunkUnloadEvent event) {
+        for (Entity e : event.getChunk().getEntities()) {
+            if (e.getType() == EntityType.ZOMBIE) {
+                if (e.hasMetadata("starving")) {
+                    Starving.getInstance().getZombieManager().remove(e);
+                }
+            }
+        }
+    }
 }

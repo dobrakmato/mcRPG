@@ -27,27 +27,27 @@ import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 
 public class MeleeWeapon extends Item {
 
-	private double baseDmg;
-	private int durability;
+    private double baseDmg;
+    private int durability;
 
-	public MeleeWeapon(Mapping mapping, String name, double baseDmg,
-			int durability) {
-		super(mapping, name);
-		this.baseDmg = baseDmg;
-		this.durability = durability;
-		this.setCategory(Category.MELEE);
-		this.setMaxStackAmount(1);
-	}
+    public MeleeWeapon(Mapping mapping, String name, double baseDmg,
+            int durability) {
+        super(mapping, name);
+        this.baseDmg = baseDmg;
+        this.durability = durability;
+        this.setCategory(Category.MELEE);
+        this.setMaxStackAmount(1);
+    }
 
-	public void onAttack(Player damager, LivingEntity entity, double damage) {
-		entity.damage(baseDmg);
-	}
+    public void onAttack(Player damager, LivingEntity entity, double damage) {
+        entity.damage(baseDmg);
+    }
 
-	public int getDurability() {
-		return durability;
-	}
+    public int getDurability() {
+        return durability;
+    }
 
-	public double getBaseDmg() {
-		return baseDmg;
-	}
+    public double getBaseDmg() {
+        return baseDmg;
+    }
 }

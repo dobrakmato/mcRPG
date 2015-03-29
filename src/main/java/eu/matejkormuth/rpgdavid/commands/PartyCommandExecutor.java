@@ -43,140 +43,145 @@ public class PartyCommandExecutor implements CommandExecutor {
 
                 String subcommand = args[0];
                 switch (subcommand) {
-                case "create":
-                    if (Party.getParty(p) == null) {
-                        // create party
-                        new Party(p);
-                    } else {
-                        p.sendMessage(ChatColor.RED
-                                + RpgPlugin.t("t_alreadyinparty"));
-                    }
-                    break;
-                case "invite":
-                    if (Party.getParty(p) != null) {
-                        if (Party.getParty(p).getLeader() == p) {
+                    case "create":
+                        if (Party.getParty(p) == null) {
+                            // create party
+                            new Party(p);
+                        } else {
+                            p.sendMessage(ChatColor.RED
+                                    + RpgPlugin.t("t_alreadyinparty"));
+                        }
+                        break;
+                    case "invite":
+                        if (Party.getParty(p) != null) {
+                            if (Party.getParty(p).getLeader() == p) {
+                                if (args.length == 2) {
+                                    String playerName = args[1];
+                                    Player invitedPlayer = Bukkit
+                                            .getPlayer(playerName);
+                                    if (invitedPlayer != null) {
+                                        Party party = Party.getParty(p);
+                                        if (!party.contains(invitedPlayer)) {
+                                            // invite player
+                                            party.invitePlayer(invitedPlayer);
+                                            p.sendMessage(ChatColor.GREEN
+                                                    + RpgPlugin
+                                                            .t("t_playerinvited"));
+                                            invitedPlayer
+                                                    .sendMessage(ChatColor.GREEN
+                                                            + RpgPlugin
+                                                                    .t("t_partyinvite")
+                                                                    .replace(
+                                                                            "%p",
+                                                                            p.getName()));
+                                        } else {
+                                            sender.sendMessage(ChatColor.RED
+                                                    + RpgPlugin
+                                                            .t("t_playeralreadyinparty"));
+                                        }
+                                    } else {
+                                        sender.sendMessage(ChatColor.RED
+                                                + RpgPlugin
+                                                        .t("t_playernotfound"));
+                                    }
+                                } else {
+                                    sender.sendMessage(ChatColor.RED
+                                            + "Invalid usage! Usage /party invite <playerName>");
+                                }
+                            } else {
+                                p.sendMessage(ChatColor.RED
+                                        + RpgPlugin.t("t_notpartyleader"));
+                            }
+                        } else {
+                            p.sendMessage(ChatColor.RED
+                                    + RpgPlugin.t("t_notinparty"));
+                        }
+                        break;
+                    case "accept":
+                        if (Party.getParty(p) == null) {
                             if (args.length == 2) {
-                                String playerName = args[1];
-                                Player invitedPlayer = Bukkit
-                                        .getPlayer(playerName);
-                                if (invitedPlayer != null) {
+                                String leaderName = args[1];
+                                Party party = Party.getParty(Bukkit
+                                        .getPlayer(leaderName));
+                                if (party != null) {
+                                    if (party.isInvited(p)) {
+                                        if (party.getPlayers().size() < 3) {
+                                            // join party
+                                            party.addPlayer(p);
+                                            sender.sendMessage(ChatColor.GREEN
+                                                    + RpgPlugin.t(
+                                                            "t_joinedparty")
+                                                            .replace("%p",
+                                                                    leaderName));
+                                        } else {
+                                            sender.sendMessage(ChatColor.RED
+                                                    + RpgPlugin.t("Party full"));
+                                        }
+                                    } else {
+                                        sender.sendMessage(ChatColor.RED
+                                                + RpgPlugin.t("t_notinvited"));
+                                    }
+                                } else {
+                                    sender.sendMessage(ChatColor.RED
+                                            + RpgPlugin.t("t_partynotfound"));
+                                }
+                            } else {
+                                sender.sendMessage(ChatColor.RED
+                                        + "Invalid usage! Usage /party accept <leaderName>");
+                            }
+                        } else {
+                            p.sendMessage(ChatColor.RED
+                                    + RpgPlugin.t("t_alreadyinparty"));
+                        }
+                        break;
+                    case "kick":
+                        if (Party.getParty(p) != null) {
+                            if (Party.getParty(p).getLeader() == p) {
+                                if (args.length == 2) {
+                                    String kickedName = args[1];
                                     Party party = Party.getParty(p);
-                                    if (!party.contains(invitedPlayer)) {
-                                        // invite player
-                                        party.invitePlayer(invitedPlayer);
-                                        p.sendMessage(ChatColor.GREEN
-                                                + RpgPlugin
-                                                        .t("t_playerinvited"));
-                                        invitedPlayer
-                                                .sendMessage(ChatColor.GREEN
-                                                        + RpgPlugin
-                                                                .t("t_partyinvite")
-                                                                .replace(
-                                                                        "%p",
-                                                                        p.getName()));
-                                    } else {
-                                        sender.sendMessage(ChatColor.RED
-                                                + RpgPlugin
-                                                        .t("t_playeralreadyinparty"));
-                                    }
-                                } else {
-                                    sender.sendMessage(ChatColor.RED
-                                            + RpgPlugin.t("t_playernotfound"));
-                                }
-                            } else {
-                                sender.sendMessage(ChatColor.RED
-                                        + "Invalid usage! Usage /party invite <playerName>");
-                            }
-                        } else {
-                            p.sendMessage(ChatColor.RED
-                                    + RpgPlugin.t("t_notpartyleader"));
-                        }
-                    } else {
-                        p.sendMessage(ChatColor.RED
-                                + RpgPlugin.t("t_notinparty"));
-                    }
-                    break;
-                case "accept":
-                    if (Party.getParty(p) == null) {
-                        if (args.length == 2) {
-                            String leaderName = args[1];
-                            Party party = Party.getParty(Bukkit
-                                    .getPlayer(leaderName));
-                            if (party != null) {
-                                if (party.isInvited(p)) {
-                                    if (party.getPlayers().size() < 3) {
-                                        // join party
-                                        party.addPlayer(p);
-                                        sender.sendMessage(ChatColor.GREEN
-                                                + RpgPlugin.t("t_joinedparty")
-                                                        .replace("%p",
-                                                                leaderName));
-                                    } else {
-                                        sender.sendMessage(ChatColor.RED
-                                                + RpgPlugin.t("Party full"));
-                                    }
-                                } else {
-                                    sender.sendMessage(ChatColor.RED
-                                            + RpgPlugin.t("t_notinvited"));
-                                }
-                            } else {
-                                sender.sendMessage(ChatColor.RED
-                                        + RpgPlugin.t("t_partynotfound"));
-                            }
-                        } else {
-                            sender.sendMessage(ChatColor.RED
-                                    + "Invalid usage! Usage /party accept <leaderName>");
-                        }
-                    } else {
-                        p.sendMessage(ChatColor.RED
-                                + RpgPlugin.t("t_alreadyinparty"));
-                    }
-                    break;
-                case "kick":
-                    if (Party.getParty(p) != null) {
-                        if (Party.getParty(p).getLeader() == p) {
-                            if (args.length == 2) {
-                                String kickedName = args[1];
-                                Party party = Party.getParty(p);
-                                Player kickedPlayer = Bukkit
-                                        .getPlayer(kickedName);
+                                    Player kickedPlayer = Bukkit
+                                            .getPlayer(kickedName);
 
-                                if (party.contains(kickedPlayer)) {
-                                    // kick player from party.
-                                    party.removePlayer(kickedPlayer);
-                                    p.sendMessage(ChatColor.GREEN
-                                            + RpgPlugin.t("t_playerkicked")
-                                                    .replace("%p", kickedName));
-                                    kickedPlayer.sendMessage(ChatColor.RED
-                                            + "You've been kicked from party!");
+                                    if (party.contains(kickedPlayer)) {
+                                        // kick player from party.
+                                        party.removePlayer(kickedPlayer);
+                                        p.sendMessage(ChatColor.GREEN
+                                                + RpgPlugin.t("t_playerkicked")
+                                                        .replace("%p",
+                                                                kickedName));
+                                        kickedPlayer
+                                                .sendMessage(ChatColor.RED
+                                                        + "You've been kicked from party!");
+                                    } else {
+                                        sender.sendMessage(ChatColor.RED
+                                                + RpgPlugin
+                                                        .t("t_playernotinparty"));
+                                    }
                                 } else {
                                     sender.sendMessage(ChatColor.RED
-                                            + RpgPlugin.t("t_playernotinparty"));
+                                            + "Invalid usage! Usage /party kick <playerName>");
                                 }
                             } else {
-                                sender.sendMessage(ChatColor.RED
-                                        + "Invalid usage! Usage /party kick <playerName>");
+                                p.sendMessage(ChatColor.RED
+                                        + RpgPlugin.t("t_notpartyleader_kick"));
                             }
                         } else {
                             p.sendMessage(ChatColor.RED
-                                    + RpgPlugin.t("t_notpartyleader_kick"));
+                                    + RpgPlugin.t("t_notinparty"));
                         }
-                    } else {
-                        p.sendMessage(ChatColor.RED
-                                + RpgPlugin.t("t_notinparty"));
-                    }
-                    break;
-                case "leave":
-                    if (Party.getParty(p) != null) {
-                        // leave party
-                        Party.getParty(p).removePlayer(p);
-                        p.sendMessage(ChatColor.GREEN
-                                + RpgPlugin.t("t_leftparty"));
-                    } else {
-                        p.sendMessage(ChatColor.RED
-                                + RpgPlugin.t("t_notinparty"));
-                    }
-                    break;
+                        break;
+                    case "leave":
+                        if (Party.getParty(p) != null) {
+                            // leave party
+                            Party.getParty(p).removePlayer(p);
+                            p.sendMessage(ChatColor.GREEN
+                                    + RpgPlugin.t("t_leftparty"));
+                        } else {
+                            p.sendMessage(ChatColor.RED
+                                    + RpgPlugin.t("t_notinparty"));
+                        }
+                        break;
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Wrong use!");

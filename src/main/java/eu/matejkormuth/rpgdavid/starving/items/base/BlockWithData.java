@@ -31,30 +31,30 @@ import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 
 public abstract class BlockWithData extends Item {
 
-	private byte data;
+    private byte data;
 
-	public BlockWithData(Mapping mapping, String name, byte data) {
-		super(mapping, name);
-		this.data = data;
-	}
+    public BlockWithData(Mapping mapping, String name, byte data) {
+        super(mapping, name);
+        this.data = data;
+    }
 
-	@SuppressWarnings("deprecation") 
-	public void onPlaced(Player player, Block blockPlaced) {
-		blockPlaced.setData(data, true);
-	}
+    @SuppressWarnings("deprecation")
+    public void onPlaced(Player player, Block blockPlaced) {
+        blockPlaced.setData(data, true);
+    }
 
-	@Override
-	public ItemStack toItemStack() {
-		return this.toItemStack(1);
-	}
+    @Override
+    public ItemStack toItemStack() {
+        return this.toItemStack(1);
+    }
 
-	@Override
-	public ItemStack toItemStack(int amount) {
-		ItemStack is = super.toItemStack(amount);
-		ItemMeta im = is.getItemMeta();
-		im.setLore(Arrays.asList(ChatColor.GREEN + "Data: " + data));
-		is.setItemMeta(im);
-		return is;
-	}
+    @Override
+    public ItemStack toItemStack(int amount) {
+        ItemStack is = super.toItemStack(amount);
+        ItemMeta im = is.getItemMeta();
+        im.setLore(Arrays.asList(ChatColor.GREEN + "Data: " + data));
+        is.setItemMeta(im);
+        return is;
+    }
 
 }

@@ -26,8 +26,8 @@ import eu.matejkormuth.rpgdavid.starving.items.base.BlockWithData;
 
 public class LogD14 extends BlockWithData {
 
-	public LogD14() {
-		super(new Mapping(Material.LOG), "Log D14", (byte) 14);
-	}
+    public LogD14() {
+        super(new Mapping(Material.LOG), "Log D14", (byte) 14);
+    }
 
 }

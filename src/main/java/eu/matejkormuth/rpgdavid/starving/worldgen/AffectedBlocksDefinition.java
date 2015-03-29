@@ -24,17 +24,17 @@ import org.bukkit.block.Block;
 
 public interface AffectedBlocksDefinition {
 
-	Location getCenter();
+    Location getCenter();
 
-	boolean hasCenter();
+    boolean hasCenter();
 
-	Block[] getAffectedBlocks();
+    Block[] getAffectedBlocks();
 
-	boolean isAffected(Block block);
+    boolean isAffected(Block block);
 
-	boolean isFullHeight();
+    boolean isFullHeight();
 
-	default boolean isCoverOnly() {
-		return !isFullHeight();
-	}
+    default boolean isCoverOnly() {
+        return !isFullHeight();
+    }
 }

@@ -28,7 +28,7 @@ public class AK47 extends Firearm {
     public AK47() {
         this(Mappings.AK47, "AK47");
     }
-    
+
     public AK47(Mapping mapping, String name) {
         super(mapping, name);
         this.setAmmoType(AmunitionType.LONG);

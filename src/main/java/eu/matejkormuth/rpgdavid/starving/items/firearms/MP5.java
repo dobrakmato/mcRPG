@@ -26,20 +26,20 @@ import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 
 public class MP5 extends Firearm {
 
-	public MP5() {
-		this(Mappings.MP5, "MP5");
-	}
+    public MP5() {
+        this(Mappings.MP5, "MP5");
+    }
 
-	public MP5(Mapping mapping, String name) {
-		super(mapping, name);
-		this.setAmmoType(AmunitionType.SHORT);
-		this.setClipSize(30);
-		this.setFireRate(10);
-		this.setInaccurancy(0.5f);
-		this.setScopedInaccurancy(0.05f);
-		this.setNoiseLevel(0.6f);
-		this.setProjectileSpeed(3.5f);
-		this.setRecoil(0.35f);
-		this.setReloadTime(60);
-	}
+    public MP5(Mapping mapping, String name) {
+        super(mapping, name);
+        this.setAmmoType(AmunitionType.SHORT);
+        this.setClipSize(30);
+        this.setFireRate(10);
+        this.setInaccurancy(0.5f);
+        this.setScopedInaccurancy(0.05f);
+        this.setNoiseLevel(0.6f);
+        this.setProjectileSpeed(3.5f);
+        this.setRecoil(0.35f);
+        this.setReloadTime(60);
+    }
 }

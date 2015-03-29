@@ -7,6 +7,6 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 public class CraftingListener implements Listener {
     @EventHandler
     private void onC(final PrepareItemCraftEvent event) {
-        
+
     }
 }

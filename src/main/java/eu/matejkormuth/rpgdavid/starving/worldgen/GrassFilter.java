@@ -41,10 +41,10 @@ import org.bukkit.Location;
  */
 public class GrassFilter implements Filter {
 
-	@Override
-	public void apply(CircleAffectedBlocksDef region, Location center) {
-		// TODO Auto-generated method stub
-		Filter.super.apply(region, center);
-	}
+    @Override
+    public void apply(CircleAffectedBlocksDef region, Location center) {
+        // TODO Auto-generated method stub
+        Filter.super.apply(region, center);
+    }
 
 }

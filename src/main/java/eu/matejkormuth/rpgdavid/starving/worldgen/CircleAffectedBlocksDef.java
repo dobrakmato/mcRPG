@@ -23,27 +23,27 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 public class CircleAffectedBlocksDef extends PaintedAffectedBlocksDef implements
-		AffectedBlocksDefinition {
+        AffectedBlocksDefinition {
 
-	public CircleAffectedBlocksDef(int radius, Location center) {
-		super(radius, center);
-	}
+    public CircleAffectedBlocksDef(int radius, Location center) {
+        super(radius, center);
+    }
 
-	@Override
-	public Block[] getAffectedBlocks() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Block[] getAffectedBlocks() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public boolean isAffected(Block block) {
-		return block.getLocation().distanceSquared(this.center) < this.radiusPow2;
-	}
+    @Override
+    public boolean isAffected(Block block) {
+        return block.getLocation().distanceSquared(this.center) < this.radiusPow2;
+    }
 
-	@Override
-	public boolean isFullHeight() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean isFullHeight() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 }

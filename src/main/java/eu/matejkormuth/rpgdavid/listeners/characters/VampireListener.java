@@ -25,9 +25,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 public class VampireListener implements Listener {
     @EventHandler
     private void onVampireHitPlayer(EntityDamageByEntityEvent event) {
-        
+
         // Biting has been removed on 3. Feb. 2015
-        
+
         /*
          * if (event.getDamager() instanceof Player) { Profile p =
          * RpgPlugin.getInstance().getProfile( (Player) event.getDamager()); if
@@ -35,13 +35,10 @@ public class VampireListener implements Listener {
          * == Characters.VAMPIRE) { // If can bite now. if (p.canBite()) { if
          * (event.getEntity() instanceof LivingEntity) { event.setDamage(3D);
          * ((LivingEntity) event.getEntity()) .addPotionEffect(new PotionEffect(
-         * PotionEffectType.CONFUSION, 20 * 4, 0));
-         * 
-         * p.setLastBittenNow(); } } else { event.setCancelled(true);
-         * 
-         * long time = p.getLastBitten() + 60000 - System.currentTimeMillis();
-         * 
-         * ((Player) event.getDamager()).sendMessage(ChatColor.RED +
+         * PotionEffectType.CONFUSION, 20 * 4, 0)); p.setLastBittenNow(); } }
+         * else { event.setCancelled(true); long time = p.getLastBitten() +
+         * 60000 - System.currentTimeMillis(); ((Player)
+         * event.getDamager()).sendMessage(ChatColor.RED +
          * "You can bite again after " + (time / 1000) + " seconds!"); } } } }
          */
     }

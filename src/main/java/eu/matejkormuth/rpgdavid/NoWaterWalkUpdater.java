@@ -106,20 +106,20 @@ public class NoWaterWalkUpdater implements Runnable {
 
         public void turnRight() {
             switch (this.direction) {
-            case EAST:
-                this.turn(BlockFace.SOUTH);
-                break;
-            case WEST:
-                this.turn(BlockFace.NORTH);
-                break;
-            case SOUTH:
-                this.turn(BlockFace.WEST);
-                break;
-            case NORTH:
-                this.turn(BlockFace.EAST);
-                break;
-            default:
-                throw new UnsupportedOperationException();
+                case EAST:
+                    this.turn(BlockFace.SOUTH);
+                    break;
+                case WEST:
+                    this.turn(BlockFace.NORTH);
+                    break;
+                case SOUTH:
+                    this.turn(BlockFace.WEST);
+                    break;
+                case NORTH:
+                    this.turn(BlockFace.EAST);
+                    break;
+                default:
+                    throw new UnsupportedOperationException();
             }
         }
 

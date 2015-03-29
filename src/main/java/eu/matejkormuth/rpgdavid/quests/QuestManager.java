@@ -38,153 +38,153 @@ import com.google.common.io.Files;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class QuestManager {
-	private final Logger log = Logger.getLogger(this.getClass().getName());
-	private final File questsDirectory;
-	private final List<Quest> quests;
-	private final Map<UUID, Quest> offers;
-	private boolean loadedAll = false;
+    private final Logger log = Logger.getLogger(this.getClass().getName());
+    private final File questsDirectory;
+    private final List<Quest> quests;
+    private final Map<UUID, Quest> offers;
+    private boolean loadedAll = false;
 
-	public QuestManager() {
-		this.quests = new ArrayList<Quest>();
-		this.offers = new HashMap<UUID, Quest>();
-		this.questsDirectory = RpgPlugin.getInstance().getFile("quests");
-	}
+    public QuestManager() {
+        this.quests = new ArrayList<Quest>();
+        this.offers = new HashMap<UUID, Quest>();
+        this.questsDirectory = RpgPlugin.getInstance().getFile("quests");
+    }
 
-	public void shutdown() {
-		// Release all objects from lists.
-		this.quests.clear();
-	}
+    public void shutdown() {
+        // Release all objects from lists.
+        this.quests.clear();
+    }
 
-	public Quest getQuestById(final String id) {
-		for (Quest q : this.quests) {
-			if (q.getId().equals(id)) {
-				return q;
-			}
-		}
-		return null;
-	}
+    public Quest getQuestById(final String id) {
+        for (Quest q : this.quests) {
+            if (q.getId().equals(id)) {
+                return q;
+            }
+        }
+        return null;
+    }
 
-	public Quest getQuestByName(final String name) {
-		for (Quest q : this.quests) {
-			if (q.getName().equals(name)) {
-				return q;
-			}
-		}
-		return null;
-	}
+    public Quest getQuestByName(final String name) {
+        for (Quest q : this.quests) {
+            if (q.getName().equals(name)) {
+                return q;
+            }
+        }
+        return null;
+    }
 
-	public void loadAll() {
-		if (this.loadedAll) {
-			throw new RuntimeException("Reloading quests is not yet supported!");
-		}
+    public void loadAll() {
+        if (this.loadedAll) {
+            throw new RuntimeException("Reloading quests is not yet supported!");
+        }
 
-		if (this.questsDirectory == null) {
-			throw new RuntimeException("Quest drectiory is not specified!");
-		}
+        if (this.questsDirectory == null) {
+            throw new RuntimeException("Quest drectiory is not specified!");
+        }
 
-		this.log.info("Loading all quests...");
+        this.log.info("Loading all quests...");
 
-		String[] files = this.questsDirectory.list();
+        String[] files = this.questsDirectory.list();
 
-		if (files == null) {
-			throw new RuntimeException("Can't list files in quests directory!");
-		}
+        if (files == null) {
+            throw new RuntimeException("Can't list files in quests directory!");
+        }
 
-		for (String file : files) {
-			this.prepeareOne(Paths.get(questsDirectory.getAbsolutePath(), file)
-					.toAbsolutePath().toString());
-		}
+        for (String file : files) {
+            this.prepeareOne(Paths.get(questsDirectory.getAbsolutePath(), file)
+                    .toAbsolutePath().toString());
+        }
 
-		this.log.info("Loaded and prepeared " + quests.size() + " quests!");
-		this.loadedAll = true;
-	}
+        this.log.info("Loaded and prepeared " + quests.size() + " quests!");
+        this.loadedAll = true;
+    }
 
-	public Collection<Quest> getQuests() {
-		return this.quests;
-	}
+    public Collection<Quest> getQuests() {
+        return this.quests;
+    }
 
-	public void addQuest(final Quest quest) {
-		this.quests.add(quest);
-		try {
-			quest.init();
-			quest.prepeare();
-		} catch (Exception ex) {
-			this.log.severe("Can't prepeare() quest " + quest.getId() + "!");
-			this.log.severe(ex.getMessage());
-		}
-	}
+    public void addQuest(final Quest quest) {
+        this.quests.add(quest);
+        try {
+            quest.init();
+            quest.prepeare();
+        } catch (Exception ex) {
+            this.log.severe("Can't prepeare() quest " + quest.getId() + "!");
+            this.log.severe(ex.getMessage());
+        }
+    }
 
-	private void prepeareOne(final String fullName) {
-		switch (Files.getFileExtension(fullName)) {
-		case "js":
-			this.prepeareJs(fullName);
-			break;
-		case "java":
-			this.prepeareJava(fullName);
-			break;
-		case "groovy":
-			this.prepeareGoovy(fullName);
-			break;
-		default:
-			this.log.severe("File " + fullName
-					+ " is not supported quest script file!");
-			break;
-		}
-	}
+    private void prepeareOne(final String fullName) {
+        switch (Files.getFileExtension(fullName)) {
+            case "js":
+                this.prepeareJs(fullName);
+                break;
+            case "java":
+                this.prepeareJava(fullName);
+                break;
+            case "groovy":
+                this.prepeareGoovy(fullName);
+                break;
+            default:
+                this.log.severe("File " + fullName
+                        + " is not supported quest script file!");
+                break;
+        }
+    }
 
-	private void prepeareGoovy(final String fullName) {
-		this.log.severe("Groovy script files are not supported yet!");
-	}
+    private void prepeareGoovy(final String fullName) {
+        this.log.severe("Groovy script files are not supported yet!");
+    }
 
-	private void prepeareJava(final String fullName) {
-		this.log.severe("Java script files are not supported yet!");
-	}
+    private void prepeareJava(final String fullName) {
+        this.log.severe("Java script files are not supported yet!");
+    }
 
-	private void prepeareJs(final String fullName) {
-		// Initialize JS engine if needed.
-		Context ctx = Context.enter();
-		Scriptable scope = ctx.initStandardObjects();
-		scope.put("manager", scope, this);
-		// Evaluate script.
-		try {
-			String script = Files.toString(new File(fullName), Charsets.UTF_8);
+    private void prepeareJs(final String fullName) {
+        // Initialize JS engine if needed.
+        Context ctx = Context.enter();
+        Scriptable scope = ctx.initStandardObjects();
+        scope.put("manager", scope, this);
+        // Evaluate script.
+        try {
+            String script = Files.toString(new File(fullName), Charsets.UTF_8);
 
-			// Try to fix missing addQuest call.
-			if (!script.contains("manager.addQuest")
-					&& script.contains("var quest")) {
-				script += "\n\nmanager.addQuest(quest);";
-			}
+            // Try to fix missing addQuest call.
+            if (!script.contains("manager.addQuest")
+                    && script.contains("var quest")) {
+                script += "\n\nmanager.addQuest(quest);";
+            }
 
-			// Add JavascriptQuest variabile.
-			script = "var JavascriptQuest = Packages.eu.matejkormuth.rpgdavid.quests.JavascriptQuest;\r\n"
-					+ script;
+            // Add JavascriptQuest variabile.
+            script = "var JavascriptQuest = Packages.eu.matejkormuth.rpgdavid.quests.JavascriptQuest;\r\n"
+                    + script;
 
-			ctx.evaluateString(scope, script, fullName, 1, null);
-		} catch (Exception e) {
-			this.log.severe("Falied to load file " + fullName);
-			e.printStackTrace();
-		} finally {
-			Context.exit();
-		}
-	}
+            ctx.evaluateString(scope, script, fullName, 1, null);
+        } catch (Exception e) {
+            this.log.severe("Falied to load file " + fullName);
+            e.printStackTrace();
+        } finally {
+            Context.exit();
+        }
+    }
 
-	public Quest getOffer(Player player) {
-		return this.offers.get(player.getUniqueId());
-	}
+    public Quest getOffer(Player player) {
+        return this.offers.get(player.getUniqueId());
+    }
 
-	public void setOffer(Player player, String quest) {
-		this.setOffer(player, this.getQuestByName(quest));
-	}
+    public void setOffer(Player player, String quest) {
+        this.setOffer(player, this.getQuestByName(quest));
+    }
 
-	public void setOffer(Player player, Quest quest) {
-		this.offers.put(player.getUniqueId(), quest);
-	}
+    public void setOffer(Player player, Quest quest) {
+        this.offers.put(player.getUniqueId(), quest);
+    }
 
-	public Quest removeOffer(Player player) {
-		return this.offers.remove(player.getUniqueId());
-	}
+    public Quest removeOffer(Player player) {
+        return this.offers.remove(player.getUniqueId());
+    }
 
-	public boolean hasOffer(Player player) {
-		return this.offers.containsKey(player.getUniqueId());
-	}
+    public boolean hasOffer(Player player) {
+        return this.offers.containsKey(player.getUniqueId());
+    }
 }

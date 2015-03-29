@@ -32,8 +32,8 @@ import eu.matejkormuth.rpgdavid.items.GrapplingHook;
 public class Killer extends Character {
     public Killer() {
         super("Vrah", RpgPlugin.getInstance().getConfig()
-                .getString("translation_killer"), new Modifiers(1, 1, 1, 1.5F, 1), Armor
-                .createLether(Color.BLACK), new Potion(
+                .getString("translation_killer"), new Modifiers(1, 1, 1, 1.5F,
+                1), Armor.createLether(Color.BLACK), new Potion(
                 PotionType.INSTANT_DAMAGE, 1).splash().toItemStack(4),
                 new Dagger(), new GrapplingHook());
     }

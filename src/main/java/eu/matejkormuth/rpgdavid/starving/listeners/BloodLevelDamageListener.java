@@ -33,7 +33,8 @@ public class BloodLevelDamageListener implements Listener {
             float bloodAmount = Data.of((Player) event.getDamager())
                     .getBloodLevel();
 
-            // Consequences of low blood level. (more in BloodLevelConsuquencesTask)
+            // Consequences of low blood level. (more in
+            // BloodLevelConsuquencesTask)
             if (bloodAmount < 3000) {
                 event.setDamage(event.getDamage() * 0.25);
             } else if (bloodAmount < 4000) {

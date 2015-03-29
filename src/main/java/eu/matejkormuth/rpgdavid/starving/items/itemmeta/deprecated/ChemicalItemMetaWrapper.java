@@ -33,7 +33,8 @@ import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound.MutableFloat;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals.CompoundRecipe;
 
-public class ChemicalItemMetaWrapper implements ItemMetaWrapper<ChemicalCompound> {
+public class ChemicalItemMetaWrapper implements
+        ItemMetaWrapper<ChemicalCompound> {
     private static final String REGEX = Pattern.quote("-");
 
     private ItemMeta meta;

@@ -25,49 +25,49 @@ import eu.matejkormuth.rpgdavid.starving.items.itemmeta.ItemMetaWrapper;
 
 public class FirearmItemMetaWrapper extends ItemMetaWrapper {
 
-	// Keys
-	private static final String SCOPE_KEY = "Scope";
-	private static final String FOREGRIP_KEY = "Foregrip";
-	private static final String SILENCER_KEY = "Silencer";
-	private static final String AMMO_KEY = "Ammo";
+    // Keys
+    private static final String SCOPE_KEY = "Scope";
+    private static final String FOREGRIP_KEY = "Foregrip";
+    private static final String SILENCER_KEY = "Silencer";
+    private static final String AMMO_KEY = "Ammo";
 
-	public FirearmItemMetaWrapper(ItemStack stack) {
-		super(stack);
-	}
+    public FirearmItemMetaWrapper(ItemStack stack) {
+        super(stack);
+    }
 
-	// Ammo
+    // Ammo
 
-	public int getCurrentAmmo() {
-		return this.valueHandler.getInteger(AMMO_KEY);
-	}
+    public int getCurrentAmmo() {
+        return this.valueHandler.getInteger(AMMO_KEY);
+    }
 
-	public void setCurrentAmmo(int amount) {
-		this.valueHandler.set(AMMO_KEY, amount);
-	}
+    public void setCurrentAmmo(int amount) {
+        this.valueHandler.set(AMMO_KEY, amount);
+    }
 
-	// Attachments
+    // Attachments
 
-	public boolean hasSilencer() {
-		return this.valueHandler.getBoolean(SILENCER_KEY);
-	}
+    public boolean hasSilencer() {
+        return this.valueHandler.getBoolean(SILENCER_KEY);
+    }
 
-	public void setSilencer(boolean silencer) {
-		this.valueHandler.set(SILENCER_KEY, silencer);
-	}
+    public void setSilencer(boolean silencer) {
+        this.valueHandler.set(SILENCER_KEY, silencer);
+    }
 
-	public boolean hasForegrip() {
-		return this.valueHandler.getBoolean(FOREGRIP_KEY);
-	}
+    public boolean hasForegrip() {
+        return this.valueHandler.getBoolean(FOREGRIP_KEY);
+    }
 
-	public void setForegrip(boolean foregrip) {
-		this.valueHandler.set(FOREGRIP_KEY, foregrip);
-	}
+    public void setForegrip(boolean foregrip) {
+        this.valueHandler.set(FOREGRIP_KEY, foregrip);
+    }
 
-	public boolean hasScope() {
-		return this.valueHandler.getBoolean(SCOPE_KEY);
-	}
+    public boolean hasScope() {
+        return this.valueHandler.getBoolean(SCOPE_KEY);
+    }
 
-	public void setScope(boolean scope) {
-		this.valueHandler.set(SCOPE_KEY, scope);
-	}
+    public void setScope(boolean scope) {
+        this.valueHandler.set(SCOPE_KEY, scope);
+    }
 }

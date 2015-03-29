@@ -31,51 +31,51 @@ import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 
 public class ZombieManager extends AbstractPersistable {
-	// Zombie speed constants.
-	@Persist(key = "LOW_SPEED")
-	public static double LOW_SPEED = 0.1d;
-	@Persist(key = "NORMAL_SPEED")
-	public static double NORMAL_SPEED = 0.3d;
-	@Persist(key = "HIGH_SPEED")
-	public static double HIGH_SPEED = 0.45d;
+    // Zombie speed constants.
+    @Persist(key = "LOW_SPEED")
+    public static double LOW_SPEED = 0.1d;
+    @Persist(key = "NORMAL_SPEED")
+    public static double NORMAL_SPEED = 0.3d;
+    @Persist(key = "HIGH_SPEED")
+    public static double HIGH_SPEED = 0.45d;
 
-	private final ZombiePool pool;
-	private List<WeakReference<Zombie>> zombies;
+    private final ZombiePool pool;
+    private List<WeakReference<Zombie>> zombies;
 
-	@Persist(key = "poolLocation")
-	private Location poolLocation = new Location(Worlds.first(), 0, 76, 0);
+    @Persist(key = "poolLocation")
+    private Location poolLocation = new Location(Worlds.first(), 0, 76, 0);
 
-	@Persist(key = "poolSize")
-	private int poolSize = 20;
+    @Persist(key = "poolSize")
+    private int poolSize = 20;
 
-	public ZombieManager() {
-		this.pool = new ZombiePool(this.poolLocation, this.poolSize);
-		this.zombies = new ArrayList<>();
-	}
+    public ZombieManager() {
+        this.pool = new ZombiePool(this.poolLocation, this.poolSize);
+        this.zombies = new ArrayList<>();
+    }
 
-	public void add() {
-		this.pool.acquire();
-	}
+    public void add() {
+        this.pool.acquire();
+    }
 
-	public void remove(Entity e) {
+    public void remove(Entity e) {
 
-	}
+    }
 
-	public Zombie spawnAt(Location location) {
-		Zombie z = new Zombie(location);
-		this.zombies.add(new WeakReference<Zombie>(z));
-		return z;
-	}
+    public Zombie spawnAt(Location location) {
+        Zombie z = new Zombie(location);
+        this.zombies.add(new WeakReference<Zombie>(z));
+        return z;
+    }
 
-	public Zombie get(int entity) {
-		Zombie zombie = null;
-		for (WeakReference<Zombie> z : this.zombies) {
-			if ((zombie = z.get()) != null) {
-				if (zombie.getId() == entity) {
-					return zombie;
-				}
-			}
-		}
-		return null;
-	}
+    public Zombie get(int entity) {
+        Zombie zombie = null;
+        for (WeakReference<Zombie> z : this.zombies) {
+            if ((zombie = z.get()) != null) {
+                if (zombie.getId() == entity) {
+                    return zombie;
+                }
+            }
+        }
+        return null;
+    }
 }

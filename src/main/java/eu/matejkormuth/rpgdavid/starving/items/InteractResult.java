@@ -20,42 +20,42 @@
 package eu.matejkormuth.rpgdavid.starving.items;
 
 public final class InteractResult {
-	private static final InteractResult ONE = new InteractResult(1);
-	private static final InteractResult NONE = new InteractResult(0);
-	private static final InteractResult ALL = new InteractResult(-1);
-	private static final InteractResult TRANSFORM = new InteractResult(0);
+    private static final InteractResult ONE = new InteractResult(1);
+    private static final InteractResult NONE = new InteractResult(0);
+    private static final InteractResult ALL = new InteractResult(-1);
+    private static final InteractResult TRANSFORM = new InteractResult(0);
 
-	private int used = 0;
+    private int used = 0;
 
-	private InteractResult(final int amount) {
-		this.used = amount;
-	}
+    private InteractResult(final int amount) {
+        this.used = amount;
+    }
 
-	public final boolean isUsed() {
-		return this.used != 0;
-	}
+    public final boolean isUsed() {
+        return this.used != 0;
+    }
 
-	public final int getUsedAmount() {
-		return this.used;
-	}
+    public final int getUsedAmount() {
+        return this.used;
+    }
 
-	public static final InteractResult useOne() {
-		return ONE;
-	}
+    public static final InteractResult useOne() {
+        return ONE;
+    }
 
-	public static final InteractResult useNone() {
-		return NONE;
-	}
+    public static final InteractResult useNone() {
+        return NONE;
+    }
 
-	public static final InteractResult useAll() {
-		return ALL;
-	}
+    public static final InteractResult useAll() {
+        return ALL;
+    }
 
-	public static final InteractResult useAmount(int amount) {
-		return new InteractResult(amount);
-	}
+    public static final InteractResult useAmount(int amount) {
+        return new InteractResult(amount);
+    }
 
-	public static final InteractResult transform() {
-		return TRANSFORM;
-	}
+    public static final InteractResult transform() {
+        return TRANSFORM;
+    }
 }

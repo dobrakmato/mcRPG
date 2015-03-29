@@ -26,42 +26,43 @@ import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 
 public class LookAtPlayerBehaviour extends AbstractBehaviour {
 
-	@Persist(key = "MAX_FOLLOW_DIST")
-	private static final double MAX_FOLLOW_DIST = 8;
-	private static final double MAX_FOLLOW_DIST_SQUARED = MAX_FOLLOW_DIST
-			* MAX_FOLLOW_DIST;
-	private Player target;
+    @Persist(key = "MAX_FOLLOW_DIST")
+    private static final double MAX_FOLLOW_DIST = 8;
+    private static final double MAX_FOLLOW_DIST_SQUARED = MAX_FOLLOW_DIST
+            * MAX_FOLLOW_DIST;
+    private Player target;
 
-	@Override
-	public void tick(long currentTick) {
-		if (currentTick % 10 == 0) {
-			checkDistance();
-			findTarget();
-		}
-		rotate();
-	}
+    @Override
+    public void tick(long currentTick) {
+        if (currentTick % 10 == 0) {
+            checkDistance();
+            findTarget();
+        }
+        rotate();
+    }
 
-	private void checkDistance() {
-		if (target != null) {
-			if (this.owner.getLocation().distanceSquared(target.getLocation()) > MAX_FOLLOW_DIST_SQUARED) {
-				this.target = null;
-			}
-		}
-	}
+    private void checkDistance() {
+        if (target != null) {
+            if (this.owner.getLocation().distanceSquared(target.getLocation()) > MAX_FOLLOW_DIST_SQUARED) {
+                this.target = null;
+            }
+        }
+    }
 
-	private void findTarget() {
-		if (target == null) {
-			for (Player p : this.owner.getNearbyPlayers(MAX_FOLLOW_DIST)) {
-				if (this.owner.hasLineofSight(p)) {
-					this.target = p;
-				}
-			}
-		}
-	}
+    private void findTarget() {
+        if (target == null) {
+            for (Player p : this.owner.getNearbyPlayers(MAX_FOLLOW_DIST)) {
+                if (this.owner.hasLineofSight(p)) {
+                    this.target = p;
+                }
+            }
+        }
+    }
 
-	private void rotate() {
-		this.owner.setYaw(0);
-		this.owner.setPitch(0);
-	}
+    private void rotate() {
+
+        this.owner.setYaw(0);
+        this.owner.setPitch(0);
+    }
 
 }

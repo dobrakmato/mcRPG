@@ -53,7 +53,7 @@ public class HallucinationsTask extends RepeatingTask {
         }
 
         p.playSound(p.getLocation(), Sound.PORTAL_TRAVEL, 1f, 1f);
-        
+
         // TODO: Make more effects.
     }
 }

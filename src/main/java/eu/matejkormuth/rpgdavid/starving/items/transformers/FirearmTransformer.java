@@ -44,68 +44,68 @@ import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedNickyAnacon
 
 public class FirearmTransformer {
 
-	public static ItemStack toScoped(ItemStack unscoped) {
-		// Create new scoped and copy properties.
-		Item item = Starving.getInstance().getItemManager().findItem(unscoped);
-		if (item instanceof AK47) {
-			return createWithLore(ScopedAK47.class, unscoped);
-		} else if (item instanceof ColtAnaconda) {
-			return createWithLore(ScopedColtAnaconda.class, unscoped);
-		} else if (item instanceof Dragunov) {
-			return createWithLore(ScopedDragunov.class, unscoped);
-		} else if (item instanceof Glock) {
-			return createWithLore(ScopedGlock.class, unscoped);
-		} else if (item instanceof M16) {
-			return createWithLore(ScopedM16.class, unscoped);
-		} else if (item instanceof Mossberg500) {
-			return createWithLore(ScopedMossberg500.class, unscoped);
-		} else if (item instanceof MP5) {
-			return createWithLore(ScopedMP5.class, unscoped);
-		} else if (item instanceof NickyAnaconda) {
-			return createWithLore(ScopedNickyAnaconda.class, unscoped);
-		} else {
-			throw new IllegalArgumentException(
-					"Itemstack must be supported firearm. Found: "
-							+ item.getClass().getSimpleName());
-		}
-	}
+    public static ItemStack toScoped(ItemStack unscoped) {
+        // Create new scoped and copy properties.
+        Item item = Starving.getInstance().getItemManager().findItem(unscoped);
+        if (item instanceof AK47) {
+            return createWithLore(ScopedAK47.class, unscoped);
+        } else if (item instanceof ColtAnaconda) {
+            return createWithLore(ScopedColtAnaconda.class, unscoped);
+        } else if (item instanceof Dragunov) {
+            return createWithLore(ScopedDragunov.class, unscoped);
+        } else if (item instanceof Glock) {
+            return createWithLore(ScopedGlock.class, unscoped);
+        } else if (item instanceof M16) {
+            return createWithLore(ScopedM16.class, unscoped);
+        } else if (item instanceof Mossberg500) {
+            return createWithLore(ScopedMossberg500.class, unscoped);
+        } else if (item instanceof MP5) {
+            return createWithLore(ScopedMP5.class, unscoped);
+        } else if (item instanceof NickyAnaconda) {
+            return createWithLore(ScopedNickyAnaconda.class, unscoped);
+        } else {
+            throw new IllegalArgumentException(
+                    "Itemstack must be supported firearm. Found: "
+                            + item.getClass().getSimpleName());
+        }
+    }
 
-	private static ItemStack createWithLore(Class<? extends Firearm> clazz,
-			ItemStack metadataSource) {
-		ItemStack newItemStack = createItemStack(clazz);
-		ItemMeta newItemMeta = newItemStack.getItemMeta();
-		newItemMeta.setLore(metadataSource.getItemMeta().getLore());
-		newItemStack.setItemMeta(newItemMeta);
-		return newItemStack;
-	}
+    private static ItemStack createWithLore(Class<? extends Firearm> clazz,
+            ItemStack metadataSource) {
+        ItemStack newItemStack = createItemStack(clazz);
+        ItemMeta newItemMeta = newItemStack.getItemMeta();
+        newItemMeta.setLore(metadataSource.getItemMeta().getLore());
+        newItemStack.setItemMeta(newItemMeta);
+        return newItemStack;
+    }
 
-	private static ItemStack createItemStack(Class<? extends Firearm> clazz) {
-		return Starving.getInstance().getItemManager().newItemStack(clazz);
-	}
+    private static ItemStack createItemStack(Class<? extends Firearm> clazz) {
+        return Starving.getInstance().getItemManager().newItemStack(clazz);
+    }
 
-	public static ItemStack fromScoped(ItemStack scoped) {
-		// Create new unscoped and copy properties.
-		Item item = Starving.getInstance().getItemManager().findItem(scoped);
-		if (item instanceof ScopedAK47) {
-			return createWithLore(AK47.class, scoped);
-		} else if (item instanceof ScopedColtAnaconda) {
-			return createWithLore(ColtAnaconda.class, scoped);
-		} else if (item instanceof ScopedDragunov) {
-			return createWithLore(Dragunov.class, scoped);
-		} else if (item instanceof ScopedGlock) {
-			return createWithLore(Glock.class, scoped);
-		} else if (item instanceof ScopedM16) {
-			return createWithLore(M16.class, scoped);
-		} else if (item instanceof ScopedMossberg500) {
-			return createWithLore(Mossberg500.class, scoped);
-		} else if (item instanceof ScopedMP5) {
-			return createWithLore(MP5.class, scoped);
-		} else if (item instanceof ScopedNickyAnaconda) {
-			return createWithLore(NickyAnaconda.class, scoped);
-		} else {
-			throw new IllegalArgumentException(
-					"Itemstack must be supported firearm. Found: "
-							+ item.getClass().getSimpleName());
-		}
-	}
+    public static ItemStack fromScoped(ItemStack scoped) {
+        // Create new unscoped and copy properties.
+        Item item = Starving.getInstance().getItemManager().findItem(scoped);
+        if (item instanceof ScopedAK47) {
+            return createWithLore(AK47.class, scoped);
+        } else if (item instanceof ScopedColtAnaconda) {
+            return createWithLore(ColtAnaconda.class, scoped);
+        } else if (item instanceof ScopedDragunov) {
+            return createWithLore(Dragunov.class, scoped);
+        } else if (item instanceof ScopedGlock) {
+            return createWithLore(Glock.class, scoped);
+        } else if (item instanceof ScopedM16) {
+            return createWithLore(M16.class, scoped);
+        } else if (item instanceof ScopedMossberg500) {
+            return createWithLore(Mossberg500.class, scoped);
+        } else if (item instanceof ScopedMP5) {
+            return createWithLore(MP5.class, scoped);
+        } else if (item instanceof ScopedNickyAnaconda) {
+            return createWithLore(NickyAnaconda.class, scoped);
+        } else {
+            throw new IllegalArgumentException(
+                    "Itemstack must be supported firearm. Found: "
+                            + item.getClass().getSimpleName());
+        }
+    }
 }

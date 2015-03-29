@@ -20,8 +20,8 @@
 package eu.matejkormuth.rpgdavid.starving.items;
 
 /**
- * Specifies types of clothing. Different types of clothing have different impact
- * on player's body functions.
+ * Specifies types of clothing. Different types of clothing have different
+ * impact on player's body functions.
  */
 public enum ClothingType {
     SUMMER_CLOTHING, WINTER_CLOTHING;

@@ -22,7 +22,7 @@ package eu.matejkormuth.rpgdavid.starving.worldgen;
 import org.bukkit.Location;
 
 public interface Filter {
-	default void apply(CircleAffectedBlocksDef region, Location center) {
+    default void apply(CircleAffectedBlocksDef region, Location center) {
 
-	}
+    }
 }

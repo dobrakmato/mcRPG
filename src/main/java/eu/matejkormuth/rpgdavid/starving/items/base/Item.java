@@ -34,7 +34,7 @@ public abstract class Item extends ItemBase {
     private Rarity rarity = Rarity.COMMON;
     private Category category;
     private int maxStackAmount;
-    
+
     private float resistanceChange = 0.0f; // damage resistance in percents
     private float biteProbabiltyChange = 00.0f;
 

@@ -7,8 +7,10 @@ package eu.matejkormuth.rpgdavid.starving.sounds.lists;
 
 import eu.matejkormuth.rpgdavid.starving.sounds.Atmosphere;
 
-public class Atmospheres { 
-    private Atmospheres() {}
-    public static final Atmosphere WOODS_CALM = new Atmosphere(Sounds.WOODS1, Sounds.WOODS2, Sounds.WOODS3);
-}
+public class Atmospheres {
+    private Atmospheres() {
+    }
 
+    public static final Atmosphere WOODS_CALM = new Atmosphere(Sounds.WOODS1,
+            Sounds.WOODS2, Sounds.WOODS3);
+}

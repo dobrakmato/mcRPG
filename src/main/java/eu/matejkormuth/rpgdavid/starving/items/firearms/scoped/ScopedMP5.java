@@ -25,7 +25,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.MP5;
 
 public class ScopedMP5 extends MP5 {
-	public ScopedMP5() {
-		super(new Mapping(Material.APPLE), "MP5 (scoped)");
-	}
+    public ScopedMP5() {
+        super(new Mapping(Material.APPLE), "MP5 (scoped)");
+    }
 }

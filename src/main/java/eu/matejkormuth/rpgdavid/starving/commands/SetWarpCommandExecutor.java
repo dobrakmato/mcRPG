@@ -29,27 +29,27 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public class SetWarpCommandExecutor implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
-		if (sender instanceof Player) {
-			if (args.length == 1) {
-				if (Starving.getInstance().isWarp(args[0])) {
-					sender.sendMessage(ChatColor.GREEN + "Warp '" + args[0]
-							+ "' overwritten!");
-					Starving.getInstance().setWarp(args[0],
-							((Player) sender).getLocation());
-				} else {
-					sender.sendMessage(ChatColor.GREEN + "Warp '" + args[0]
-							+ "' set!");
-					Starving.getInstance().setWarp(args[0],
-							((Player) sender).getLocation());
-				}
-			} else {
-				sender.sendMessage(ChatColor.RED + "/setwarp <name>");
-			}
-		}
-		return true;
-	}
+    @Override
+    public boolean onCommand(CommandSender sender, Command command,
+            String label, String[] args) {
+        if (sender instanceof Player) {
+            if (args.length == 1) {
+                if (Starving.getInstance().isWarp(args[0])) {
+                    sender.sendMessage(ChatColor.GREEN + "Warp '" + args[0]
+                            + "' overwritten!");
+                    Starving.getInstance().setWarp(args[0],
+                            ((Player) sender).getLocation());
+                } else {
+                    sender.sendMessage(ChatColor.GREEN + "Warp '" + args[0]
+                            + "' set!");
+                    Starving.getInstance().setWarp(args[0],
+                            ((Player) sender).getLocation());
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "/setwarp <name>");
+            }
+        }
+        return true;
+    }
 
 }

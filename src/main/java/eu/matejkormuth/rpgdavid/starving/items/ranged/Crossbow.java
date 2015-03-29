@@ -35,28 +35,28 @@ import eu.matejkormuth.rpgdavid.starving.items.transformers.CrossbowTransformer;
 
 public class Crossbow extends Item {
 
-	public Crossbow() {
-		super(Mappings.CORSSBOWUNLOADED, "Crossbow");
-	}
+    public Crossbow() {
+        super(Mappings.CORSSBOWUNLOADED, "Crossbow");
+    }
 
-	@Override
-	public InteractResult onInteract(Player player, Action action,
-			Block clickedBlock, BlockFace clickedFace) {
-		if (player.getInventory().contains(Material.ARROW)) {
-			player.playSound(player.getLocation(), Sound.BAT_TAKEOFF, 1.0f,
-					0.5f);
-			// Remove one arrow.
-			player.getInventory().remove(new ItemStack(Material.ARROW, 1));
+    @Override
+    public InteractResult onInteract(Player player, Action action,
+            Block clickedBlock, BlockFace clickedFace) {
+        if (player.getInventory().contains(Material.ARROW)) {
+            player.playSound(player.getLocation(), Sound.BAT_TAKEOFF, 1.0f,
+                    0.5f);
+            // Remove one arrow.
+            player.getInventory().remove(new ItemStack(Material.ARROW, 1));
 
-			ItemStack loaded = CrossbowTransformer.toLoaded();
-			player.setItemInHand(loaded);
-		} else {
-			// Player has no arrows.
-			player.sendMessage(ChatColor.RED
-					+ "Crossbow is loaded with arrows!");
-		}
+            ItemStack loaded = CrossbowTransformer.toLoaded();
+            player.setItemInHand(loaded);
+        } else {
+            // Player has no arrows.
+            player.sendMessage(ChatColor.RED
+                    + "Crossbow is loaded with arrows!");
+        }
 
-		return InteractResult.transform();
-	}
+        return InteractResult.transform();
+    }
 
 }

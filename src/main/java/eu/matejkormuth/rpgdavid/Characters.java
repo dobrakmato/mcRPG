@@ -48,28 +48,28 @@ public final class Characters {
         }
 
         switch (id) {
-        case "Soldier":
-            return Characters.SOLDIER;
-        case "Knight":
-            return Characters.KNIGHT;
-        case "Hunter":
-            return Characters.HUNTER;
-        case "Killer":
-            return Characters.KILLER;
-        case "Magican":
-            return Characters.MAGICAN;
-        case "Adventurer":
-            return Characters.ADVENTURER;
+            case "Soldier":
+                return Characters.SOLDIER;
+            case "Knight":
+                return Characters.KNIGHT;
+            case "Hunter":
+                return Characters.HUNTER;
+            case "Killer":
+                return Characters.KILLER;
+            case "Magican":
+                return Characters.MAGICAN;
+            case "Adventurer":
+                return Characters.ADVENTURER;
 
-        case "Vampire":
-            return Characters.VAMPIRE;
-        case "Undead":
-            return Characters.UNDEAD;
-        case "Werewolf":
-            return Characters.WEREWOLF;
+            case "Vampire":
+                return Characters.VAMPIRE;
+            case "Undead":
+                return Characters.UNDEAD;
+            case "Werewolf":
+                return Characters.WEREWOLF;
 
-        default:
-            return null;
+            default:
+                return null;
         }
     }
 }

@@ -27,16 +27,16 @@ import eu.matejkormuth.rpgdavid.starving.Data;
 
 public class FlashlightTask extends RepeatingTask {
 
-	@Override
-	public void run() {
-		Data d = null;
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			d = Data.of(p);
-			if (d.isFlashlightOn()) {
-				p.getLocation().add(0, 1.5, 0).getBlock()
-						.setType(Material.GLOWSTONE);
-			}
-		}
-	}
+    @Override
+    public void run() {
+        Data d = null;
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            d = Data.of(p);
+            if (d.isFlashlightOn()) {
+                p.getLocation().add(0, 1.5, 0).getBlock()
+                        .setType(Material.GLOWSTONE);
+            }
+        }
+    }
 
 }

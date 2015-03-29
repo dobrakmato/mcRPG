@@ -23,7 +23,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Glock;
 
 public class ScopedGlock extends Glock {
-	public ScopedGlock() {
-		super(Mappings.GLOCK_SCOPED_DEFAULT, "Glock (scoped)");
-	}
+    public ScopedGlock() {
+        super(Mappings.GLOCK_SCOPED_DEFAULT, "Glock (scoped)");
+    }
 }

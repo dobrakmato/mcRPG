@@ -11,7 +11,6 @@ import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.money.Currencies;
 import eu.matejkormuth.rpgdavid.money.Money;
 
-
 public class MoneyCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command,
@@ -30,51 +29,57 @@ public class MoneyCommandExecutor implements CommandExecutor {
 
                 int amount = Integer.parseInt(args[2]);
                 switch (args[0]) {
-                case "add":
-                    RpgPlugin.getInstance().getProfile(p).getNormalMoney()
-                            .add(new Money(amount, Currencies.NORMAL));
-                    if (currency.equalsIgnoreCase(Currencies.NORMAL.getAbbr())
-                            || currency.equalsIgnoreCase(Currencies.NORMAL
-                                    .getName())) {
+                    case "add":
                         RpgPlugin.getInstance().getProfile(p).getNormalMoney()
                                 .add(new Money(amount, Currencies.NORMAL));
-                    } else if (currency.equalsIgnoreCase(Currencies.PREMIUM
-                            .getAbbr())
-                            || currency.equalsIgnoreCase(Currencies.PREMIUM
-                                    .getName())) {
-                        RpgPlugin.getInstance().getProfile(p).getPremiumMoney()
-                                .add(new Money(amount, Currencies.PREMIUM));
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Currency "
-                                + currency + " is not valid currency!");
-                        return false;
-                    }
-                    sender.sendMessage(ChatColor.GREEN + "Added " + amount
-                            + " to " + playerName);
-                    break;
-                case "set":
-                    if (currency.equalsIgnoreCase(Currencies.NORMAL.getAbbr())
-                            || currency.equalsIgnoreCase(Currencies.NORMAL
-                                    .getName())) {
-                        RpgPlugin.getInstance().getProfile(p).getNormalMoney()
-                                .setAmount(amount);
-                    } else if (currency.equalsIgnoreCase(Currencies.PREMIUM
-                            .getAbbr())
-                            || currency.equalsIgnoreCase(Currencies.PREMIUM
-                                    .getName())) {
-                        RpgPlugin.getInstance().getProfile(p).getPremiumMoney()
-                                .setAmount(amount);
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Currency "
-                                + currency + " is not valid currency!");
-                        return false;
-                    }
-                    sender.sendMessage(ChatColor.GREEN + "Money set!");
-                    break;
-                default:
-                    sender.sendMessage(ChatColor.RED
-                            + "Usage: /money <add/set> <playerName> <amount> <currency>");
-                    break;
+                        if (currency.equalsIgnoreCase(Currencies.NORMAL
+                                .getAbbr())
+                                || currency.equalsIgnoreCase(Currencies.NORMAL
+                                        .getName())) {
+                            RpgPlugin.getInstance().getProfile(p)
+                                    .getNormalMoney()
+                                    .add(new Money(amount, Currencies.NORMAL));
+                        } else if (currency.equalsIgnoreCase(Currencies.PREMIUM
+                                .getAbbr())
+                                || currency.equalsIgnoreCase(Currencies.PREMIUM
+                                        .getName())) {
+                            RpgPlugin.getInstance().getProfile(p)
+                                    .getPremiumMoney()
+                                    .add(new Money(amount, Currencies.PREMIUM));
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "Currency "
+                                    + currency + " is not valid currency!");
+                            return false;
+                        }
+                        sender.sendMessage(ChatColor.GREEN + "Added " + amount
+                                + " to " + playerName);
+                        break;
+                    case "set":
+                        if (currency.equalsIgnoreCase(Currencies.NORMAL
+                                .getAbbr())
+                                || currency.equalsIgnoreCase(Currencies.NORMAL
+                                        .getName())) {
+                            RpgPlugin.getInstance().getProfile(p)
+                                    .getNormalMoney()
+                                    .setAmount(amount);
+                        } else if (currency.equalsIgnoreCase(Currencies.PREMIUM
+                                .getAbbr())
+                                || currency.equalsIgnoreCase(Currencies.PREMIUM
+                                        .getName())) {
+                            RpgPlugin.getInstance().getProfile(p)
+                                    .getPremiumMoney()
+                                    .setAmount(amount);
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "Currency "
+                                    + currency + " is not valid currency!");
+                            return false;
+                        }
+                        sender.sendMessage(ChatColor.GREEN + "Money set!");
+                        break;
+                    default:
+                        sender.sendMessage(ChatColor.RED
+                                + "Usage: /money <add/set> <playerName> <amount> <currency>");
+                        break;
                 }
             } else {
                 sender.sendMessage(ChatColor.RED

@@ -23,7 +23,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.M16;
 
 public class ScopedM16 extends M16 {
-	public ScopedM16() {
-		super(Mappings.M16_SCOPED_DEFAULT, "M16 (scoped)");
-	}
+    public ScopedM16() {
+        super(Mappings.M16_SCOPED_DEFAULT, "M16 (scoped)");
+    }
 }

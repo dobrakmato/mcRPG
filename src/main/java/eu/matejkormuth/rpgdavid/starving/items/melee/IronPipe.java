@@ -25,10 +25,10 @@ import eu.matejkormuth.rpgdavid.starving.items.base.MeleeWeapon;
 
 public class IronPipe extends MeleeWeapon {
 
-	public IronPipe() {
-		super(Mappings.IRONPIPE, "Iron Pipe", 6, 80);
-		this.setRarity(Rarity.COMMON);
-		this.setMaxStackAmount(3);
-	}
+    public IronPipe() {
+        super(Mappings.IRONPIPE, "Iron Pipe", 6, 80);
+        this.setRarity(Rarity.COMMON);
+        this.setMaxStackAmount(3);
+    }
 
 }

@@ -25,7 +25,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.ColtAnaconda;
 
 public class ScopedColtAnaconda extends ColtAnaconda {
-	public ScopedColtAnaconda() {
-		super(new Mapping(Material.APPLE), "Colt Anaconda (scoped)");
-	}
+    public ScopedColtAnaconda() {
+        super(new Mapping(Material.APPLE), "Colt Anaconda (scoped)");
+    }
 }

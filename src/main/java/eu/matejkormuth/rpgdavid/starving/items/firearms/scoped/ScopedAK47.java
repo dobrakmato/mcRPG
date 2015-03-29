@@ -25,7 +25,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.AK47;
 
 public class ScopedAK47 extends AK47 {
-	public ScopedAK47() {
-		super(new Mapping(Material.APPLE), "AK47 (scoped)");
-	}
+    public ScopedAK47() {
+        super(new Mapping(Material.APPLE), "AK47 (scoped)");
+    }
 }

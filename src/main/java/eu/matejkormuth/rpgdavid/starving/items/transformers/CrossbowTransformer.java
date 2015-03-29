@@ -26,13 +26,13 @@ import eu.matejkormuth.rpgdavid.starving.items.ranged.Crossbow;
 import eu.matejkormuth.rpgdavid.starving.items.ranged.LoadedCrossbow;
 
 public class CrossbowTransformer {
-	public static ItemStack toLoaded() {
-		return Starving.getInstance().getItemManager()
-				.newItemStack(LoadedCrossbow.class);
-	}
+    public static ItemStack toLoaded() {
+        return Starving.getInstance().getItemManager()
+                .newItemStack(LoadedCrossbow.class);
+    }
 
-	public static ItemStack toUnloaded() {
-		return Starving.getInstance().getItemManager()
-				.newItemStack(Crossbow.class);
-	}
+    public static ItemStack toUnloaded() {
+        return Starving.getInstance().getItemManager()
+                .newItemStack(Crossbow.class);
+    }
 }

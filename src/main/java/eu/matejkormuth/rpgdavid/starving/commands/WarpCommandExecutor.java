@@ -29,24 +29,25 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public class WarpCommandExecutor implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
-		if(sender instanceof Player) {
-			if(args.length == 1) {
-				if (Starving.getInstance().isWarp(args[0])) {
-					sender.sendMessage(ChatColor.GREEN + "Teleporting to '" + args[0]
-							+ "'!");
-					((Player) sender).teleport(Starving.getInstance().getWarp(args[0]));
-				} else {
-					sender.sendMessage(ChatColor.RED + "Warp '" + args[0]
-							+ "' not found!");
-				}
-			} else {
-				sender.sendMessage(ChatColor.RED + "/warp <name>");
-			}
-		}
-		return true;
-	}
+    @Override
+    public boolean onCommand(CommandSender sender, Command command,
+            String label, String[] args) {
+        if (sender instanceof Player) {
+            if (args.length == 1) {
+                if (Starving.getInstance().isWarp(args[0])) {
+                    sender.sendMessage(ChatColor.GREEN + "Teleporting to '"
+                            + args[0] + "'!");
+                    ((Player) sender).teleport(Starving.getInstance().getWarp(
+                            args[0]));
+                } else {
+                    sender.sendMessage(ChatColor.RED + "Warp '" + args[0]
+                            + "' not found!");
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "/warp <name>");
+            }
+        }
+        return true;
+    }
 
 }

@@ -25,10 +25,10 @@ import eu.matejkormuth.rpgdavid.starving.items.base.MeleeWeapon;
 
 public class IronPipeWithMetaRodsAndKnife extends MeleeWeapon {
 
-	public IronPipeWithMetaRodsAndKnife() {
-		super(Mappings.IRONPIPEWITHMETALRODSANDKNIFE,
-				"Iron Pipe with Metal Rods and Knife", 12, 95);
-		this.setRarity(Rarity.RARE);
-	}
+    public IronPipeWithMetaRodsAndKnife() {
+        super(Mappings.IRONPIPEWITHMETALRODSANDKNIFE,
+                "Iron Pipe with Metal Rods and Knife", 12, 95);
+        this.setRarity(Rarity.RARE);
+    }
 
 }

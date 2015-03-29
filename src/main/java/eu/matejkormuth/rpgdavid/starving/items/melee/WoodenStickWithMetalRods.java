@@ -25,10 +25,10 @@ import eu.matejkormuth.rpgdavid.starving.items.base.MeleeWeapon;
 
 public class WoodenStickWithMetalRods extends MeleeWeapon {
 
-	public WoodenStickWithMetalRods() {
-		super(Mappings.WOODENSTICKWITHMETALRODS,
-				"Wooden stick with metal rods", 7, 35);
-		this.setRarity(Rarity.RARE);
-	}
+    public WoodenStickWithMetalRods() {
+        super(Mappings.WOODENSTICKWITHMETALRODS,
+                "Wooden stick with metal rods", 7, 35);
+        this.setRarity(Rarity.RARE);
+    }
 
 }

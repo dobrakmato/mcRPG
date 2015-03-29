@@ -26,8 +26,8 @@ import eu.matejkormuth.rpgdavid.starving.items.base.BlockWithData;
 
 public class OakStairsD7 extends BlockWithData {
 
-	public OakStairsD7() {
-		super(new Mapping(Material.WOOD_STAIRS), "Oak Stairs D7", (byte) 7);
-	}
+    public OakStairsD7() {
+        super(new Mapping(Material.WOOD_STAIRS), "Oak Stairs D7", (byte) 7);
+    }
 
 }

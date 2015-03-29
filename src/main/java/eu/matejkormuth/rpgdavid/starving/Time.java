@@ -49,7 +49,7 @@ public class Time {
     public int toTicks() {
         return (int) (this.milis / 1000 * 20);
     }
-    
+
     public long toLongTicks() {
         return this.milis / 1000 * 20;
     }

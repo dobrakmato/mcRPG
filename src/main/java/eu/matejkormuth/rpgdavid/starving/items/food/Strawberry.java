@@ -27,12 +27,12 @@ import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 
 public class Strawberry extends ConsumableItem {
 
-	public Strawberry() {
-		super(1, 2, new Mapping(Material.RAW_FISH), "Strawberry");
-	}
+    public Strawberry() {
+        super(1, 2, new Mapping(Material.RAW_FISH), "Strawberry");
+    }
 
-	@Override
-	protected void onConsume0(Player player) {
-	}
+    @Override
+    protected void onConsume0(Player player) {
+    }
 
 }

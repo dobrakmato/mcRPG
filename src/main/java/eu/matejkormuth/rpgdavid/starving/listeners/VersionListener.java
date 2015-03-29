@@ -30,34 +30,34 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class VersionListener implements Listener {
-	@EventHandler
-	private void onVersionCommand(final PlayerCommandPreprocessEvent event) {
-		if (event.getMessage().contains("/version")) {
-			// Output self version.
-			URLClassLoader cl = ((URLClassLoader) this.getClass()
-					.getClassLoader());
-			try {
-				URL url = cl.findResource("META-INF/MANIFEST.MF");
-				Manifest manifest = new Manifest(url.openStream());
-				// do stuff with it
-				String title = manifest.getMainAttributes().getValue(
-						"Implementation-Title");
-				String version = manifest.getMainAttributes().getValue(
-						"Implementation-Version");
-				String buildnumber = manifest.getMainAttributes().getValue(
-						"Implementation-Build-Number");
-				String scmRevision = manifest.getMainAttributes().getValue(
-						"Implementation-SCM-Revision");
-				StringBuilder message = new StringBuilder();
-				message.append(ChatColor.YELLOW).append("You are running: ")
-						.append(title).append(" ").append(version).append(" ")
-						.append(ChatColor.GREEN).append(buildnumber)
-						.append(" / ").append(scmRevision);
-				event.getPlayer().sendMessage(message.toString());
-			} catch (IOException e) {
-				// handle
-				event.getPlayer().sendMessage(ChatColor.RED + e.toString());
-			}
-		}
-	}
+    @EventHandler
+    private void onVersionCommand(final PlayerCommandPreprocessEvent event) {
+        if (event.getMessage().contains("/version")) {
+            // Output self version.
+            URLClassLoader cl = ((URLClassLoader) this.getClass()
+                    .getClassLoader());
+            try {
+                URL url = cl.findResource("META-INF/MANIFEST.MF");
+                Manifest manifest = new Manifest(url.openStream());
+                // do stuff with it
+                String title = manifest.getMainAttributes().getValue(
+                        "Implementation-Title");
+                String version = manifest.getMainAttributes().getValue(
+                        "Implementation-Version");
+                String buildnumber = manifest.getMainAttributes().getValue(
+                        "Implementation-Build-Number");
+                String scmRevision = manifest.getMainAttributes().getValue(
+                        "Implementation-SCM-Revision");
+                StringBuilder message = new StringBuilder();
+                message.append(ChatColor.YELLOW).append("You are running: ")
+                        .append(title).append(" ").append(version).append(" ")
+                        .append(ChatColor.GREEN).append(buildnumber)
+                        .append(" / ").append(scmRevision);
+                event.getPlayer().sendMessage(message.toString());
+            } catch (IOException e) {
+                // handle
+                event.getPlayer().sendMessage(ChatColor.RED + e.toString());
+            }
+        }
+    }
 }

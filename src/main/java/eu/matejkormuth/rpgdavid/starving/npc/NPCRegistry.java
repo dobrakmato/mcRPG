@@ -20,6 +20,5 @@
 package eu.matejkormuth.rpgdavid.starving.npc;
 
 public class NPCRegistry {
-	
-	
+
 }

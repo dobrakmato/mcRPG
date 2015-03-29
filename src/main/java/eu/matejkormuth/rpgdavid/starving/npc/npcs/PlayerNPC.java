@@ -38,136 +38,136 @@ import eu.matejkormuth.rpgdavid.starving.npc.path.Path;
 
 @NMSHooks(version = "v1_8_R1")
 public class PlayerNPC extends EntityHuman implements NPC, PathFollower,
-		EntityFollower, LivingNPC {
+        EntityFollower, LivingNPC {
 
-	public PlayerNPC(Location spawnLocation, World world,
-			GameProfile gameprofile) {
-		super(world, gameprofile);
-		// Magic to get NPC to work.
-		this.setLocation(spawnLocation.getX(), spawnLocation.getY(),
-				spawnLocation.getZ(), spawnLocation.getYaw(),
-				spawnLocation.getPitch());
-		world.addEntity(this);
-	}
+    public PlayerNPC(Location spawnLocation, World world,
+            GameProfile gameprofile) {
+        super(world, gameprofile);
+        // Magic to get NPC to work.
+        this.setLocation(spawnLocation.getX(), spawnLocation.getY(),
+                spawnLocation.getZ(), spawnLocation.getYaw(),
+                spawnLocation.getPitch());
+        world.addEntity(this);
+    }
 
-	@Override
-	public void teleport(Location location) {
+    @Override
+    public void teleport(Location location) {
 
-	}
+    }
 
-	@Override
-	public void teleport(Location location, TeleportCause cause) {
+    @Override
+    public void teleport(Location location, TeleportCause cause) {
 
-	}
+    }
 
-	@Override
-	public void lookAt(Location location) {
+    @Override
+    public void lookAt(Location location) {
 
-	}
+    }
 
-	@Override
-	public void lookAt(Entity entity) {
+    @Override
+    public void lookAt(Entity entity) {
 
-	}
+    }
 
-	@Override
-	public void setRotation(float pitch, float yaw) {
+    @Override
+    public void setRotation(float pitch, float yaw) {
 
-	}
+    }
 
-	@Override
-	public void walkTo(Location location) {
-		// Compute path.
+    @Override
+    public void walkTo(Location location) {
+        // Compute path.
 
-		// Walk
-	}
+        // Walk
+    }
 
-	@Override
-	public void walkBy(Path path) {
+    @Override
+    public void walkBy(Path path) {
 
-	}
+    }
 
-	@Override
-	public void follow(Entity entity) {
+    @Override
+    public void follow(Entity entity) {
 
-	}
+    }
 
-	@Override
-	public void remove() {
-		this.dead = true;
-	}
+    @Override
+    public void remove() {
+        this.dead = true;
+    }
 
-	@Override
-	public boolean v() {
-		return false;
-	}
+    @Override
+    public boolean v() {
+        return false;
+    }
 
-	@Override
-	public void stopFollowing() {
-		// TODO Auto-generated method stub
+    @Override
+    public void stopFollowing() {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void stopWalking() {
-		// TODO Auto-generated method stub
+    @Override
+    public void stopWalking() {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public boolean isActive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean isActive() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	@Override
-	public void setActive(boolean active) {
-		// TODO Auto-generated method stub
+    @Override
+    public void setActive(boolean active) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public Location getLocation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Location getLocation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public boolean hasBehaviour(
-			Class<? extends AbstractBehaviour> abstractBehaviour) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean hasBehaviour(
+            Class<? extends AbstractBehaviour> abstractBehaviour) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	@Override
-	public <T extends AbstractBehaviour> T getBehaviour(
-			Class<? extends AbstractBehaviour> abstractBehaviour) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public <T extends AbstractBehaviour> T getBehaviour(
+            Class<? extends AbstractBehaviour> abstractBehaviour) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public void addBehaviour(AbstractBehaviour behaviour) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void addBehaviour(AbstractBehaviour behaviour) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public boolean hasLineofSight(LivingEntity e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    }
 
-	@Override
-	public void setYaw(float yaw) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public boolean hasLineofSight(LivingEntity e) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	@Override
-	public void setPitch(float pitch) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void setYaw(float yaw) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setPitch(float pitch) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

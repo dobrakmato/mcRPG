@@ -41,7 +41,7 @@ public class ChatListener implements Listener {
 
         // Cancel original chat event.
         event.setCancelled(true);
-        
+
         // Apply filters to message.
         String msg = event.getMessage();
         msg = ChatFilters.ipFilter(msg);

@@ -33,7 +33,8 @@ public abstract class RepeatingTask implements Runnable {
 
     public void cancel() {
         if (this.taskId == -1) {
-            throw new IllegalStateException("RepeatingTask has not been scheduled yet!");
+            throw new IllegalStateException(
+                    "RepeatingTask has not been scheduled yet!");
         }
 
         Bukkit.getScheduler().cancelTask(this.taskId);

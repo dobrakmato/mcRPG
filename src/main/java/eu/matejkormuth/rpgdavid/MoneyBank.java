@@ -32,101 +32,101 @@ import eu.matejkormuth.rpgdavid.money.Currencies;
 import eu.matejkormuth.rpgdavid.money.Money;
 
 public class MoneyBank implements Runnable {
-	private static final String BANKS_DIR = "banks";
+    private static final String BANKS_DIR = "banks";
 
-	private Map<UUID, Account> accounts;
+    private Map<UUID, Account> accounts;
 
-	public MoneyBank() {
-		this.accounts = new HashMap<>();
-		this.deserialize();
+    public MoneyBank() {
+        this.accounts = new HashMap<>();
+        this.deserialize();
 
-		// To prevent data-loss we save all each minute.
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(
-				RpgPlugin.getInstance(), this, 20L * 60, 20L * 60);
-	}
+        // To prevent data-loss we save all each minute.
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(
+                RpgPlugin.getInstance(), this, 20L * 60, 20L * 60);
+    }
 
-	private void deserialize() {
-		File[] files = RpgPlugin.getInstance().getFile(BANKS_DIR).listFiles();
+    private void deserialize() {
+        File[] files = RpgPlugin.getInstance().getFile(BANKS_DIR).listFiles();
 
-		if (files == null) {
-			throw new RuntimeException("Can't read banks directory!");
-		}
+        if (files == null) {
+            throw new RuntimeException("Can't read banks directory!");
+        }
 
-		for (File file : files) {
-			YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-			UUID uuid = UUID.fromString(file.getName().replace(".yml", ""));
-			Account a = new Account(uuid, new Money(
-					yaml.getInt("money.normal"), Currencies.NORMAL), new Money(
-					yaml.getInt("money.premium"), Currencies.PREMIUM));
-			this.accounts.put(uuid, a);
-		}
-	}
+        for (File file : files) {
+            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+            UUID uuid = UUID.fromString(file.getName().replace(".yml", ""));
+            Account a = new Account(uuid, new Money(
+                    yaml.getInt("money.normal"), Currencies.NORMAL), new Money(
+                    yaml.getInt("money.premium"), Currencies.PREMIUM));
+            this.accounts.put(uuid, a);
+        }
+    }
 
-	private void serialize() {
-		// Save all.
-		for (Account a : this.accounts.values()) {
-			YamlConfiguration yaml = new YamlConfiguration();
+    private void serialize() {
+        // Save all.
+        for (Account a : this.accounts.values()) {
+            YamlConfiguration yaml = new YamlConfiguration();
 
-			yaml.set("money.normal", a.getNormal().getAmount());
-			yaml.set("money.premium", a.getPremium().getAmount());
+            yaml.set("money.normal", a.getNormal().getAmount());
+            yaml.set("money.premium", a.getPremium().getAmount());
 
-			try {
-				yaml.save(RpgPlugin.getInstance().getFile(BANKS_DIR,
-						a.getUUID().toString() + ".yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+            try {
+                yaml.save(RpgPlugin.getInstance().getFile(BANKS_DIR,
+                        a.getUUID().toString() + ".yml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	public Account getAccount(OfflinePlayer player) {
-		return this.getAccount(player.getUniqueId());
-	}
+    public Account getAccount(OfflinePlayer player) {
+        return this.getAccount(player.getUniqueId());
+    }
 
-	private Account getAccount(UUID uniqueId) {
-		if (this.accounts.containsKey(uniqueId)) {
-			return this.accounts.get(uniqueId);
-		} else {
-			return this.accounts.put(uniqueId, new Account(uniqueId));
-		}
-	}
+    private Account getAccount(UUID uniqueId) {
+        if (this.accounts.containsKey(uniqueId)) {
+            return this.accounts.get(uniqueId);
+        } else {
+            return this.accounts.put(uniqueId, new Account(uniqueId));
+        }
+    }
 
-	public void shutdown() {
-		this.serialize();
-	}
+    public void shutdown() {
+        this.serialize();
+    }
 
-	public static class Account {
-		private UUID uuid;
-		private Money normal;
-		private Money premium;
+    public static class Account {
+        private UUID uuid;
+        private Money normal;
+        private Money premium;
 
-		public Account(UUID uuid) {
-			this.uuid = uuid;
-			this.normal = new Money(0, Currencies.NORMAL);
-			this.premium = new Money(0, Currencies.PREMIUM);
-		}
+        public Account(UUID uuid) {
+            this.uuid = uuid;
+            this.normal = new Money(0, Currencies.NORMAL);
+            this.premium = new Money(0, Currencies.PREMIUM);
+        }
 
-		public Account(UUID uuid, Money normal, Money premium) {
-			this.uuid = uuid;
-			this.normal = normal;
-			this.premium = premium;
-		}
+        public Account(UUID uuid, Money normal, Money premium) {
+            this.uuid = uuid;
+            this.normal = normal;
+            this.premium = premium;
+        }
 
-		public Money getNormal() {
-			return this.normal;
-		}
+        public Money getNormal() {
+            return this.normal;
+        }
 
-		public Money getPremium() {
-			return this.premium;
-		}
+        public Money getPremium() {
+            return this.premium;
+        }
 
-		public UUID getUUID() {
-			return this.uuid;
-		}
-	}
+        public UUID getUUID() {
+            return this.uuid;
+        }
+    }
 
-	@Override
-	public void run() {
-		this.serialize();
-	}
+    @Override
+    public void run() {
+        this.serialize();
+    }
 }

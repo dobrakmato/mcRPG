@@ -25,7 +25,7 @@ import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Dragunov;
 
 public class ScopedDragunov extends Dragunov {
-	public ScopedDragunov() {
-		super(new Mapping(Material.APPLE), "Dragunov (scoped)");
-	}
+    public ScopedDragunov() {
+        super(new Mapping(Material.APPLE), "Dragunov (scoped)");
+    }
 }

@@ -35,36 +35,36 @@ import eu.matejkormuth.rpgdavid.starving.items.itemmeta.concrete.FlashlightItemM
 
 public class Flashlight extends Item {
 
-	public Flashlight() {
-		super(new Mapping(Material.BLAZE_POWDER), "Fleshlight");
-	}
+    public Flashlight() {
+        super(new Mapping(Material.BLAZE_POWDER), "Fleshlight");
+    }
 
-	@Override
-	public InteractResult onInteract(Player player, Action action,
-			Block clickedBlock, BlockFace clickedFace) {
-		if (Actions.isRightClick(action)) {
-			switchState(player);
-			player.getWorld().playSound(player.getLocation(), Sound.CLICK,
-					0.8f, 2.0f);
-		}
-		return super.onInteract(player, action, clickedBlock, clickedFace);
-	}
+    @Override
+    public InteractResult onInteract(Player player, Action action,
+            Block clickedBlock, BlockFace clickedFace) {
+        if (Actions.isRightClick(action)) {
+            switchState(player);
+            player.getWorld().playSound(player.getLocation(), Sound.CLICK,
+                    0.8f, 2.0f);
+        }
+        return super.onInteract(player, action, clickedBlock, clickedFace);
+    }
 
-	private void switchState(Player player) {
-		Data data = Data.of(player);
-		FlashlightItemMetaWrapper wrapper = new FlashlightItemMetaWrapper(
-				player.getItemInHand());
-		if (data.isFlashlightOn()) {
+    private void switchState(Player player) {
+        Data data = Data.of(player);
+        FlashlightItemMetaWrapper wrapper = new FlashlightItemMetaWrapper(
+                player.getItemInHand());
+        if (data.isFlashlightOn()) {
 
-			data.setFlashlightOn(false);
-			wrapper.setSwitchedOn(false);
-		} else {
+            data.setFlashlightOn(false);
+            wrapper.setSwitchedOn(false);
+        } else {
 
-			data.setFlashlightOn(true);
-			wrapper.setSwitchedOn(true); 
-		}
-		player.setItemInHand(wrapper.apply());
+            data.setFlashlightOn(true);
+            wrapper.setSwitchedOn(true);
+        }
+        player.setItemInHand(wrapper.apply());
 
-	}
+    }
 
 }

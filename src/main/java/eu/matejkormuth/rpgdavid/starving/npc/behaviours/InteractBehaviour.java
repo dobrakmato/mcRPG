@@ -28,26 +28,26 @@ import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.ListenerAbstractBeh
 
 public abstract class InteractBehaviour extends ListenerAbstractBehaiour {
 
-	@EventHandler
-	private void onInteract(final PlayerInteractEntityEvent event) {
-		if (event.getRightClicked() == this.owner) {
-			this.onRightClick(event.getPlayer());
-		}
-	}
+    @EventHandler
+    private void onInteract(final PlayerInteractEntityEvent event) {
+        if (event.getRightClicked() == this.owner) {
+            this.onRightClick(event.getPlayer());
+        }
+    }
 
-	@EventHandler
-	private void onHit(final EntityDamageByEntityEvent event) {
-		if (event.getEntity() == this.owner) {
-			if (event.getDamager() instanceof Player) {
-				event.setDamage(0);
-				this.onLeftClick((Player) event.getDamager());
-			}
-		}
-	}
+    @EventHandler
+    private void onHit(final EntityDamageByEntityEvent event) {
+        if (event.getEntity() == this.owner) {
+            if (event.getDamager() instanceof Player) {
+                event.setDamage(0);
+                this.onLeftClick((Player) event.getDamager());
+            }
+        }
+    }
 
-	public void onLeftClick(Player player) {
-	}
+    public void onLeftClick(Player player) {
+    }
 
-	public void onRightClick(Player player) {
-	}
+    public void onRightClick(Player player) {
+    }
 }

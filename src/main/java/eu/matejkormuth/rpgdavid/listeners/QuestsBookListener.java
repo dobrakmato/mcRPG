@@ -36,10 +36,12 @@ public class QuestsBookListener implements Listener {
                 if (event.getAction() == Action.RIGHT_CLICK_AIR
                         || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-                    if (event.hasItem() && QuestsBook.isQuestBook(event.getItem())) {
+                    if (event.hasItem()
+                            && QuestsBook.isQuestBook(event.getItem())) {
                         // Update book contents before opening.
                         QuestsBook.update(event.getPlayer(), event.getItem());
-                        // TODO: Update book contents before opening book by player.
+                        // TODO: Update book contents before opening book by
+                        // player.
                     }
                 }
             }

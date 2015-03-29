@@ -25,24 +25,24 @@ import org.bukkit.Material;
  * Class that represents mapping (material + data byte).
  */
 public final class Mapping {
-	private final Material material;
-	private final byte data;
+    private final Material material;
+    private final byte data;
 
-	public Mapping(final Material material) {
-		this.material = material;
-		this.data = (byte) 0;
-	}
-	
-	public Mapping(final Material material, final int data) {
-		this.material = material;
-		this.data = (byte) data;
-	}
+    public Mapping(final Material material) {
+        this.material = material;
+        this.data = (byte) 0;
+    }
 
-	public byte getData() {
-		return data;
-	}
+    public Mapping(final Material material, final int data) {
+        this.material = material;
+        this.data = (byte) data;
+    }
 
-	public Material getMaterial() {
-		return material;
-	}
+    public byte getData() {
+        return data;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
 }

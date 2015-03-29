@@ -17,17 +17,23 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.items.blocks.oakstairs;
+package eu.matejkormuth.rpgdavid.starving.listeners;
 
-import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 
-import eu.matejkormuth.rpgdavid.starving.items.Mapping;
-import eu.matejkormuth.rpgdavid.starving.items.base.BlockWithData;
+public class AnimalDropsListener implements Listener {
 
-public class OakStairsD4 extends BlockWithData {
+    @EventHandler
+    private void onAnimalKilled(final EntityDeathEvent event) {
+        switch (event.getEntityType()) {
+            case SHEEP:
+                // Sheep gives
 
-    public OakStairsD4() {
-        super(new Mapping(Material.WOOD_STAIRS), "Oak Stairs D4", (byte) 4);
+                break;
+            default:
+                break;
+        }
     }
-
 }
