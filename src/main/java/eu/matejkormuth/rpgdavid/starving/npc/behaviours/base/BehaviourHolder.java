@@ -24,7 +24,7 @@ import java.util.Map;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
 
-public abstract class BehaviourHolder {
+public class BehaviourHolder {
 
     private Map<Class<? extends AbstractBehaviour>, AbstractBehaviour> abstractBehaviours;
 

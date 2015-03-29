@@ -45,6 +45,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -495,6 +496,10 @@ public class Starving implements Runnable, Listener {
                                     animationId));
                 }
             }
+        }
+
+        public static net.minecraft.server.v1_8_R1.World getNMSWorld(World world) {
+            return ((CraftWorld) world).getHandle();
         }
     }
 

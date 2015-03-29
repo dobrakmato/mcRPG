@@ -52,7 +52,7 @@ public class LookAtPlayerBehaviour extends AbstractBehaviour {
     private void findTarget() {
         if (target == null) {
             for (Player p : this.owner.getNearbyPlayers(MAX_FOLLOW_DIST)) {
-                if (this.owner.hasLineofSight(p)) {
+                if (this.owner.hasLineOfSight(p)) {
                     this.target = p;
                 }
             }

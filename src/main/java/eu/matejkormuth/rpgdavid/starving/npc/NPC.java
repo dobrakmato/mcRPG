@@ -46,7 +46,7 @@ public interface NPC {
     boolean hasBehaviour(Class<? extends AbstractBehaviour> abstractBehaviour);
 
     <T extends AbstractBehaviour> T getBehaviour(
-            Class<? extends AbstractBehaviour> abstractBehaviour);
+            Class<T> abstractBehaviour);
 
     void addBehaviour(AbstractBehaviour behaviour);
 
@@ -62,9 +62,13 @@ public interface NPC {
         return al;
     }
 
-    boolean hasLineofSight(LivingEntity e);
+    boolean hasLineOfSight(LivingEntity e);
+
+    void setInvulnerable(boolean invulnerable);
 
     void setYaw(float yaw);
 
     void setPitch(float pitch);
+    
+    void setRotation(float yaw, float pitch);
 }

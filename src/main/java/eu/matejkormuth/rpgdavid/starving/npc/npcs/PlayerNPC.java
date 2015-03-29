@@ -140,20 +140,13 @@ public class PlayerNPC extends EntityHuman implements NPC, PathFollower,
     }
 
     @Override
-    public <T extends AbstractBehaviour> T getBehaviour(
-            Class<? extends AbstractBehaviour> abstractBehaviour) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public void addBehaviour(AbstractBehaviour behaviour) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public boolean hasLineofSight(LivingEntity e) {
+    public boolean hasLineOfSight(LivingEntity e) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -168,6 +161,19 @@ public class PlayerNPC extends EntityHuman implements NPC, PathFollower,
     public void setPitch(float pitch) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public <T extends AbstractBehaviour> T getBehaviour(
+            Class<T> abstractBehaviour) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setInvulnerable(boolean invulnerable) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
