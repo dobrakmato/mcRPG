@@ -97,6 +97,7 @@ public class RemoteServer implements Listener {
                     // Check for match.
                     if (key.equals(d.getRemoteAccessKey())) {
                         // Key match.
+                        connection.write("Handshake ok!");
                         PlayerAccess access = new PlayerAccess(p, connection);
                         accesses.put(p, access);
                         Starving.getInstance().getLogger().info(
