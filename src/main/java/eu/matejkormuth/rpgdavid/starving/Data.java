@@ -147,6 +147,9 @@ public class Data {
     @Persist(key = "flashlightOn")
     private boolean flashlightOn;
 
+    @Persist(key = "remoteAccessKeey")
+    private String remoteAccessKey;
+
     public StarvingScoreboard scoreboard;
 
     private Data(OfflinePlayer player) {
@@ -192,10 +195,34 @@ public class Data {
      * <p>
      * Basically this resets player's game data.
      * </p>
+     * <p>
+     * <b>This method does not resets permanent data! (eg. remoteAccessKey) If
+     * you need to reset all data (including permanent properties) please use
+     * reset(boolean).</b>
+     * </p>
      * 
      * @return instance of self
      */
     public Data reset() {
+        return reset(false);
+    }
+
+    /**
+     * <p>
+     * Resets all fields (excluding player field) in this instance of Data to
+     * their default state. Note that this method does not remove file on disk
+     * nor automatically saves state to disk.
+     * </p>
+     * <p>
+     * Basically this resets player's game data.
+     * </p>
+     * 
+     * @param resetPermanent
+     *            whether to reset permanent properties (eg. remoteAccessKey).
+     * 
+     * @return instance of self
+     */
+    public Data reset(boolean resetPermanent) {
         // TODO: Externalize default values.
         this.ableToSprint = true;
         this.bleedingFlow = 0;
@@ -212,6 +239,11 @@ public class Data {
         this.scoped = false;
         this.hallucinating = false;
         this.flashlightOn = false;
+
+        // We not reset access key.
+        if(resetPermanent) {
+            this.remoteAccessKey = null;
+        }
 
         return this;
     }
@@ -370,5 +402,13 @@ public class Data {
 
     public void setFlashlightOn(boolean flashlightOn) {
         this.flashlightOn = flashlightOn;
+    }
+
+    public String getRemoteAccessKey() {
+        return this.remoteAccessKey;
+    }
+
+    public void setRemoteAccesKey(String remoteAccessKey) {
+        this.remoteAccessKey = remoteAccessKey;
     }
 }
