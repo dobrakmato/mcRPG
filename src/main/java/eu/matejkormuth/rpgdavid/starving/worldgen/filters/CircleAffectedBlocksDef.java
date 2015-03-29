@@ -17,32 +17,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.worldgen;
+package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
-public class SquareAffectedBlocksDef extends PaintedAffectedBlocksDef implements
+public class CircleAffectedBlocksDef extends PaintedAffectedBlocksDef implements
         AffectedBlocksDefinition {
 
-    private int minX;
-    private int maxX;
-    private int minY;
-    private int maxY;
-    private int minZ;
-    private int maxZ;
-
-    public SquareAffectedBlocksDef(int radius, Location center) {
+    public CircleAffectedBlocksDef(int radius, Location center) {
         super(radius, center);
-
-        this.minX = center.getBlockX() - radius;
-        this.maxX = center.getBlockX() + radius;
-        if (this.isFullHeight()) {
-            this.minY = center.getBlockY() - radius;
-            this.maxY = center.getBlockY() + radius;
-        }
-        this.minZ = center.getBlockZ() - radius;
-        this.maxZ = center.getBlockZ() + radius;
     }
 
     @Override
@@ -53,8 +37,7 @@ public class SquareAffectedBlocksDef extends PaintedAffectedBlocksDef implements
 
     @Override
     public boolean isAffected(Block block) {
-        // TODO: isAffected(Block);
-        return false;
+        return block.getLocation().distanceSquared(this.center) < this.radiusPow2;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package eu.matejkormuth.rpgdavid.starving.worldgen;
+package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
 import org.bukkit.Location;
 

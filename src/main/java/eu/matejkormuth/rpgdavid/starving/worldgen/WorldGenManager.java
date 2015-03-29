@@ -19,32 +19,24 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen;
 
-import org.bukkit.Location;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * <p>
- * Generates grass on top of grass blocks with specified proeprties (eg. whether
- * to generate flowers).
- * </p>
- * <p>
- * Properties:
- * <ul>
- * <li>cover: 0.00 (0%) to 1.00 (100%)</li>
- * <li>longGrass: false / true</li>
- * <li>flowers: false / true</li>
- * <li>grass type: fern / grass / dead bush / all
- * <li>clear existing grass: false / true</li>
- * </ul>
- * </p>
- * 
- * @author Matej Kormuth
- */
-public class GrassFilter implements Filter {
+import org.bukkit.entity.Player;
 
-    @Override
-    public void apply(CircleAffectedBlocksDef region, Location center) {
-        // TODO Auto-generated method stub
-        Filter.super.apply(region, center);
+public class WorldGenManager {
+
+    private Map<Player, PlayerSession> sessions;
+
+    public WorldGenManager() {
+        sessions = new HashMap<>();
     }
 
+    public PlayerSession getSession(Player player) {
+        if (!sessions.containsKey(player)) {
+            sessions.put(player, new PlayerSession(player));
+        }
+
+        return this.sessions.get(player);
+    }
 }

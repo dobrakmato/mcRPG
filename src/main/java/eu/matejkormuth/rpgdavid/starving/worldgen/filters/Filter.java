@@ -17,24 +17,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.worldgen;
+package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 
-public interface AffectedBlocksDefinition {
+public interface Filter {
+    default void apply(CircleAffectedBlocksDef region, Location center) {
 
-    Location getCenter();
-
-    boolean hasCenter();
-
-    Block[] getAffectedBlocks();
-
-    boolean isAffected(Block block);
-
-    boolean isFullHeight();
-
-    default boolean isCoverOnly() {
-        return !isFullHeight();
     }
 }

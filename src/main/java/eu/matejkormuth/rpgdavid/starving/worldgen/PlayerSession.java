@@ -19,10 +19,17 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen;
 
-import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
-public interface Filter {
-    default void apply(CircleAffectedBlocksDef region, Location center) {
+public class PlayerSession {
 
+    private Player player;
+
+    public PlayerSession(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
