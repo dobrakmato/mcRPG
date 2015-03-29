@@ -22,12 +22,21 @@ package eu.matejkormuth.rpgdavid.starving.npc;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.minecraft.server.v1_8_R1.EntityHuman;
+import net.minecraft.server.v1_8_R1.EntityPlayer;
+import net.minecraft.server.v1_8_R1.EnumPlayerInfoAction;
+import net.minecraft.server.v1_8_R1.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R1.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerInfo;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
+import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.AbstractBehaviour;
 
 public interface NPC {
@@ -69,6 +78,26 @@ public interface NPC {
     void setYaw(float yaw);
 
     void setPitch(float pitch);
-    
+
     void setRotation(float yaw, float pitch);
+
+    @NMSHooks(version = "v1_8_R1")
+    default void spawnFor(Player player) {
+        Starving.NMS.sendPacket(player, new PacketPlayOutPlayerInfo(
+                EnumPlayerInfoAction.ADD_PLAYER,
+                (EntityPlayer) this));
+        Starving.NMS.sendPacket(player, new PacketPlayOutNamedEntitySpawn(
+                (EntityHuman) this));
+    }
+
+    @NMSHooks(version = "v1_8_R1")
+    default void despawnFor(Player player) {
+        Starving.NMS.sendPacket(player, new PacketPlayOutPlayerInfo(
+                EnumPlayerInfoAction.REMOVE_PLAYER,
+                (EntityPlayer) this));
+        Starving.NMS.sendPacket(player, new PacketPlayOutEntityDestroy(this
+                .getId()));
+    }
+
+    int getId();
 }

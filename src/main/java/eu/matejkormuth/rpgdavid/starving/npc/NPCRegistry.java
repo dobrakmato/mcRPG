@@ -27,7 +27,6 @@ import org.bukkit.Location;
 
 import com.mojang.authlib.GameProfile;
 
-import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.AbstractBehaviour;
 import eu.matejkormuth.rpgdavid.starving.npc.types.HumanNPC;
 
@@ -51,7 +50,7 @@ public class NPCRegistry {
             return this;
         }
 
-        public PlayerNPCBuilder withSpawn(Location spawnLocation) {
+        public PlayerNPCBuilder withSpawnLocation(Location spawnLocation) {
             this.spawn = spawnLocation;
             return this;
         }
@@ -66,7 +65,7 @@ public class NPCRegistry {
             return this;
         }
 
-        public NPC build() {
+        public NPC spawn() {
             if (this.spawn == null) {
                 throw new NullPointerException(
                         "Spawn location can't be null. You must set spawn location.");
@@ -76,9 +75,9 @@ public class NPCRegistry {
         }
 
         private NPC buildPlayerNpc() {
-            return new HumanNPC(
-                    Starving.NMS.getNMSWorld(this.spawn.getWorld()),
-                    this.profile);
+            HumanNPC npc = new HumanNPC(
+                    this.profile, this.spawn);
+            return npc;
         }
     }
 

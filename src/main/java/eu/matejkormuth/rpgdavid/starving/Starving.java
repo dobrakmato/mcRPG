@@ -32,6 +32,7 @@ import net.minecraft.server.v1_8_R1.ChatMessage;
 import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.EnumTitleAction;
 import net.minecraft.server.v1_8_R1.IChatBaseComponent;
+import net.minecraft.server.v1_8_R1.Packet;
 import net.minecraft.server.v1_8_R1.PacketPlayOutAnimation;
 import net.minecraft.server.v1_8_R1.PacketPlayOutBlockBreakAnimation;
 import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
@@ -39,7 +40,6 @@ import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R1.PacketPlayOutTitle;
 import net.minecraft.server.v1_8_R1.PacketPlayOutUpdateTime;
-import net.minecraft.server.v1_8_R1.PlayerConnection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -107,7 +107,7 @@ import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 public class Starving implements Runnable, Listener {
 
     // Ticks elapsed since server start.
-    public static AtomicLong ticksElapsed;
+    public static AtomicLong ticksElapsed = new AtomicLong();
 
     private static Starving instance;
 
@@ -397,24 +397,22 @@ public class Starving implements Runnable, Listener {
 
     @NMSHooks(version = "v1_8_R1")
     public static final class NMS {
-        public static final void playNamedSoundEffectGlobally(Player player,
+        public static final void playNamedSoundEffectMaxVolume(Player player,
                 String soundEffectName, Location location) {
-            ((CraftPlayer) player).getHandle().playerConnection
-                    .sendPacket(new PacketPlayOutNamedSoundEffect(
-                            soundEffectName, location.getX(), location.getY(),
-                            location.getZ(), Float.MAX_VALUE, 1));
+            sendPacket(player, new PacketPlayOutNamedSoundEffect(
+                    soundEffectName, location.getX(), location.getY(),
+                    location.getZ(), Float.MAX_VALUE, 1));
         }
 
         public static final void blockBreakAnimation(Location loc) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p.getLocation().distanceSquared(loc) < 16384) {
-                    ((CraftPlayer) p).getHandle().playerConnection
-                            .sendPacket(new PacketPlayOutBlockBreakAnimation(
-                                    Starving.getInstance().random.nextInt(),
-                                    new BlockPosition(loc.getBlockX(), loc
-                                            .getBlockY(), loc.getBlockZ()),
-                                    Starving.getInstance().getRandom()
-                                            .nextInt(9)));
+                    sendPacket(p, new PacketPlayOutBlockBreakAnimation(
+                            Starving.getInstance().random.nextInt(),
+                            new BlockPosition(loc.getBlockX(), loc
+                                    .getBlockY(), loc.getBlockZ()),
+                            Starving.getInstance().getRandom()
+                                    .nextInt(9)));
                 }
             }
         }
@@ -422,16 +420,13 @@ public class Starving implements Runnable, Listener {
         public static final void playNamedSoundEffect(Player player,
                 String soundEffectName, Location location, float volume,
                 float pitch) {
-            ((CraftPlayer) player).getHandle().playerConnection
-                    .sendPacket(new PacketPlayOutNamedSoundEffect(
-                            soundEffectName, location.getX(), location.getY(),
-                            location.getZ(), volume, pitch));
+            sendPacket(player, new PacketPlayOutNamedSoundEffect(
+                    soundEffectName, location.getX(), location.getY(),
+                    location.getZ(), volume, pitch));
         }
 
         public static final void setPlayerListHeaderFooter(Player player,
                 String header, String footer) {
-            CraftPlayer cplayer = (CraftPlayer) player;
-            PlayerConnection connection = cplayer.getHandle().playerConnection;
             IChatBaseComponent hj = ChatSerializer.a("{'text':'"
                     + header.replace("&", "§") + "'}");
             IChatBaseComponent fj = ChatSerializer.a("{'text':'"
@@ -451,12 +446,11 @@ public class Starving implements Runnable, Listener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            connection.sendPacket(packet);
+            sendPacket(player, packet);
         }
 
         public static final void updateTime(Player player, long time) {
-            ((CraftPlayer) player).getHandle().playerConnection
-                    .sendPacket(new PacketPlayOutUpdateTime(time, time, true));
+            sendPacket(player, new PacketPlayOutUpdateTime(time, time, true));
         }
 
         public static final void sendTitle(Player p, Locality loc, int fadeIn,
@@ -464,24 +458,21 @@ public class Starving implements Runnable, Listener {
             PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(
                     EnumTitleAction.TITLE, new ChatMessage(loc.getName()),
                     fadeIn, stay, fadeOut);
-            ((CraftPlayer) p).getHandle().playerConnection
-                    .sendPacket(titlePacket);
+            sendPacket(p, titlePacket);
         }
 
         public static final void sendAboveActionBarMessage(Player player,
                 String message) {
-            ((CraftPlayer) player).getHandle().playerConnection
-                    .sendPacket(new PacketPlayOutChat(new ChatMessage(message),
-                            (byte) 2));
+            sendPacket(player, new PacketPlayOutChat(new ChatMessage(message),
+                    (byte) 2));
         }
 
         public static void sendAnimation(Entity entity, int animationId) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getLocation().distanceSquared(entity.getLocation()) < 1024) {
-                    ((CraftPlayer) player).getHandle().playerConnection
-                            .sendPacket(new PacketPlayOutAnimation(
-                                    ((CraftEntity) entity).getHandle(),
-                                    animationId));
+                    sendPacket(player, new PacketPlayOutAnimation(
+                            ((CraftEntity) entity).getHandle(),
+                            animationId));
                 }
             }
         }
@@ -491,15 +482,20 @@ public class Starving implements Runnable, Listener {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getLocation().distanceSquared(
                         entity.getBukkitEntity().getLocation()) < 1024) {
-                    ((CraftPlayer) player).getHandle().playerConnection
-                            .sendPacket(new PacketPlayOutAnimation(entity,
-                                    animationId));
+                    sendPacket(player, new PacketPlayOutAnimation(entity,
+                            animationId));
                 }
             }
         }
 
         public static net.minecraft.server.v1_8_R1.World getNMSWorld(World world) {
             return ((CraftWorld) world).getHandle();
+        }
+
+        public static void sendPacket(Player player,
+                Packet packet) {
+            ((CraftPlayer) player).getHandle().playerConnection
+                    .sendPacket(packet);
         }
     }
 

@@ -22,6 +22,7 @@ package eu.matejkormuth.rpgdavid.starving.listeners;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import net.minecraft.server.v1_8_R1.PacketPlayOutGameStateChange;
@@ -46,6 +47,8 @@ import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.comparators.ItemNameComparator;
+import eu.matejkormuth.rpgdavid.starving.npc.NPC;
+import eu.matejkormuth.rpgdavid.starving.npc.NPCRegistry;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieWithDog;
 
@@ -164,6 +167,16 @@ public class HiddenCommandsListener implements Listener {
                     .sendPacket(new PacketPlayOutGameStateChange(7, 0.001f));
             ((CraftPlayer) event.getPlayer()).getHandle().playerConnection
                     .sendPacket(new PacketPlayOutGameStateChange(8, 160));
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/npctest")) {
+            String name = "debilko" + (int) Math.floor(Math.random() * 1000000);
+            NPC npc = new NPCRegistry().createPlayer().withProfile(
+                    UUID.nameUUIDFromBytes(name.getBytes()), name)
+                    .withSpawnLocation(
+                            event.getPlayer().getLocation()).spawn();
+
+            event.getPlayer().teleport(npc.getLocation());
         }
         // Command for opening custom items inventory.
         else if (event.getMessage().contains("/itemsinv")) {

@@ -19,6 +19,7 @@
  */
 package eu.matejkormuth.rpgdavid.starving.npc.behaviours;
 
+import org.bukkit.craftbukkit.v1_8_R1.TrigMath;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.AbstractBehaviour;
@@ -60,9 +61,12 @@ public class LookAtPlayerBehaviour extends AbstractBehaviour {
     }
 
     private void rotate() {
-
-        this.owner.setYaw(0);
-        this.owner.setPitch(0);
+        float yaw = -1
+                * (float) (TrigMath.atan2(target.getLocation().getX()
+                        - this.owner.getLocation().getX(), target.getLocation()
+                        .getZ()
+                        - this.owner.getLocation().getZ()) * 180 / Math.PI);
+        this.owner.setYaw(yaw);
     }
 
 }

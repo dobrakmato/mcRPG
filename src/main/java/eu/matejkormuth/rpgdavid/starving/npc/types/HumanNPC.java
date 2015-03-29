@@ -19,11 +19,19 @@
  */
 package eu.matejkormuth.rpgdavid.starving.npc.types;
 
-import net.minecraft.server.v1_8_R1.EntityHuman;
-import net.minecraft.server.v1_8_R1.World;
+import java.io.IOException;
+import java.net.Socket;
+
+import net.minecraft.server.v1_8_R1.EntityPlayer;
+import net.minecraft.server.v1_8_R1.EnumGamemode;
+import net.minecraft.server.v1_8_R1.EnumProtocolDirection;
+import net.minecraft.server.v1_8_R1.MinecraftServer;
+import net.minecraft.server.v1_8_R1.NetworkManager;
+import net.minecraft.server.v1_8_R1.PlayerInteractManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R1.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -36,20 +44,49 @@ import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.AbstractBehaviour;
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.BehaviourHolder;
+import eu.matejkormuth.rpgdavid.starving.npc.util.NullNetworkManager;
+import eu.matejkormuth.rpgdavid.starving.npc.util.NullPlayerConnection;
+import eu.matejkormuth.rpgdavid.starving.npc.util.NullSocket;
 
 @NMSHooks(version = "v1_8_R1")
-public class HumanNPC extends EntityHuman implements NPC {
+public class HumanNPC extends EntityPlayer implements NPC {
 
     // Behaviour holder.
     private BehaviourHolder holder;
     // Whether this entity is active or not.
     private boolean active = true;
 
-    public HumanNPC(World world, GameProfile gameprofile) {
-        super(world, gameprofile);
+    public HumanNPC(GameProfile gameprofile, Location spawnLocation) {
+        super(MinecraftServer.getServer(), ((CraftWorld) spawnLocation
+                .getWorld()).getHandle(), gameprofile,
+                new PlayerInteractManager(((CraftWorld) spawnLocation
+                        .getWorld()).getHandle()));
+        // Replace playerConnection with custom connection.
+        try {
+            Socket socket = new NullSocket();
+            NetworkManager conn = new NullNetworkManager(
+                    EnumProtocolDirection.CLIENTBOUND);
+            this.playerConnection = new NullPlayerConnection(MinecraftServer
+                    .getServer(),
+                    conn, this);
+            conn.a(playerConnection);
+            socket.close();
+        } catch (IOException e) {
+        }
+        // Allow step climbing.
+        this.S = 1;
+        // Set default gamemode.
+        this.playerInteractManager.setGameMode(EnumGamemode.SURVIVAL);
 
         // Create behaviour holder.
         this.holder = new BehaviourHolder();
+
+        // Add to world.
+        this.setLocation(spawnLocation.getX(), spawnLocation.getY(),
+                spawnLocation.getZ(), spawnLocation.getYaw(), spawnLocation
+                        .getPitch());
+        world.addEntity(this);
+
     }
 
     // Override vanilla methods.
