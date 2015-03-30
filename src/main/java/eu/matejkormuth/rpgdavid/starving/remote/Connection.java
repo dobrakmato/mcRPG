@@ -62,6 +62,8 @@ public class Connection {
     public void write(String line) {
         try {
             output.write(line);
+            output.newLine(); 
+            output.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,7 +79,7 @@ public class Connection {
     }
 
     private class ReaderThread extends Thread {
-        private boolean running;
+        private boolean running = true;
 
         public ReaderThread() {
             super("RemoteServer-Reader");
@@ -103,6 +105,10 @@ public class Connection {
     
     public interface ConnectionCallback {
         void onLine(String line);
+    }
+
+    public boolean isClosed() {
+        return this.socket.isClosed();
     }
 
 }

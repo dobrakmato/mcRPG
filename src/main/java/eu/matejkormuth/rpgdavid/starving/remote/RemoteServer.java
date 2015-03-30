@@ -50,6 +50,10 @@ public class RemoteServer implements Listener {
 
     @EventHandler
     private void onPlayerQuit(final PlayerQuitEvent event) {
+        Starving.getInstance().getLogger().info(
+                "PlayerAccess was destroyed for player '"
+                        + event.getPlayer().getName()
+                        + "'.");
         accesses.remove(event.getPlayer()).onDisconnect();
     }
 
@@ -73,16 +77,22 @@ public class RemoteServer implements Listener {
 
         @Override
         public void run() {
+            try {
+                listenSocket = new ServerSocket(13585);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             while (true) {
                 try {
-                    this.listen();
+                    this.accept();
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
+                    // throw new RuntimeException(e);
                 }
             }
         }
 
-        private void listen() throws IOException {
+        private void accept() throws IOException {
             while (running) {
                 Socket socketConnection = listenSocket.accept();
                 // Handshake.
@@ -92,7 +102,7 @@ public class RemoteServer implements Listener {
 
                 Player p = Bukkit.getPlayer(playerName);
 
-                if (p.isOnline() && !p.isBanned()) {
+                if (p != null && p.isOnline() && !p.isBanned()) {
                     Data d = Data.of(p);
                     // Check for match.
                     if (key.equals(d.getRemoteAccessKey())) {
@@ -101,9 +111,14 @@ public class RemoteServer implements Listener {
                         PlayerAccess access = new PlayerAccess(p, connection);
                         accesses.put(p, access);
                         Starving.getInstance().getLogger().info(
-                                "PlayerAccess was created for player '" + playerName
+                                "PlayerAccess was created for player '"
+                                        + playerName
                                         + "'.");
                     } else {
+                        Starving.getInstance().getLogger().info(
+                                "Invalid access key for player '"
+                                        + playerName
+                                        + "'.");
                         connection.disconnect("Invalid access key for player '"
                                 + playerName + "'!");
                     }

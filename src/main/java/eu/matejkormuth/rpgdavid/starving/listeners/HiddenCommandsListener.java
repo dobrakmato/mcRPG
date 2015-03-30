@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import net.minecraft.server.v1_8_R1.PacketPlayOutGameStateChange;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
@@ -39,6 +40,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.Recipe;
 
 import eu.matejkormuth.bukkit.Worlds;
+import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
@@ -178,6 +180,17 @@ public class HiddenCommandsListener implements Listener {
                             event.getPlayer().getLocation()).spawn();
 
             event.getPlayer().teleport(npc.getLocation());
+        }
+        // Command for generating access key.
+        else if (event.getMessage().contains("/genkey")) {
+            char[] VALID_CHARS = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+            int keyLength = 32;
+            char[] key = new char[keyLength];
+            for(int i = 0; i < keyLength; i++) {
+                key[i] = VALID_CHARS[RandomUtils.nextInt(VALID_CHARS.length - 1)];
+            }
+            event.getPlayer().sendMessage("Your new accesskey is: " + new String(key));
+            Data.of(event.getPlayer()).setRemoteAccesKey(new String(key)); 
         }
         // Command for opening custom items inventory.
         else if (event.getMessage().contains("/itemsinv")) {

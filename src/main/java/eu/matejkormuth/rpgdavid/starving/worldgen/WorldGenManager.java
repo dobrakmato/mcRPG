@@ -19,8 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.bukkit.entity.Player;
 
@@ -29,7 +29,7 @@ public class WorldGenManager {
     private Map<Player, PlayerSession> sessions;
 
     public WorldGenManager() {
-        sessions = new HashMap<>();
+        sessions = new WeakHashMap<>();
     }
 
     public PlayerSession getSession(Player player) {

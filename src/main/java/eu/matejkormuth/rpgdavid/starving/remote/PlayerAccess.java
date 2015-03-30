@@ -19,22 +19,34 @@
  */
 package eu.matejkormuth.rpgdavid.starving.remote;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.remote.Connection.ConnectionCallback;
 
 /**
  * Represents access to server by one of players.
  */
-public class PlayerAccess implements ConnectionCallback {
+public class PlayerAccess implements ConnectionCallback, Runnable {
 
     private Player player;
     private Connection connection;
+
+    private List<String> lines;
+    private int taskId;
 
     public PlayerAccess(Player player, Connection connection) {
         this.player = player;
         this.connection = connection;
         connection.startReading(this);
+        this.lines = new ArrayList<>();
+
+        taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(
+                Starving.getInstance().getPlugin(), this, 20L, 1L);
     }
 
     public void executeCommand(String command) {
@@ -43,16 +55,39 @@ public class PlayerAccess implements ConnectionCallback {
 
     @Override
     public void onLine(String line) {
-        if(line.startsWith("COMMAND|")) {
-            String command = line.substring(8);
-            executeCommand(command);
-        } else {
-            // Ignore.
+        // Transfer to main thread.
+        synchronized (lines) {
+            lines.add(line);
         }
     }
 
     public void onDisconnect() {
         this.player = null;
         this.connection.disconnect("Player disconnected");
+    }
+
+    @Override
+    public void run() {
+        // Check for connection.
+        if(!this.connection.isClosed()) {
+            Bukkit.getScheduler().cancelTask(this.taskId);
+        }
+        
+        // Process all actions.
+        synchronized (this.lines) {
+            for (String line : lines) {
+                process(line);
+            }
+            this.lines.clear();
+        }
+    }
+
+    private void process(String line) {
+        if (line.startsWith("COMMAND|")) {
+            String command = line.substring(8);
+            executeCommand(command);
+        } else {
+            // Ignore.
+        }
     }
 }
