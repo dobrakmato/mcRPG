@@ -50,7 +50,7 @@ public class Atmosphere {
 
     public void play(Player player) {
         for (NamedSound s : this.sounds) {
-            Starving.NMS.playNamedSoundEffectGlobally(player, s.getSoundName(),
+            Starving.NMS.playNamedSoundEffectMaxVolume(player, s.getSoundName(),
                     player.getLocation());
         }
     }
