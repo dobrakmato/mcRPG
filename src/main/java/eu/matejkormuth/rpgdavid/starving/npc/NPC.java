@@ -107,4 +107,6 @@ public interface NPC {
     }
 
     int getId();
+    
+    void tickEntity();
 }

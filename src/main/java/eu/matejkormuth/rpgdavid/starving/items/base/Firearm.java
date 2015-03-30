@@ -179,10 +179,8 @@ public abstract class Firearm extends Item {
                 this.playReloadSound(player);
                 wrapper.setCurrentAmmo(this.getClipSize());
             } else {
-                System.out.println("current ammo: " + wrapper.getCurrentAmmo());
                 wrapper.setCurrentAmmo(ammo - 1);
             }
-            System.out.println("current ammo: " + wrapper.getCurrentAmmo());
             wrapper.apply(is);
             player.setItemInHand(is);
             Starving.NMS.sendAboveActionBarMessage(player,

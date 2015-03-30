@@ -64,6 +64,12 @@ public class NPCRegistry {
         this.entityByIds.remove(npc.getId());
     }
 
+    public void tick() {
+        for (NPC npc : entityByIds.values()) {
+            npc.tickEntity();
+        }
+    }
+
     public class PlayerNPCBuilder {
         protected List<AbstractBehaviour> behaviours;
         protected Location spawn;

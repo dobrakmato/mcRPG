@@ -300,6 +300,10 @@ public class Starving implements Runnable, Listener {
         // Stop remote server.
         this.remoteServer.stop();
         
+        // Shutdown NPC manager.
+        this.getLogger().info("Shutting down NPCManager...");
+        this.npcManager.shutdown();
+        
         // Save configurations.
         this.warpsConfig.save();
 

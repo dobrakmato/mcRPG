@@ -100,6 +100,10 @@ public class HumanNPC extends EntityPlayer implements NPC {
     // Override vanilla methods.
     @Override
     protected void doTick() {
+        // Tick update is in tickEntity();
+    }
+    
+    public void tickEntity() {
         this.registry.profiler.start(K.NPC_DO_TICK);
         // Sets head rotation to yaw;
         this.aI = this.yaw;

@@ -24,7 +24,7 @@ package eu.matejkormuth.rpgdavid.starving.npc;
  */
 public class K {
 
-    public static final String NPC_DO_TICK = "npc.doTick";
+    public static final String NPC_DO_TICK = "npcReg.npc.doTick";
     public static final String NPC_BEHAVIOURS = "npc.doTick.behaviours";
 
 }

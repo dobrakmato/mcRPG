@@ -22,16 +22,31 @@ package eu.matejkormuth.rpgdavid.starving.npc;
 import java.util.HashMap;
 import java.util.Map;
 
+import eu.matejkormuth.rpgdavid.starving.tasks.RepeatingTask;
+
 public class NPCManager {
 
     private Map<String, NPCRegistry> registers;
     private NPCRegistry mainRegistry;
     private NPCProfiler profiler;
+    private RepeatingTask task;
 
     public NPCManager() {
         this.registers = new HashMap<>();
         this.profiler = new NPCProfiler();
         this.mainRegistry = new NPCRegistry("main", this.profiler);
+
+        this.task = new RepeatingTask() {
+            @Override
+            public void run() {
+                NPCManager.this.updateAllRegisters();
+            }
+        };
+        this.task.schedule(1);
+    }
+
+    private void updateAllRegisters() {
+        this.mainRegistry.tick();
     }
 
     public NPCProfiler getProfiler() {
@@ -48,5 +63,9 @@ public class NPCManager {
         } else {
             return registers.put(name, new NPCRegistry(name, this.profiler));
         }
+    }
+
+    public void shutdown() {
+        this.task.cancel();
     }
 }
