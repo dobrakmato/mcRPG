@@ -56,23 +56,29 @@ public class PlayerAccess implements ConnectionCallback, Runnable {
     @Override
     public void onLine(String line) {
         // Transfer to main thread.
-        synchronized (lines) {
-            lines.add(line);
+        try {
+            synchronized (lines) {
+                lines.add(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public void onDisconnect() {
         this.player = null;
+        this.lines.clear();
         this.connection.disconnect("Player disconnected");
+        Bukkit.getScheduler().cancelTask(this.taskId);
     }
 
     @Override
     public void run() {
         // Check for connection.
-        if(!this.connection.isClosed()) {
+        if (this.connection.isClosed()) {
             Bukkit.getScheduler().cancelTask(this.taskId);
         }
-        
+
         // Process all actions.
         synchronized (this.lines) {
             for (String line : lines) {

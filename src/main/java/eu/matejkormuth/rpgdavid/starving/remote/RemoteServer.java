@@ -40,8 +40,8 @@ public class RemoteServer implements Listener {
     private Map<Player, PlayerAccess> accesses;
 
     public RemoteServer() {
-        thread = new ServerThread();
-        accesses = new HashMap<>();
+        this.thread = new ServerThread();
+        this.accesses = new HashMap<>();
     }
 
     public void start() {

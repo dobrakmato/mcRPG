@@ -36,6 +36,8 @@ public class Connection {
 
     public Connection(Socket socketConnection) throws IOException {
         this.socket = socketConnection;
+        // Set timeout, to stop connection when needed.
+        this.socket.setSoTimeout(5000);
         this.input = new BufferedReader(new InputStreamReader(socketConnection
                 .getInputStream()));
         this.output = new BufferedWriter(new OutputStreamWriter(
@@ -62,7 +64,7 @@ public class Connection {
     public void write(String line) {
         try {
             output.write(line);
-            output.newLine(); 
+            output.newLine();
             output.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,6 +78,10 @@ public class Connection {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public boolean isClosed() {
+        return this.socket.isClosed();
     }
 
     private class ReaderThread extends Thread {
@@ -96,19 +102,22 @@ public class Connection {
             while (running) {
                 try {
                     line = input.readLine();
-                    onLine.onLine(line);
+                    if (line == null) {
+                        if (!running) {
+                            break;
+                        }
+                    } else {
+                        onLine.onLine(line);
+                    }
                 } catch (IOException e) {
                 }
             }
+            Connection.this.onLine = null;
         }
     }
-    
+
     public interface ConnectionCallback {
         void onLine(String line);
-    }
-
-    public boolean isClosed() {
-        return this.socket.isClosed();
     }
 
 }
