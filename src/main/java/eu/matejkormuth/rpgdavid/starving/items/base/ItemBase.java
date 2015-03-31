@@ -72,11 +72,13 @@ public abstract class ItemBase {
     }
 
     public ItemStack toItemStack() {
-        return this.itemStack.clone();
+        return toItemStack(1);
     }
 
     public ItemStack toItemStack(int amount) {
         ItemStack is = this.itemStack.clone();
+        MaterialData data = this.itemStack.getData().clone();
+        is.setData(data);
         is.setAmount(amount);
         return is;
     }

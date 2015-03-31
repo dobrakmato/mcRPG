@@ -182,7 +182,7 @@ public abstract class Firearm extends Item {
                 wrapper.setCurrentAmmo(ammo - 1);
             }
             wrapper.apply(is);
-            player.setItemInHand(is);
+            // player.setItemInHand(is);
             Starving.NMS.sendAboveActionBarMessage(player,
                     ChatColor.YELLOW.toString() + ammo + "/" + this.clipSize);
         } else if (Actions.isLeftClick(action)) {
