@@ -66,6 +66,7 @@ import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.listeners.AnimalDropsListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.BlockFadeListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.BloodLevelDamageListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChunksListener;
@@ -228,6 +229,7 @@ public class Starving implements Runnable, Listener {
         this.register(new MobDropsListener());
         this.register(new ToolsListener());
         this.register(new ChunksListener());
+        this.register(new BlockFadeListener());
         this.register(new ZombieCombustListener());
         this.register(new ProjectileListener());
         this.register(new BloodLevelDamageListener());
@@ -247,7 +249,7 @@ public class Starving implements Runnable, Listener {
 
         // Patch server.
         new ServerZombiePatcher().patchAll();
-        
+
         // Start remote connections.
         this.remoteServer = new RemoteServer();
         this.remoteServer.start();
@@ -299,11 +301,11 @@ public class Starving implements Runnable, Listener {
 
         // Stop remote server.
         this.remoteServer.stop();
-        
+
         // Shutdown NPC manager.
         this.getLogger().info("Shutting down NPCManager...");
         this.npcManager.shutdown();
-        
+
         // Save configurations.
         this.warpsConfig.save();
 
