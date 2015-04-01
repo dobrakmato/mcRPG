@@ -25,20 +25,34 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SetSpeedCommandExecutor implements CommandExecutor {
+import eu.matejkormuth.rpgdavid.starving.Data;
+
+public class RpCommandExecutor implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command,
             String label, String[] args) {
         if (sender instanceof Player) {
             if (args.length == 1) {
-                float speed = Float.parseFloat(args[0]);
-                ((Player) sender).setWalkSpeed(speed);
-                ((Player) sender).setFlySpeed(speed);
+                String type = args[0];
+                if (type.equalsIgnoreCase("players")) {
+                    Data.of((Player) sender).setResourcePack("players");
+                    sender.sendMessage(ChatColor.GREEN
+                            + "Resource pack type set to 'players'!");
+                } else if (type.equalsIgnoreCase("builders")) {
+                    Data.of((Player) sender).setResourcePack("builders");
+                    sender.sendMessage(ChatColor.GREEN
+                            + "Resource pack type set to 'builders'!");
+                } else {
+                    sender.sendMessage(ChatColor.RED
+                            + "Invalid resource pack type!");
+                }
             } else {
-                sender.sendMessage(ChatColor.RED + "/setspeed <speed>");
+                sender.sendMessage(ChatColor.RED
+                        + "Usage: /rp <players/builders>");
             }
         }
         return true;
     }
+
 }

@@ -59,6 +59,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
+import eu.matejkormuth.rpgdavid.starving.commands.RpCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.SetSpeedCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.SetWarpCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.WarpCommandExecutor;
@@ -197,6 +198,7 @@ public class Starving implements Runnable, Listener {
                 .setExecutor(new SetWarpCommandExecutor());
         this.getPlugin().getCommand("setspeed")
                 .setExecutor(new SetSpeedCommandExecutor());
+        this.getPlugin().getCommand("rp").setExecutor(new RpCommandExecutor());
 
         // Schedule all tasks.
         this.register(new BleedingTask()).schedule(1L);

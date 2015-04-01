@@ -150,6 +150,9 @@ public class Data {
     @Persist(key = "remoteAccessKeey")
     private String remoteAccessKey;
 
+    @Persist(key = "resourcePack")
+    private String resourcePack = "players";
+
     public StarvingScoreboard scoreboard;
 
     private Data(OfflinePlayer player) {
@@ -239,9 +242,10 @@ public class Data {
         this.scoped = false;
         this.hallucinating = false;
         this.flashlightOn = false;
+        this.resourcePack = "players";
 
         // We not reset access key.
-        if(resetPermanent) {
+        if (resetPermanent) {
             this.remoteAccessKey = null;
         }
 
@@ -410,5 +414,13 @@ public class Data {
 
     public void setRemoteAccesKey(String remoteAccessKey) {
         this.remoteAccessKey = remoteAccessKey;
+    }
+
+    public String getResourcePack() {
+        return resourcePack;
+    }
+
+    public void setResourcePack(String resourcePack) {
+        this.resourcePack = resourcePack;
     }
 }

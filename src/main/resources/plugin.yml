@@ -27,3 +27,5 @@ commands:
     description: Creates new warp where are you standing.
   setspeed:
     description: Sets players's walking and flying speed.
+  rp:
+    description: Sets resource pack.
