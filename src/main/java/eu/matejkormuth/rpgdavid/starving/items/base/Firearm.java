@@ -73,8 +73,12 @@ public abstract class Firearm extends Item {
         this.setMaxStackAmount(1);
 
         // Setup sounds.
-        this.reloadSound = this.getClass().getSimpleName() + "_reload";
-        this.fireSound = this.getClass().getSimpleName() + "_fire";
+        this.reloadSound = this
+                .getClass()
+                .getSimpleName() + "_reload";
+        this.fireSound = this
+                .getClass()
+                .getSimpleName() + "_fire";
     }
 
     protected void setAmmoType(AmunitionType ammoType) {
@@ -160,8 +164,10 @@ public abstract class Firearm extends Item {
     @Override
     public InteractResult onInteract(Player player, Action action,
             Block clickedBlock, BlockFace clickedFace) {
-        if (Actions.isRightClick(action)) {
-            ItemStack is = player.getItemInHand();
+        if (Actions
+                .isRightClick(action)) {
+            ItemStack is = player
+                    .getItemInHand();
             FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(is);
 
             Vector projectileVelocity = computeAndFire(player);
@@ -173,68 +179,101 @@ public abstract class Firearm extends Item {
             makeRecoil(player, projectileVelocity);
 
             // Lower ammo count.
-            int ammo = wrapper.getCurrentAmmo();
+            int ammo = wrapper
+                    .getCurrentAmmo();
             if (ammo == 1) {
                 // Reload
                 this.playReloadSound(player);
-                wrapper.setCurrentAmmo(this.getClipSize());
+                wrapper.setCurrentAmmo(this
+                        .getClipSize());
             } else {
                 wrapper.setCurrentAmmo(ammo - 1);
             }
             wrapper.apply(is);
             // player.setItemInHand(is);
-            Starving.NMS.sendAboveActionBarMessage(player,
-                    ChatColor.YELLOW.toString() + ammo + "/" + this.clipSize);
-        } else if (Actions.isLeftClick(action)) {
-            ItemStack is = player.getItemInHand();
+            Starving.NMS
+                    .sendAboveActionBarMessage(player,
+                            ChatColor.YELLOW
+                                    .toString() + ammo + "/" + this.clipSize);
+        } else if (Actions
+                .isLeftClick(action)) {
+            ItemStack is = player
+                    .getItemInHand();
             toggleScope(player, is);
         }
-        return InteractResult.useNone();
+        return InteractResult
+                .useNone();
     }
 
     protected Vector computeAndFire(Player player) {
         // Compute values.
-        Location projectileSpawn = player.getEyeLocation().add(
-                player.getEyeLocation().getDirection().multiply(2));
+        Location projectileSpawn = player
+                .getEyeLocation()
+                .add(
+                        player.getEyeLocation()
+                                .getDirection()
+                                .multiply(2));
         Vector randomVec;
-        if (Data.of(player).isScoped()) {
-            randomVec = Vector.getRandom().subtract(HALF_VECTOR)
+        if (Data.of(player)
+                .isScoped()) {
+            randomVec = Vector
+                    .getRandom()
+                    .subtract(HALF_VECTOR)
                     .multiply(this.inaccurancy);
         } else {
-            randomVec = Vector.getRandom().subtract(HALF_VECTOR)
+            randomVec = Vector
+                    .getRandom()
+                    .subtract(HALF_VECTOR)
                     .multiply(this.scopedInaccurancy);
         }
 
-        Vector projectileVelocity = player.getEyeLocation().getDirection()
-                .add(randomVec).multiply(this.projectileSpeed);
+        Vector projectileVelocity = player
+                .getEyeLocation()
+                .getDirection()
+                .add(randomVec)
+                .multiply(this.projectileSpeed);
 
         // Spawn projectile.
-        Snowball projectile = (Snowball) player.getWorld().spawnEntity(
-                projectileSpawn, EntityType.SNOWBALL);
-        projectile.setVelocity(projectileVelocity);
+        Snowball projectile = (Snowball) player
+                .getWorld()
+                .spawnEntity(
+                        projectileSpawn,
+                        EntityType.SNOWBALL);
+        projectile
+                .setVelocity(projectileVelocity);
         // Display effect.
-        ParticleEffect.SMOKE_NORMAL.display(0, 0, 0, 0, 20, projectileSpawn,
-                Double.MAX_VALUE);
+        ParticleEffect.SMOKE_NORMAL
+                .display(0, 0, 0, 0, 20, projectileSpawn,
+                        Double.MAX_VALUE);
         return projectileVelocity;
     }
 
     protected void playFireSound(Player player) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            Starving.NMS.playNamedSoundEffect(p, this.getFireSound(),
-                    player.getLocation(), 2, 1);
+        for (Player p : Bukkit
+                .getOnlinePlayers()) {
+            Starving.NMS
+                    .playNamedSoundEffect(p, this
+                            .getFireSound(),
+                            player.getLocation(), 2, 1);
         }
     }
 
     protected void playReloadSound(Player player) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            Starving.NMS.playNamedSoundEffect(p, this.getReloadSound(),
-                    player.getLocation(), 2, 1);
+        for (Player p : Bukkit
+                .getOnlinePlayers()) {
+            Starving.NMS
+                    .playNamedSoundEffect(p, this
+                            .getReloadSound(),
+                            player.getLocation(), 2, 1);
         }
     }
 
     protected void makeRecoil(Player player, Vector projectileVelocity) {
-        Vector recoil = projectileVelocity.multiply(-0.01f);
-        recoil.setY(player.getVelocity().getY());
+        Vector recoil = projectileVelocity
+                .multiply(-0.01f);
+        recoil.setY(player
+                .getVelocity()
+                .getY());
         player.setVelocity(recoil);
     }
 
@@ -244,34 +283,60 @@ public abstract class Firearm extends Item {
 
     protected void toggleScope(Player player, ItemStack is, int slownessLevel) {
         // Scope tha gun.
-        if (Data.of(player).switchScoped()) {
+        if (Data.of(player)
+                .switchScoped()) {
             // Transform item.
-            ItemStack nonScoped = FirearmTransformer.fromScoped(is);
-            player.setItemInHand(nonScoped);
+            ItemStack nonScoped = FirearmTransformer
+                    .fromScoped(is);
+            Bukkit.getScheduler()
+                    .scheduleSyncDelayedTask(Starving.getInstance()
+                            .getPlugin(),
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    player.setItemInHand(nonScoped);
+                                }
+                            }, 1L);
             player.removePotionEffect(PotionEffectType.SLOW);
         } else {
             // Transform item.
-            ItemStack scoped = FirearmTransformer.toScoped(is);
-            player.setItemInHand(scoped);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Time
-                    .ofMinutes(30).toTicks(), slownessLevel));
+            ItemStack scoped = FirearmTransformer
+                    .toScoped(is);
+            Bukkit.getScheduler() 
+                    .scheduleSyncDelayedTask(Starving
+                            .getInstance()
+                            .getPlugin(),
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    player.setItemInHand(scoped);
+                                }
+                            }, 1L);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
+                    Time
+                            .ofMinutes(30)
+                            .toTicks(), slownessLevel));
         }
     }
 
     @Override
     public ItemStack toItemStack() {
-        ItemStack raw = super.toItemStack();
+        ItemStack raw = super
+                .toItemStack();
         FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(raw);
-        wrapper.setCurrentAmmo(this.getClipSize());
+        wrapper.setCurrentAmmo(this
+                .getClipSize());
         wrapper.apply(raw);
         return raw;
     }
 
     @Override
     public ItemStack toItemStack(int amount) {
-        ItemStack raw = super.toItemStack(amount);
+        ItemStack raw = super
+                .toItemStack(amount);
         FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(raw);
-        wrapper.setCurrentAmmo(this.getClipSize());
+        wrapper.setCurrentAmmo(this
+                .getClipSize());
         wrapper.apply(raw);
         return raw;
     }

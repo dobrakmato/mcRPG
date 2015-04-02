@@ -53,10 +53,12 @@ public class Region implements ConfigurationSerializable {
     }
 
     public Region(Location center, int size) {
-        this.minVector = center.toVector().subtract(
-                new Vector(size, size, size));
-        this.maxVector = center.toVector().subtract(
-                new Vector(size, size, size));
+        this.minVector = center.toVector()
+                               .subtract(
+                                       new Vector(size, size, size));
+        this.maxVector = center.toVector()
+                               .subtract(
+                                       new Vector(size, size, size));
         this.world = center.getWorld();
         this.random = new Random();
     }
@@ -98,16 +100,16 @@ public class Region implements ConfigurationSerializable {
 
     public Location getRandomLocation() {
         return new Vector(this.randX(), this.randY(), this.randZ())
-                .toLocation(this.world);
+                                                                   .toLocation(this.world);
     }
 
     public boolean isInside(Vector vector) {
         return (this.minVector.getX() < vector.getX() && vector.getX() < this.maxVector
-                .getX())
+                                                                                       .getX())
                 && (this.minVector.getY() < vector.getY() && vector.getY() < this.maxVector
-                        .getY())
+                                                                                           .getY())
                 && (this.minVector.getZ() < vector.getZ() && vector.getZ() < this.maxVector
-                        .getZ());
+                                                                                           .getZ());
     }
 
     public void forEachBlock(BlockFunction function) {
@@ -121,6 +123,54 @@ public class Region implements ConfigurationSerializable {
                 }
             }
         }
+    }
+
+    public double getMaxX() {
+        return this.maxVector.getX();
+    }
+
+    public double getMaxY() {
+        return this.maxVector.getY();
+    }
+
+    public double getMaxZ() {
+        return this.maxVector.getZ();
+    }
+
+    public double getMinX() {
+        return this.minVector.getX();
+    }
+
+    public double getMinY() {
+        return this.minVector.getY();
+    }
+
+    public double getMinZ() {
+        return this.minVector.getZ();
+    }
+
+    public int getMaxXFloor() {
+        return (int) Math.floor(this.maxVector.getX());
+    }
+
+    public int getMaxYFloor() {
+        return (int) Math.floor(this.maxVector.getY());
+    }
+
+    public int getMaxZFloor() {
+        return (int) Math.floor(this.maxVector.getZ());
+    }
+
+    public int getMinXFloor() {
+        return (int) Math.floor(this.minVector.getX());
+    }
+
+    public int getMinYFloor() {
+        return (int) Math.floor(this.minVector.getY());
+    }
+
+    public int getMinZFloor() {
+        return (int) Math.floor(this.minVector.getZ());
     }
 
     public void forEachEntity(EntityFunction function) {
@@ -143,5 +193,9 @@ public class Region implements ConfigurationSerializable {
         serialized.put("maxVector", this.maxVector);
         serialized.put("world", this.world.getName());
         return serialized;
+    }
+
+    public Vector getMaxVector() {
+        return this.maxVector.clone();
     }
 }

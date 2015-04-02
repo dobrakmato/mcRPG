@@ -19,21 +19,19 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.base;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 public abstract class ItemBase {
+
     protected final ItemStack itemStack;
 
     @SuppressWarnings("deprecation")
     public ItemBase(final Material material, final byte data, final int amount,
             final String name) {
-        this.itemStack = new ItemStack(material, amount);
-        this.itemStack.setData(new MaterialData(material, data));
+        this.itemStack = new ItemStack(material, amount, (short) 0, data);
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.setDisplayName(ChatColor.RESET + name);
         this.itemStack.setItemMeta(meta);
@@ -80,9 +78,6 @@ public abstract class ItemBase {
 
     public ItemStack toItemStack(int amount) {
         ItemStack is = this.itemStack.clone();
-        MaterialData data = this.itemStack.getData()
-                                          .clone();
-        is.setData(data);
         is.setAmount(amount);
         return is;
     }
