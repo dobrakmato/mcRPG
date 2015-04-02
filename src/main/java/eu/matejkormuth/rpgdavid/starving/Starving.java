@@ -158,13 +158,13 @@ public class Starving implements Runnable, Listener {
         // Initialize logger to special StarvingLogger.
         this.log = new StarvingLogger();
         this.log.setParent(RpgPlugin.getInstance()
-                                    .getLogger());
+                .getLogger());
 
         this.corePlugin = RpgPlugin.getInstance();
 
         this.dataFolder = new File(RpgPlugin.getInstance()
-                                            .getDataFolder()
-                                            .getParent()
+                .getDataFolder()
+                .getParent()
                 + "/Starving/");
         this.dataFolder.mkdirs();
 
@@ -173,7 +173,7 @@ public class Starving implements Runnable, Listener {
 
         // Set game rules.
         this.getLogger()
-            .info("Setting starving game rules...");
+                .info("Setting starving game rules...");
         for (World w : Bukkit.getWorlds()) {
             w.setGameRuleValue("doMobSpawning", "false");
         }
@@ -185,7 +185,7 @@ public class Starving implements Runnable, Listener {
         new File(this.dataFolder.getAbsolutePath() + "/pdatas/").mkdirs();
         new File(this.dataFolder.getAbsolutePath() + "/chunkdata/").mkdirs();
         PersistInjector
-                       .setConfigurationsFolder(confDirectory.getAbsolutePath());
+                .setConfigurationsFolder(confDirectory.getAbsolutePath());
 
         // Initialize all managers.
         this.zombieManager = new ZombieManager();
@@ -198,46 +198,46 @@ public class Starving implements Runnable, Listener {
 
         // Register all command executors.
         this.getPlugin()
-            .getCommand("warp")
-            .setExecutor(new WarpCommandExecutor());
+                .getCommand("warp")
+                .setExecutor(new WarpCommandExecutor());
         this.getPlugin()
-            .getCommand("setwarp")
-            .setExecutor(new SetWarpCommandExecutor());
+                .getCommand("setwarp")
+                .setExecutor(new SetWarpCommandExecutor());
         this.getPlugin()
-            .getCommand("setspeed")
-            .setExecutor(new SetSpeedCommandExecutor());
+                .getCommand("setspeed")
+                .setExecutor(new SetSpeedCommandExecutor());
         this.getPlugin()
-            .getCommand("rp")
-            .setExecutor(new RpCommandExecutor());
+                .getCommand("rp")
+                .setExecutor(new RpCommandExecutor());
 
         // Schedule all tasks.
         this.register(new BleedingTask())
-            .schedule(1L);
+                .schedule(1L);
         this.register(new FlashlightTask())
-            .schedule(1L);
+                .schedule(1L);
         this.register(new TimeUpdater())
-            .schedule(2L);
+                .schedule(2L);
         // TablistFooterClockTask MUST be registered after TimeUpdater.
         this.register(new TablistFooterClockTask())
-            .schedule(5L);
+                .schedule(5L);
         this.register(new LocalityTeller())
-            .schedule(20L);
+                .schedule(20L);
         this.register(new BodyTemperatureUpdater())
-            .schedule(20L);
+                .schedule(20L);
         this.register(new StaminaRegenerationTask())
-            .schedule(20L);
+                .schedule(20L);
         this.register(new BloodLevelConsuquencesTask())
-            .schedule(20L);
+                .schedule(20L);
         this.register(new HydrationDepletionTask())
-            .schedule(20L);
+                .schedule(20L);
         this.register(new HydrationLevelConsequencesTask())
-            .schedule(20L);
+                .schedule(20L);
         this.register(new BloodReplenishTask())
-            .schedule(20L);
+                .schedule(20L);
         this.register(new ScoreboardUpdater())
-            .schedule(20L);
+                .schedule(20L);
         this.register(new HallucinationsTask())
-            .schedule(200L);
+                .schedule(200L);
 
         // Register starving listeners.
         this.register(new ZombieListener());
@@ -267,8 +267,8 @@ public class Starving implements Runnable, Listener {
 
         // Register starving repeating tasks.
         Bukkit.getScheduler()
-              .scheduleSyncRepeatingTask(
-                      RpgPlugin.getInstance(), this, 0L, 1L);
+                .scheduleSyncRepeatingTask(
+                        RpgPlugin.getInstance(), this, 0L, 1L);
 
         // Print some useful info.
         this.printImplementations();
@@ -296,19 +296,19 @@ public class Starving implements Runnable, Listener {
 
         if (object instanceof Listener) {
             this.getLogger()
-                .info(
-                        " New listener: " + object.getClass()
-                                                  .getName());
+                    .info(
+                            " New listener: " + object.getClass()
+                                    .getName());
             Bukkit.getPluginManager()
-                  .registerEvents((Listener) object,
-                          this.corePlugin);
+                    .registerEvents((Listener) object,
+                            this.corePlugin);
         }
 
         if (object instanceof Persistable) {
             this.getLogger()
-                .info(
-                        " New Persistable: " + object.getClass()
-                                                     .getName());
+                    .info(
+                            " New Persistable: " + object.getClass()
+                                    .getName());
             this.persistablesList.add((Persistable) object);
         }
 
@@ -317,21 +317,21 @@ public class Starving implements Runnable, Listener {
 
     private void printImplementations() {
         this.getLogger()
-            .info("Using following implementations:");
+                .info("Using following implementations:");
         this.getLogger()
-            .info(
-                    " ImpulseProcessor: "
-                            + this.impulseProcessor.getClass()
-                                                   .getName());
+                .info(
+                        " ImpulseProcessor: "
+                                + this.impulseProcessor.getClass()
+                                        .getName());
         this.getLogger()
-            .info(
-                    " ZombieManager: " + this.zombieManager.getClass()
-                                                           .getName());
+                .info(
+                        " ZombieManager: " + this.zombieManager.getClass()
+                                .getName());
         this.getLogger()
-            .info(
-                    " aSoundManager: "
-                            + this.ambientSoundManager.getClass()
-                                                      .getName());
+                .info(
+                        " aSoundManager: "
+                                + this.ambientSoundManager.getClass()
+                                        .getName());
     }
 
     public void onDisable() {
@@ -342,7 +342,7 @@ public class Starving implements Runnable, Listener {
 
         // Shutdown NPC manager.
         this.getLogger()
-            .info("Shutting down NPCManager...");
+                .info("Shutting down NPCManager...");
         this.npcManager.shutdown();
 
         // Save configurations.
@@ -351,11 +351,11 @@ public class Starving implements Runnable, Listener {
         // Save all cached Data-s.
         for (Data d : Data.cached()) {
             d.save()
-             .uncache();
+                    .uncache();
         }
 
         DataDefaults.get()
-                    .saveConfiguration();
+                .saveConfiguration();
 
         // Save configuration of all persistables.
         for (Persistable persistable : this.persistablesList) {
@@ -428,14 +428,14 @@ public class Starving implements Runnable, Listener {
     private void onPlayerJoin(final PlayerJoinEvent event) {
         // Read data and send resource pack.
         String rp = Data.of(event.getPlayer())
-                        .getResourcePack();
+                .getResourcePack();
         if (rp.equalsIgnoreCase("builders")) {
             event.getPlayer()
-                 .setResourcePack("http://www.starving.eu/2/rp/latest.zip");
+                    .setResourcePack("http://www.starving.eu/2/rp/latest.zip");
         } else {
             event.getPlayer()
-                 .setResourcePack(
-                         "http://www.starving.eu/2/rp/latest_builders.zip");
+                    .setResourcePack(
+                            "http://www.starving.eu/2/rp/latest_builder.zip");
         }
     }
 
@@ -443,18 +443,18 @@ public class Starving implements Runnable, Listener {
     private void onPlayerDisconnect(final PlayerQuitEvent event) {
         // Save data of the player.
         Data.of(event.getPlayer())
-            .uncache()
-            .save();
+                .uncache()
+                .save();
     }
 
     @EventHandler
     private void onPlayerRespawn(final PlayerRespawnEvent event) {
         // TODO: Load last savepoint instead.
         event.getPlayer()
-             .sendMessage(
-                     ChatColor.YELLOW + "Data has been reseted!");
+                .sendMessage(
+                        ChatColor.YELLOW + "Data has been reseted!");
         Data.of(event.getPlayer())
-            .reset();
+                .reset();
     }
 
     public JavaPlugin getPlugin() {
@@ -497,11 +497,11 @@ public class Starving implements Runnable, Listener {
         public static final void displayMaterialBreak(Location loc) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p.getLocation()
-                     .distanceSquared(loc) < 16384) {
+                        .distanceSquared(loc) < 16384) {
                     sendPacket(p, new PacketPlayOutBlockBreakAnimation(
                             Starving.getInstance().random.nextInt(),
                             new BlockPosition(loc.getBlockX(), loc
-                                                                  .getBlockY(),
+                                    .getBlockY(),
                                     loc.getBlockZ()),
                             Starving.getInstance()
                                     .getRandom()
@@ -513,11 +513,11 @@ public class Starving implements Runnable, Listener {
         public static final void displayBloodEffects(Location loc) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p.getLocation()
-                     .distanceSquared(loc) < 16384) {
+                        .distanceSquared(loc) < 16384) {
                     sendPacket(p, new PacketPlayOutBlockBreakAnimation(
                             Starving.getInstance().random.nextInt(),
                             new BlockPosition(loc.getBlockX(), loc
-                                                                  .getBlockY(),
+                                    .getBlockY(),
                                     loc.getBlockZ()),
                             Starving.getInstance()
                                     .getRandom()
@@ -543,13 +543,13 @@ public class Starving implements Runnable, Listener {
             PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
             try {
                 Field headerField = packet.getClass()
-                                          .getDeclaredField("a");
+                        .getDeclaredField("a");
                 headerField.setAccessible(true);
                 headerField.set(packet, hj);
                 headerField.setAccessible(!headerField.isAccessible());
 
                 Field footerField = packet.getClass()
-                                          .getDeclaredField("b");
+                        .getDeclaredField("b");
                 footerField.setAccessible(true);
                 footerField.set(packet, fj);
                 footerField.setAccessible(!headerField.isAccessible());
@@ -581,7 +581,7 @@ public class Starving implements Runnable, Listener {
         public static void sendAnimation(Entity entity, int animationId) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getLocation()
-                          .distanceSquared(entity.getLocation()) < 1024) {
+                        .distanceSquared(entity.getLocation()) < 1024) {
                     sendPacket(player, new PacketPlayOutAnimation(
                             ((CraftEntity) entity).getHandle(),
                             animationId));
@@ -593,8 +593,8 @@ public class Starving implements Runnable, Listener {
                 net.minecraft.server.v1_8_R1.Entity entity, int animationId) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getLocation()
-                          .distanceSquared(
-                                  entity.getBukkitEntity()
+                        .distanceSquared(
+                                entity.getBukkitEntity()
                                         .getLocation()) < 1024) {
                     sendPacket(player, new PacketPlayOutAnimation(entity,
                             animationId));
@@ -609,7 +609,7 @@ public class Starving implements Runnable, Listener {
         public static void sendPacket(Player player,
                 Packet packet) {
             ((CraftPlayer) player).getHandle().playerConnection
-                                                               .sendPacket(packet);
+                    .sendPacket(packet);
         }
     }
 
@@ -620,7 +620,7 @@ public class Starving implements Runnable, Listener {
         this.warpsConfig.set(name + ".pitch", location.getPitch());
         this.warpsConfig.set(name + ".yaw", location.getYaw());
         this.warpsConfig.set(name + ".world", location.getWorld()
-                                                      .getName());
+                .getName());
     }
 
     public boolean isWarp(String name) {

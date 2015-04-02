@@ -37,10 +37,12 @@ public class RpCommandExecutor implements CommandExecutor {
                 String type = args[0];
                 if (type.equalsIgnoreCase("players")) {
                     Data.of((Player) sender).setResourcePack("players");
+                    ((Player) sender).setResourcePack("http://www.starving.eu/2/rp/latest.zip");
                     sender.sendMessage(ChatColor.GREEN
                             + "Resource pack type set to 'players'!");
                 } else if (type.equalsIgnoreCase("builders")) {
                     Data.of((Player) sender).setResourcePack("builders");
+                    ((Player) sender).setResourcePack("http://www.starving.eu/2/rp/latest_builder.zip");
                     sender.sendMessage(ChatColor.GREEN
                             + "Resource pack type set to 'builders'!");
                 } else {
