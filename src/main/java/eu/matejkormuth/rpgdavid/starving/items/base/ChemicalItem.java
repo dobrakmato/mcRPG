@@ -59,7 +59,8 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
     public void onConsume(Player player) {
         this.evaluateEffects(player);
         // Add total amount of liquid to player's hydaration.
-        Data.of(player).incrementHydrationLevel(this.contents.getTotalAmount());
+        Data.of(player)
+            .incrementHydrationLevel(this.contents.getTotalAmount());
         // Post event to sub class.
         this.onConsume0(player);
     }
@@ -69,7 +70,9 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
 
         // Consumed pure chemical.
         if (this.contents.getChemicalsCount() == 1) {
-            Chemical chemical = this.contents.getChemicals().iterator().next();
+            Chemical chemical = this.contents.getChemicals()
+                                             .iterator()
+                                             .next();
             chemical.onPureConsumedBy(player, this.contents.getAmount(chemical));
         }
 
@@ -77,7 +80,8 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
         for (CompoundRecipe recipe : Chemicals.Compounds.getAll()) {
             if (recipe.isRecipeOf(this.contents)) {
                 float amount = 0;
-                for (MutableFloat f : this.contents.getContents().values()) {
+                for (MutableFloat f : this.contents.getContents()
+                                                   .values()) {
                     amount += f.getValue();
                 }
                 recipe.onPureConsumedBy(player, amount);
@@ -89,15 +93,14 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
 
     @Override
     public ItemStack toItemStack() {
-        ItemStack is = super.toItemStack();
-        is.setItemMeta(new ChemicalItemMetaWrapper(is.getItemMeta())
-                .set(this.contents));
-        return is;
+        return this.toItemStack(1);
     }
 
     @Override
     public ItemStack toItemStack(int amount) {
-        ItemStack is = this.toItemStack();
+        ItemStack is = super.toItemStack();
+        is.setItemMeta(new ChemicalItemMetaWrapper(is.getItemMeta())
+                                                                    .set(this.contents));
         is.setAmount(amount);
         return is;
     }
