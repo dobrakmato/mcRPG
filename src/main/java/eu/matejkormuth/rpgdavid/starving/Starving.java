@@ -431,11 +431,12 @@ public class Starving implements Runnable, Listener {
                 .getResourcePack();
         if (rp.equalsIgnoreCase("builders")) {
             event.getPlayer()
-                    .setResourcePack("http://www.starving.eu/2/rp/latest.zip");
+                    .setResourcePack(
+                            "http://www.starving.eu/2/rp/latest_builder.zip");
         } else {
             event.getPlayer()
                     .setResourcePack(
-                            "http://www.starving.eu/2/rp/latest_builder.zip");
+                            "http://www.starving.eu/2/rp/latest.zip");
         }
     }
 

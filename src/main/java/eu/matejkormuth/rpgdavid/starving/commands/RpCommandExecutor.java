@@ -62,9 +62,9 @@ public class RpCommandExecutor implements CommandExecutor {
                     // Reload resource pack for all online players.
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         if (Data.of(p).getResourcePack().equals("builders")) {
-                            ((Player) sender).setResourcePack("http://www.starving.eu/2/rp/latest_builder.zip");
+                            p.setResourcePack("http://www.starving.eu/2/rp/latest_builder.zip");
                         } else {
-                            ((Player) sender).setResourcePack("http://www.starving.eu/2/rp/latest.zip");
+                            p.setResourcePack("http://www.starving.eu/2/rp/latest.zip");
                         }
                     }
                 } else {
