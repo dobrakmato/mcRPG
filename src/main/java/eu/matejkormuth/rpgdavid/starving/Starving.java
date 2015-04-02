@@ -427,11 +427,24 @@ public class Starving implements Runnable, Listener {
     @EventHandler
     private void onPlayerJoin(final PlayerJoinEvent event) {
         // Read data and send resource pack.
-        String url = "http://starving.eu/2/rp/?"
+        String url = "http://www.starving.eu/2/rp/?"
                 + Data.of(event.getPlayer())
                       .getResourcePack();
+        event.getPlayer()
+             .sendMessage(
+                     "Selected resource pack: " + Data.of(event.getPlayer())
+                                                      .getResourcePack());
+        Bukkit.getScheduler()
+              .scheduleSyncDelayedTask(this.getPlugin(), new Runnable() {
+                  @Override
+                  public void run() {
+                      event.getPlayer()
+                           .sendMessage("Sending resource pack...");
+                      event.getPlayer()
+                           .setResourcePack(url);
+                  }
+              }, 20 * 5L);
 
-        NMS.sendResourcePack(event.getPlayer(), url, "not_a_hash_pls_implement");
     }
 
     @EventHandler

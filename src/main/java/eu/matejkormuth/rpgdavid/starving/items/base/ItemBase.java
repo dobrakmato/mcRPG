@@ -19,6 +19,7 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.base;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -56,28 +57,31 @@ public abstract class ItemBase {
         }
 
         if (obj instanceof ItemStack) {
-            return ((ItemStack) obj).getType().equals(this.itemStack.getType())
+            return ((ItemStack) obj).getType()
+                                    .equals(this.itemStack.getType())
                     && ((ItemStack) obj).hasItemMeta()
                     && ((ItemStack) obj)
-                            .getItemMeta()
-                            .getDisplayName()
-                            .equals(this.itemStack.getItemMeta()
-                                    .getDisplayName());
+                                        .getItemMeta()
+                                        .getDisplayName()
+                                        .equals(this.itemStack.getItemMeta()
+                                                              .getDisplayName());
         }
         return false;
     }
 
     public String getName() {
-        return this.itemStack.getItemMeta().getDisplayName();
+        return this.itemStack.getItemMeta()
+                             .getDisplayName();
     }
 
     public ItemStack toItemStack() {
-        return toItemStack(1);
+        return this.toItemStack(1);
     }
 
     public ItemStack toItemStack(int amount) {
         ItemStack is = this.itemStack.clone();
-        MaterialData data = this.itemStack.getData().clone();
+        MaterialData data = this.itemStack.getData()
+                                          .clone();
         is.setData(data);
         is.setAmount(amount);
         return is;

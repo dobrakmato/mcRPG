@@ -19,6 +19,7 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.base;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -98,7 +99,7 @@ public abstract class ChemicalItem extends ConsumableItem implements Craftable {
 
     @Override
     public ItemStack toItemStack(int amount) {
-        ItemStack is = super.toItemStack();
+        ItemStack is = super.toItemStack(1);
         is.setItemMeta(new ChemicalItemMetaWrapper(is.getItemMeta())
                                                                     .set(this.contents));
         is.setAmount(amount);
