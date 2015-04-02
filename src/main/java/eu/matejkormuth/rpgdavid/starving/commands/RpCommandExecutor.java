@@ -19,10 +19,12 @@
  */
 package eu.matejkormuth.rpgdavid.starving.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
@@ -53,8 +55,27 @@ public class RpCommandExecutor implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED
                         + "Usage: /rp <players/builders>");
             }
+        } else if (sender instanceof ConsoleCommandSender) {
+            if (args.length == 1) {
+                String c = args[0];
+                if (c.equalsIgnoreCase("reloadall")) {
+                    // Reload resource pack for all online players.
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (Data.of(p).getResourcePack().equals("builders")) {
+                            ((Player) sender).setResourcePack("http://www.starving.eu/2/rp/latest_builder.zip");
+                        } else {
+                            ((Player) sender).setResourcePack("http://www.starving.eu/2/rp/latest.zip");
+                        }
+                    }
+                } else {
+                    sender.sendMessage("Unsupported command!");
+                }
+            } else {
+                sender.sendMessage("Invalid command!");
+            }
+        } else {
+
         }
         return true;
     }
-
 }
