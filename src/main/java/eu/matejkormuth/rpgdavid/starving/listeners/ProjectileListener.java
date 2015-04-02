@@ -52,7 +52,7 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
                         0.5f, 0.5f, 0.5f, 1, PARTICLE_AMOUNT, event.getEntity()
                                 .getLocation(), Double.MAX_VALUE);
                 // Break block.
-                Starving.NMS.blockBreakAnimation(b.getLocation());
+                Starving.NMS.displayMaterialBreak(b.getLocation());
             }
         }
     }
