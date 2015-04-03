@@ -17,39 +17,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
+package eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
-public class CircleAffectedBlocksDef extends PaintedAffectedBlocksDef implements
-        AffectedBlocksDefinition {
+public interface AffectedBlocksDefinition extends Iterable<Block> {
 
-    public CircleAffectedBlocksDef(int radius, Location center) {
-        super(radius, center);
+    Location getCenter();
+
+    boolean hasCenter();
+
+    Block[] getAffectedBlocks();
+    
+    AffectedBlocksIterator iterator();
+
+    boolean isAffected(Block block);
+
+    boolean isFullHeight();
+
+    default boolean isCoverOnly() {
+        return !isFullHeight();
     }
-
-    @Override
-    public Block[] getAffectedBlocks() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public boolean isAffected(Block block) {
-        return block.getLocation().distanceSquared(this.center) < this.radiusPow2;
-    }
-
-    @Override
-    public boolean isFullHeight() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public AffectedBlocksIterator iterator() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

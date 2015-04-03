@@ -19,6 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
+import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.AffectedBlocksDefinition;
+
 /**
  * <p>
  * Generates grass on top of grass blocks with specified proeprties (eg. whether
@@ -44,11 +46,13 @@ public class GrassFilter implements Filter {
     public static final String PROPERTY_LONGGRASS = "LONGGRASS";
     public static final String PROPERTY_FLOWERS = "FLOWERS";
     public static final String PROPERTY_CLEAR_EXISTING_GRASS = "CLEAREXISTING";
+    private static final String NAME = "GrassFilter";
     static {
-        PROPS.add(new FilterProperty(PROPERTY_COVER, 0.5f));
-        PROPS.add(new FilterProperty(PROPERTY_LONGGRASS, false));
-        PROPS.add(new FilterProperty(PROPERTY_FLOWERS, false));
-        PROPS.add(new FilterProperty(PROPERTY_CLEAR_EXISTING_GRASS, true));
+        PROPS.set(new FilterProperty(PROPERTY_COVER, 0.5f));
+        PROPS.set(new FilterProperty(PROPERTY_LONGGRASS, false));
+        PROPS.set(new FilterProperty(PROPERTY_FLOWERS, false));
+        PROPS.set(new FilterProperty(PROPERTY_CLEAR_EXISTING_GRASS, true));
+        PROPS.lock();
     }
 
     @Override
@@ -59,7 +63,20 @@ public class GrassFilter implements Filter {
     @Override
     public void apply(AffectedBlocksDefinition definition,
             FilterProperties properties) {
-        
+
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public boolean isPropertySupported(String property) {
+        return property.equalsIgnoreCase(PROPERTY_COVER)
+                || property.equalsIgnoreCase(PROPERTY_CLEAR_EXISTING_GRASS)
+                || property.equalsIgnoreCase(PROPERTY_FLOWERS)
+                || property.equalsIgnoreCase(PROPERTY_LONGGRASS);
     }
 
 }

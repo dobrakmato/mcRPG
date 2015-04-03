@@ -17,26 +17,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
+package eu.matejkormuth.rpgdavid.starving.worldgen.brushes;
 
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 
-public interface AffectedBlocksDefinition extends Iterable<Block> {
+import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.AffectedBlocksDefinition;
+import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.CircleAffectedBlocksDef;
 
-    Location getCenter();
+public class CircleBrush extends Brush {
 
-    boolean hasCenter();
+    public static final BrushType TYPE = BrushType.CIRCLE;
+    private final int size;
 
-    Block[] getAffectedBlocks();
-    
-    AffectedBlocksIterator iterator();
-
-    boolean isAffected(Block block);
-
-    boolean isFullHeight();
-
-    default boolean isCoverOnly() {
-        return !isFullHeight();
+    public CircleBrush(int size) {
+        this.size = size;
     }
+
+    @Override
+    public int getSize() {
+        return this.size;
+    }
+
+    @Override
+    public BrushType getType() {
+        return TYPE;
+    }
+
+    @Override
+    public AffectedBlocksDefinition createDefinition(Block targetBlock) {
+        return new CircleAffectedBlocksDef(this.size, targetBlock.getLocation());
+    }
+
 }

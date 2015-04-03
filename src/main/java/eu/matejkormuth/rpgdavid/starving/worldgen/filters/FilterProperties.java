@@ -19,19 +19,24 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FilterProperties implements Cloneable {
 
-    private final List<FilterProperty> properties;
+    private final Map<String, FilterProperty> properties;
+    private boolean locked = false;
 
     public FilterProperties() {
-        this.properties = new ArrayList<>();
+        this.properties = new HashMap<>();
     }
 
-    public void add(FilterProperty property) {
-        this.properties.add(property);
+    public void set(FilterProperty property) {
+        if (!locked) {
+            throw new RuntimeException(
+                    "Can't modify property of locked (immutable) FilterProperties! Use FilterProperties::clone().");
+        }
+        this.properties.put(property.getName(), property);
     }
 
     @Override
@@ -43,7 +48,7 @@ public class FilterProperties implements Cloneable {
         }
     };
 
-    public List<FilterProperty> getProperties() {
+    public Map<String, FilterProperty> getProperties() {
         return properties;
     }
 
@@ -56,14 +61,10 @@ public class FilterProperties implements Cloneable {
      * @return property for specified name if found, null otherwise
      */
     public FilterProperty getProperty(String name) {
-        FilterProperty prop = null;
-        for (int i = 0; i < this.properties.size(); i++) {
-            prop = this.properties.get(i);
-            if (prop.getName()
-                    .equals(name)) {
-                return prop;
-            }
-        }
-        return null;
+        return properties.get(name);
+    }
+
+    public void lock() {
+        this.locked = true;
     }
 }

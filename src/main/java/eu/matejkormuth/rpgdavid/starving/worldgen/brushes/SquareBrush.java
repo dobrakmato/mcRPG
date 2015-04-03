@@ -22,12 +22,30 @@ package eu.matejkormuth.rpgdavid.starving.worldgen.brushes;
 import org.bukkit.block.Block;
 
 import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.AffectedBlocksDefinition;
+import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.SquareAffectedBlocksDef;
 
-public abstract class Brush {
+public class SquareBrush extends Brush {
 
-    public abstract int getSize();
+    public static final BrushType TYPE = BrushType.SQUARE;
+    private final int size;
 
-    public abstract BrushType getType();
+    public SquareBrush(int size) {
+        this.size = size;
+    }
 
-    public abstract AffectedBlocksDefinition createDefinition(Block targetBlock);
+    @Override
+    public int getSize() {
+        return this.size;
+    }
+
+    @Override
+    public BrushType getType() {
+        return TYPE;
+    }
+
+    @Override
+    public AffectedBlocksDefinition createDefinition(Block targetBlock) {
+        return new SquareAffectedBlocksDef(this.size, targetBlock.getLocation());
+    }
+
 }

@@ -17,17 +17,39 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.worldgen.brushes;
+package eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks;
 
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 
-import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.AffectedBlocksDefinition;
+public class CircleAffectedBlocksDef extends PaintedAffectedBlocksDef implements
+        AffectedBlocksDefinition {
 
-public abstract class Brush {
+    public CircleAffectedBlocksDef(int radius, Location center) {
+        super(radius, center);
+    }
 
-    public abstract int getSize();
+    @Override
+    public Block[] getAffectedBlocks() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-    public abstract BrushType getType();
+    @Override
+    public boolean isAffected(Block block) {
+        return block.getLocation().distanceSquared(this.center) < this.radiusPow2;
+    }
 
-    public abstract AffectedBlocksDefinition createDefinition(Block targetBlock);
+    @Override
+    public boolean isFullHeight() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public AffectedBlocksIterator iterator() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

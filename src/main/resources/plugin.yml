@@ -28,4 +28,15 @@ commands:
   setspeed:
     description: Sets players's walking and flying speed.
   rp:
-    description: Sets resource pack.
+    description: Sets resource pack type.
+  bt:
+    description: Sets type of brush.
+  bs:
+    description: Sets size of brush.
+  f:
+    description: Sets filter.
+  fp:
+    description: Sets filter properties.
+  ar:
+    description: Applies current filter on WE region.
+    

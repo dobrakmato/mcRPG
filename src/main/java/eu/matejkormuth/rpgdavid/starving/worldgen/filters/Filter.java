@@ -19,8 +19,14 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
+import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.AffectedBlocksDefinition;
+
 public interface Filter {
     FilterProperties getDefaultProperties();
 
     void apply(AffectedBlocksDefinition definition, FilterProperties properties);
+
+    String getName();
+
+    boolean isPropertySupported(String property);
 }

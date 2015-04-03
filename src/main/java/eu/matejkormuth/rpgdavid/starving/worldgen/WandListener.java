@@ -19,14 +19,44 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen;
 
+import java.util.Set;
+
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import eu.matejkormuth.bukkit.Actions;
+import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.AffectedBlocksDefinition;
+
 public class WandListener implements Listener {
+
+    private static final Material WAND_MATERIAL = Material.BLAZE_ROD;
+    private WorldGenManager manager;
+
+    public WandListener(WorldGenManager manager) {
+        this.manager = manager;
+    }
 
     @EventHandler
     private void onWandInteract(final PlayerInteractEvent event) {
-        
+        if (Actions.isRightClick(event.getAction())) {
+            if (event.getItem() != null
+                    && event.getItem().getType().equals(WAND_MATERIAL)) {
+                performAction(event.getPlayer());
+            }
+        }
+    }
+
+    private void performAction(Player player) {
+        // Retrieve session.
+        PlayerSession session = manager.getSession(player);
+
+        // Create definition.
+        AffectedBlocksDefinition definition = session.getBrush().createDefinition(
+                player.getTargetBlock((Set<Material>) null, session.getMaxDistance()));
+
+        session.getFilter().apply(definition, session.getFilterProperties());
     }
 }

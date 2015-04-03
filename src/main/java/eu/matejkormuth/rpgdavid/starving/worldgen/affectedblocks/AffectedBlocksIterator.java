@@ -17,30 +17,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
+package eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks;
 
-import org.bukkit.Location;
+import java.util.Iterator;
 
-public abstract class PaintedAffectedBlocksDef {
-    protected Location center;
-    protected int radius;
-    protected int radiusPow2;
+import org.bukkit.block.Block;
 
-    public PaintedAffectedBlocksDef(int radius, Location center) {
-        this.center = center;
-        this.radius = radius;
-        this.radiusPow2 = radius * radius;
-    }
+public interface AffectedBlocksIterator extends Iterator<Block> {
 
-    public Location getCenter() {
-        return center;
-    }
-
-    public int getRadius() {
-        return radius;
-    }
-
-    public boolean hasCenter() {
-        return true;
-    }
 }

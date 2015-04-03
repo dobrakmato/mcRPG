@@ -108,6 +108,12 @@ import eu.matejkormuth.rpgdavid.starving.tasks.ScoreboardUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.StaminaRegenerationTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.TablistFooterClockTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
+import eu.matejkormuth.rpgdavid.starving.worldgen.WorldGenManager;
+import eu.matejkormuth.rpgdavid.starving.worldgen.commands.ApplyRegionCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushSizeCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushTypeCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterPropertyCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
 public class Starving implements Runnable, Listener {
@@ -137,6 +143,7 @@ public class Starving implements Runnable, Listener {
     private ItemManager itemManager;
     private ImpulseProcessor impulseProcessor;
     private NPCManager npcManager;
+    private WorldGenManager worldGenManager;
 
     private List<Persistable> persistablesList;
 
@@ -195,20 +202,26 @@ public class Starving implements Runnable, Listener {
         this.impulseProcessor = new BufferedImpulseProcessor();
 
         this.npcManager = new NPCManager();
+        this.worldGenManager = new WorldGenManager();
 
         // Register all command executors.
-        this.getPlugin()
-                .getCommand("warp")
-                .setExecutor(new WarpCommandExecutor());
-        this.getPlugin()
-                .getCommand("setwarp")
-                .setExecutor(new SetWarpCommandExecutor());
-        this.getPlugin()
-                .getCommand("setspeed")
-                .setExecutor(new SetSpeedCommandExecutor());
-        this.getPlugin()
-                .getCommand("rp")
-                .setExecutor(new RpCommandExecutor());
+        this.getPlugin().getCommand("warp").setExecutor(
+                new WarpCommandExecutor());
+        this.getPlugin().getCommand("setwarp").setExecutor(
+                new SetWarpCommandExecutor());
+        this.getPlugin().getCommand("setspeed").setExecutor(
+                new SetSpeedCommandExecutor());
+        this.getPlugin().getCommand("rp").setExecutor(new RpCommandExecutor());
+        this.getPlugin().getCommand("bt").setExecutor(
+                new BrushTypeCommandExecutor());
+        this.getPlugin().getCommand("bs").setExecutor(
+                new BrushSizeCommandExecutor());
+        this.getPlugin().getCommand("f").setExecutor(
+                new FilterCommandExecutor());
+        this.getPlugin().getCommand("fp").setExecutor(
+                new FilterPropertyCommandExecutor());
+        this.getPlugin().getCommand("ar").setExecutor(
+                new ApplyRegionCommandExecutor());
 
         // Schedule all tasks.
         this.register(new BleedingTask())
@@ -422,6 +435,10 @@ public class Starving implements Runnable, Listener {
 
     public AmbientSoundManager getAmbientSoundManager() {
         return this.ambientSoundManager;
+    }
+
+    public WorldGenManager getWorldGenManager() {
+        return worldGenManager;
     }
 
     @EventHandler

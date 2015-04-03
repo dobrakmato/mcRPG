@@ -28,6 +28,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.worldgen.accessors.BukkitWorldAccessor;
 
@@ -46,7 +47,7 @@ public class WorldGenManager {
         determinateAccessor();
 
         // Register wand listener.
-        Bukkit.getPluginManager().registerEvents(new WandListener(),
+        Bukkit.getPluginManager().registerEvents(new WandListener(this),
                 Starving.getInstance().getPlugin());
     }
 
@@ -77,7 +78,7 @@ public class WorldGenManager {
     }
 
     public WorldAccessor getWorld(String name) {
-        return getWorld(Bukkit.getWorld(name));
+        return getWorld(Worlds.by(name));
     }
 
     public WorldAccessor getWorld(World world) {

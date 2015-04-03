@@ -22,6 +22,9 @@ package eu.matejkormuth.rpgdavid.starving.worldgen;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.Brush;
+import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.BrushType;
+import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.CircleBrush;
+import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.SquareBrush;
 import eu.matejkormuth.rpgdavid.starving.worldgen.filters.Filter;
 import eu.matejkormuth.rpgdavid.starving.worldgen.filters.FilterProperties;
 
@@ -31,13 +34,38 @@ public class PlayerSession {
     private Brush brush;
     private Filter filter;
     private FilterProperties filterProperties;
+    private int maxDistance;
 
     public PlayerSession(Player player) {
         this.player = player;
+        this.maxDistance = 256;
+        this.brush = new CircleBrush(5);
     }
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void setBrushSize(int newSize) {
+        if (this.brush.getType() == BrushType.CIRCLE) {
+            this.brush = new CircleBrush(newSize);
+        } else if (this.brush.getType() == BrushType.SQUARE) {
+            this.brush = new SquareBrush(newSize);
+        } else {
+            throw new RuntimeException("Invalid brush type!");
+        }
+    }
+
+    public void setBrushType(BrushType type) {
+        int size = this.brush.getSize();
+        switch (type) {
+            case CIRCLE:
+                this.brush = new CircleBrush(size);
+                break;
+            case SQUARE:
+                this.brush = new SquareBrush(size);
+                break;
+        }
     }
 
     public void setFilter(Filter filter) {
@@ -53,6 +81,18 @@ public class PlayerSession {
 
     public FilterProperties getFilterProperties() {
         return filterProperties;
+    }
+
+    public void setFilterProperties(FilterProperties filterProperties) {
+        this.filterProperties = filterProperties;
+    }
+
+    public void setMaxDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
+    }
+
+    public int getMaxDistance() {
+        return this.maxDistance;
     }
 
     public Brush getBrush() {
