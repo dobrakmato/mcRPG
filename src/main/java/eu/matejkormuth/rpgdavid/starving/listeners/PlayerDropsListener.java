@@ -45,21 +45,26 @@ public class PlayerDropsListener implements Listener {
             armorStand.setVelocity(event.getPlayer().getEyeLocation().getDirection());
             armorStand.setItemInHand(event.getItemDrop().getItemStack());
             armorStand.setVisible(false);
+            armorStand.setArms(true);
             armorStand.setBasePlate(false);
+            float minusY = 0.8f;
+
             if (Starving.getInstance().getItemManager().findItem(
                     event.getItemDrop().getItemStack()) instanceof Firearm) {
                 armorStand.setRightArmPose(new EulerAngle(0, 0, Math.PI / 2));
+                minusY = 1.27f;
             }
 
             armorStand.setMetadata(ArmorStandSpawnableLoot.METADATA_KEY,
                     new FlagMetadataValue());
 
+            float finalMinusY = minusY;
             Bukkit.getScheduler().scheduleSyncDelayedTask(
                     Starving.getInstance().getPlugin(), new Runnable() {
                         @Override
                         public void run() {
                             armorStand.teleport(armorStand.getLocation().subtract(
-                                    0, 1.27f, 0));
+                                    0, finalMinusY, 0));
                             armorStand.setGravity(false);
                         }
                     }, 30L);

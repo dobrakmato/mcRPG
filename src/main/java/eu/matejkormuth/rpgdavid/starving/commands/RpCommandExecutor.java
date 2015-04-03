@@ -1,5 +1,4 @@
 /*
- *  Starving is a open source bukkit/spigot mmo game.
  *  Copyright (C) 2014-2015 Matej Kormuth
  *  This file is a part of Starving. <http://www.starving.eu>
  *
