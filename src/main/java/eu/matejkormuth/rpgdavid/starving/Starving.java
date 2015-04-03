@@ -94,7 +94,7 @@ import eu.matejkormuth.rpgdavid.starving.npc.NPCManager;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
-import eu.matejkormuth.rpgdavid.starving.remote.RemoteServer;
+import eu.matejkormuth.rpgdavid.starving.remote.RemoteConnectionServer;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BloodLevelConsuquencesTask;
@@ -155,7 +155,7 @@ public class Starving implements Runnable, Listener {
 
     private List<Object> registered;
 
-    private RemoteServer remoteServer;
+    private RemoteConnectionServer remoteConnectionServer;
 
     public void onEnable() {
         instance = this;
@@ -292,8 +292,8 @@ public class Starving implements Runnable, Listener {
         new ServerZombiePatcher().patchAll();
 
         // Start remote connections.
-        this.remoteServer = new RemoteServer();
-        this.remoteServer.start();
+        this.remoteConnectionServer = new RemoteConnectionServer();
+        this.remoteConnectionServer.start();
     }
 
     /**
@@ -353,7 +353,7 @@ public class Starving implements Runnable, Listener {
         this.zombieManager.saveConfiguration();
 
         // Stop remote server.
-        this.remoteServer.stop();
+        this.remoteConnectionServer.shutdown();
 
         // Shutdown NPC manager.
         this.getLogger()
