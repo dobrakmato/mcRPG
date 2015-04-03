@@ -45,6 +45,10 @@ public class BrushSizeCommandExecutor implements CommandExecutor {
                     sender.sendMessage(ChatColor.GREEN + "Brush size set to "
                             + size + ".");
                 } else {
+                    sender.sendMessage(ChatColor.YELLOW
+                            + "Current brush size: "
+                            + Starving.getInstance().getWorldGenManager().getSession(
+                                    (Player) sender).getBrush().getSize());
                     sender.sendMessage(ChatColor.RED + "Usage: /bs <size>");
                 }
             } else {

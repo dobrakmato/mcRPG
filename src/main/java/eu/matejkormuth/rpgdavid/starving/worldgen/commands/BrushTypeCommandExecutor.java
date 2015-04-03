@@ -52,6 +52,10 @@ public class BrushTypeCommandExecutor implements CommandExecutor {
                                 + "Unsupported brush type!");
                     }
                 } else {
+                    sender.sendMessage(ChatColor.YELLOW
+                            + "Current brush type: "
+                            + Starving.getInstance().getWorldGenManager().getSession(
+                                    (Player) sender).getBrush().getType());
                     sender.sendMessage(ChatColor.RED
                             + "Usage: /bt <circle/square>");
                 }

@@ -31,11 +31,13 @@ import org.bukkit.entity.Player;
 import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.worldgen.accessors.BukkitWorldAccessor;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.Filter;
 
 public class WorldGenManager {
 
     private Map<Player, PlayerSession> sessions;
     private Map<World, WorldAccessor> worlds;
+    private Map<String, Filter> filters;
 
     private Constructor<? extends WorldAccessor> preferedAccessorCtr;
 
@@ -87,6 +89,14 @@ public class WorldGenManager {
         }
 
         return worlds.get(world);
+    }
+
+    public void registerFilter(Filter filter) {
+        this.filters.put(filter.getName(), filter);
+    }
+
+    public Filter getFilter(String name) {
+        return this.filters.get(name);
     }
 
 }

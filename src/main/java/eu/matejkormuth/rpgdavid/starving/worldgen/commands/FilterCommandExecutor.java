@@ -25,6 +25,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.starving.Starving;
+
 public class FilterCommandExecutor implements CommandExecutor {
 
     @Override
@@ -36,6 +38,10 @@ public class FilterCommandExecutor implements CommandExecutor {
                     // TODO: Add support for setting filter by name or class.
                     sender.sendMessage("Not yet supported!");
                 } else {
+                    sender.sendMessage(ChatColor.YELLOW
+                            + "Current filter: "
+                            + Starving.getInstance().getWorldGenManager().getSession(
+                                    (Player) sender).getFilter().getName());
                     sender.sendMessage(ChatColor.RED
                             + "Usage: /filter <filter>");
                 }
@@ -48,5 +54,4 @@ public class FilterCommandExecutor implements CommandExecutor {
         }
         return true;
     }
-
 }

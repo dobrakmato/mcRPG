@@ -65,6 +65,17 @@ public class FilterPropertyCommandExecutor implements CommandExecutor {
                                 + "'!");
                     }
                 } else {
+                    sender.sendMessage(ChatColor.YELLOW
+                            + "=== Current filter properties ===");
+                    FilterProperties fps = Starving.getInstance().getWorldGenManager().getSession(
+                            (Player) sender).getFilterProperties();
+                    sender.sendMessage(ChatColor.YELLOW
+                            + "=================================");
+                    for (FilterProperty fp : fps.getProperties().values()) {
+                        sender.sendMessage(ChatColor.GOLD + " " + fp.getName()
+                                + ": " + ChatColor.GREEN + fp.asFloat());
+                    }
+
                     sender.sendMessage(ChatColor.RED
                             + "Usage: /fp <property> <value>");
                 }

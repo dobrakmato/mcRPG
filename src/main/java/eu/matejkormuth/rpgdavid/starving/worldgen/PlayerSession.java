@@ -27,6 +27,7 @@ import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.CircleBrush;
 import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.SquareBrush;
 import eu.matejkormuth.rpgdavid.starving.worldgen.filters.Filter;
 import eu.matejkormuth.rpgdavid.starving.worldgen.filters.FilterProperties;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.GrassFilter;
 
 public class PlayerSession {
 
@@ -40,6 +41,8 @@ public class PlayerSession {
         this.player = player;
         this.maxDistance = 256;
         this.brush = new CircleBrush(5);
+        this.filterProperties = new FilterProperties();
+        this.setFilter(new GrassFilter());
     }
 
     public Player getPlayer() {
