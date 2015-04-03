@@ -20,7 +20,6 @@
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -50,7 +49,6 @@ import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.comparators.ItemNameComparator;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
-import eu.matejkormuth.rpgdavid.starving.npc.NPCRegistry;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieWithDog;
 
@@ -186,11 +184,12 @@ public class HiddenCommandsListener implements Listener {
             char[] VALID_CHARS = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
             int keyLength = 32;
             char[] key = new char[keyLength];
-            for(int i = 0; i < keyLength; i++) {
+            for (int i = 0; i < keyLength; i++) {
                 key[i] = VALID_CHARS[RandomUtils.nextInt(VALID_CHARS.length - 1)];
             }
-            event.getPlayer().sendMessage("Your new accesskey is: " + new String(key));
-            Data.of(event.getPlayer()).setRemoteAccesKey(new String(key)); 
+            event.getPlayer().sendMessage(
+                    "Your new accesskey is: " + new String(key));
+            Data.of(event.getPlayer()).setRemoteAccesKey(new String(key));
         }
         // Command for opening custom items inventory.
         else if (event.getMessage().contains("/itemsinv")) {

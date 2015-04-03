@@ -83,6 +83,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.MobDropsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.MoveListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.PVPListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.PlayerDeathListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.PlayerDropsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ProjectileListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ToolsListener;
@@ -268,6 +269,7 @@ public class Starving implements Runnable, Listener {
         this.register(new ToolsListener());
         this.register(new ChunksListener());
         this.register(new BlockFadeListener());
+        this.register(new PlayerDropsListener());
         this.register(new ZombieCombustListener());
         this.register(new ProjectileListener());
         this.register(new BloodLevelDamageListener());
