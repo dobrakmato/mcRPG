@@ -45,6 +45,19 @@ package eu.matejkormuth.rpgdavid.starving.worldgen.filters.base;
 public class FilterProperty {
 
     /**
+     * Constant that represents float value type.
+     */
+    public static final int TYPE_FLOAT = 1002;
+    /**
+     * Constant that represents boolean value type.
+     */
+    public static final int TYPE_BOOLEAN = 1001;
+    /**
+     * Constant that represents integer value type.
+     */
+    public static final int TYPE_INTEGER = 1000;
+
+    /**
      * Constant that holds float value of representation of boolean true.
      */
     public static final float BOOLEAN_TRUE = 1;
@@ -55,19 +68,23 @@ public class FilterProperty {
 
     private float value;
     private final String name;
+    private final int type;
 
     public FilterProperty(String name, float defaultValue) {
         this.name = name;
         this.value = defaultValue;
+        this.type = TYPE_FLOAT;
     }
 
     public FilterProperty(String name, int defaultValue) {
         this.name = name;
         this.value = defaultValue;
+        this.type = TYPE_INTEGER;
     }
 
     public FilterProperty(String name, boolean defaultValue) {
         this.name = name;
+        this.type = TYPE_BOOLEAN;
         if (defaultValue) {
             this.value = BOOLEAN_TRUE;
         } else {
@@ -78,6 +95,10 @@ public class FilterProperty {
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public int getType() {
+        return type;
     }
 
     public String getName() {

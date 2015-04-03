@@ -62,8 +62,9 @@ public class WorldGenManager {
     }
 
     private void registerFilters() {
-        registerFilter(new GrassFilter());
+        System.out.println("Registering filters...");
         registerFilter(new FieldFilter());
+        registerFilter(new GrassFilter());
     }
 
     private void determinateAccessor() {
@@ -107,8 +108,10 @@ public class WorldGenManager {
     public Collection<Filter> getFilters() {
         return this.filters.values();
     }
-    
+
     public void registerFilter(Filter filter) {
+        System.out.println("Registerting filter: " + filter.getName() + "; "
+                + filter.getClass().getName());
         this.filters.put(filter.getName(), filter);
     }
 

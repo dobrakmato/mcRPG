@@ -31,7 +31,7 @@ import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.FilterProperties;
 public class FieldFilter implements Filter {
 
     private static final FilterProperties PROPS = new FilterProperties();
-    private static final String NAME = "GrassFilter";
+    private static final String NAME = "FieldFilter";
     static {
         PROPS.lock();
     }
@@ -47,38 +47,62 @@ public class FieldFilter implements Filter {
             FilterProperties properties) {
         Random r = new Random();
         for (Block b : definition) {
-            b.getRelative(0, -1, 0).setType(Material.SOIL);
-            switch (r.nextInt(5)) {
-                case 0:
-                    b.setTypeIdAndData(Material.CROPS.getId(),
-                            (byte) r.nextInt(7),
-                            false);
-                    break;
-                case 1:
-                    b.setTypeIdAndData(Material.PUMPKIN_STEM.getId(),
-                            (byte) r.nextInt(7),
-                            false);
-                    break;
-                case 2:
-                    b.setTypeIdAndData(Material.MELON_STEM.getId(),
-                            (byte) r.nextInt(7),
-                            false);
-                    break;
-                case 3:
-                    b.setTypeIdAndData(Material.POTATO.getId(),
-                            (byte) r.nextInt(7),
-                            false);
-                    break;
-                case 4:
-                    b.setTypeIdAndData(Material.CARROT.getId(),
-                            (byte) r.nextInt(7),
-                            false);
-                    break;
-                case 5:
+            b.setTypeIdAndData(0, (byte) 0, false);
+            b.getRelative(0, 1, 0).setTypeIdAndData(0, (byte) 0, false);
+
+            if (r.nextFloat() < 0.1f) {
+                b.getRelative(0, -1, 0).setType(Material.DIRT);
+
+                if (r.nextBoolean()) {
                     b.setTypeIdAndData(Material.LONG_GRASS.getId(),
                             (byte) r.nextInt(2),
                             false);
-                    break;
+                }
+
+            } else {
+                b.getRelative(0, -1, 0).setType(Material.SOIL);
+
+                switch (r.nextInt(7)) {
+                    case 0:
+                        b.setTypeIdAndData(Material.CROPS.getId(),
+                                (byte) r.nextInt(7),
+                                false);
+                        break;
+                    case 1:
+                        b.setTypeIdAndData(Material.PUMPKIN_STEM.getId(),
+                                (byte) r.nextInt(7),
+                                false);
+                        break;
+                    case 2:
+                        b.setTypeIdAndData(Material.MELON_STEM.getId(),
+                                (byte) r.nextInt(7),
+                                false);
+                        break;
+                    case 3:
+                        b.setTypeIdAndData(Material.POTATO.getId(),
+                                (byte) r.nextInt(7),
+                                false);
+                        break;
+                    case 4:
+                        b.setTypeIdAndData(Material.CARROT.getId(),
+                                (byte) r.nextInt(7),
+                                false);
+                        break;
+                    case 5:
+                        b.setTypeIdAndData(Material.LONG_GRASS.getId(),
+                                (byte) r.nextInt(2),
+                                false);
+                        break;
+                    case 6:
+                        b.setTypeIdAndData(Material.DOUBLE_PLANT.getId(),
+                                (byte) 2,
+                                false);
+                        b.getRelative(0, 1, 0).setTypeIdAndData(
+                                Material.DOUBLE_PLANT.getId(),
+                                (byte) 10,
+                                false);
+                        break;
+                }
             }
         }
     }

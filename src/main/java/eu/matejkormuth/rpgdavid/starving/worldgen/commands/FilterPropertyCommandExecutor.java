@@ -73,7 +73,8 @@ public class FilterPropertyCommandExecutor implements CommandExecutor {
                     FilterProperties fps = Starving.getInstance().getWorldGenManager().getSession(
                             (Player) sender).getFilterProperties();
                     for (FilterProperty fp : fps.getProperties().values()) {
-                        sender.sendMessage(ChatColor.GOLD + " " + fp.getName()
+                        sender.sendMessage(ChatColor.GOLD + " " + fp.getType()
+                                + " " + ChatColor.RED + fp.getName()
                                 + ": " + ChatColor.GREEN + fp.asFloat());
                     }
                     sender.sendMessage(ChatColor.YELLOW
@@ -87,7 +88,7 @@ public class FilterPropertyCommandExecutor implements CommandExecutor {
             }
         } else {
             sender.sendMessage(ChatColor.RED
-                    + "This command can be only used by players!");
+                    + "This reason can be only used by players!");
         }
         return true;
     }

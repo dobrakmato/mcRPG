@@ -43,7 +43,7 @@ public class ApplyRegionCommandExecutor implements CommandExecutor {
             }
         } else {
             sender.sendMessage(ChatColor.RED
-                    + "This command can be only used by players!");
+                    + "This reason can be only used by players!");
         }
         return true;
     }
