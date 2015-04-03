@@ -19,14 +19,18 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.util.EulerAngle;
 
 import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
+import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 import eu.matejkormuth.rpgdavid.starving.loot.ArmorStandSpawnableLoot;
 
 public class PlayerDropsListener implements Listener {
@@ -40,8 +44,25 @@ public class PlayerDropsListener implements Listener {
                     event.getPlayer().getEyeLocation(), EntityType.ARMOR_STAND);
             armorStand.setVelocity(event.getPlayer().getEyeLocation().getDirection());
             armorStand.setItemInHand(event.getItemDrop().getItemStack());
+            armorStand.setVisible(false);
+            armorStand.setBasePlate(false);
+            if (Starving.getInstance().getItemManager().findItem(
+                    event.getItemDrop().getItemStack()) instanceof Firearm) {
+                armorStand.setRightArmPose(new EulerAngle(0, 0, Math.PI / 2));
+            }
+
             armorStand.setMetadata(ArmorStandSpawnableLoot.METADATA_KEY,
                     new FlagMetadataValue());
+
+            Bukkit.getScheduler().scheduleSyncDelayedTask(
+                    Starving.getInstance().getPlugin(), new Runnable() {
+                        @Override
+                        public void run() {
+                            armorStand.teleport(armorStand.getLocation().subtract(
+                                    0, 1.27f, 0));
+                            armorStand.setGravity(false);
+                        }
+                    }, 30L);
         }
     }
 }

@@ -41,7 +41,6 @@ public class PlayerSession {
         this.player = player;
         this.maxDistance = 256;
         this.brush = new CircleBrush(5);
-        this.filterProperties = new FilterProperties();
         this.setFilter(new GrassFilter());
     }
 
