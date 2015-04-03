@@ -51,12 +51,15 @@ public class FilterPropertyCommandExecutor implements CommandExecutor {
                             playerfprops.set(new FilterProperty(property,
                                     Boolean.valueOf(value)));
                             sender.sendMessage(ChatColor.GREEN + "Property '"
-                                    + property + "' set to '" + value + "'.");
+                                    + property
+                                    + "' set to boolean (float) value '"
+                                    + value + "'.");
                         } else {
                             playerfprops.set(new FilterProperty(property,
                                     Float.parseFloat(value)));
                             sender.sendMessage(ChatColor.GREEN + "Property '"
-                                    + property + "' set to '" + value + "'.");
+                                    + property + "' set to float value '"
+                                    + value + "'.");
                         }
                     } else {
                         sender.sendMessage(ChatColor.RED + "Current filter '"
@@ -69,12 +72,12 @@ public class FilterPropertyCommandExecutor implements CommandExecutor {
                             + "=== Current filter properties ===");
                     FilterProperties fps = Starving.getInstance().getWorldGenManager().getSession(
                             (Player) sender).getFilterProperties();
-                    sender.sendMessage(ChatColor.YELLOW
-                            + "=================================");
                     for (FilterProperty fp : fps.getProperties().values()) {
                         sender.sendMessage(ChatColor.GOLD + " " + fp.getName()
                                 + ": " + ChatColor.GREEN + fp.asFloat());
                     }
+                    sender.sendMessage(ChatColor.YELLOW
+                            + "=================================");
 
                     sender.sendMessage(ChatColor.RED
                             + "Usage: /fp <property> <value>");

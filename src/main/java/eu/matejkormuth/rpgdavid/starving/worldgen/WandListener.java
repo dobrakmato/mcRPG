@@ -55,7 +55,8 @@ public class WandListener implements Listener {
 
         // Create definition.
         AffectedBlocksDefinition definition = session.getBrush().createDefinition(
-                player.getTargetBlock((Set<Material>) null, session.getMaxDistance()));
+                player.getTargetBlock((Set<Material>) null,
+                        session.getMaxDistance()));
 
         session.getFilter().apply(definition, session.getFilterProperties());
     }

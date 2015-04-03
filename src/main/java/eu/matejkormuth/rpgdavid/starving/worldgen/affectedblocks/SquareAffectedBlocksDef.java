@@ -85,8 +85,7 @@ public class SquareAffectedBlocksDef extends PaintedAffectedBlocksDef implements
 
         @Override
         public boolean hasNext() {
-            // TODO Auto-generated method stub
-            return false;
+            return !(currentX == maxX && currentZ == maxZ);
         }
 
         @Override
@@ -96,6 +95,7 @@ public class SquareAffectedBlocksDef extends PaintedAffectedBlocksDef implements
             } else {
                 if (currentZ != maxZ) {
                     currentZ++;
+                    currentX = minX;
                 } else {
                     throw new NoSuchElementException();
                 }

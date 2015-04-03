@@ -19,6 +19,11 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
+import java.util.Random;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+
 import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.AffectedBlocksDefinition;
 
 /**
@@ -60,10 +65,38 @@ public class GrassFilter implements Filter {
         return PROPS;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void apply(AffectedBlocksDefinition definition,
             FilterProperties properties) {
+        float chance = properties.getProperty(PROPERTY_COVER).asFloat();
+        boolean longgrass = properties.getProperty(PROPERTY_LONGGRASS).asBoolean();
+        boolean clearExistingGrass = properties.getProperty(
+                PROPERTY_CLEAR_EXISTING_GRASS).asBoolean();
+        Random r = new Random();
+        for (Block b : definition) {
+            // clear
+            if (clearExistingGrass
+                    && (b.getType() == Material.LONG_GRASS || b.getType() == Material.DOUBLE_PLANT)) {
+                b.setType(Material.AIR);
+            }
 
+            if (r.nextFloat() < chance) {
+                if (longgrass && r.nextBoolean()) {
+                    b.setTypeIdAndData(Material.DOUBLE_PLANT.getId(), (byte) 2,
+                            false);
+                    b.getRelative(0, 1, 0).setTypeIdAndData(
+                            Material.DOUBLE_PLANT.getId(), (byte) 10, false);
+                } else {
+                    b.setType(Material.LONG_GRASS);
+                    if (r.nextBoolean()) {
+                        b.setData((byte) 2);
+                    } else {
+                        b.setData((byte) 1);
+                    }
+                }
+            }
+        }
     }
 
     @Override

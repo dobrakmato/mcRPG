@@ -32,7 +32,7 @@ public class FilterProperties implements Cloneable {
     }
 
     public void set(FilterProperty property) {
-        if (!locked) {
+        if (locked) {
             throw new RuntimeException(
                     "Can't modify property of locked (immutable) FilterProperties! Use FilterProperties::clone().");
         }
@@ -42,7 +42,9 @@ public class FilterProperties implements Cloneable {
     @Override
     public FilterProperties clone() {
         try {
-            return (FilterProperties) super.clone();
+            FilterProperties fp = (FilterProperties) super.clone();
+            fp.locked = false;
+            return fp;
         } catch (CloneNotSupportedException e) {
             throw new Error(e);
         }
