@@ -47,13 +47,18 @@ public class RpCommandExecutor implements CommandExecutor {
                     ((Player) sender).setResourcePack("http://www.starving.eu/2/rp/latest_builder.zip");
                     sender.sendMessage(ChatColor.GREEN
                             + "Resource pack type set to 'builders'!");
+                } else if (type.equalsIgnoreCase("empty")) {
+                    Data.of((Player) sender).setResourcePack("empty");
+                    ((Player) sender).setResourcePack("http://www.starving.eu/2/rp/empty.zip");
+                    sender.sendMessage(ChatColor.GREEN
+                            + "Resource pack type set to 'empty'!");
                 } else {
                     sender.sendMessage(ChatColor.RED
                             + "Invalid resource pack type!");
                 }
             } else {
                 sender.sendMessage(ChatColor.RED
-                        + "Usage: /rp <players/builders>");
+                        + "Usage: /rp <players/builders/empty>");
             }
         } else if (sender instanceof ConsoleCommandSender) {
             if (args.length == 1) {
@@ -63,8 +68,11 @@ public class RpCommandExecutor implements CommandExecutor {
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         if (Data.of(p).getResourcePack().equals("builders")) {
                             p.setResourcePack("http://www.starving.eu/2/rp/latest_builder.zip");
-                        } else {
+                        } else if (Data.of(p).getResourcePack().equals(
+                                "players")) {
                             p.setResourcePack("http://www.starving.eu/2/rp/latest.zip");
+                        } else {
+                            p.setResourcePack("http://www.starving.eu/2/rp/empty.zip");
                         }
                     }
                 } else {
