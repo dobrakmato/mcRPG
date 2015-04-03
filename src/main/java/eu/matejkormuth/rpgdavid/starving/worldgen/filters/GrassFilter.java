@@ -25,6 +25,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.AffectedBlocksDefinition;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.Filter;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.FilterProperties;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.FilterProperty;
 
 /**
  * <p>

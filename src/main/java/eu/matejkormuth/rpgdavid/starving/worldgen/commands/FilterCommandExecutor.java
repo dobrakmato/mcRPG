@@ -26,6 +26,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.Filter;
 
 public class FilterCommandExecutor implements CommandExecutor {
 
@@ -35,15 +36,32 @@ public class FilterCommandExecutor implements CommandExecutor {
         if (sender instanceof Player) {
             if (sender.isOp() || sender.hasPermission("wg")) {
                 if (args.length == 1) {
-                    // TODO: Add support for setting filter by name or class.
-                    sender.sendMessage("Not yet supported!");
+                    String filter = args[0];
+                    Filter f = Starving.getInstance().getWorldGenManager().getFilter(
+                            filter);
+                    if (f != null) {
+                        Starving.getInstance().getWorldGenManager().getSession(
+                                (Player) sender).setFilter(f);
+                        sender.sendMessage(ChatColor.GREEN + "Filter set to: "
+                                + filter + ".");
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "Filter '" + filter
+                                + "' not found!");
+                    }
                 } else {
                     sender.sendMessage(ChatColor.YELLOW
                             + "Current filter: "
                             + Starving.getInstance().getWorldGenManager().getSession(
                                     (Player) sender).getFilter().getName());
+                    sender.sendMessage(ChatColor.YELLOW
+                            + "=== Available filters ===");
+                    for (Filter f : Starving.getInstance().getWorldGenManager().getFilters()) {
+                        sender.sendMessage(ChatColor.GOLD + " " + f.getName());
+                    }
+                    sender.sendMessage(ChatColor.YELLOW
+                            + "==========================");
                     sender.sendMessage(ChatColor.RED
-                            + "Usage: /filter <filter>");
+                            + "Usage: /f <filter>");
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Not enough permissions!");

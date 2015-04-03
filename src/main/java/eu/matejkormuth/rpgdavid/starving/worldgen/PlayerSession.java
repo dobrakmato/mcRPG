@@ -25,9 +25,9 @@ import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.Brush;
 import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.BrushType;
 import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.CircleBrush;
 import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.SquareBrush;
-import eu.matejkormuth.rpgdavid.starving.worldgen.filters.Filter;
-import eu.matejkormuth.rpgdavid.starving.worldgen.filters.FilterProperties;
 import eu.matejkormuth.rpgdavid.starving.worldgen.filters.GrassFilter;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.Filter;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.FilterProperties;
 
 public class PlayerSession {
 

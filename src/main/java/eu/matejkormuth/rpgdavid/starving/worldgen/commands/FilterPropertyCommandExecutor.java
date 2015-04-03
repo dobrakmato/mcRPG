@@ -26,9 +26,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
-import eu.matejkormuth.rpgdavid.starving.worldgen.filters.Filter;
-import eu.matejkormuth.rpgdavid.starving.worldgen.filters.FilterProperties;
-import eu.matejkormuth.rpgdavid.starving.worldgen.filters.FilterProperty;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.Filter;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.FilterProperties;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.FilterProperty;
 
 public class FilterPropertyCommandExecutor implements CommandExecutor {
 

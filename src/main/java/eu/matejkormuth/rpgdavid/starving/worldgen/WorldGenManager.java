@@ -21,6 +21,8 @@ package eu.matejkormuth.rpgdavid.starving.worldgen;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -31,7 +33,9 @@ import org.bukkit.entity.Player;
 import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.worldgen.accessors.BukkitWorldAccessor;
-import eu.matejkormuth.rpgdavid.starving.worldgen.filters.Filter;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.FieldFilter;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.GrassFilter;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.base.Filter;
 
 public class WorldGenManager {
 
@@ -44,6 +48,7 @@ public class WorldGenManager {
     public WorldGenManager() {
         sessions = new WeakHashMap<>();
         worlds = new WeakHashMap<>();
+        filters = new HashMap<>();
 
         // Determinate ideal accessor for this server.
         determinateAccessor();
@@ -51,6 +56,14 @@ public class WorldGenManager {
         // Register wand listener.
         Bukkit.getPluginManager().registerEvents(new WandListener(this),
                 Starving.getInstance().getPlugin());
+
+        // Register known filters.
+        registerFilters();
+    }
+
+    private void registerFilters() {
+        registerFilter(new GrassFilter());
+        registerFilter(new FieldFilter());
     }
 
     private void determinateAccessor() {
@@ -91,6 +104,10 @@ public class WorldGenManager {
         return worlds.get(world);
     }
 
+    public Collection<Filter> getFilters() {
+        return this.filters.values();
+    }
+    
     public void registerFilter(Filter filter) {
         this.filters.put(filter.getName(), filter);
     }
