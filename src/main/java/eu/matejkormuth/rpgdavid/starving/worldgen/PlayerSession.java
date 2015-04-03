@@ -21,9 +21,16 @@ package eu.matejkormuth.rpgdavid.starving.worldgen;
 
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.starving.worldgen.brushes.Brush;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.Filter;
+import eu.matejkormuth.rpgdavid.starving.worldgen.filters.FilterProperties;
+
 public class PlayerSession {
 
     private Player player;
+    private Brush brush;
+    private Filter filter;
+    private FilterProperties filterProperties;
 
     public PlayerSession(Player player) {
         this.player = player;
@@ -31,5 +38,24 @@ public class PlayerSession {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+        // Clone properties from default properties.
+        this.filterProperties = filter.getDefaultProperties().clone();
+        // TODO: Notify remote client of filter properties change.
+    }
+
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public FilterProperties getFilterProperties() {
+        return filterProperties;
+    }
+
+    public Brush getBrush() {
+        return brush;
     }
 }

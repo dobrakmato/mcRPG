@@ -19,17 +19,53 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
+
+import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.worldgen.accessors.BukkitWorldAccessor;
 
 public class WorldGenManager {
 
     private Map<Player, PlayerSession> sessions;
+    private Map<World, WorldAccessor> worlds;
+
+    private Constructor<? extends WorldAccessor> preferedAccessorCtr;
 
     public WorldGenManager() {
         sessions = new WeakHashMap<>();
+        worlds = new WeakHashMap<>();
+
+        // Determinate ideal accessor for this server.
+        determinateAccessor();
+
+        // Register wand listener.
+        Bukkit.getPluginManager().registerEvents(new WandListener(),
+                Starving.getInstance().getPlugin());
+    }
+
+    private void determinateAccessor() {
+        Class<? extends WorldAccessor> clazz = BukkitWorldAccessor.class;
+        try {
+            preferedAccessorCtr = clazz.getConstructor(World.class);
+        } catch (NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private WorldAccessor createAccessor(World world) {
+        try {
+            return preferedAccessorCtr.newInstance(new Object[] { world });
+        } catch (InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public PlayerSession getSession(Player player) {
@@ -39,4 +75,17 @@ public class WorldGenManager {
 
         return this.sessions.get(player);
     }
+
+    public WorldAccessor getWorld(String name) {
+        return getWorld(Bukkit.getWorld(name));
+    }
+
+    public WorldAccessor getWorld(World world) {
+        if (!worlds.containsKey(world)) {
+            worlds.put(world, createAccessor(world));
+        }
+
+        return worlds.get(world);
+    }
+
 }

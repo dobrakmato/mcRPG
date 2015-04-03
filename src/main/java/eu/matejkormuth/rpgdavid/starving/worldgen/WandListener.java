@@ -17,10 +17,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
+package eu.matejkormuth.rpgdavid.starving.worldgen;
 
-public interface Filter {
-    FilterProperties getDefaultProperties();
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 
-    void apply(AffectedBlocksDefinition definition, FilterProperties properties);
+public class WandListener implements Listener {
+
+    @EventHandler
+    private void onWandInteract(final PlayerInteractEvent event) {
+        
+    }
 }

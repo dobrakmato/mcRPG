@@ -17,10 +17,29 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
+package eu.matejkormuth.rpgdavid.starving.worldgen;
 
-public interface Filter {
-    FilterProperties getDefaultProperties();
+import org.bukkit.Material;
+import org.bukkit.World;
 
-    void apply(AffectedBlocksDefinition definition, FilterProperties properties);
+public abstract class WorldAccessor {
+
+    public WorldAccessor(World world) {
+    }
+
+    public abstract Material getMaterialAt(int x, int y, int z);
+
+    public abstract byte getDataAt(int x, int y, int z);
+
+    public abstract void setMaterialAt(int x, int y, int z, Material material);
+
+    public abstract void setMaterialAt(int x, int y, int z, Material material,
+            boolean applyPhysics);
+
+    public abstract void setDataAt(int x, int y, int z, byte data);
+
+    public abstract void setDataAt(int x, int y, int z, byte data,
+            boolean applyPhysics);
+
+    public abstract int getHighestBlockAt(int x, int z);
 }

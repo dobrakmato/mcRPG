@@ -20,5 +20,8 @@
 package eu.matejkormuth.rpgdavid.starving.worldgen.brushes;
 
 public abstract class Brush {
-
+    
+    public abstract int getSize();
+    
+    public abstract BrushType getType();
 }

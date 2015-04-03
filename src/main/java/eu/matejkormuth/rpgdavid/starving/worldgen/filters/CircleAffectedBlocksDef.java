@@ -46,4 +46,10 @@ public class CircleAffectedBlocksDef extends PaintedAffectedBlocksDef implements
         return false;
     }
 
+    @Override
+    public AffectedBlocksIterator iterator() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

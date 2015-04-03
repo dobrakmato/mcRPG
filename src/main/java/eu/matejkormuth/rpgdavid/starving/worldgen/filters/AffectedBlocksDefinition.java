@@ -22,13 +22,15 @@ package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
-public interface AffectedBlocksDefinition {
+public interface AffectedBlocksDefinition extends Iterable<Block> {
 
     Location getCenter();
 
     boolean hasCenter();
 
     Block[] getAffectedBlocks();
+    
+    AffectedBlocksIterator iterator();
 
     boolean isAffected(Block block);
 

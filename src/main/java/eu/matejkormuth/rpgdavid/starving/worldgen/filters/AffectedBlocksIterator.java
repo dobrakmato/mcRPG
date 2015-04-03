@@ -19,8 +19,10 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
-public interface Filter {
-    FilterProperties getDefaultProperties();
+import java.util.Iterator;
 
-    void apply(AffectedBlocksDefinition definition, FilterProperties properties);
+import org.bukkit.block.Block;
+
+public interface AffectedBlocksIterator extends Iterator<Block> {
+
 }

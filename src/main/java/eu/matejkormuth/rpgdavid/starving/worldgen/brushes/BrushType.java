@@ -17,10 +17,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
+package eu.matejkormuth.rpgdavid.starving.worldgen.brushes;
 
-public interface Filter {
-    FilterProperties getDefaultProperties();
-
-    void apply(AffectedBlocksDefinition definition, FilterProperties properties);
+public enum BrushType {
+    CIRCLE,
+    SQUARE;
 }

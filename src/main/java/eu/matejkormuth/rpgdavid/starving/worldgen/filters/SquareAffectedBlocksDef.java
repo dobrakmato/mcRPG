@@ -19,6 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
+import java.util.NoSuchElementException;
+
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
@@ -27,7 +29,9 @@ public class SquareAffectedBlocksDef extends PaintedAffectedBlocksDef implements
 
     private int minX;
     private int maxX;
+    @SuppressWarnings("unused")
     private int minY;
+    @SuppressWarnings("unused")
     private int maxY;
     private int minZ;
     private int maxZ;
@@ -61,6 +65,43 @@ public class SquareAffectedBlocksDef extends PaintedAffectedBlocksDef implements
     public boolean isFullHeight() {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public SquareAffectedBlocksDefIterator iterator() {
+        if (isFullHeight()) {
+            // return new FullHeightSquareAffectedBlocksDefIterator();
+            throw new UnsupportedOperationException();
+        } else {
+            return new SquareAffectedBlocksDefIterator();
+        }
+    }
+
+    public class SquareAffectedBlocksDefIterator implements
+            AffectedBlocksIterator {
+
+        private int currentX = minX;
+        private int currentZ = minZ;
+
+        @Override
+        public boolean hasNext() {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public Block next() {
+            if (currentX != maxX) {
+                currentX++;
+            } else {
+                if (currentZ != maxZ) {
+                    currentZ++;
+                } else {
+                    throw new NoSuchElementException();
+                }
+            }
+            return center.getWorld().getHighestBlockAt(currentX, currentZ);
+        }
     }
 
 }

@@ -19,8 +19,6 @@
  */
 package eu.matejkormuth.rpgdavid.starving.worldgen.filters;
 
-import org.bukkit.Location;
-
 /**
  * <p>
  * Generates grass on top of grass blocks with specified proeprties (eg. whether
@@ -41,10 +39,27 @@ import org.bukkit.Location;
  */
 public class GrassFilter implements Filter {
 
+    private static final FilterProperties PROPS = new FilterProperties();
+    public static final String PROPERTY_COVER = "COVER";
+    public static final String PROPERTY_LONGGRASS = "LONGGRASS";
+    public static final String PROPERTY_FLOWERS = "FLOWERS";
+    public static final String PROPERTY_CLEAR_EXISTING_GRASS = "CLEAREXISTING";
+    static {
+        PROPS.add(new FilterProperty(PROPERTY_COVER, 0.5f));
+        PROPS.add(new FilterProperty(PROPERTY_LONGGRASS, false));
+        PROPS.add(new FilterProperty(PROPERTY_FLOWERS, false));
+        PROPS.add(new FilterProperty(PROPERTY_CLEAR_EXISTING_GRASS, true));
+    }
+
     @Override
-    public void apply(CircleAffectedBlocksDef region, Location center) {
-        // TODO Auto-generated method stub
-        Filter.super.apply(region, center);
+    public FilterProperties getDefaultProperties() {
+        return PROPS;
+    }
+
+    @Override
+    public void apply(AffectedBlocksDefinition definition,
+            FilterProperties properties) {
+        
     }
 
 }
