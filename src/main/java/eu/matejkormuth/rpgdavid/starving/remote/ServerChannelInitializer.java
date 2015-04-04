@@ -23,6 +23,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.AttributeKey;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -35,7 +37,9 @@ import eu.matejkormuth.rpgdavid.starving.remote.netty.DefaultProtocol;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.Packet;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.handlers.PacketChannelInboundHandler;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.DisconnectPacket;
+import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.HandshakeOkPacket;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.HandshakePacket;
+import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.WGFiltersPacket;
 
 public class ServerChannelInitializer extends ChannelInitializer {
 
@@ -81,6 +85,9 @@ public class ServerChannelInitializer extends ChannelInitializer {
                             Bukkit.getPlayer(((HandshakePacket) msg).nickname));
                     log.info("Creating RconAccess for player "
                             + ((HandshakePacket) msg).nickname);
+                    ctx.writeAndFlush(new HandshakeOkPacket());
+                    ctx.writeAndFlush(new WGFiltersPacket(
+                            Starving.getInstance().getWorldGenManager().getFilters()));
                 } else {
                     // Handshake failed. Disconnect socket.
                     ctx.writeAndFlush(new DisconnectPacket(
@@ -99,6 +106,21 @@ public class ServerChannelInitializer extends ChannelInitializer {
                     ctx.close();
                 }
             }
+        }
+
+        @Override
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+                throws Exception {
+            cause.printStackTrace();
+            if (ctx.channel().attr(HANDSHAKED).get()) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                cause.printStackTrace(pw);
+                ctx.writeAndFlush(new DisconnectPacket(
+                        "Internal Server Error: "
+                                + sw.toString()));
+            }
+            ctx.close();
         }
 
         private boolean verifyHandshake(HandshakePacket msg) {
