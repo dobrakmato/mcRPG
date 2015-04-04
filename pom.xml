@@ -25,12 +25,6 @@
       <version>4.0.26.Final</version>
     </dependency>
     <dependency>
-      <groupId>org.mozilla</groupId>
-      <artifactId>rhino</artifactId>
-      <version>1.7R4</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>eu.matejkormuth</groupId>
       <artifactId>bukkit-essentials</artifactId>
       <version>0.0.1-SNAPSHOT</version>

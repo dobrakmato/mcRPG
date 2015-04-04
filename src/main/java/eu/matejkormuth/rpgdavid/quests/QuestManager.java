@@ -29,10 +29,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
@@ -141,31 +138,7 @@ public class QuestManager {
     }
 
     private void prepeareJs(final String fullName) {
-        // Initialize JS engine if needed.
-        Context ctx = Context.enter();
-        Scriptable scope = ctx.initStandardObjects();
-        scope.put("manager", scope, this);
-        // Evaluate script.
-        try {
-            String script = Files.toString(new File(fullName), Charsets.UTF_8);
-
-            // Try to fix missing addQuest call.
-            if (!script.contains("manager.addQuest")
-                    && script.contains("var quest")) {
-                script += "\n\nmanager.addQuest(quest);";
-            }
-
-            // Add JavascriptQuest variabile.
-            script = "var JavascriptQuest = Packages.eu.matejkormuth.rpgdavid.quests.JavascriptQuest;\r\n"
-                    + script;
-
-            ctx.evaluateString(scope, script, fullName, 1, null);
-        } catch (Exception e) {
-            this.log.severe("Falied to load file " + fullName);
-            e.printStackTrace();
-        } finally {
-            Context.exit();
-        }
+        
     }
 
     public Quest getOffer(Player player) {
