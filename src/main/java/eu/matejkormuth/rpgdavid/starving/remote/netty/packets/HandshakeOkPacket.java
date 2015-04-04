@@ -17,21 +17,21 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.remote.netty;
+package eu.matejkormuth.rpgdavid.starving.remote.netty.packets;
 
-import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.CommandPacket;
-import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.DisconnectPacket;
-import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.HandshakeOkPacket;
-import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.HandshakePacket;
+import io.netty.buffer.ByteBuf;
+import eu.matejkormuth.rpgdavid.starving.remote.netty.Packet;
 
-public class DefaultProtocol extends Protocol {
+public class HandshakeOkPacket extends Packet {
 
     @Override
-    protected void registerPackets() {
-        this.register(0, HandshakePacket.class);
-        this.register(1, CommandPacket.class);
-        this.register(2, DisconnectPacket.class);
-        this.register(3, HandshakeOkPacket.class);
+    public void writeTo(ByteBuf toBuffer) {
+
+    }
+
+    @Override
+    public void readFrom(ByteBuf fromBuffer) {
+
     }
 
 }
