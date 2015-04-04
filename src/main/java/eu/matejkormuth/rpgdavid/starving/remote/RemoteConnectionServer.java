@@ -27,7 +27,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.bukkit.event.Listener;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
-import eu.matejkormuth.rpgdavid.starving.remote.netty.DefaultChannelInitializer;
 
 public class RemoteConnectionServer implements Listener {
 
@@ -49,7 +48,7 @@ public class RemoteConnectionServer implements Listener {
         this.bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new DefaultChannelInitializer())
+                .childHandler(new ServerChannelInitializer())
                 .option(ChannelOption.TCP_NODELAY, false)
                 .option(ChannelOption.SO_BACKLOG, 128)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)

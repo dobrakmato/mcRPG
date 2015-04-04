@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.remote.netty;
+package eu.matejkormuth.rpgdavid.starving.remote;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
@@ -30,19 +30,21 @@ import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.Starving;
-import eu.matejkormuth.rpgdavid.starving.remote.PacketProcessor;
+import eu.matejkormuth.rpgdavid.starving.remote.netty.ChannelInitializer;
+import eu.matejkormuth.rpgdavid.starving.remote.netty.DefaultProtocol;
+import eu.matejkormuth.rpgdavid.starving.remote.netty.Packet;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.handlers.PacketChannelInboundHandler;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.DisconnectPacket;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.HandshakePacket;
 
-public class DefaultChannelInitializer extends ChannelInitializer {
+public class ServerChannelInitializer extends ChannelInitializer {
 
     private static final AttributeKey<Boolean> HANDSHAKED = AttributeKey.valueOf("handshaked");
     private static final AttributeKey<Player> PLAYER = AttributeKey.valueOf("player");
 
     private Logger log;
 
-    public DefaultChannelInitializer() {
+    public ServerChannelInitializer() {
         super(new DefaultProtocol());
         this.log = Starving.getInstance().getLogger();
     }
@@ -114,7 +116,7 @@ public class DefaultChannelInitializer extends ChannelInitializer {
         }
 
         private void processPacket(ChannelHandlerContext ctx, Packet msg) {
-            PacketProcessor.incoming(ctx, ctx.attr(PLAYER).get(), msg);
+            ServerPacketProcessor.incoming(ctx, ctx.attr(PLAYER).get(), msg);
         }
     }
 }

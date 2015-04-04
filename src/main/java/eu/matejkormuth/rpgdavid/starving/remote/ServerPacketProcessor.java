@@ -26,9 +26,9 @@ import eu.matejkormuth.rpgdavid.starving.remote.netty.Packet;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.CommandPacket;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.DisconnectPacket;
 
-public final class PacketProcessor {
+public final class ServerPacketProcessor {
 
-    private PacketProcessor() {
+    private ServerPacketProcessor() {
     }
 
     public static final void incoming(ChannelHandlerContext ctx, Player player,
