@@ -22,17 +22,25 @@ package eu.matejkormuth.rpgdavid.starving.items.base;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.starving.Scheduler;
+import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 
 public class MeleeWeapon extends Item {
 
     private double baseDmg;
+    /**
+     * Uses.
+     */
     private int durability;
+    private int useDurabilityDamage;
 
     public MeleeWeapon(Mapping mapping, String name, double baseDmg,
             int durability) {
         super(mapping, name);
+        this.useDurabilityDamage = this.itemStack.getType().getMaxDurability()
+                / durability;
         this.baseDmg = baseDmg;
         this.durability = durability;
         this.setCategory(Category.MELEE);
@@ -41,6 +49,19 @@ public class MeleeWeapon extends Item {
 
     public void onAttack(Player damager, LivingEntity entity, double damage) {
         entity.damage(baseDmg);
+
+        // Apply durability.
+        short itemDurability = damager.getItemInHand().getDurability();
+        if (itemDurability < useDurabilityDamage) {
+            // Remove item.
+            Scheduler.delay(() -> {
+                damager.setItemInHand(null);
+            }, Time.ofTicks(5));
+
+        } else {
+            damager.getItemInHand().setDurability(
+                    (short) (itemDurability - this.useDurabilityDamage));
+        }
     }
 
     public int getDurability() {

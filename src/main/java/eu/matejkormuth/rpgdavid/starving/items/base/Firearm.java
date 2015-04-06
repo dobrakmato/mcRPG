@@ -37,6 +37,7 @@ import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.Scheduler;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
@@ -190,7 +191,7 @@ public abstract class Firearm extends Item {
                 wrapper.setCurrentAmmo(ammo - 1);
             }
             wrapper.apply(is);
-            // player.setItemInHand(is);
+
             Starving.NMS
                     .sendAboveActionBarMessage(player,
                             ChatColor.YELLOW
@@ -288,34 +289,19 @@ public abstract class Firearm extends Item {
             // Transform item.
             ItemStack nonScoped = FirearmTransformer
                     .fromScoped(is);
-            Bukkit.getScheduler()
-                    .scheduleSyncDelayedTask(Starving.getInstance()
-                            .getPlugin(),
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    player.setItemInHand(nonScoped);
-                                }
-                            }, 1L);
+            Scheduler.delay(() -> {
+                player.setItemInHand(nonScoped);
+            }, Time.ofTicks(5));
             player.removePotionEffect(PotionEffectType.SLOW);
         } else {
             // Transform item.
             ItemStack scoped = FirearmTransformer
                     .toScoped(is);
-            Bukkit.getScheduler() 
-                    .scheduleSyncDelayedTask(Starving
-                            .getInstance()
-                            .getPlugin(),
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    player.setItemInHand(scoped);
-                                }
-                            }, 1L);
+            Scheduler.delay(() -> {
+                player.setItemInHand(scoped);
+            }, Time.ofTicks(5));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
-                    Time
-                            .ofMinutes(30)
-                            .toTicks(), slownessLevel));
+                    Time.ofMinutes(30).toTicks(), slownessLevel));
         }
     }
 
