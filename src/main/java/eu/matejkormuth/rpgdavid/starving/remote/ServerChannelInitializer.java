@@ -44,7 +44,7 @@ import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.WGFiltersPacket;
 public class ServerChannelInitializer extends ChannelInitializer {
 
     private static final AttributeKey<Boolean> HANDSHAKED = AttributeKey.valueOf("handshaked");
-    private static final AttributeKey<Player> PLAYER = AttributeKey.valueOf("player");
+    private static final AttributeKey<String> PLAYER = AttributeKey.valueOf("player");
 
     private Logger log;
 
@@ -82,12 +82,13 @@ public class ServerChannelInitializer extends ChannelInitializer {
                     // Handshake OK, continue.
                     ctx.channel().attr(HANDSHAKED).set(true);
                     ctx.channel().attr(PLAYER).set(
-                            Bukkit.getPlayer(((HandshakePacket) msg).nickname));
+                            ((HandshakePacket) msg).nickname);
                     log.info("Creating RconAccess for player "
                             + ((HandshakePacket) msg).nickname);
                     ctx.writeAndFlush(new HandshakeOkPacket());
                     ctx.writeAndFlush(new WGFiltersPacket(
                             Starving.getInstance().getWorldGenManager().getFilters()));
+
                 } else {
                     // Handshake failed. Disconnect socket.
                     ctx.writeAndFlush(new DisconnectPacket(
@@ -138,7 +139,8 @@ public class ServerChannelInitializer extends ChannelInitializer {
         }
 
         private void processPacket(ChannelHandlerContext ctx, Packet msg) {
-            ServerPacketProcessor.incoming(ctx, ctx.attr(PLAYER).get(), msg);
+            ServerPacketProcessor.incoming(ctx,
+                    ctx.channel().attr(PLAYER).get(), msg);
         }
     }
 }

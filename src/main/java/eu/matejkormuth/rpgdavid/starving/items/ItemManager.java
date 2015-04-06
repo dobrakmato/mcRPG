@@ -86,6 +86,14 @@ import eu.matejkormuth.rpgdavid.starving.items.consumables.MagicMushroom;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.Fanta;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.RedBull;
 import eu.matejkormuth.rpgdavid.starving.items.drinks.Sprite;
+import eu.matejkormuth.rpgdavid.starving.items.explosives.C4;
+import eu.matejkormuth.rpgdavid.starving.items.explosives.Detonator;
+import eu.matejkormuth.rpgdavid.starving.items.explosives.FlareGun;
+import eu.matejkormuth.rpgdavid.starving.items.explosives.Grenade;
+import eu.matejkormuth.rpgdavid.starving.items.explosives.Molotov;
+import eu.matejkormuth.rpgdavid.starving.items.explosives.Petard;
+import eu.matejkormuth.rpgdavid.starving.items.explosives.RPG7;
+import eu.matejkormuth.rpgdavid.starving.items.explosives.SmokeShell;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.AK47;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.ColtAnaconda;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Dragunov;
@@ -169,6 +177,18 @@ public class ItemManager implements Listener {
         this.registerDrinks();
         this.registerClothing();
         this.registerBlocks();
+        this.registerExplosives();
+    }
+
+    private void registerExplosives() {
+        this.register(new C4());
+        this.register(new Detonator());
+        this.register(new FlareGun());
+        this.register(new Grenade());
+        this.register(new Molotov());
+        this.register(new Petard());
+        this.register(new RPG7());
+        this.register(new SmokeShell());
     }
 
     private void registerMelee() {

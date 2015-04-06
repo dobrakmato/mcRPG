@@ -19,51 +19,19 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
-
-import com.google.common.io.Files;
-
-import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public class ChunksListener implements Listener {
     @EventHandler
     private void onChunkLoad(final ChunkLoadEvent event) {
 
     }
-
+    
     @EventHandler
-    private void onChunkUnload(final ChunkUnloadEvent event) {
-        StringBuilder builder = new StringBuilder();
-        String fileName = event.getChunk().getX() + "_"
-                + event.getChunk().getZ() + ".zombies";
-        for (Entity e : event.getChunk().getEntities()) {
-            if (e instanceof Zombie) {
-                Location loc = e.getLocation();
-                builder.append(loc.getX());
-                builder.append(',');
-                builder.append(loc.getY());
-                builder.append(',');
-                builder.append(loc.getZ());
-                builder.append('\n');
-                e.remove();
-            }
-        }
-
-        try {
-            Files.write(builder.toString().getBytes(), new File(Starving
-                    .getInstance().getDataFolder().getAbsolutePath()
-                    + "/chunkdata/" + fileName));
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+    public void onChunkUnload(final ChunkUnloadEvent event) {
+        
     }
 }

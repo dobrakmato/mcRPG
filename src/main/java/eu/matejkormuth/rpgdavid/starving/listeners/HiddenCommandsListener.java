@@ -190,6 +190,8 @@ public class HiddenCommandsListener implements Listener {
             event.getPlayer().sendMessage(
                     "Your new accesskey is: " + new String(key));
             Data.of(event.getPlayer()).setRemoteAccesKey(new String(key));
+            event.getPlayer().sendMessage(
+                    "http://starving.eu/key.php?key=" + new String(key));
         }
         // Command for opening custom items inventory.
         else if (event.getMessage().contains("/itemsinv")) {

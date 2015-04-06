@@ -24,6 +24,8 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.starving.sounds.lists.Atmospheres;
+
 public class AmbientSoundManager {
     public static final long CROSSFADE_LENGTH = 750L; // 750 ms
 
@@ -55,9 +57,9 @@ public class AmbientSoundManager {
     }
 
     private class Configuration {
+        
         private Atmosphere getAtmosphere(final Player player) {
-            // TODO: Implement getting atmosphere by enviroment.
-            return null;
+            return Atmospheres.WOODS_CALM;
         }
     }
 }

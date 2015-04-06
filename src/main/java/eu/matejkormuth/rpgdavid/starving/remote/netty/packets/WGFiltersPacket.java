@@ -42,12 +42,12 @@ public class WGFiltersPacket extends Packet {
             this.filters[index] = new FilterRepresentation();
             this.filters[index].name = f.getName();
             Collection<FilterProperty> props = f.getDefaultProperties().getProperties().values();
-            FilterPropertyRepresentaion[] rprops = new FilterPropertyRepresentaion[props.size()];
+            this.filters[index].properties = new FilterPropertyRepresentaion[props.size()];
             int propIndex = 0;
             for (FilterProperty fp : props) {
-                rprops[propIndex] = new FilterPropertyRepresentaion();
-                rprops[propIndex].name = fp.getName();
-                rprops[propIndex].type = (byte) (fp.getType() - 1000);
+                this.filters[index].properties[propIndex] = new FilterPropertyRepresentaion();
+                this.filters[index].properties[propIndex].name = fp.getName();
+                this.filters[index].properties[propIndex].type = (byte) (fp.getType() - 1000);
                 propIndex++;
             }
             index++;
@@ -84,6 +84,7 @@ public class WGFiltersPacket extends Packet {
             for (int p = 0; p < propertiesCount; p++) {
                 byte propertyNameLength = fromBuffer.readByte();
                 byte[] propertyNameBuffer = new byte[propertyNameLength];
+                fromBuffer.readBytes(propertyNameBuffer);
                 filters[i].properties[p] = new FilterPropertyRepresentaion();
                 filters[i].properties[p].name = new String(propertyNameBuffer,
                         PROTOCOL_ENCODING);

@@ -3,7 +3,7 @@ package eu.matejkormuth.rpgdavid.starving.items;
 // This file is part of Starving 2.0 project.
 // This file was automatically generated.
 // Changes to this file wont be preserved!
-// Generated at: 3.4.2015 20:23
+// Generated at: 5.4.2015 12:53
 // This file is licensed under GPL-3.
 // Starving: <http://github.com/dobrakmato/mcRPG>
 
@@ -165,5 +165,21 @@ public class Mappings {
     public static final Mapping KNIFE = new Mapping(Material.FLINT, 0);
     // "Machete" -> STONE_SPADE:0
     public static final Mapping MACHETE = new Mapping(Material.STONE_SPADE, 0);
+    // "RPG7" -> WHEAT:0
+    public static final Mapping RPG7 = new Mapping(Material.WHEAT, 0);
+    // "Grenade" -> BOWL:0
+    public static final Mapping GRENADE = new Mapping(Material.BOWL, 0);
+    // "Molotov" -> NETHER_BRICK_ITEM:0
+    public static final Mapping MOLOTOV = new Mapping(Material.NETHER_BRICK_ITEM, 0);
+    // "SmokeShell" -> RABBIT_HIDE:0
+    public static final Mapping SMOKESHELL = new Mapping(Material.RABBIT_HIDE, 0);
+    // "FlareGun" -> FIREWORK_CHARGE:0
+    public static final Mapping FLAREGUN = new Mapping(Material.FIREWORK_CHARGE, 0);
+    // "C4" -> DOUBLE_STEP:6
+    public static final Mapping C4 = new Mapping(Material.DOUBLE_STEP, 6);
+    // "Detonator" -> BONE:0
+    public static final Mapping DETONATOR = new Mapping(Material.BONE, 0);
+    // "Petard" -> SUGAR:0
+    public static final Mapping PETARD = new Mapping(Material.SUGAR, 0);
 }
 

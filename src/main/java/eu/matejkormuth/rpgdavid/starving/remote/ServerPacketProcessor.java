@@ -19,9 +19,11 @@
  */
 package eu.matejkormuth.rpgdavid.starving.remote;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import io.netty.channel.ChannelHandlerContext;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.Packet;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.CommandPacket;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.DisconnectPacket;
@@ -31,8 +33,10 @@ public final class ServerPacketProcessor {
     private ServerPacketProcessor() {
     }
 
-    public static final void incoming(ChannelHandlerContext ctx, Player player,
+    public static final void incoming(ChannelHandlerContext ctx,
+            String playerName,
             Packet msg) {
+        Player player = Bukkit.getPlayer(playerName);
         // Check if player is online.
         if (!player.isOnline()) {
             ctx.writeAndFlush(new DisconnectPacket(
@@ -42,8 +46,15 @@ public final class ServerPacketProcessor {
         }
 
         if (msg instanceof CommandPacket) {
-            player.performCommand(((CommandPacket) msg).command);
+            sync(() -> {
+                player.performCommand(((CommandPacket) msg).command);
+            });
         }
+    }
+
+    public static final void sync(Runnable runnable) {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(
+                Starving.getInstance().getPlugin(), runnable);
     }
 
 }

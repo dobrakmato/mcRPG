@@ -74,3 +74,11 @@
 "Axe" -> DIAMOND_PICKAXE:0
 "Knife" -> FLINT:0
 "Machete" -> STONE_SPADE:0
+"RPG7" -> WHEAT:0
+"Grenade" -> BOWL:0
+"Molotov" -> NETHER_BRICK_ITEM:0
+"SmokeShell" -> RABBIT_HIDE:0
+"FlareGun" -> FIREWORK_CHARGE:0
+"C4" -> DOUBLE_STEP:6
+"Detonator" -> BONE:0
+"Petard" -> SUGAR:0

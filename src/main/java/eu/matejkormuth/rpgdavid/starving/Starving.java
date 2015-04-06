@@ -381,6 +381,9 @@ public class Starving implements Runnable, Listener {
     public void run() {
         // Tick.
         ticksElapsed.incrementAndGet();
+        
+        // Update sounds.
+        this.ambientSoundManager.update();
     }
 
     public Random getRandom() {
