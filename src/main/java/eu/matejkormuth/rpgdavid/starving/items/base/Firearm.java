@@ -224,12 +224,12 @@ public abstract class Firearm extends Item {
             randomVec = Vector
                     .getRandom()
                     .subtract(HALF_VECTOR)
-                    .multiply(this.inaccurancy);
+                    .multiply(this.scopedInaccurancy);
         } else {
             randomVec = Vector
                     .getRandom()
                     .subtract(HALF_VECTOR)
-                    .multiply(this.scopedInaccurancy);
+                    .multiply(this.inaccurancy);
         }
 
         // Entity tracing.
