@@ -160,6 +160,11 @@ public class Starving implements Runnable, Listener {
     public void onEnable() {
         instance = this;
 
+        // Check if server version is compatible.
+        if (!NMS.isCompatibile()) {
+            Bukkit.getPluginManager().disablePlugin(RpgPlugin.getInstance());
+        }
+
         this.persistablesList = new ArrayList<>();
         this.registered = new ArrayList<>();
 
@@ -381,7 +386,7 @@ public class Starving implements Runnable, Listener {
     public void run() {
         // Tick.
         ticksElapsed.incrementAndGet();
-        
+
         // Update sounds.
         this.ambientSoundManager.update();
     }
@@ -513,6 +518,34 @@ public class Starving implements Runnable, Listener {
             sendPacket(player, new PacketPlayOutNamedSoundEffect(
                     soundEffectName, location.getX(), location.getY(),
                     location.getZ(), Float.MAX_VALUE, 1));
+        }
+
+        public static final boolean isCompatibile() {
+            String nmsVersion = NMS.class.getAnnotation(NMSHooks.class).version();
+            try {
+                Class.forName("net.minecraft.server." + nmsVersion
+                        + ".MinecraftServer");
+            } catch (Exception ex) {
+                RpgPlugin.getInstance().getLogger().severe(
+                        "======================================");
+                RpgPlugin.getInstance().getLogger().severe(
+                        "Error while enabling Starvning!");
+                RpgPlugin.getInstance().getLogger().severe(
+                        "MinecraftServer class of version " + nmsVersion
+                                + " couldn't be found!");
+                RpgPlugin.getInstance().getLogger().severe(
+                        "This version of plugin is probably incompactibile with this Minecraft version.");
+                RpgPlugin.getInstance().getLogger().severe(
+                        "Please downgrade to "
+                                + nmsVersion
+                                + " or upgrade Starving plugin to match version of your server.");
+                RpgPlugin.getInstance().getLogger().severe(
+                        "======================================");
+                RpgPlugin.getInstance().getLogger().severe(
+                        "Disabling plugin...");
+                return false;
+            }
+            return true;
         }
 
         public static final void sendResourcePack(Player player, String url,
