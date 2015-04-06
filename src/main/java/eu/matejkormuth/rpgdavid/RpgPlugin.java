@@ -227,7 +227,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     public void onDisable() {
         if (this.getConfig().getBoolean("starving", false)) {
             this.getLogger().info("Disabling Starving...");
-            Starving.getInstance().onDisable();
+            if(Starving.getInstance() != null) {
+                Starving.getInstance().onDisable();
+            }
         }
 
         // Kick all players to avoid data loss.

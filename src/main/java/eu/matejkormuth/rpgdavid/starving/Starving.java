@@ -189,11 +189,6 @@ public class Starving implements Runnable, Listener {
     public void onEnable() {
         instance = this;
 
-        // Check if server version is compatible.
-        if (!isCompatibile()) {
-            Bukkit.getPluginManager().disablePlugin(RpgPlugin.getInstance());
-        }
-
         this.persistablesList = new ArrayList<>();
         this.registered = new ArrayList<>();
 
@@ -209,6 +204,13 @@ public class Starving implements Runnable, Listener {
                 .getParent()
                 + "/Starving/");
         this.dataFolder.mkdirs();
+
+        // Check if server version is compatible.
+        if (!isCompatibile()) {
+            this.getLogger().info("Starting compactibility check.");
+            Bukkit.getPluginManager().disablePlugin(RpgPlugin.getInstance());
+            return;
+        }
 
         // Load configurations.
         this.warpsConfig = new Configuration(this.getFile("warps.yml"));
@@ -384,27 +386,33 @@ public class Starving implements Runnable, Listener {
     }
 
     public void onDisable() {
-        this.zombieManager.saveConfiguration();
+        if (this.zombieManager != null) {
+            this.zombieManager.saveConfiguration();
+        }
 
         // Stop remote server.
-        this.remoteConnectionServer.shutdown();
+        if (this.remoteConnectionServer != null) {
+            this.remoteConnectionServer.shutdown();
+        }
 
         // Shutdown NPC manager.
-        this.getLogger()
-                .info("Shutting down NPCManager...");
-        this.npcManager.shutdown();
+        if (this.npcManager != null) {
+            this.getLogger()
+                    .info("Shutting down NPCManager...");
+            this.npcManager.shutdown();
+        }
 
         // Save configurations.
-        this.warpsConfig.save();
+        if (this.warpsConfig != null) {
+            this.warpsConfig.save();
+        }
 
         // Save all cached Data-s.
         for (Data d : Data.cached()) {
-            d.save()
-                    .uncache();
+            d.save().uncache();
         }
 
-        DataDefaults.get()
-                .saveConfiguration();
+        DataDefaults.get().saveConfiguration();
 
         // Save configuration of all persistables.
         for (Persistable persistable : this.persistablesList) {
