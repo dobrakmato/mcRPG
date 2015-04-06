@@ -19,10 +19,14 @@
  */
 package eu.matejkormuth.rpgdavid.starving.annotations;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * This annotation tells that annotated class / method contains NMS
  * (net.minecraft.server) dependend code.
  */
+@Retention(RetentionPolicy.RUNTIME)
 public @interface NMSHooks {
     /**
      * Version of minecraft server this class is compactibile with.
