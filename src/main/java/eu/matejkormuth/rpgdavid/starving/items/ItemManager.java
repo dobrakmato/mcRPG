@@ -118,10 +118,12 @@ import eu.matejkormuth.rpgdavid.starving.items.itemmeta.deprecated.ChemicalItemM
 import eu.matejkormuth.rpgdavid.starving.items.medical.Bandage;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Patch;
 import eu.matejkormuth.rpgdavid.starving.items.medical.Splint;
+import eu.matejkormuth.rpgdavid.starving.items.melee.Axe;
 import eu.matejkormuth.rpgdavid.starving.items.melee.IronPipe;
 import eu.matejkormuth.rpgdavid.starving.items.melee.IronPipeWithMetaRodsAndKnife;
 import eu.matejkormuth.rpgdavid.starving.items.melee.IronPipeWithMetalRods;
 import eu.matejkormuth.rpgdavid.starving.items.melee.Knife;
+import eu.matejkormuth.rpgdavid.starving.items.melee.Machete;
 import eu.matejkormuth.rpgdavid.starving.items.melee.WoodenStick;
 import eu.matejkormuth.rpgdavid.starving.items.melee.WoodenStickWithMetalRods;
 import eu.matejkormuth.rpgdavid.starving.items.melee.WoodenStickWithMetalRodsAndKnife;
@@ -199,6 +201,8 @@ public class ItemManager implements Listener {
         this.register(new WoodenStick());
         this.register(new WoodenStickWithMetalRods());
         this.register(new WoodenStickWithMetalRodsAndKnife());
+        this.register(new Axe());
+        this.register(new Machete());
     }
 
     private void registerFood() {
