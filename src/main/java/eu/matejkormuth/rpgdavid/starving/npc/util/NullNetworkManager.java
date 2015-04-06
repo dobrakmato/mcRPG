@@ -27,29 +27,35 @@ import java.net.SocketAddress;
 
 import javax.crypto.SecretKey;
 
+import net.minecraft.server.v1_8_R2.ChatMessage;
+import net.minecraft.server.v1_8_R2.EnumProtocol;
+import net.minecraft.server.v1_8_R2.EnumProtocolDirection;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.NetworkManager;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketListener;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
-import net.minecraft.server.v1_8_R1.ChatMessage;
-import net.minecraft.server.v1_8_R1.EnumProtocol;
-import net.minecraft.server.v1_8_R1.EnumProtocolDirection;
-import net.minecraft.server.v1_8_R1.IChatBaseComponent;
-import net.minecraft.server.v1_8_R1.NetworkManager;
-import net.minecraft.server.v1_8_R1.Packet;
-import net.minecraft.server.v1_8_R1.PacketListener;
 
-@NMSHooks(version = "v1_8_R1")
+@NMSHooks(version = "v1_8_R2")
 public class NullNetworkManager extends NetworkManager {
 
     private static final Field CHANNEL;
     private static final Field ADDRESS;
     static {
         try {
+            
+            // i in 1_8_R1
+            // k in 1_8_R2
             CHANNEL = NetworkManager.class
-                    .getDeclaredField("i");
+                    .getDeclaredField("k");
             if (!CHANNEL.isAccessible()) {
                 CHANNEL.setAccessible(true);
             }
+            
+            // j in 1_8_R1
+            // l in 1_8_R2
             ADDRESS = NetworkManager.class
-                    .getDeclaredField("j");
+                    .getDeclaredField("l");
             if (!ADDRESS.isAccessible()) {
                 ADDRESS.setAccessible(true);
             }
@@ -93,13 +99,14 @@ public class NullNetworkManager extends NetworkManager {
     }
 
     @Override
-    protected void a(ChannelHandlerContext channelhandlercontext, Packet packet) {
+    protected void a(ChannelHandlerContext channelhandlercontext, @SuppressWarnings("rawtypes") Packet packet) {
     }
 
     @Override
     public void a(PacketListener packetlistener) {
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public void handle(Packet packet) {
     }
@@ -162,11 +169,6 @@ public class NullNetworkManager extends NetworkManager {
 
     @Override
     public void l() {
-    }
-
-    @Override
-    protected void channelRead0(ChannelHandlerContext channelhandlercontext,
-            Object object) {
     }
 
     @Override

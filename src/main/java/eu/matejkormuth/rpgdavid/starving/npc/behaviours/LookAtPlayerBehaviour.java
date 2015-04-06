@@ -19,7 +19,7 @@
  */
 package eu.matejkormuth.rpgdavid.starving.npc.behaviours;
 
-import org.bukkit.craftbukkit.v1_8_R1.TrigMath;
+import org.bukkit.craftbukkit.v1_8_R2.TrigMath;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.AbstractBehaviour;

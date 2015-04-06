@@ -22,11 +22,11 @@ package eu.matejkormuth.rpgdavid.starving;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import net.minecraft.server.v1_8_R1.EntityTypes;
+import net.minecraft.server.v1_8_R2.EntityTypes;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.zombie.Zombie;
 
-@NMSHooks(version = "v1_8_R1")
+@NMSHooks(version = "v1_8_R2")
 public class ServerZombiePatcher {
     public void patchAll() {
         Starving.getInstance().getLogger()

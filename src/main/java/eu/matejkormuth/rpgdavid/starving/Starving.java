@@ -27,28 +27,28 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
-import net.minecraft.server.v1_8_R1.BlockPosition;
-import net.minecraft.server.v1_8_R1.ChatMessage;
-import net.minecraft.server.v1_8_R1.ChatSerializer;
-import net.minecraft.server.v1_8_R1.EnumTitleAction;
-import net.minecraft.server.v1_8_R1.IChatBaseComponent;
-import net.minecraft.server.v1_8_R1.Packet;
-import net.minecraft.server.v1_8_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_8_R1.PacketPlayOutBlockBreakAnimation;
-import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
-import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
-import net.minecraft.server.v1_8_R1.PacketPlayOutResourcePackSend;
-import net.minecraft.server.v1_8_R1.PacketPlayOutTitle;
-import net.minecraft.server.v1_8_R1.PacketPlayOutUpdateTime;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.ChatMessage;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayOutAnimation;
+import net.minecraft.server.v1_8_R2.PacketPlayOutBlockBreakAnimation;
+import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R2.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_8_R2.PacketPlayOutResourcePackSend;
+import net.minecraft.server.v1_8_R2.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R2.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_8_R2.PacketPlayOutUpdateTime;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -506,7 +506,7 @@ public class Starving implements Runnable, Listener {
         return null;
     }
 
-    @NMSHooks(version = "v1_8_R1")
+    @NMSHooks(version = "v1_8_R2")
     public static final class NMS {
         public static final void playNamedSoundEffectMaxVolume(Player player,
                 String soundEffectName, Location location) {
@@ -617,7 +617,7 @@ public class Starving implements Runnable, Listener {
         }
 
         public static void sendAnimation(
-                net.minecraft.server.v1_8_R1.Entity entity, int animationId) {
+                net.minecraft.server.v1_8_R2.Entity entity, int animationId) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getLocation()
                         .distanceSquared(
@@ -629,12 +629,12 @@ public class Starving implements Runnable, Listener {
             }
         }
 
-        public static net.minecraft.server.v1_8_R1.World getNMSWorld(World world) {
+        public static net.minecraft.server.v1_8_R2.World getNMSWorld(World world) {
             return ((CraftWorld) world).getHandle();
         }
 
         public static void sendPacket(Player player,
-                Packet packet) {
+                Packet<?> packet) {
             ((CraftPlayer) player).getHandle().playerConnection
                     .sendPacket(packet);
         }

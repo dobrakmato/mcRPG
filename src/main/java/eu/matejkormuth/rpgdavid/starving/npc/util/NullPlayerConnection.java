@@ -21,42 +21,43 @@ package eu.matejkormuth.rpgdavid.starving.npc.util;
 
 import java.util.Set;
 
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.EnumProtocolDirection;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.MinecraftServer;
+import net.minecraft.server.v1_8_R2.NetworkManager;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayInAbilities;
+import net.minecraft.server.v1_8_R2.PacketPlayInArmAnimation;
+import net.minecraft.server.v1_8_R2.PacketPlayInBlockDig;
+import net.minecraft.server.v1_8_R2.PacketPlayInBlockPlace;
+import net.minecraft.server.v1_8_R2.PacketPlayInChat;
+import net.minecraft.server.v1_8_R2.PacketPlayInClientCommand;
+import net.minecraft.server.v1_8_R2.PacketPlayInCloseWindow;
+import net.minecraft.server.v1_8_R2.PacketPlayInCustomPayload;
+import net.minecraft.server.v1_8_R2.PacketPlayInEnchantItem;
+import net.minecraft.server.v1_8_R2.PacketPlayInEntityAction;
+import net.minecraft.server.v1_8_R2.PacketPlayInFlying;
+import net.minecraft.server.v1_8_R2.PacketPlayInHeldItemSlot;
+import net.minecraft.server.v1_8_R2.PacketPlayInKeepAlive;
+import net.minecraft.server.v1_8_R2.PacketPlayInResourcePackStatus;
+import net.minecraft.server.v1_8_R2.PacketPlayInSetCreativeSlot;
+import net.minecraft.server.v1_8_R2.PacketPlayInSettings;
+import net.minecraft.server.v1_8_R2.PacketPlayInSpectate;
+import net.minecraft.server.v1_8_R2.PacketPlayInSteerVehicle;
+import net.minecraft.server.v1_8_R2.PacketPlayInTabComplete;
+import net.minecraft.server.v1_8_R2.PacketPlayInTransaction;
+import net.minecraft.server.v1_8_R2.PacketPlayInUpdateSign;
+import net.minecraft.server.v1_8_R2.PacketPlayInUseEntity;
+import net.minecraft.server.v1_8_R2.PacketPlayInWindowClick;
+import net.minecraft.server.v1_8_R2.PlayerConnection;
+
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
-import net.minecraft.server.v1_8_R1.EntityPlayer;
-import net.minecraft.server.v1_8_R1.EnumProtocolDirection;
-import net.minecraft.server.v1_8_R1.IChatBaseComponent;
-import net.minecraft.server.v1_8_R1.MinecraftServer;
-import net.minecraft.server.v1_8_R1.NetworkManager;
-import net.minecraft.server.v1_8_R1.Packet;
-import net.minecraft.server.v1_8_R1.PacketPlayInAbilities;
-import net.minecraft.server.v1_8_R1.PacketPlayInArmAnimation;
-import net.minecraft.server.v1_8_R1.PacketPlayInBlockDig;
-import net.minecraft.server.v1_8_R1.PacketPlayInBlockPlace;
-import net.minecraft.server.v1_8_R1.PacketPlayInChat;
-import net.minecraft.server.v1_8_R1.PacketPlayInClientCommand;
-import net.minecraft.server.v1_8_R1.PacketPlayInCloseWindow;
-import net.minecraft.server.v1_8_R1.PacketPlayInCustomPayload;
-import net.minecraft.server.v1_8_R1.PacketPlayInEnchantItem;
-import net.minecraft.server.v1_8_R1.PacketPlayInEntityAction;
-import net.minecraft.server.v1_8_R1.PacketPlayInFlying;
-import net.minecraft.server.v1_8_R1.PacketPlayInHeldItemSlot;
-import net.minecraft.server.v1_8_R1.PacketPlayInKeepAlive;
-import net.minecraft.server.v1_8_R1.PacketPlayInResourcePackStatus;
-import net.minecraft.server.v1_8_R1.PacketPlayInSetCreativeSlot;
-import net.minecraft.server.v1_8_R1.PacketPlayInSettings;
-import net.minecraft.server.v1_8_R1.PacketPlayInSpectate;
-import net.minecraft.server.v1_8_R1.PacketPlayInSteerVehicle;
-import net.minecraft.server.v1_8_R1.PacketPlayInTabComplete;
-import net.minecraft.server.v1_8_R1.PacketPlayInTransaction;
-import net.minecraft.server.v1_8_R1.PacketPlayInUpdateSign;
-import net.minecraft.server.v1_8_R1.PacketPlayInUseEntity;
-import net.minecraft.server.v1_8_R1.PacketPlayInWindowClick;
-import net.minecraft.server.v1_8_R1.PlayerConnection;
 
-@NMSHooks(version = "v1_8_R1")
+@NMSHooks(version = "v1_8_R2")
 public class NullPlayerConnection extends PlayerConnection {
 
     public NullPlayerConnection(MinecraftServer minecraftServer,
@@ -130,6 +131,7 @@ public class NullPlayerConnection extends PlayerConnection {
     public void a(IChatBaseComponent ichatbasecomponent) {
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public void sendPacket(Packet packet) {
     }

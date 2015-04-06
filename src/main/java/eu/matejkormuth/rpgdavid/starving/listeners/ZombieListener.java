@@ -19,10 +19,10 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
-import net.minecraft.server.v1_8_R1.EntityZombie;
-import net.minecraft.server.v1_8_R1.GenericAttributes;
+import net.minecraft.server.v1_8_R2.EntityZombie;
+import net.minecraft.server.v1_8_R2.GenericAttributes;
 
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftZombie;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftZombie;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;

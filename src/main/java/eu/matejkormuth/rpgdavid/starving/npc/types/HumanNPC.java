@@ -22,17 +22,17 @@ package eu.matejkormuth.rpgdavid.starving.npc.types;
 import java.io.IOException;
 import java.net.Socket;
 
-import net.minecraft.server.v1_8_R1.EntityPlayer;
-import net.minecraft.server.v1_8_R1.EnumGamemode;
-import net.minecraft.server.v1_8_R1.EnumProtocolDirection;
-import net.minecraft.server.v1_8_R1.MinecraftServer;
-import net.minecraft.server.v1_8_R1.NetworkManager;
-import net.minecraft.server.v1_8_R1.PlayerInteractManager;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.EnumProtocolDirection;
+import net.minecraft.server.v1_8_R2.MinecraftServer;
+import net.minecraft.server.v1_8_R2.NetworkManager;
+import net.minecraft.server.v1_8_R2.PlayerInteractManager;
+import net.minecraft.server.v1_8_R2.WorldSettings.EnumGamemode;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R1.inventory.CraftInventoryPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.PlayerInventory;
@@ -41,16 +41,16 @@ import com.mojang.authlib.GameProfile;
 
 import eu.matejkormuth.rpgdavid.starving.Debug;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
+import eu.matejkormuth.rpgdavid.starving.npc.K;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
 import eu.matejkormuth.rpgdavid.starving.npc.NPCRegistry;
-import eu.matejkormuth.rpgdavid.starving.npc.K;
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.AbstractBehaviour;
 import eu.matejkormuth.rpgdavid.starving.npc.behaviours.base.BehaviourHolder;
 import eu.matejkormuth.rpgdavid.starving.npc.util.NullNetworkManager;
 import eu.matejkormuth.rpgdavid.starving.npc.util.NullPlayerConnection;
 import eu.matejkormuth.rpgdavid.starving.npc.util.NullSocket;
 
-@NMSHooks(version = "v1_8_R1")
+@NMSHooks(version = "v1_8_R2")
 public class HumanNPC extends EntityPlayer implements NPC {
 
     // Reference of NPCRegistry of this NPC.

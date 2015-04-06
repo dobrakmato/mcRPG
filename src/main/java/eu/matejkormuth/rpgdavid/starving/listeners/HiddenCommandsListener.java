@@ -24,12 +24,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import net.minecraft.server.v1_8_R1.PacketPlayOutGameStateChange;
+import net.minecraft.server.v1_8_R2.PacketPlayOutGameStateChange;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
