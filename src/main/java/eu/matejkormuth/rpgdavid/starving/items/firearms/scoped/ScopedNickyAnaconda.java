@@ -28,4 +28,9 @@ public class ScopedNickyAnaconda extends NickyAnaconda {
     public ScopedNickyAnaconda() {
         super(new Mapping(Material.APPLE), "Nicky Anaconda (scoped)");
     }
+    
+    @Override
+    public boolean isScoped() {
+        return true;
+    }
 }

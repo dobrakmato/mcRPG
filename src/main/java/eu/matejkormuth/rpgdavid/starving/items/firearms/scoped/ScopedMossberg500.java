@@ -28,4 +28,9 @@ public class ScopedMossberg500 extends Mossberg500 {
     public ScopedMossberg500() {
         super(new Mapping(Material.APPLE), "Mossberg 500 (scoped)");
     }
+    
+    @Override
+    public boolean isScoped() {
+        return true;
+    }
 }

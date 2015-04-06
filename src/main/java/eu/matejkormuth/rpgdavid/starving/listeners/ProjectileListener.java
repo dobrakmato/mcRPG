@@ -34,7 +34,8 @@ import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 
 public class ProjectileListener extends AbstractPersistable implements Listener {
     @Persist(key = "PARTICLE_AMOUNT")
-    private static int PARTICLE_AMOUNT = 25;
+    public
+    static int PARTICLE_AMOUNT = 25;
 
     @SuppressWarnings("deprecation")
     @EventHandler

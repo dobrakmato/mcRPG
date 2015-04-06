@@ -47,21 +47,21 @@ public class FirearmTransformer {
     public static ItemStack toScoped(ItemStack unscoped) {
         // Create new scoped and copy properties.
         Item item = Starving.getInstance().getItemManager().findItem(unscoped);
-        if (item instanceof AK47) {
+        if (AK47.class.equals(item.getClass())) {
             return createWithLore(ScopedAK47.class, unscoped);
-        } else if (item instanceof ColtAnaconda) {
+        } else if (ColtAnaconda.class.equals(item.getClass())) {
             return createWithLore(ScopedColtAnaconda.class, unscoped);
-        } else if (item instanceof Dragunov) {
+        } else if (Dragunov.class.equals(item.getClass())) {
             return createWithLore(ScopedDragunov.class, unscoped);
-        } else if (item instanceof Glock) {
+        } else if (Glock.class.equals(item.getClass())) {
             return createWithLore(ScopedGlock.class, unscoped);
-        } else if (item instanceof M16) {
+        } else if (M16.class.equals(item.getClass())) {
             return createWithLore(ScopedM16.class, unscoped);
-        } else if (item instanceof Mossberg500) {
+        } else if (Mossberg500.class.equals(item.getClass())) {
             return createWithLore(ScopedMossberg500.class, unscoped);
-        } else if (item instanceof MP5) {
+        } else if (MP5.class.equals(item.getClass())) {
             return createWithLore(ScopedMP5.class, unscoped);
-        } else if (item instanceof NickyAnaconda) {
+        } else if (NickyAnaconda.class.equals(item.getClass())) {
             return createWithLore(ScopedNickyAnaconda.class, unscoped);
         } else {
             throw new IllegalArgumentException(
@@ -86,21 +86,21 @@ public class FirearmTransformer {
     public static ItemStack fromScoped(ItemStack scoped) {
         // Create new unscoped and copy properties.
         Item item = Starving.getInstance().getItemManager().findItem(scoped);
-        if (item instanceof ScopedAK47) {
+        if (ScopedAK47.class.equals(item.getClass())) {
             return createWithLore(AK47.class, scoped);
-        } else if (item instanceof ScopedColtAnaconda) {
+        } else if (ScopedColtAnaconda.class.equals(item.getClass())) {
             return createWithLore(ColtAnaconda.class, scoped);
-        } else if (item instanceof ScopedDragunov) {
+        } else if (ScopedDragunov.class.equals(item.getClass())) {
             return createWithLore(Dragunov.class, scoped);
-        } else if (item instanceof ScopedGlock) {
+        } else if (ScopedGlock.class.equals(item.getClass())) {
             return createWithLore(Glock.class, scoped);
-        } else if (item instanceof ScopedM16) {
+        } else if (ScopedM16.class.equals(item.getClass())) {
             return createWithLore(M16.class, scoped);
-        } else if (item instanceof ScopedMossberg500) {
+        } else if (ScopedMossberg500.class.equals(item.getClass())) {
             return createWithLore(Mossberg500.class, scoped);
-        } else if (item instanceof ScopedMP5) {
+        } else if (ScopedMP5.class.equals(item.getClass())) {
             return createWithLore(MP5.class, scoped);
-        } else if (item instanceof ScopedNickyAnaconda) {
+        } else if (ScopedNickyAnaconda.class.equals(item.getClass())) {
             return createWithLore(NickyAnaconda.class, scoped);
         } else {
             throw new IllegalArgumentException(

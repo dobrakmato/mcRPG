@@ -28,4 +28,9 @@ public class ScopedAK47 extends AK47 {
     public ScopedAK47() {
         super(new Mapping(Material.APPLE), "AK47 (scoped)");
     }
+    
+    @Override
+    public boolean isScoped() {
+        return true;
+    }
 }

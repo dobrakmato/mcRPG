@@ -28,4 +28,9 @@ public class ScopedDragunov extends Dragunov {
     public ScopedDragunov() {
         super(new Mapping(Material.APPLE), "Dragunov (scoped)");
     }
+    
+    @Override
+    public boolean isScoped() {
+        return true;
+    }
 }

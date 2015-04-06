@@ -28,4 +28,9 @@ public class ScopedColtAnaconda extends ColtAnaconda {
     public ScopedColtAnaconda() {
         super(new Mapping(Material.APPLE), "Colt Anaconda (scoped)");
     }
+    
+    @Override
+    public boolean isScoped() {
+        return true;
+    }
 }

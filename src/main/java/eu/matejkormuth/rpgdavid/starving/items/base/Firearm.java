@@ -19,14 +19,23 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.base;
 
+import net.minecraft.server.v1_8_R2.AxisAlignedBB;
+import net.minecraft.server.v1_8_R2.MovingObjectPosition;
+import net.minecraft.server.v1_8_R2.Vec3D;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.EntityType;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -36,10 +45,10 @@ import org.bukkit.util.Vector;
 import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.bukkit.Actions;
-import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.Scheduler;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.Time;
+import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.items.AmunitionType;
 import eu.matejkormuth.rpgdavid.starving.items.Category;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
@@ -163,60 +172,55 @@ public abstract class Firearm extends Item {
     }
 
     @Override
-    public InteractResult onInteract(Player player, Action action,
-            Block clickedBlock, BlockFace clickedFace) {
-        if (Actions
-                .isRightClick(action)) {
-            ItemStack is = player
-                    .getItemInHand();
-            FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(is);
-
-            Vector projectileVelocity = computeAndFire(player);
-
-            // Play fire sound.
-            playFireSound(player);
-
-            // Make recoil.
-            makeRecoil(player, projectileVelocity);
-
-            // Lower ammo count.
-            int ammo = wrapper
-                    .getCurrentAmmo();
-            if (ammo == 1) {
-                // Reload
-                this.playReloadSound(player);
-                wrapper.setCurrentAmmo(this
-                        .getClipSize());
-            } else {
-                wrapper.setCurrentAmmo(ammo - 1);
-            }
-            wrapper.apply(is);
-
-            Starving.NMS
-                    .sendAboveActionBarMessage(player,
-                            ChatColor.YELLOW
-                                    .toString() + ammo + "/" + this.clipSize);
-        } else if (Actions
-                .isLeftClick(action)) {
-            ItemStack is = player
-                    .getItemInHand();
-            toggleScope(player, is);
-        }
-        return InteractResult
-                .useNone();
+    public void onInteractWith(Player player, Entity entity) {
+        this.doFire(player);
     }
 
+    @Override
+    public InteractResult onInteract(Player player, Action action,
+            Block clickedBlock, BlockFace clickedFace) {
+        if (action == Action.RIGHT_CLICK_AIR) {
+            doFire(player);
+        } else if (Actions.isLeftClick(action)) {
+            ItemStack is = player.getItemInHand();
+            toggleScope(player, is);
+        }
+        return InteractResult.useNone();
+    }
+
+    private void doFire(Player player) {
+        ItemStack is = player.getItemInHand();
+        FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(is);
+
+        Vector projectileVelocity = computeAndFire(player);
+
+        // Play fire sound.
+        playFireSound(player);
+
+        // Make recoil.
+        makeRecoil(player, projectileVelocity);
+
+        // Lower ammo count.
+        int ammo = wrapper.getCurrentAmmo();
+        if (ammo == 1) {
+            // Reload
+            this.playReloadSound(player);
+            wrapper.setCurrentAmmo(this.getClipSize());
+        } else {
+            wrapper.setCurrentAmmo(ammo - 1);
+        }
+        wrapper.apply(is);
+
+        Starving.NMS.sendAboveActionBarMessage(player,
+                ChatColor.YELLOW.toString() + ammo + "/" + this.clipSize);
+    }
+
+    @SuppressWarnings("deprecation")
+    @NMSHooks(version = "1_8_R2")
     protected Vector computeAndFire(Player player) {
-        // Compute values.
-        Location projectileSpawn = player
-                .getEyeLocation()
-                .add(
-                        player.getEyeLocation()
-                                .getDirection()
-                                .multiply(2));
+
         Vector randomVec;
-        if (Data.of(player)
-                .isScoped()) {
+        if (this.isScoped()) {
             randomVec = Vector
                     .getRandom()
                     .subtract(HALF_VECTOR)
@@ -228,25 +232,104 @@ public abstract class Firearm extends Item {
                     .multiply(this.scopedInaccurancy);
         }
 
-        Vector projectileVelocity = player
-                .getEyeLocation()
-                .getDirection()
-                .add(randomVec)
-                .multiply(this.projectileSpeed);
+        // Entity tracing.
+        int maxDistance = 64;
+        Location loc = player.getEyeLocation();
 
-        // Spawn projectile.
-        Snowball projectile = (Snowball) player
-                .getWorld()
-                .spawnEntity(
-                        projectileSpawn,
-                        EntityType.SNOWBALL);
-        projectile
-                .setVelocity(projectileVelocity);
-        // Display effect.
-        ParticleEffect.SMOKE_NORMAL
-                .display(0, 0, 0, 0, 20, projectileSpawn,
-                        Double.MAX_VALUE);
-        return projectileVelocity;
+        // Ray trace.
+        Location playerLocation = player.getLocation();
+        Vector projectileStart = playerLocation.toVector();
+        Vector projectileDirection = player.getEyeLocation().getDirection().normalize();
+        int entitiesHit = 0;
+        for (LivingEntity e : player.getWorld().getLivingEntities()) {
+            // Skip player.
+            if (player == e) {
+                continue;
+            }
+
+            // Limit entities hit.
+            if (entitiesHit >= 2) {
+                break;
+            }
+
+            double distance = playerLocation.distance(e.getLocation());
+            if (distance < maxDistance) {
+                Vector projectilePosition = projectileStart.clone().add(
+                        projectileDirection.clone().multiply(distance));
+                // Check for collision of entity's AABB and point.
+                AxisAlignedBB bBox = ((CraftLivingEntity) e).getHandle().getBoundingBox();
+                AxisAlignedBB rightBB = new AxisAlignedBB(bBox.a, bBox.b
+                        - e.getEyeHeight(), bBox.c, bBox.d, bBox.e
+                        - e.getEyeHeight(), bBox.f);
+                if (rightBB.a(new Vec3D(projectilePosition.getX(),
+                        projectilePosition.getY(),
+                        projectilePosition.getZ()))) {
+                    // We hit this entity.
+                    entitiesHit++;
+
+                    // Is this a headshot?
+                    if (projectilePosition.getY() - 0.1f > e.getLocation().getY() - 0.3f) {
+                        ParticleEffect.BLOCK_CRACK.display(
+                                new ParticleEffect.BlockData(
+                                        Material.REDSTONE_BLOCK, (byte) 0),
+                                0.25f,
+                                0.25f, 0.25f, 1, 80, e.getEyeLocation(), 256);
+                        player.getWorld().playSound(e.getLocation(),
+                                Sound.HURT_FLESH, 1, 1);
+                        for (int i = 0; i < 40; i++) {
+                            ParticleEffect.BLOCK_CRACK.display(
+                                    new ParticleEffect.BlockData(
+                                            Material.REDSTONE_BLOCK, (byte) 0),
+                                    player.getVelocity().multiply(5), 1,
+                                    e.getEyeLocation().add(
+                                            Math.random() - 0.5,
+                                            Math.random() - 0.5,
+                                            Math.random() - 0.5),
+                                    Double.MAX_VALUE);
+                        }
+                        e.damage(9999999D);
+                        // TODO: Improve particle effect on headshot.
+                    } else {
+                        e.damage(0);
+                    }
+                }
+            }
+        }
+
+        // Block raytracing.
+        World world = player.getWorld();
+        Vector end = loc.toVector().add(
+                loc.getDirection().add(randomVec).multiply(64));
+
+        Vector startPosVec = loc.toVector();
+        Vec3D startPos = new Vec3D(startPosVec.getX(), startPosVec.getY(),
+                startPosVec.getZ());
+        Vec3D endPos = new Vec3D(end.getX(), end.getY(), end.getZ());
+
+        MovingObjectPosition hit = ((CraftWorld) world).getHandle().rayTrace(
+                startPos, endPos, true, true, true);
+
+        if (hit != null && hit.pos != null) {
+            Location blockLoc = new Location(player.getWorld(), hit.pos.a
+                    + projectileDirection.getX() / 5,
+                    hit.pos.b + projectileDirection.getY() / 5, hit.pos.c
+                            + projectileDirection.getZ() / 5);
+            ParticleEffect.BLOCK_CRACK.display(
+                    new ParticleEffect.BlockData(blockLoc.getBlock().getType(),
+                            blockLoc.getBlock().getData()),
+                    0.5f, 0.5f, 0.5f, 1, 25, blockLoc, Double.MAX_VALUE);
+            // Break block.
+            Starving.NMS.displayMaterialBreak(blockLoc);
+        }
+
+        // Display fire effect.
+        ParticleEffect.SMOKE_NORMAL.display(0, 0, 0, 0, 20,
+                player.getEyeLocation().add(
+                        player.getEyeLocation().getDirection().multiply(3)),
+                Double.MAX_VALUE);
+
+        return player.getEyeLocation().getDirection().add(randomVec).multiply(
+                this.projectileSpeed);
     }
 
     protected void playFireSound(Player player) {
@@ -284,8 +367,7 @@ public abstract class Firearm extends Item {
 
     protected void toggleScope(Player player, ItemStack is, int slownessLevel) {
         // Scope tha gun.
-        if (Data.of(player)
-                .switchScoped()) {
+        if (this.isScoped()) {
             // Transform item.
             ItemStack nonScoped = FirearmTransformer
                     .fromScoped(is);
@@ -325,5 +407,9 @@ public abstract class Firearm extends Item {
                 .getClipSize());
         wrapper.apply(raw);
         return raw;
+    }
+
+    public boolean isScoped() {
+        return false;
     }
 }

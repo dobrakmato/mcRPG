@@ -30,19 +30,17 @@ import eu.matejkormuth.rpgdavid.starving.items.Mapping;
 public class MeleeWeapon extends Item {
 
     private double baseDmg;
-    /**
-     * Uses.
-     */
-    private int durability;
-    private int useDurabilityDamage;
+    private int uses;
+    private int useDurabilityDecrement;
 
     public MeleeWeapon(Mapping mapping, String name, double baseDmg,
-            int durability) {
+            int uses) {
         super(mapping, name);
-        this.useDurabilityDamage = this.itemStack.getType().getMaxDurability()
-                / durability;
+        // increment.
+        this.useDurabilityDecrement = this.itemStack.getType().getMaxDurability()
+                / uses;
         this.baseDmg = baseDmg;
-        this.durability = durability;
+        this.uses = uses;
         this.setCategory(Category.MELEE);
         this.setMaxStackAmount(1);
     }
@@ -50,9 +48,13 @@ public class MeleeWeapon extends Item {
     public void onAttack(Player damager, LivingEntity entity, double damage) {
         entity.damage(baseDmg);
 
-        // Apply durability.
+        // Next part of code seems to make no sense. But for some reason it
+        // works.
+
+        // Apply uses.
         short itemDurability = damager.getItemInHand().getDurability();
-        if (itemDurability < useDurabilityDamage) {
+
+        if (itemDurability > this.itemStack.getType().getMaxDurability()) {
             // Remove item.
             Scheduler.delay(() -> {
                 damager.setItemInHand(null);
@@ -60,12 +62,12 @@ public class MeleeWeapon extends Item {
 
         } else {
             damager.getItemInHand().setDurability(
-                    (short) (itemDurability - this.useDurabilityDamage));
+                    (short) (itemDurability + this.useDurabilityDecrement));
         }
     }
 
-    public int getDurability() {
-        return durability;
+    public int getUses() {
+        return uses;
     }
 
     public double getBaseDmg() {

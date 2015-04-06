@@ -26,4 +26,9 @@ public class ScopedGlock extends Glock {
     public ScopedGlock() {
         super(Mappings.GLOCK_SCOPED_DEFAULT, "Glock (scoped)");
     }
+    
+    @Override
+    public boolean isScoped() {
+        return true;
+    }
 }

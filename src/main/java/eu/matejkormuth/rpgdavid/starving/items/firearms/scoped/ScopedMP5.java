@@ -28,4 +28,9 @@ public class ScopedMP5 extends MP5 {
     public ScopedMP5() {
         super(new Mapping(Material.APPLE), "MP5 (scoped)");
     }
+    
+    @Override
+    public boolean isScoped() {
+        return true;
+    }
 }
