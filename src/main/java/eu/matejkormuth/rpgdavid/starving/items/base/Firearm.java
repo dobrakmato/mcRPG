@@ -221,15 +221,11 @@ public abstract class Firearm extends Item {
 
         Vector randomVec;
         if (this.isScoped()) {
-            randomVec = Vector
-                    .getRandom()
-                    .subtract(HALF_VECTOR)
-                    .multiply(this.scopedInaccurancy);
+            randomVec = Vector.getRandom().subtract(HALF_VECTOR).multiply(
+                    this.scopedInaccurancy);
         } else {
-            randomVec = Vector
-                    .getRandom()
-                    .subtract(HALF_VECTOR)
-                    .multiply(this.inaccurancy);
+            randomVec = Vector.getRandom().subtract(HALF_VECTOR).multiply(
+                    this.inaccurancy);
         }
 
         // Entity tracing.

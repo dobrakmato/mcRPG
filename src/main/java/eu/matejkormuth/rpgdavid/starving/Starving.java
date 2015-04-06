@@ -72,6 +72,7 @@ import eu.matejkormuth.rpgdavid.starving.listeners.AnimalDropsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.BlockFadeListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.BloodLevelDamageListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
+import eu.matejkormuth.rpgdavid.starving.listeners.ChatPingListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChunksListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ExperiencePointsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ExplosionListener;
@@ -308,6 +309,7 @@ public class Starving implements Runnable, Listener {
         this.register(new PlayerDropsListener());
         this.register(new ZombieCombustListener());
         this.register(new ProjectileListener());
+        this.register(new ChatPingListener());
         this.register(new BloodLevelDamageListener());
         this.register(new ExperiencePointsListener());
         this.register(new PlayerDeathListener());
