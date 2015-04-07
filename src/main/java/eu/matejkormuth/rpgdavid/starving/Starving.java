@@ -110,6 +110,7 @@ import eu.matejkormuth.rpgdavid.starving.tasks.ScoreboardUpdater;
 import eu.matejkormuth.rpgdavid.starving.tasks.StaminaRegenerationTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.TablistFooterClockTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
+import eu.matejkormuth.rpgdavid.starving.tasks.ZombieRandomSpawnTask;
 import eu.matejkormuth.rpgdavid.starving.worldgen.WorldGenManager;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.ApplyRegionCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushSizeCommandExecutor;
@@ -287,6 +288,8 @@ public class Starving implements Runnable, Listener {
                 .schedule(20L);
         this.register(new ScoreboardUpdater())
                 .schedule(20L);
+        this.register(new ZombieRandomSpawnTask())
+                .schedule(40L);
         this.register(new HallucinationsTask())
                 .schedule(200L);
 
