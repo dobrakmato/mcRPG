@@ -40,9 +40,10 @@ import org.bukkit.entity.Player;
 import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 
 @NMSHooks(version = "v1_8_R2")
-public class ZombieRandomSpawnTask extends RepeatingTask {
+public class ZombieRandomSpawnTask extends RepeatingTask implements Persistable {
 
     /**
      * Set of invalid spawn materials.
@@ -51,7 +52,7 @@ public class ZombieRandomSpawnTask extends RepeatingTask {
             Arrays.asList(Material.LEAVES, Material.LEAVES_2));
 
     @Persist(key = "zombiesPerPlayer")
-    private int zombiesPerPlayer;
+    private int zombiesPerPlayer = 20;
 
     // World this task is being performed on.
     private WorldServer world = ((CraftWorld) Worlds.first()).getHandle();
@@ -59,6 +60,10 @@ public class ZombieRandomSpawnTask extends RepeatingTask {
     private int renderDistance = 4 * 16;
 
     private Random random = new Random();
+
+    public ZombieRandomSpawnTask() {
+        this.reloadConfiguration();
+    }
 
     @Override
     public void run() {
@@ -135,5 +140,4 @@ public class ZombieRandomSpawnTask extends RepeatingTask {
         }
         return count;
     }
-
 }

@@ -41,7 +41,11 @@ package eu.matejkormuth.rpgdavid.starving.persistence;
  * @see PersistInjector
  */
 public interface Persistable {
-    public void reloadConfiguration();
+    public default void reloadConfiguration() {
+        PersistInjector.inject(this);
+    }
 
-    public void saveConfiguration();
+    public default void saveConfiguration() {
+        PersistInjector.store(this);
+    }
 }
