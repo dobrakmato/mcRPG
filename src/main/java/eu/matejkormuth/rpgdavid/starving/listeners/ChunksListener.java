@@ -25,13 +25,13 @@ import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
 public class ChunksListener implements Listener {
+
     @EventHandler
     private void onChunkLoad(final ChunkLoadEvent event) {
-
     }
     
     @EventHandler
     public void onChunkUnload(final ChunkUnloadEvent event) {
-        
+
     }
 }

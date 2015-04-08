@@ -25,7 +25,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.starving.Region;
+import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.worldgen.PlayerSession;
+import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.AffectedBlocksDefinition;
+import eu.matejkormuth.rpgdavid.starving.worldgen.affectedblocks.RegionAffectedBlocksDef;
+
 public class ApplyRegionCommandExecutor implements CommandExecutor {
+
+    private boolean supported = false;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command,
@@ -33,8 +41,22 @@ public class ApplyRegionCommandExecutor implements CommandExecutor {
         if (sender instanceof Player) {
             if (sender.isOp() || sender.hasPermission("wg")) {
                 if (args.length == 0) {
-                    // TODO: Add support for applying filter on region.
-                    sender.sendMessage("Not yet supported!");
+                    sender.sendMessage("not supported!");
+                    if (supported) {
+                        sender.sendMessage(ChatColor.GREEN
+                                + "Applying on WorldEdit region.");
+
+                        // Retrieve session.
+                        PlayerSession session = Starving.getInstance().getWorldGenManager().getSession(
+                                (Player) sender);
+
+                        // Create definition.
+                        AffectedBlocksDefinition definition = new RegionAffectedBlocksDef(
+                                new Region(null, null, null));
+
+                        session.getFilter().apply(definition,
+                                session.getFilterProperties());
+                    }
                 } else {
                     sender.sendMessage(ChatColor.RED + "Usage: /ar ");
                 }
