@@ -34,6 +34,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -243,6 +244,10 @@ public abstract class Firearm extends Item {
                 continue;
             }
 
+            if (e.getType() == EntityType.ARMOR_STAND) {
+                continue;
+            }
+
             // Limit entities hit.
             if (entitiesHit >= 2) {
                 break;
@@ -263,15 +268,21 @@ public abstract class Firearm extends Item {
                     // We hit this entity.
                     entitiesHit++;
 
+                    // Do not headshot dead entities.
+                    if (e.isDead()) {
+                        continue;
+                    }
+
                     // Is this a headshot?
                     if (projectilePosition.getY() - 0.1f > e.getLocation().getY() - 0.3f) {
                         ParticleEffect.BLOCK_CRACK.display(
                                 new ParticleEffect.BlockData(
                                         Material.REDSTONE_BLOCK, (byte) 0),
-                                0.25f,
-                                0.25f, 0.25f, 1, 80, e.getEyeLocation(), 256);
+                                0.25f, 0.25f, 0.25f, 1, 80, e.getEyeLocation(),
+                                256);
                         player.getWorld().playSound(e.getLocation(),
                                 Sound.HURT_FLESH, 1, 1);
+
                         for (int i = 0; i < 40; i++) {
                             ParticleEffect.BLOCK_CRACK.display(
                                     new ParticleEffect.BlockData(
@@ -314,8 +325,14 @@ public abstract class Firearm extends Item {
                     new ParticleEffect.BlockData(blockLoc.getBlock().getType(),
                             blockLoc.getBlock().getData()),
                     0.5f, 0.5f, 0.5f, 1, 25, blockLoc, Double.MAX_VALUE);
-            // Break block.
-            Starving.NMS.displayMaterialBreak(blockLoc);
+
+            // Do not crack some types.
+            if (blockLoc.getBlock().getType() == Material.AIR
+                    || blockLoc.getBlock().getType() == Material.LEAVES) {
+            } else {
+                // Break block.
+                Starving.NMS.displayMaterialBreak(blockLoc);
+            }
         }
 
         // Display fire effect.
