@@ -96,6 +96,7 @@ import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 import eu.matejkormuth.rpgdavid.starving.remote.RemoteConnectionServer;
+import eu.matejkormuth.rpgdavid.starving.remote.RemoteDebugAppender;
 import eu.matejkormuth.rpgdavid.starving.sounds.AmbientSoundManager;
 import eu.matejkormuth.rpgdavid.starving.tasks.BleedingTask;
 import eu.matejkormuth.rpgdavid.starving.tasks.BloodLevelConsuquencesTask;
@@ -158,6 +159,7 @@ public class Starving implements Runnable, Listener {
     private List<Object> registered;
 
     private RemoteConnectionServer remoteConnectionServer;
+    private RemoteDebugAppender remoteDebugAppender;
 
     public static final boolean isCompatibile() {
         String nmsVersion = Starving.class.getAnnotation(NMSHooks.class).version();
@@ -332,6 +334,8 @@ public class Starving implements Runnable, Listener {
         // Start remote connections.
         this.remoteConnectionServer = new RemoteConnectionServer();
         this.remoteConnectionServer.start();
+        
+        this.remoteDebugAppender = new RemoteDebugAppender();
     }
 
     /**
@@ -480,6 +484,10 @@ public class Starving implements Runnable, Listener {
 
     public NPCManager getNPCManager() {
         return this.npcManager;
+    }
+    
+    public RemoteDebugAppender getRemoteDebugAppender() {
+        return this.remoteDebugAppender;
     }
 
     public AmbientSoundManager getAmbientSoundManager() {

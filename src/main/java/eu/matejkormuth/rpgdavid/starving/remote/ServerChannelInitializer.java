@@ -88,7 +88,9 @@ public class ServerChannelInitializer extends ChannelInitializer {
                     ctx.writeAndFlush(new HandshakeOkPacket());
                     ctx.writeAndFlush(new WGFiltersPacket(
                             Starving.getInstance().getWorldGenManager().getFilters()));
-
+                    // Add to debug handler.
+                    Starving.getInstance().getRemoteDebugAppender().addHandler(
+                            ctx);
                 } else {
                     // Handshake failed. Disconnect socket.
                     ctx.writeAndFlush(new DisconnectPacket(
