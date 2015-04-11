@@ -20,6 +20,7 @@
 package eu.matejkormuth.rpgdavid.starving.remote.netty;
 
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.CommandPacket;
+import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.DebugPacket;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.DisconnectPacket;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.HandshakeOkPacket;
 import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.HandshakePacket;
@@ -34,6 +35,7 @@ public class DefaultProtocol extends Protocol {
         this.register(2, DisconnectPacket.class);
         this.register(3, HandshakeOkPacket.class);
         this.register(4, WGFiltersPacket.class);
+        this.register(5, DebugPacket.class);
     }
 
 }

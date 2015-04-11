@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import eu.matejkormuth.rpgdavid.starving.remote.netty.packets.DebugPacket;
+
 public class RemoteDebugAppender {
 
     private List<WeakReference<ChannelHandlerContext>> handlers;
@@ -16,10 +18,11 @@ public class RemoteDebugAppender {
         this.handlers = new ArrayList<>();
     }
 
-    public void sendAsync(Object obj) {
+    public void sendAsync(String content) {
+        final DebugPacket packet = new DebugPacket(content);
         // TODO: Invoke from other thread.
         synchronized (lock) {
-            this.send0(obj);
+            this.send0(packet);
         }
     }
 

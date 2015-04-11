@@ -26,14 +26,14 @@ import java.util.Map;
 
 public abstract class Protocol {
 
-    private Map<Class<? extends Packet>, Constructor<? extends Packet>> constructorsByClass;
-    private Map<Short, Constructor<? extends Packet>> constructorsByInt;
-    private Map<Class<? extends Packet>, Short> idsByClass;
+    private final Map<Class<? extends Packet>, Constructor<? extends Packet>> constructorsByClass;
+    private final Map<Short, Constructor<? extends Packet>> constructorsByInt;
+    private final Map<Class<? extends Packet>, Short> idsByClass;
 
     public Protocol() {
-        constructorsByClass = new HashMap<>();
-        constructorsByInt = new HashMap<>();
-        idsByClass = new HashMap<>();
+        this.constructorsByClass = new HashMap<>();
+        this.constructorsByInt = new HashMap<>();
+        this.idsByClass = new HashMap<>();
 
         registerPackets();
     }
