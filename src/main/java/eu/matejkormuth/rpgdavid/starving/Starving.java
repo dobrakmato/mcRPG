@@ -720,4 +720,8 @@ public class Starving implements Runnable, Listener {
     public File getFile(String string) {
         return new File(this.dataFolder.getAbsolutePath() + "/" + string);
     }
+
+    public void debug(String string) {
+        this.remoteDebugAppender.sendAsync(string);
+    }
 }

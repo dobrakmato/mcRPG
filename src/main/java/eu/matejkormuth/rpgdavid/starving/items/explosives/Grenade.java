@@ -19,11 +19,52 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.explosives;
 
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
+
+import eu.matejkormuth.bukkit.Actions;
+import eu.matejkormuth.rpgdavid.starving.Scheduler;
+import eu.matejkormuth.rpgdavid.starving.Time;
+import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
+import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Grenade extends Item {
     public Grenade() {
         super(Mappings.GRENADE, "Grenade");
+        this.setMaxStackAmount(8);
+        this.setRarity(Rarity.RARE);
+        // TODO: Category.
+    }
+
+    @Override
+    public InteractResult onInteract(Player player, Action action,
+            Block clickedBlock, BlockFace clickedFace) {
+        if (Actions.isRightClick(action)) {
+            // Throw grenade.
+
+            player.playSound(player.getLocation(), Sound.FIZZ, 1, 1);
+
+            ItemStack itemStack = new ItemStack(Mappings.GRENADE.getMaterial(),
+                    1);
+            org.bukkit.entity.Item drop = (org.bukkit.entity.Item) player.getWorld().spawnEntity(
+                    player.getLocation(), EntityType.DROPPED_ITEM);
+            drop.setItemStack(itemStack);
+            drop.setVelocity(player.getEyeLocation().getDirection().multiply(
+                    1.5f));
+            drop.setPickupDelay(Time.ofSeconds(6).toTicks());
+
+            // Schedule explosion.
+            Scheduler.delay(() -> {
+                drop.getWorld().createExplosion(drop.getLocation(), 0.01f);
+            }, Time.ofSeconds(5));
+        }
+        return InteractResult.useOne();
     }
 }

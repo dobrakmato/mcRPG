@@ -29,6 +29,9 @@ public interface Sound {
 
     default void play(Player player, Location location, float volume,
             float pitch) {
+        Starving.getInstance().debug(
+                "Playing sound " + this.getName() + " to player "
+                        + player.getName());
         Starving.NMS.playNamedSoundEffect(player, this.getName(), location,
                 volume, pitch);
     }
