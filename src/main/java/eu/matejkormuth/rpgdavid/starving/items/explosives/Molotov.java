@@ -19,11 +19,43 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.explosives;
 
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrownPotion;
+import org.bukkit.event.block.Action;
+
+import eu.matejkormuth.bukkit.Actions;
+import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
+import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
+import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class Molotov extends Item {
     public Molotov() {
         super(Mappings.MOLOTOV, "Molotov");
+        this.setRarity(Rarity.UNCOMMON);
+        this.setMaxStackAmount(8);
+        // TODO: Category.
+    }
+
+    @Override
+    public InteractResult onInteract(Player player, Action action,
+            Block clickedBlock, BlockFace clickedFace) {
+        if (Actions.isRightClick(action)) {
+            // Launch thrown potion.
+            ThrownPotion potion = (ThrownPotion) player.getWorld().spawnEntity(
+                    player.getLocation(), EntityType.SPLASH_POTION);
+
+            potion.setVelocity(player.getEyeLocation().getDirection().multiply(
+                    1.5f));
+            potion.setMetadata("isMolotov", new FlagMetadataValue());
+
+            player.playSound(player.getLocation(), Sound.FIRE_IGNITE, 1, 1);
+        }
+        return InteractResult.useOne();
     }
 }

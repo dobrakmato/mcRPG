@@ -19,23 +19,29 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
+import java.util.Random;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Snowball;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.util.Vector;
 
 import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 
 public class ProjectileListener extends AbstractPersistable implements Listener {
     @Persist(key = "PARTICLE_AMOUNT")
-    public
-    static int PARTICLE_AMOUNT = 25;
+    public static int PARTICLE_AMOUNT = 25;
+
+    private Random random = new Random();
 
     @SuppressWarnings("deprecation")
     @EventHandler
@@ -54,6 +60,16 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
                                 .getLocation(), Double.MAX_VALUE);
                 // Break block.
                 Starving.NMS.displayMaterialBreak(b.getLocation());
+            }
+        } else if (event.getEntity() instanceof ThrownPotion) {
+            if (event.getEntity().hasMetadata("isMolotov")) {
+                for (int i = 0; i < 30; i++) {
+                    FallingBlock block = event.getEntity().getWorld().spawnFallingBlock(
+                            event.getEntity().getLocation().add(0, 1, 0),
+                            Material.FIRE, (byte) 0);
+                    block.setVelocity(new Vector(random.nextFloat() / 2, 0.2f,
+                            random.nextFloat() / 2));
+                }
             }
         }
     }
