@@ -21,6 +21,7 @@ package eu.matejkormuth.rpgdavid.starving.listeners;
 
 import java.util.Random;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
@@ -34,8 +35,10 @@ import org.bukkit.util.Vector;
 import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
+import eu.matejkormuth.rpgdavid.starving.tasks.RepeatingTask;
 
 public class ProjectileListener extends AbstractPersistable implements Listener {
     @Persist(key = "PARTICLE_AMOUNT")
@@ -70,6 +73,27 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
                     block.setVelocity(new Vector(random.nextFloat() / 2, 0.2f,
                             random.nextFloat() / 2));
                 }
+            } else if (event.getEntity().hasMetadata("isSmokeShell")) {
+                final Location location = event.getEntity().getLocation();
+                RepeatingTask spawnParticles = new RepeatingTask() {
+                    private int count = 0;
+
+                    @Override
+                    public void run() {
+                        if (this.count >= 20 * 5) {
+                            this.cancel();
+                        }
+                        this.spawn();
+                        this.count++;
+                    }
+
+                    private void spawn() {
+                        ParticleEffect.SMOKE_LARGE.display(5, 2, 5, 0, 40,
+                                location, Double.MAX_VALUE);
+                    }
+                };
+
+                spawnParticles.schedule(Time.ofTicks(1).toLongTicks());
             }
         }
     }
