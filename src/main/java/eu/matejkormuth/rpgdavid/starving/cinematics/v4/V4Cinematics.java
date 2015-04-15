@@ -19,48 +19,44 @@
  */
 package eu.matejkormuth.rpgdavid.starving.cinematics.v4;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.bukkit.Bukkit;
-
-import eu.matejkormuth.rpgdavid.starving.Starving;
-import eu.matejkormuth.rpgdavid.starving.Time;
+import eu.matejkormuth.rpgdavid.starving.cinematics.Cinematics;
+import eu.matejkormuth.rpgdavid.starving.cinematics.Clip;
+import eu.matejkormuth.rpgdavid.starving.cinematics.ClipPlayer;
+import eu.matejkormuth.rpgdavid.starving.cinematics.Frame;
 import eu.matejkormuth.rpgdavid.starving.cinematics.PlayerServer;
 
-public class V4ClipPlayerServer implements Runnable, PlayerServer {
+public class V4Cinematics extends Cinematics {
 
-    private Set<V4ClipPlayer> players;
-
-    public V4ClipPlayerServer() {
-        this.players = new HashSet<V4ClipPlayer>();
-
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(
-                Starving.getInstance().getPlugin(),
-                this, Time.ofSeconds(2).toLongTicks(),
-                Time.ofTicks(1).toLongTicks());
+    private static final String IMPLEMENTATION_NAME = "V4";
+    private PlayerServer server;
+    
+    public V4Cinematics() {
+        this.server = new V4ClipPlayerServer();
     }
 
     @Override
-    public void addClipPlayer(V4ClipPlayer player) {
-        this.players.add(player);
+    public String getImplementationName() {
+        return IMPLEMENTATION_NAME;
     }
 
     @Override
-    public void removeClipPlayer(V4ClipPlayer player) {
-        this.players.remove(player);
+    public Clip createClip() {
+        return new V4Clip();
     }
 
     @Override
-    public void run() {
-        this.tick();
+    public ClipPlayer createPlayer(Clip clip) {
+        return new V4ClipPlayer((V4Clip) clip);
     }
 
-    private void tick() {
-        for (V4ClipPlayer player : this.players) {
-            if (player.isPlaying()) {
-                player.nextFrame();
-            }
-        }
+    @Override
+    public Frame createFrame() {
+        return new V4Frame();
     }
+
+    @Override
+    public PlayerServer getServer() {
+        return this.server;
+    }
+
 }
