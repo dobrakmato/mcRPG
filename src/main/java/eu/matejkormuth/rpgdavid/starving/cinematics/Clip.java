@@ -19,7 +19,11 @@
 package eu.matejkormuth.rpgdavid.starving.cinematics;
 
 public interface Clip {
+    void addFrame(Frame frame);
+    
     Frame getFrame(int index);
 
     int getFrameRate();
+    
+    int getLength();
 }

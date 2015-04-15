@@ -21,5 +21,7 @@ package eu.matejkormuth.rpgdavid.starving.cinematics;
 import org.bukkit.entity.Player;
 
 public interface FrameAction {
-    void executeFor(Player player);
+    void execute(Player player);
+    
+    boolean isGlobal();
 }

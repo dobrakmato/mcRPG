@@ -18,6 +18,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.cinematics;
 
+import java.util.Collection;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -26,6 +28,8 @@ public interface Camera {
 
     void removeObserver(Player observer);
 
+    Collection<Player> getObservers();
+    
     Location getLocation();
 
     void setLocation(Location location);

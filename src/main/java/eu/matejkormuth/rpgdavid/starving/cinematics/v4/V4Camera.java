@@ -1,6 +1,7 @@
 /*
- *  mcRPG is a open source rpg bukkit/spigot plugin.
- *  Copyright (C) 2015 Matej Kormuth 
+ *  Starving is a open source bukkit/spigot mmo game.
+ *  Copyright (C) 2014-2015 Matej Kormuth
+ *  This file is a part of Starving. <http://www.starving.eu>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,8 +19,9 @@
  */
 package eu.matejkormuth.rpgdavid.starving.cinematics.v4;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -27,11 +29,11 @@ import org.bukkit.entity.Player;
 import eu.matejkormuth.rpgdavid.starving.cinematics.Camera;
 
 public class V4Camera implements Camera {
-    private List<Player> observers;
+    private Set<Player> observers;
     private Location location;
 
     public V4Camera() {
-        this.observers = new ArrayList<>();
+        this.observers = new HashSet<>();
     }
 
     @Override
@@ -50,6 +52,11 @@ public class V4Camera implements Camera {
     }
 
     @Override
+    public Collection<Player> getObservers() {
+        return this.observers;
+    }
+
+    @Override
     public void setLocation(Location location) {
         this.location = location;
         this.broadcastNewLoc();
@@ -60,4 +67,5 @@ public class V4Camera implements Camera {
             observer.teleport(this.location);
         }
     }
+
 }

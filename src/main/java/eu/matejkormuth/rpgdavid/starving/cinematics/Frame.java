@@ -21,5 +21,7 @@ package eu.matejkormuth.rpgdavid.starving.cinematics;
 import java.util.Collection;
 
 public interface Frame {
+    void addAction(FrameAction action);
+    
     Collection<FrameAction> getActions();
 }

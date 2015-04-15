@@ -1,6 +1,7 @@
 /*
- *  mcRPG is a open source rpg bukkit/spigot plugin.
- *  Copyright (C) 2015 Matej Kormuth 
+ *  Starving is a open source bukkit/spigot mmo game.
+ *  Copyright (C) 2014-2015 Matej Kormuth
+ *  This file is a part of Starving. <http://www.starving.eu>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,14 +22,32 @@ package eu.matejkormuth.rpgdavid.starving.cinematics.v4;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.cinematics.Camera;
+import eu.matejkormuth.rpgdavid.starving.cinematics.Clip;
 import eu.matejkormuth.rpgdavid.starving.cinematics.ClipPlayer;
+import eu.matejkormuth.rpgdavid.starving.cinematics.Frame;
+import eu.matejkormuth.rpgdavid.starving.cinematics.FrameAction;
 
 public class V4ClipPlayer implements ClipPlayer {
     private V4Camera camera;
+    private V4Clip clip;
+    private int currentFrame;
+    private boolean playing;
+
+    public V4ClipPlayer(V4Clip clip) {
+        this.clip = clip;
+        this.camera = new V4Camera();
+        this.currentFrame = 0;
+        this.playing = false;
+    }
 
     @Override
     public Camera getCamera() {
         return this.camera;
+    }
+
+    @Override
+    public Clip getClip() {
+        return this.clip;
     }
 
     public void addObserver(Player observer) {
@@ -40,8 +59,52 @@ public class V4ClipPlayer implements ClipPlayer {
     }
 
     @Override
-    public void start() {
-        // TODO Auto-generated method stub
+    public void play() {
+        this.playing = true;
+    }
 
+    @Override
+    public void pause() {
+        this.playing = false;
+    }
+
+    @Override
+    public void stop() {
+        this.playing = false;
+        this.currentFrame = 0;
+    }
+
+    @Override
+    public void nextFrame() {
+        Frame f = this.clip.getFrame(this.currentFrame);
+        for (FrameAction fa : f.getActions()) {
+            if (fa.isGlobal()) {
+                fa.execute(null);
+            } else {
+                this.executeAction(fa);
+            }
+        }
+        this.currentFrame++;
+    }
+
+    private void executeAction(FrameAction fa) {
+        for (Player p : this.camera.getObservers()) {
+            fa.execute(p);
+        }
+    }
+
+    @Override
+    public int getCurrentFrame() {
+        return this.currentFrame;
+    }
+
+    @Override
+    public int getLength() {
+        return this.clip.getLength();
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return this.playing;
     }
 }
