@@ -45,7 +45,9 @@ public class SmokeShell extends Item {
             Block clickedBlock, BlockFace clickedFace) {
         if (Actions.isRightClick(action)) {
             ThrownPotion potion = (ThrownPotion) player.getWorld().spawnEntity(
-                    player.getEyeLocation(), EntityType.SPLASH_POTION);
+                    player.getEyeLocation().add(
+                            player.getEyeLocation().getDirection()),
+                    EntityType.SPLASH_POTION);
             potion.setVelocity(player.getEyeLocation().getDirection().multiply(
                     1.3f));
             potion.setMetadata("isSmokeShell", new FlagMetadataValue());

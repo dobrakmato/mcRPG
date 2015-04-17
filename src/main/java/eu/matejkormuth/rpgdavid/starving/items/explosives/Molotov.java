@@ -48,7 +48,9 @@ public class Molotov extends Item {
         if (Actions.isRightClick(action)) {
             // Launch thrown potion.
             ThrownPotion potion = (ThrownPotion) player.getWorld().spawnEntity(
-                    player.getLocation(), EntityType.SPLASH_POTION);
+                    player.getLocation().add(
+                            player.getEyeLocation().getDirection()),
+                    EntityType.SPLASH_POTION);
 
             potion.setVelocity(player.getEyeLocation().getDirection().multiply(
                     1.5f));

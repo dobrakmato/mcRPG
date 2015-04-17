@@ -22,7 +22,6 @@ package eu.matejkormuth.rpgdavid.starving.items.explosives;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
@@ -53,8 +52,9 @@ public class Grenade extends Item {
 
             ItemStack itemStack = new ItemStack(Mappings.GRENADE.getMaterial(),
                     1);
-            org.bukkit.entity.Item drop = (org.bukkit.entity.Item) player.getWorld().spawnEntity(
-                    player.getLocation(), EntityType.DROPPED_ITEM);
+            org.bukkit.entity.Item drop = player.getWorld().dropItem(
+                    player.getLocation().add(
+                            player.getEyeLocation().getDirection()), itemStack);
             drop.setItemStack(itemStack);
             drop.setVelocity(player.getEyeLocation().getDirection().multiply(
                     1.5f));

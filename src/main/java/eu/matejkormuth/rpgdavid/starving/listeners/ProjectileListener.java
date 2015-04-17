@@ -68,10 +68,11 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
             if (event.getEntity().hasMetadata("isMolotov")) {
                 for (int i = 0; i < 30; i++) {
                     FallingBlock block = event.getEntity().getWorld().spawnFallingBlock(
-                            event.getEntity().getLocation().add(0, 1, 0),
+                            event.getEntity().getLocation().add(0, 0.5f, 0),
                             Material.FIRE, (byte) 0);
-                    block.setVelocity(new Vector(random.nextFloat() / 2, 0.2f,
-                            random.nextFloat() / 2));
+                    block.setVelocity(new Vector(
+                            random.nextFloat() / 2 - 0.25f, 0.2f,
+                            random.nextFloat() / 2 - 0.25f));
                 }
             } else if (event.getEntity().hasMetadata("isSmokeShell")) {
                 final Location location = event.getEntity().getLocation();
@@ -88,7 +89,7 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
                     }
 
                     private void spawn() {
-                        ParticleEffect.SMOKE_LARGE.display(5, 2, 5, 0, 40,
+                        ParticleEffect.CLOUD.display(3, 2, 3, 0, 80,
                                 location, Double.MAX_VALUE);
                     }
                 };
