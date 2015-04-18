@@ -47,7 +47,8 @@ public class Petard extends Item {
         if (Actions.isRightClick(action)) {
             ItemStack is = Items.of(Mappings.PETARD.getMaterial());
             org.bukkit.entity.Item i = ItemDrops.drop(player.getEyeLocation(),
-                    is, Time.ofSeconds(6).toTicks());
+                    is);
+            i.setPickupDelay(Time.ofSeconds(6).toTicks());
             i.setVelocity(player.getEyeLocation().getDirection());
 
             new RepeatingTask() {

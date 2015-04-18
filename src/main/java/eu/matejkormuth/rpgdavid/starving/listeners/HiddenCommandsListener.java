@@ -29,6 +29,7 @@ import net.minecraft.server.v1_8_R2.PacketPlayOutGameStateChange;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -38,6 +39,8 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.Recipe;
 
+import eu.matejkormuth.bukkit.ItemDrops;
+import eu.matejkormuth.bukkit.Items;
 import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.Starving;
@@ -205,6 +208,15 @@ public class HiddenCommandsListener implements Listener {
                 inv.addItem(i.toItemStack());
             }
             event.getPlayer().openInventory(inv);
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/itemdropvehicle")) {
+            org.bukkit.entity.Item i = ItemDrops.drop(
+                    event.getPlayer().getLocation(), Items.of(Material.APPLE));
+            i.setVelocity(event.getPlayer().getEyeLocation().getDirection().multiply(
+                    3));
+            i.setPassenger(event.getPlayer());
+            i.setPickupDelay(20 * 15);
         }
     }
 }
