@@ -20,20 +20,33 @@ package eu.matejkormuth.rpgdavid.starving.cinematics;
 
 public interface ClipPlayer {
     Camera getCamera();
-    
+
     Clip getClip();
 
     void play();
-    
+
     void pause();
-    
+
     void stop();
-    
+
     void nextFrame();
-    
+
     int getCurrentFrame();
-    
+
     int getLength();
-    
+
     boolean isPlaying();
+
+    void addListener(ClipPlayerListener listener);
+
+    public abstract class ClipPlayerListener {
+        public void onStop(ClipPlayer clipPlayer) {
+        };
+
+        public void onPause(ClipPlayer clipPlayer) {
+        };
+
+        public void onPlay(ClipPlayer clipPlayer) {
+        };
+    }
 }

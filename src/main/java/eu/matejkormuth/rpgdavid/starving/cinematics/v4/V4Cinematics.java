@@ -19,6 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.cinematics.v4;
 
+import java.nio.file.Path;
+
 import eu.matejkormuth.rpgdavid.starving.cinematics.Cinematics;
 import eu.matejkormuth.rpgdavid.starving.cinematics.Clip;
 import eu.matejkormuth.rpgdavid.starving.cinematics.ClipPlayer;
@@ -29,7 +31,7 @@ public class V4Cinematics extends Cinematics {
 
     private static final String IMPLEMENTATION_NAME = "V4";
     private PlayerServer server;
-    
+
     public V4Cinematics() {
         this.server = new V4ClipPlayerServer();
     }
@@ -57,6 +59,18 @@ public class V4Cinematics extends Cinematics {
     @Override
     public PlayerServer getServer() {
         return this.server;
+    }
+
+    @Override
+    public Clip loadClip(Path file) {
+        return V4Writer.load(file.toFile());
+    }
+
+    @Override
+    public void saveClip(Clip clip, Path file) {
+        if (clip instanceof V4Clip) {
+            V4Writer.save((V4Clip) clip, file.toFile());
+        }
     }
 
 }

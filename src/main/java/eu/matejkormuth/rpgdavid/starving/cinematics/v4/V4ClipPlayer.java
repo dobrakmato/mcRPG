@@ -19,6 +19,9 @@
  */
 package eu.matejkormuth.rpgdavid.starving.cinematics.v4;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.cinematics.Camera;
@@ -32,8 +35,10 @@ public class V4ClipPlayer implements ClipPlayer {
     private V4Clip clip;
     private int currentFrame;
     private boolean playing;
+    private List<ClipPlayerListener> listeners;
 
     public V4ClipPlayer(V4Clip clip) {
+        this.listeners = new ArrayList<ClipPlayer.ClipPlayerListener>();
         this.clip = clip;
         this.camera = new V4Camera();
         this.currentFrame = 0;
@@ -61,21 +66,40 @@ public class V4ClipPlayer implements ClipPlayer {
     @Override
     public void play() {
         this.playing = true;
+
+        // Invoke all listeners.
+        for (ClipPlayerListener listener : this.listeners) {
+            listener.onPlay(this);
+        }
     }
 
     @Override
     public void pause() {
         this.playing = false;
+
+        // Invoke all listeners.
+        for (ClipPlayerListener listener : this.listeners) {
+            listener.onPause(this);
+        }
     }
 
     @Override
     public void stop() {
         this.playing = false;
         this.currentFrame = 0;
+
+        // Invoke all listeners.
+        for (ClipPlayerListener listener : this.listeners) {
+            listener.onStop(this);
+        }
     }
 
     @Override
     public void nextFrame() {
+        if (this.currentFrame == this.clip.getLength()) {
+            this.stop();
+        }
+
         Frame f = this.clip.getFrame(this.currentFrame);
         for (FrameAction fa : f.getActions()) {
             if (fa.isGlobal()) {
@@ -106,5 +130,10 @@ public class V4ClipPlayer implements ClipPlayer {
     @Override
     public boolean isPlaying() {
         return this.playing;
+    }
+
+    @Override
+    public void addListener(ClipPlayerListener listener) {
+        this.listeners.add(listener);
     }
 }

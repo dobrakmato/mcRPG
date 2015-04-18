@@ -19,13 +19,19 @@
  */
 package eu.matejkormuth.rpgdavid.starving.cinematics;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.cinematics.v4.V4Cinematics;
 
 public abstract class Cinematics {
 
     private static Cinematics cinematics = new V4Cinematics();
+    private static String cinematicsStorage = Starving.getInstance().getDataFolder().getAbsolutePath()
+            + "/cinematics/";
 
-    public Cinematics getCinematics() {
+    public static Cinematics getCinematics() {
         return cinematics;
     }
 
@@ -38,4 +44,24 @@ public abstract class Cinematics {
     public abstract Frame createFrame();
 
     public abstract PlayerServer getServer();
+
+    public String getCinematicsFolder() {
+        return cinematicsStorage;
+    }
+
+    public Path getCinematicFile(String... parts) {
+        return Paths.get(cinematicsStorage, parts);
+    }
+
+    public abstract Clip loadClip(Path file);
+
+    public Clip loadClip(String... parts) {
+        return loadClip(getCinematicFile(parts));
+    }
+
+    public abstract void saveClip(Clip clip, Path file);
+
+    public void saveClip(Clip clip, String... parts) {
+        saveClip(clip, getCinematicFile(parts));
+    }
 }
