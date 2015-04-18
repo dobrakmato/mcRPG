@@ -58,9 +58,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
-
-import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
@@ -95,7 +92,6 @@ import eu.matejkormuth.rpgdavid.starving.listeners.VersionListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieCombustListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.npc.NPCManager;
-import eu.matejkormuth.rpgdavid.starving.particles.ParticleEmitter;
 import eu.matejkormuth.rpgdavid.starving.particles.ParticleEmitters;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
@@ -347,14 +343,6 @@ public class Starving implements Runnable, Listener {
         this.remoteConnectionServer.start();
 
         this.remoteDebugAppender = new RemoteDebugAppender();
-
-        // FIXME: Please, remove this soon. Only for testing.
-        ParticleEmitter pe = new ParticleEmitter(new Location(
-                Bukkit.getWorld("Beta"), 571.5, 68, -235.5), 0, 25,
-                ParticleEffect.SMOKE_LARGE);
-        pe.setOffsets(0.2f, 0.1f, 0.2f);
-        pe.setDirection(new Vector(0.1f, 0, 0.05f));
-        this.particleEmmiters.add(pe);
     }
 
     /**

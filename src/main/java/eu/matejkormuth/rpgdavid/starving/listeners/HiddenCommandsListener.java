@@ -29,6 +29,7 @@ import net.minecraft.server.v1_8_R2.PacketPlayOutGameStateChange;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -38,6 +39,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.util.Vector;
+
+import com.darkblade12.particleeffect.ParticleEffect;
 
 import eu.matejkormuth.bukkit.ItemDrops;
 import eu.matejkormuth.bukkit.Items;
@@ -52,6 +56,7 @@ import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.comparators.ItemNameComparator;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
+import eu.matejkormuth.rpgdavid.starving.particles.ParticleEmitter;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieWithDog;
 
@@ -217,6 +222,20 @@ public class HiddenCommandsListener implements Listener {
                     3));
             i.setPassenger(event.getPlayer());
             i.setPickupDelay(20 * 15);
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/peadd")) {
+            // FIXME: Please, remove this soon. Only for testing.
+            ParticleEmitter pe = new ParticleEmitter(new Location(
+                    Bukkit.getWorld("Beta"), 571.5, 68, -235.5), 1f, 40,
+                    ParticleEffect.SMOKE_LARGE);
+            pe.setOffsets(0.5f, 0.1f, 0.5f);
+            pe.setDirection(new Vector(0.1f, 0, 0.15f));
+            Starving.getInstance().getParticleEmmiters().add(pe);
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/peclear")) {
+            Starving.getInstance().getParticleEmmiters().clear();
         }
     }
 }

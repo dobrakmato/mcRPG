@@ -22,6 +22,9 @@ package eu.matejkormuth.rpgdavid.starving.particles;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+
 import eu.matejkormuth.rpgdavid.starving.tasks.RepeatingTask;
 
 public class ParticleEmitters extends RepeatingTask {
@@ -33,8 +36,13 @@ public class ParticleEmitters extends RepeatingTask {
     }
 
     private void tick() {
+        Chunk chunk; 
         for (ParticleEmitter pe : emitters) {
-            if (pe.getLocation().getChunk().isLoaded()) {
+            if(pe.getLocation().getWorld() == null) {
+                pe.getLocation().setWorld(Bukkit.getWorld("Beta"));
+            }
+            chunk = pe.getLocation().getChunk();
+            if (chunk != null && chunk.isLoaded()) {
                 pe.emit();
             }
         }
@@ -47,5 +55,9 @@ public class ParticleEmitters extends RepeatingTask {
 
     public void add(ParticleEmitter particleEmitter) {
         this.emitters.add(particleEmitter);
+    }
+    
+    public void clear() {
+        this.emitters.clear();
     }
 }

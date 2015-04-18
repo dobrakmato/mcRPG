@@ -69,6 +69,10 @@ public class ParticleEmitter {
     }
 
     public void emit() {
+        if(this.location == null) {
+            System.out.println("Can't emit particle. Location null.");
+        }
+        
         if (this.data != null) {
             if (this.direction != null) {
                 this.effect.display(data, direction, speed, this.location,
