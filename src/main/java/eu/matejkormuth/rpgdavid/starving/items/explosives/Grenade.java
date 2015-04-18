@@ -27,6 +27,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import eu.matejkormuth.bukkit.Actions;
+import eu.matejkormuth.bukkit.ItemDrops;
 import eu.matejkormuth.rpgdavid.starving.Scheduler;
 import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
@@ -52,17 +53,17 @@ public class Grenade extends Item {
 
             ItemStack itemStack = new ItemStack(Mappings.GRENADE.getMaterial(),
                     1);
-            org.bukkit.entity.Item drop = player.getWorld().dropItem(
+            org.bukkit.entity.Item drop = ItemDrops.dropNotMergable(
                     player.getLocation().add(
-                            player.getEyeLocation().getDirection()), itemStack);
-            drop.setItemStack(itemStack);
+                            player.getEyeLocation().getDirection()), itemStack,
+                    Time.ofSeconds(6).toTicks());
             drop.setVelocity(player.getEyeLocation().getDirection().multiply(
                     1.5f));
-            drop.setPickupDelay(Time.ofSeconds(6).toTicks());
 
             // Schedule explosion.
             Scheduler.delay(() -> {
                 drop.getWorld().createExplosion(drop.getLocation(), 0.01f);
+                drop.remove();
             }, Time.ofSeconds(5));
         }
         return InteractResult.useOne();

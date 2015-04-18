@@ -23,6 +23,7 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Snowball;
@@ -81,11 +82,17 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
 
                     @Override
                     public void run() {
-                        if (this.count >= 20 * 5) {
+                        if (this.count >= 20 * 60) {
                             this.cancel();
                         }
                         this.spawn();
+                        this.soundEffect();
                         this.count++;
+                    }
+
+                    private void soundEffect() {
+                        location.getWorld().playSound(location, Sound.FIZZ, 1f,
+                                1f);
                     }
 
                     private void spawn() {
