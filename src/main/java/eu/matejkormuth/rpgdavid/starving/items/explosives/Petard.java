@@ -51,6 +51,8 @@ public class Petard extends Item {
             i.setPickupDelay(Time.ofSeconds(6).toTicks());
             i.setVelocity(player.getEyeLocation().getDirection());
 
+            // edit
+            
             new RepeatingTask() {
                 private int ticks = 0;
 
@@ -58,9 +60,9 @@ public class Petard extends Item {
                 public void run() {
                     if (ticks >= 20 * 5) {
                         this.cancel();
-                        this.explode();
+                        this.explode();   
                     }
-                    ParticleEffect.FLAME.display(0.1f, 0.1f, 0.1f, 1, 5,
+                    ParticleEffect.FLAME.display(0.1f, 0.1f, 0.1f, 0, 1,
                             i.getLocation(), Double.MAX_VALUE);
                     ticks++;
                 }

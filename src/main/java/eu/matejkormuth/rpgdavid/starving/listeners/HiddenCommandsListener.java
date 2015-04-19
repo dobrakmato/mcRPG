@@ -232,6 +232,13 @@ public class HiddenCommandsListener implements Listener {
             pe.setOffsets(0.5f, 0.1f, 0.5f);
             pe.setDirection(new Vector(0.1f, 0, 0.15f));
             Starving.getInstance().getParticleEmmiters().add(pe);
+            ParticleEmitter pe2 = new ParticleEmitter(new Location(
+                    Bukkit.getWorld("Beta"), 571.5, 68, -235.5), 1f, 80,
+                    ParticleEffect.REDSTONE);
+            pe2.setOffsets(0.5f, 0.1f, 0.5f);
+            pe2.setColor(new ParticleEffect.OrdinaryColor(255, 0, 255));
+            //pe2.setDirection(new Vector(0.1f, 0, 0.15f));
+            Starving.getInstance().getParticleEmmiters().add(pe2);
         }
         // Command for testing some random things.
         else if (event.getMessage().contains("/peclear")) {
