@@ -61,6 +61,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
+import eu.matejkormuth.rpgdavid.starving.commands.CommandManager;
 import eu.matejkormuth.rpgdavid.starving.commands.RpCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.SetSpeedCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.SetWarpCommandExecutor;
@@ -164,6 +165,8 @@ public class Starving implements Runnable, Listener {
 
     private ParticleEmitters particleEmmiters;
 
+    private CommandManager commandManager;
+
     public static final boolean isCompatibile() {
         String nmsVersion = Starving.class.getAnnotation(NMSHooks.class).version();
         try {
@@ -246,6 +249,7 @@ public class Starving implements Runnable, Listener {
 
         this.npcManager = new NPCManager();
         this.worldGenManager = new WorldGenManager();
+        this.commandManager = new CommandManager();
 
         this.particleEmmiters = new ParticleEmitters();
 
@@ -491,6 +495,10 @@ public class Starving implements Runnable, Listener {
 
     public NPCManager getNPCManager() {
         return this.npcManager;
+    }
+    
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 
     public RemoteDebugAppender getRemoteDebugAppender() {
