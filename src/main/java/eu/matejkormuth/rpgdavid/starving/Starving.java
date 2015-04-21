@@ -20,6 +20,7 @@
 package eu.matejkormuth.rpgdavid.starving;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -166,6 +167,8 @@ public class Starving implements Runnable, Listener {
     private ParticleEmitters particleEmmiters;
 
     private CommandManager commandManager;
+
+    private StatusServer statusServer;
 
     public static final boolean isCompatibile() {
         String nmsVersion = Starving.class.getAnnotation(NMSHooks.class).version();
@@ -347,6 +350,14 @@ public class Starving implements Runnable, Listener {
         this.remoteConnectionServer.start();
 
         this.remoteDebugAppender = new RemoteDebugAppender();
+
+        // Start status server.
+        this.statusServer = new StatusServer();
+        try {
+            this.statusServer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -403,6 +414,9 @@ public class Starving implements Runnable, Listener {
     }
 
     public void onDisable() {
+        // Disable status server.
+        this.statusServer.shutdown();
+
         if (this.zombieManager != null) {
             this.zombieManager.saveConfiguration();
         }
@@ -496,7 +510,7 @@ public class Starving implements Runnable, Listener {
     public NPCManager getNPCManager() {
         return this.npcManager;
     }
-    
+
     public CommandManager getCommandManager() {
         return commandManager;
     }

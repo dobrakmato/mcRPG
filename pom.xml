@@ -25,6 +25,11 @@
       <version>4.0.26.Final</version>
     </dependency>
     <dependency>
+      <groupId>com.sun.net.httpserver</groupId>
+      <artifactId>http</artifactId>
+      <version>20070405</version>
+    </dependency>
+    <dependency>
       <groupId>eu.matejkormuth</groupId>
       <artifactId>bukkit-essentials</artifactId>
       <version>1.8.3</version>
