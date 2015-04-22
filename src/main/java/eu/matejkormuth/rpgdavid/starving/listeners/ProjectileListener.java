@@ -25,6 +25,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Snowball;
 import org.bukkit.entity.ThrownPotion;
@@ -67,6 +68,14 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
             }
         } else if (event.getEntity() instanceof ThrownPotion) {
             if (event.getEntity().hasMetadata("isMolotov")) {
+                Block b = event.getEntity().getLocation().getBlock();
+                if(b.getType() != Material.AIR) {
+                    b = b.getRelative(BlockFace.UP);
+                }
+                if(b.getType() == Material.AIR) {
+                    b.setType(Material.FIRE);
+                }
+                
                 for (int i = 0; i < 30; i++) {
                     FallingBlock block = event.getEntity().getWorld().spawnFallingBlock(
                             event.getEntity().getLocation().add(0, 0.5f, 0),

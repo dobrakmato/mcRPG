@@ -28,12 +28,17 @@ import org.bukkit.event.block.Action;
 
 import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.Rarity;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
 public class SmokeShell extends Item {
+    
+    public static final String SOUND_THROW = "explosives.smokeshell.throw";
+    public static final String SOUND_BREAK = "explosives.smokeshell.break";
+    
     public SmokeShell() {
         super(Mappings.SMOKESHELL, "Smoke Shell");
         this.setMaxStackAmount(8);
@@ -50,7 +55,10 @@ public class SmokeShell extends Item {
                     EntityType.SPLASH_POTION);
             potion.setVelocity(player.getEyeLocation().getDirection().multiply(
                     1.3f));
+            potion.setShooter(player);
             potion.setMetadata("isSmokeShell", new FlagMetadataValue());
+            
+            Starving.NMS.playNamedSoundEffect(player, SOUND_THROW, player.getLocation(), 1f, 1f);
         }
         return InteractResult.useOne();
     }

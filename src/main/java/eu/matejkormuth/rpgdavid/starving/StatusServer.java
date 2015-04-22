@@ -119,6 +119,7 @@ public class StatusServer extends RepeatingTask {
             }
             json.add("players", playersArray);
             String response = json.toString();
+            t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
