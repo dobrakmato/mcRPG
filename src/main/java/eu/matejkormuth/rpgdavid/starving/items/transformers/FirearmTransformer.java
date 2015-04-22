@@ -26,7 +26,7 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.AK47;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.ColtAnaconda;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.Revolver;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Dragunov;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Glock;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.M16;
@@ -34,7 +34,7 @@ import eu.matejkormuth.rpgdavid.starving.items.firearms.MP5;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Mossberg500;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.NickyAnaconda;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedAK47;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedColtAnaconda;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedRevolver;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedDragunov;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedGlock;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedM16;
@@ -49,8 +49,8 @@ public class FirearmTransformer {
         Item item = Starving.getInstance().getItemManager().findItem(unscoped);
         if (AK47.class.equals(item.getClass())) {
             return createWithLore(ScopedAK47.class, unscoped);
-        } else if (ColtAnaconda.class.equals(item.getClass())) {
-            return createWithLore(ScopedColtAnaconda.class, unscoped);
+        } else if (Revolver.class.equals(item.getClass())) {
+            return createWithLore(ScopedRevolver.class, unscoped);
         } else if (Dragunov.class.equals(item.getClass())) {
             return createWithLore(ScopedDragunov.class, unscoped);
         } else if (Glock.class.equals(item.getClass())) {
@@ -88,8 +88,8 @@ public class FirearmTransformer {
         Item item = Starving.getInstance().getItemManager().findItem(scoped);
         if (ScopedAK47.class.equals(item.getClass())) {
             return createWithLore(AK47.class, scoped);
-        } else if (ScopedColtAnaconda.class.equals(item.getClass())) {
-            return createWithLore(ColtAnaconda.class, scoped);
+        } else if (ScopedRevolver.class.equals(item.getClass())) {
+            return createWithLore(Revolver.class, scoped);
         } else if (ScopedDragunov.class.equals(item.getClass())) {
             return createWithLore(Dragunov.class, scoped);
         } else if (ScopedGlock.class.equals(item.getClass())) {

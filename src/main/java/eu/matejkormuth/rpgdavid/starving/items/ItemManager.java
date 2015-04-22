@@ -95,7 +95,7 @@ import eu.matejkormuth.rpgdavid.starving.items.explosives.Petard;
 import eu.matejkormuth.rpgdavid.starving.items.explosives.RPG7;
 import eu.matejkormuth.rpgdavid.starving.items.explosives.SmokeShell;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.AK47;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.ColtAnaconda;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.Revolver;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Dragunov;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Glock;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.M16;
@@ -103,7 +103,7 @@ import eu.matejkormuth.rpgdavid.starving.items.firearms.MP5;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.Mossberg500;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.NickyAnaconda;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedAK47;
-import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedColtAnaconda;
+import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedRevolver;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedDragunov;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedGlock;
 import eu.matejkormuth.rpgdavid.starving.items.firearms.scoped.ScopedM16;
@@ -248,7 +248,7 @@ public class ItemManager implements Listener {
         this.register(new M16());
         this.register(new Mossberg500());
         this.register(new MP5());
-        this.register(new ColtAnaconda());
+        this.register(new Revolver());
         this.register(new NickyAnaconda());
 
         // Scoped variations.
@@ -258,7 +258,7 @@ public class ItemManager implements Listener {
         this.register(new ScopedM16());
         this.register(new ScopedMossberg500());
         this.register(new ScopedMP5());
-        this.register(new ScopedColtAnaconda());
+        this.register(new ScopedRevolver());
         this.register(new ScopedNickyAnaconda());
     }
 
