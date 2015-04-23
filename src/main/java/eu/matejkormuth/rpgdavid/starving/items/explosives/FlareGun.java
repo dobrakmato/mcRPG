@@ -19,11 +19,80 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.explosives;
 
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
+import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.util.Vector;
+
+import com.darkblade12.particleeffect.ParticleEffect;
+
+import eu.matejkormuth.bukkit.Actions;
+import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
+import eu.matejkormuth.rpgdavid.starving.tasks.RepeatingTask;
 
 public class FlareGun extends Item {
     public FlareGun() {
         super(Mappings.FLAREGUN, "FlareGun");
+    }
+
+    @Override
+    public InteractResult onInteract(Player player, Action action,
+            Block clickedBlock, BlockFace clickedFace) {
+        if (Actions.isRightClick(action)) {
+            new FlareSimTask(player.getEyeLocation(),
+                    player.getEyeLocation().getDirection().multiply(2)).schedule(20L);
+        }
+        return InteractResult.useNone();
+    }
+
+    public class FlareSimTask extends RepeatingTask {
+        private int lifeTime = 0;
+        private boolean burning = false;
+
+        private Location loc;
+        private Vector vel;
+
+        public FlareSimTask(Location spawn, Vector vel) {
+            this.loc = spawn;
+            this.vel = vel;
+        }
+
+        @Override
+        public void run() {
+            if (this.lifeTime >= 10 * 20) {
+                this.cancel();
+            }
+
+            if (!burning && this.lifeTime >= 20 * 3) {
+                burning = true;
+            }
+
+            if (!burning && this.loc.getBlock().getType().isSolid()) {
+                burning = true;
+            }
+
+            if (burning) {
+                Firework f = (Firework) loc.getWorld().spawnEntity(loc,
+                        EntityType.FIREWORK);
+                FireworkMeta fm = f.getFireworkMeta();
+                fm.addEffect(FireworkEffect.builder().withColor(Color.RED).build());
+            } else {
+                ParticleEffect.FLAME.display(0, 0, 0, 0, 1, this.loc,
+                        Double.MAX_VALUE);
+            }
+
+            this.loc.add(vel);
+
+            this.lifeTime++;
+        }
     }
 }

@@ -297,8 +297,25 @@ public abstract class Firearm extends Item {
                         e.damage(9999999D);
                         // TODO: Improve particle effect on headshot.
                     } else {
-                        e.damage(0);
+                        e.damage(4);
                     }
+
+                    // Simulate blood on blocks.
+                    Location loc3 = null;
+                    for (int x = -2; x < 2; x++) {
+                        for (int y = -2; y < 2; y++) {
+                            for (int z = -2; z < 2; z++) {
+
+                                if (Math.random() < 0.25) {
+                                    loc3 = e.getLocation().clone().add(x, y, z);
+                                    if (loc3.getBlock().getType() != Material.AIR) {
+                                        Starving.NMS.displayBloodEffects(loc3);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
         }
