@@ -232,7 +232,7 @@ public class HiddenCommandsListener implements Listener {
             pe.setOffsets(0.5f, 0.1f, 0.5f);
             pe.setDirection(new Vector(0.1f, 0, 0.15f));
             Starving.getInstance().getParticleEmmiters().add(pe);
-            ParticleEmitter pe2 = new ParticleEmitter(new Location(
+            ParticleEmitter pe2 = new ParticleEmitter(new Location( 
                     Bukkit.getWorld("Beta"), 571.5, 68, -235.5), 1f, 80,
                     ParticleEffect.REDSTONE);
             pe2.setOffsets(0.5f, 0.1f, 0.5f);
@@ -242,7 +242,15 @@ public class HiddenCommandsListener implements Listener {
         }
         // Command for testing some random things.
         else if (event.getMessage().contains("/peclear")) {
-            Starving.getInstance().getParticleEmmiters().clear();
+            Starving.getInstance().getParticleEmmiters().clear(); 
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/ason")) {
+            Starving.getInstance().getAmbientSoundManager().addPlayer(event.getPlayer());
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/asoff")) {
+            Starving.getInstance().getAmbientSoundManager().removePlayer(event.getPlayer());
         }
     }
 }

@@ -25,14 +25,14 @@ public class RepeatingSound implements Sound {
 
     private String name;
 
-    public RepeatingSound(String name, long length) {
+    public RepeatingSound(String name) {
         this.name = name;
     }
 
-    public static RepeatingSound[] create(long length, String... sounds) {
+    public static RepeatingSound[] create(String... sounds) {
         RepeatingSound[] rSounds = new RepeatingSound[sounds.length];
         for (int i = 0; i < sounds.length; i++) {
-            rSounds[i] = new RepeatingSound(sounds[i], length);
+            rSounds[i] = new RepeatingSound(sounds[i]);
         }
         return rSounds;
     }

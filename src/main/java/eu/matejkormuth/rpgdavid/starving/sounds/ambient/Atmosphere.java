@@ -31,11 +31,12 @@ public class Atmosphere {
     private int length;
     private String name;
 
-    public Atmosphere(String name, RepeatingSound[] repeatingSounds,
+    public Atmosphere(String name, int length, RepeatingSound[] repeatingSounds,
             RandomSound[] randomSounds) {
         this.repeatingSounds = repeatingSounds;
         this.randomSounds = randomSounds;
         this.name = name;
+        this.length = length;
     }
 
     public long getLength() {

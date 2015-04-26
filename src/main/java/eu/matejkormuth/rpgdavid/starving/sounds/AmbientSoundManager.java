@@ -32,6 +32,15 @@ import eu.matejkormuth.rpgdavid.starving.sounds.ambient.RepeatingSound;
 public class AmbientSoundManager {
     private Map<Player, PlayerChannel> channels;
 
+    // Hardcoded atmospheres.
+    public static final RandomSound[] NO_RANDOM = new RandomSound[] {};
+    public static final Atmosphere WOODS = new Atmosphere("base", 9000,
+            new RepeatingSound[] { new RepeatingSound(
+                    "ambient.birdsonly") }, NO_RANDOM);
+    public static final Atmosphere CAVE = new Atmosphere("cave", 9000,
+            new RepeatingSound[] { new RepeatingSound(
+                    "ambient.cave") }, NO_RANDOM);
+ 
     public AmbientSoundManager() {
         this.channels = new HashMap<Player, PlayerChannel>();
 
@@ -45,10 +54,8 @@ public class AmbientSoundManager {
 
     public void addPlayer(Player player) {
         PlayerChannel ch = new PlayerChannel(player);
-        this.channels.put(player, ch);
-        ch.setAtmosphere(new Atmosphere("base",
-                new RepeatingSound[] { new RepeatingSound(
-                        "ambient.birdsandriver", 14500) }, new RandomSound[] {}));
+        this.channels.put(player, ch); 
+        ch.setAtmosphere(WOODS);
 
     }
 

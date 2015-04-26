@@ -48,7 +48,7 @@ public class PlayerChannel {
     }
 
     private void playRandom() {
-        for (RandomSound rs : currentAtmosphere.getRandomSounds()) {
+       for (RandomSound rs : currentAtmosphere.getRandomSounds()) {
             if (random.nextFloat() <= rs.getChance()) {
                 rs.play(this.player, this.player.getLocation(),
                         Float.MAX_VALUE, 1);
