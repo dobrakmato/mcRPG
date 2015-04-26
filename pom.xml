@@ -98,11 +98,7 @@
           </execution>
         </executions>
         <configuration>
-          <soundsIn>src/main/resources/starving/sounds.txt</soundsIn>
           <itemsIn>src/main/resources/starving/items.mapping</itemsIn>
-          <atmospheresIn>src/main/resources/starving/atmospheres.txt</atmospheresIn>
-          <soundsOut>src/main/java/eu/matejkormuth/rpgdavid/starving/sounds/lists/Sounds.java</soundsOut>
-          <atmospheresOut>src/main/java/eu/matejkormuth/rpgdavid/starving/sounds/lists/Atmospheres.java</atmospheresOut>
           <itemsOut>src/main/java/eu/matejkormuth/rpgdavid/starving/items/Mappings.java</itemsOut>
         </configuration>
       </plugin>

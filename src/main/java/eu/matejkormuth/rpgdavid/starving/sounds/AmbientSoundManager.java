@@ -24,42 +24,35 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 
-import eu.matejkormuth.rpgdavid.starving.sounds.lists.Atmospheres;
+import eu.matejkormuth.rpgdavid.starving.sounds.ambient.Atmosphere;
+import eu.matejkormuth.rpgdavid.starving.sounds.ambient.PlayerChannel;
+import eu.matejkormuth.rpgdavid.starving.sounds.ambient.RandomSound;
+import eu.matejkormuth.rpgdavid.starving.sounds.ambient.RepeatingSound;
 
 public class AmbientSoundManager {
-    public static final long CROSSFADE_LENGTH = 750L; // 750 ms
-
-    private Configuration configuration;
-
-    private Map<Player, Channel> channels;
+    private Map<Player, PlayerChannel> channels;
 
     public AmbientSoundManager() {
-        this.configuration = new Configuration();
-        this.channels = new HashMap<Player, Channel>();
+        this.channels = new HashMap<Player, PlayerChannel>();
+
     }
 
     public void update() {
-        for (Channel channel : this.channels.values()) {
-            if (channel.shouldPlayNext()) {
-                // Find right atmosphere and play it..
-                channel.play(this.configuration.getAtmosphere(channel
-                        .getPlayer()));
-            }
+        for (PlayerChannel channel : this.channels.values()) {
+            channel.update();
         }
     }
 
     public void addPlayer(Player player) {
-        this.channels.put(player, new Channel(player));
+        PlayerChannel ch = new PlayerChannel(player);
+        this.channels.put(player, ch);
+        ch.setAtmosphere(new Atmosphere("base",
+                new RepeatingSound[] { new RepeatingSound(
+                        "ambient.birdsandriver", 14500) }, new RandomSound[] {}));
+
     }
 
     public void removePlayer(Player player) {
         this.channels.remove(player);
-    }
-
-    private class Configuration {
-        
-        private Atmosphere getAtmosphere(final Player player) {
-            return Atmospheres.WOODS_CALM;
-        }
     }
 }

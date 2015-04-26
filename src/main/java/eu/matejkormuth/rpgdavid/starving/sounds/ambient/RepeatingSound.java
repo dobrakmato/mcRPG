@@ -24,11 +24,9 @@ import eu.matejkormuth.rpgdavid.starving.sounds.Sound;
 public class RepeatingSound implements Sound {
 
     private String name;
-    private long length;
 
     public RepeatingSound(String name, long length) {
         this.name = name;
-        this.length = length;
     }
 
     public static RepeatingSound[] create(long length, String... sounds) {
@@ -43,9 +41,4 @@ public class RepeatingSound implements Sound {
     public String getName() {
         return this.name;
     }
-
-    public long getLength() {
-        return length;
-    }
-
 }

@@ -28,28 +28,18 @@ public class Atmosphere {
 
     private RepeatingSound[] repeatingSounds;
     private RandomSound[] randomSounds;
+    private int length;
     private String name;
-    private long cachedLength;
 
     public Atmosphere(String name, RepeatingSound[] repeatingSounds,
             RandomSound[] randomSounds) {
         this.repeatingSounds = repeatingSounds;
-
-        long refLength = repeatingSounds[0].getLength();
-        for (RepeatingSound rs : repeatingSounds) {
-            if (rs.getLength() != refLength) {
-                throw new IllegalArgumentException(
-                        "All repeating sounds must have same length!");
-            }
-        }
-        this.cachedLength = refLength;
-
         this.randomSounds = randomSounds;
         this.name = name;
     }
 
     public long getLength() {
-        return cachedLength;
+        return length;
     }
 
     public String getName() {
