@@ -21,9 +21,12 @@ package eu.matejkormuth.rpgdavid.starving.sounds;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.sounds.ambient.Atmosphere;
 import eu.matejkormuth.rpgdavid.starving.sounds.ambient.PlayerChannel;
 import eu.matejkormuth.rpgdavid.starving.sounds.ambient.RandomSound;
@@ -40,7 +43,10 @@ public class AmbientSoundManager {
     public static final Atmosphere CAVE = new Atmosphere("cave", 9000,
             new RepeatingSound[] { new RepeatingSound(
                     "ambient.cave") }, NO_RANDOM);
- 
+    public static final Atmosphere INTERIOR = new Atmosphere("interior", 5000,
+            new RepeatingSound[] { new RepeatingSound(
+                    "ambient.sum") }, NO_RANDOM);
+
     public AmbientSoundManager() {
         this.channels = new HashMap<Player, PlayerChannel>();
 
@@ -50,16 +56,43 @@ public class AmbientSoundManager {
         for (PlayerChannel channel : this.channels.values()) {
             channel.update();
         }
+
+        if (Starving.ticksElapsed.get() % 20 == 0) {
+            this.updateAtmospheres();
+        }
     }
 
     public void addPlayer(Player player) {
         PlayerChannel ch = new PlayerChannel(player);
-        this.channels.put(player, ch); 
-        ch.setAtmosphere(WOODS);
-
+        this.channels.put(player, ch);
+        ch.setAtmosphere(determinateAtmospehre(player));
     }
 
     public void removePlayer(Player player) {
         this.channels.remove(player);
+    }
+
+    public void updateAtmospheres() {
+        for (Entry<Player, PlayerChannel> p : channels.entrySet()) {
+            Atmosphere a = determinateAtmospehre(p.getKey());
+            p.getValue().setAtmosphere(a);
+        }
+    }
+
+    private Atmosphere determinateAtmospehre(Player key) {
+        Block b = key.getWorld().getHighestBlockAt(key.getLocation());
+        if (b.getLocation().getY() > key.getLocation().getY()) {
+            if (key.getLocation().getY() < 64) {
+                return CAVE;
+            } else {
+                return INTERIOR;
+            }
+        } else {
+            return WOODS;
+        }
+    }
+
+    public void clear() {
+        this.channels.clear();
     }
 }

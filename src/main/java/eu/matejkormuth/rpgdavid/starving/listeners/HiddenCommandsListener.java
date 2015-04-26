@@ -252,5 +252,9 @@ public class HiddenCommandsListener implements Listener {
         else if (event.getMessage().contains("/asoff")) {
             Starving.getInstance().getAmbientSoundManager().removePlayer(event.getPlayer());
         }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/asclear")) {
+            Starving.getInstance().getAmbientSoundManager().clear();
+        }
     }
 }
