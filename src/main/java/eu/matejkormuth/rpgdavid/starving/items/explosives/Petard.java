@@ -21,6 +21,8 @@ package eu.matejkormuth.rpgdavid.starving.items.explosives;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +32,7 @@ import com.darkblade12.particleeffect.ParticleEffect;
 import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.bukkit.ItemDrops;
 import eu.matejkormuth.bukkit.Items;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
@@ -50,9 +53,20 @@ public class Petard extends Item {
                     is);
             i.setPickupDelay(Time.ofSeconds(6).toTicks());
             i.setVelocity(player.getEyeLocation().getDirection());
+            // Play sound.
+            for (Entity e : player.getNearbyEntities(32, 32, 32)) {
+                if (e.getType() == EntityType.PLAYER) {
+                    Starving.NMS.playNamedSoundEffect((Player) e,
+                            "pyrotechnics.petard.burn",
+                            player.getLocation(), 1.5f, 1f);
+                }
+            }
+            Starving.NMS.playNamedSoundEffect(player,
+                    "pyrotechnics.petard.burn",
+                    player.getLocation(), 1.5f, 1f);
 
             // edit
-            
+
             new RepeatingTask() {
                 private int ticks = 0;
 
@@ -60,15 +74,27 @@ public class Petard extends Item {
                 public void run() {
                     if (ticks >= 20 * 5) {
                         this.cancel();
-                        this.explode();   
+                        this.explode();
                     }
                     ParticleEffect.FLAME.display(0.1f, 0.1f, 0.1f, 0, 1,
-                            i.getLocation(), Double.MAX_VALUE);
+                            i.getLocation().add(0, 0.3, 0), Double.MAX_VALUE);
                     ticks++;
                 }
 
                 private void explode() {
-                    i.getWorld().createExplosion(i.getLocation(), 0.001f);
+                    ParticleEffect.FLAME.display(0.1f, 0.1f, 0.1f, 0.5f, 100,
+                            i.getLocation(), Double.MAX_VALUE);
+                    // Play sound.
+                    Starving.NMS.playNamedSoundEffect(player,
+                            "pyrotechnics.petard.explosion",
+                            player.getLocation(), 1.5f, 1f);
+                    for (Entity e : player.getNearbyEntities(32, 32, 32)) {
+                        if (e.getType() == EntityType.PLAYER) {
+                            Starving.NMS.playNamedSoundEffect((Player) e,
+                                    "pyrotechnics.petard.explosion",
+                                    player.getLocation(), 1f, 1f);
+                        }
+                    }
                     i.remove();
                 }
             }.schedule(1L);

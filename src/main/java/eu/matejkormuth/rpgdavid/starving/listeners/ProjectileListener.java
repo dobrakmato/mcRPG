@@ -23,10 +23,12 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
@@ -69,13 +71,22 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
         } else if (event.getEntity() instanceof ThrownPotion) {
             if (event.getEntity().hasMetadata("isMolotov")) {
                 Block b = event.getEntity().getLocation().getBlock();
-                if(b.getType() != Material.AIR) {
+                if (b.getType() != Material.AIR) {
                     b = b.getRelative(BlockFace.UP);
                 }
-                if(b.getType() == Material.AIR) {
+                if (b.getType() == Material.AIR) {
                     b.setType(Material.FIRE);
                 }
-                
+
+                // Play sound.
+                for (Entity e : event.getEntity().getNearbyEntities(32, 32, 32)) {
+                    if (e.getType() == EntityType.PLAYER) {
+                        Starving.NMS.playNamedSoundEffect((Player) e,
+                                "pyrotechnics.molotov.break",
+                                event.getEntity().getLocation(), 1.5f, 1f);
+                    }
+                }
+
                 for (int i = 0; i < 30; i++) {
                     FallingBlock block = event.getEntity().getWorld().spawnFallingBlock(
                             event.getEntity().getLocation().add(0, 0.5f, 0),
@@ -86,6 +97,14 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
                 }
             } else if (event.getEntity().hasMetadata("isSmokeShell")) {
                 final Location location = event.getEntity().getLocation();
+                // Play sound.
+                for (Entity e : event.getEntity().getNearbyEntities(32, 32, 32)) {
+                    if (e.getType() == EntityType.PLAYER) {
+                        Starving.NMS.playNamedSoundEffect((Player) e,
+                                "pyrotechnics.smokeshell.burn",
+                                event.getEntity().getLocation(), 1.5f, 1f);
+                    }
+                }
                 RepeatingTask spawnParticles = new RepeatingTask() {
                     private int count = 0;
 
@@ -97,11 +116,11 @@ public class ProjectileListener extends AbstractPersistable implements Listener 
                         this.spawn();
                         this.soundEffect();
                         this.count++;
-                    }
+                    } 
 
                     private void soundEffect() {
-                        location.getWorld().playSound(location, Sound.FIZZ, 1f,
-                                1f);
+                        //location.getWorld().playSound(location, Sound.FIZZ, 1f,
+                        //        1f);
                     }
 
                     private void spawn() {

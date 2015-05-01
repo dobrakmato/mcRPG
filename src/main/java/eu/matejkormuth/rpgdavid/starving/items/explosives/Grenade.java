@@ -19,9 +19,10 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.explosives;
 
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +30,7 @@ import org.bukkit.inventory.ItemStack;
 import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.bukkit.ItemDrops;
 import eu.matejkormuth.rpgdavid.starving.Scheduler;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.items.InteractResult;
 import eu.matejkormuth.rpgdavid.starving.items.Mappings;
@@ -49,7 +51,17 @@ public class Grenade extends Item {
         if (Actions.isRightClick(action)) {
             // Throw grenade.
 
-            player.playSound(player.getLocation(), Sound.FIZZ, 1, 1);
+            // Play sound.
+            Starving.NMS.playNamedSoundEffect(player,
+                    "pyrotechnics.grenade.throw",
+                    player.getLocation(), 1.5f, 1f);
+            for (Entity e : player.getNearbyEntities(32, 32, 32)) {
+                if (e.getType() == EntityType.PLAYER) {
+                    Starving.NMS.playNamedSoundEffect((Player) e,
+                            "pyrotechnics.grenade.throw",
+                            player.getLocation(), 1.5f, 1f);
+                }
+            }
 
             ItemStack itemStack = new ItemStack(Mappings.GRENADE.getMaterial(),
                     1);
@@ -62,9 +74,19 @@ public class Grenade extends Item {
 
             // Schedule explosion.
             Scheduler.delay(() -> {
-                drop.getWorld().createExplosion(drop.getLocation(), 0.01f);
-                drop.remove();
-            }, Time.ofSeconds(5));
+                // Play sound.
+                    Starving.NMS.playNamedSoundEffect(player,
+                            "pyrotechnics.grenade.explode",
+                            player.getLocation(), 1.5f, 1f);
+                    for (Entity e : player.getNearbyEntities(32, 32, 32)) {
+                        if (e.getType() == EntityType.PLAYER) {
+                            Starving.NMS.playNamedSoundEffect((Player) e,
+                                    "pyrotechnics.grenade.explode",
+                                    player.getLocation(), 1.5f, 1f);
+                        }
+                    }
+                    drop.remove();
+                }, Time.ofSeconds(5));
         }
         return InteractResult.useOne();
     }

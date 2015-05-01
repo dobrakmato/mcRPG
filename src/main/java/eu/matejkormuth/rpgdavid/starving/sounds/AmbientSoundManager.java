@@ -37,12 +37,19 @@ public class AmbientSoundManager {
 
     // Hardcoded atmospheres.
     public static final RandomSound[] NO_RANDOM = new RandomSound[] {};
+    
     public static final Atmosphere WOODS = new Atmosphere("base", 9000,
             new RepeatingSound[] { new RepeatingSound(
                     "ambient.birdsonly") }, NO_RANDOM);
+    
+    public static final Atmosphere CRICKETS = new Atmosphere("crickets", 12750,
+            new RepeatingSound[] { new RepeatingSound(
+                    "ambient.crickets") }, NO_RANDOM);
+    
     public static final Atmosphere CAVE = new Atmosphere("cave", 9000,
             new RepeatingSound[] { new RepeatingSound(
                     "ambient.cave") }, NO_RANDOM);
+    
     public static final Atmosphere INTERIOR = new Atmosphere("interior", 5000,
             new RepeatingSound[] { new RepeatingSound(
                     "ambient.sum") }, NO_RANDOM);
@@ -82,13 +89,17 @@ public class AmbientSoundManager {
     private Atmosphere determinateAtmospehre(Player key) {
         Block b = key.getWorld().getHighestBlockAt(key.getLocation());
         if (b.getLocation().getY() > key.getLocation().getY()) {
-            if (key.getLocation().getY() < 64) {
+            if (key.getLocation().getY() < 50) {
                 return CAVE;
             } else {
                 return INTERIOR;
             }
         } else {
-            return WOODS;
+            if (key.getWorld().getTime() > 12000) {
+                return CRICKETS;
+            } else {
+                return WOODS;
+            }
         }
     }
 

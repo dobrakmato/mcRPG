@@ -21,6 +21,7 @@ package eu.matejkormuth.rpgdavid.starving.items.explosives;
 
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -49,7 +50,7 @@ public class FlareGun extends Item {
             Block clickedBlock, BlockFace clickedFace) {
         if (Actions.isRightClick(action)) {
             new FlareSimTask(player.getEyeLocation(),
-                    player.getEyeLocation().getDirection().multiply(2)).schedule(20L);
+                    player.getEyeLocation().getDirection().multiply(1.2)).schedule(1L);
         }
         return InteractResult.useNone();
     }
@@ -72,11 +73,17 @@ public class FlareGun extends Item {
                 this.cancel();
             }
 
-            if (!burning && this.lifeTime >= 20 * 3) {
+            if (!burning && this.lifeTime >= 20 * 2) {
                 burning = true;
             }
 
-            if (!burning && this.loc.getBlock().getType().isSolid()) {
+            boolean insideBlock = this.loc.getBlock().getType().isSolid();
+            
+            if (!burning && insideBlock) {
+                burning = true;
+            }
+            
+            if (!burning && this.loc.getBlockY() > 120) {
                 burning = true;
             }
 
@@ -84,13 +91,20 @@ public class FlareGun extends Item {
                 Firework f = (Firework) loc.getWorld().spawnEntity(loc,
                         EntityType.FIREWORK);
                 FireworkMeta fm = f.getFireworkMeta();
-                fm.addEffect(FireworkEffect.builder().withColor(Color.RED).build());
+                if(Math.random() > 0.9) {
+                    fm.addEffect(FireworkEffect.builder().withColor(Color.RED).build());
+                } else {
+                    fm.addEffect(FireworkEffect.builder().withColor(Color.RED).with(Type.BALL_LARGE).build());
+                }
+                f.setFireworkMeta(fm);
             } else {
                 ParticleEffect.FLAME.display(0, 0, 0, 0, 1, this.loc,
                         Double.MAX_VALUE);
             }
 
-            this.loc.add(vel);
+            if(!insideBlock && this.loc.getY() < 256 + 64) {
+                this.loc.add(vel);
+            }
 
             this.lifeTime++;
         }

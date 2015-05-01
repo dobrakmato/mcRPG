@@ -84,12 +84,12 @@ public abstract class Firearm extends Item {
         this.setMaxStackAmount(1);
 
         // Setup sounds.
-        this.reloadSound = this
+        this.reloadSound = "firearms." + this
                 .getClass()
-                .getSimpleName() + "_reload";
-        this.fireSound = this
+                .getSimpleName().toLowerCase() + ".reload";
+        this.fireSound = "firearms." + this
                 .getClass()
-                .getSimpleName() + "_fire";
+                .getSimpleName().toLowerCase() + ".fire";
     }
 
     protected void setAmmoType(AmunitionType ammoType) {
