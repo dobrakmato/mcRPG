@@ -38,6 +38,7 @@ public class PlayerChannel {
 
     public void setAtmosphere(Atmosphere atmosphere) {
         this.currentAtmosphere = atmosphere;
+        this.playRepeating();
     }
 
     private void playRepeating() {

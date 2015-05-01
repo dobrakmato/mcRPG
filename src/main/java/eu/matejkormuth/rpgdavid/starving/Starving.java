@@ -156,7 +156,7 @@ public class Starving implements Runnable, Listener {
 
     private Configuration warpsConfig;
 
-    private String tabListHeader = "Welcome to &cStarving 2.0!";
+    private String tabListHeader = "Welcome to &2Starving 2.0!";
     private String tabListFooter = "http://www.starving.eu";
 
     private List<Object> registered;
@@ -549,6 +549,8 @@ public class Starving implements Runnable, Listener {
                     .setResourcePack(
                             "http://www.starving.eu/2/rp/empty.zip");
         }
+        
+        this.ambientSoundManager.addPlayer(event.getPlayer());
     }
 
     @EventHandler
@@ -557,6 +559,8 @@ public class Starving implements Runnable, Listener {
         Data.of(event.getPlayer())
                 .uncache()
                 .save();
+        
+       this.ambientSoundManager.removePlayer(event.getPlayer());
     }
 
     @EventHandler

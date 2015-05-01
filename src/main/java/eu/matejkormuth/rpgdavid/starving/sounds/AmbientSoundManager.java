@@ -19,9 +19,9 @@
  */
 package eu.matejkormuth.rpgdavid.starving.sounds;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -55,13 +55,17 @@ public class AmbientSoundManager {
                     "ambient.sum") }, NO_RANDOM);
 
     public AmbientSoundManager() {
-        this.channels = new HashMap<Player, PlayerChannel>();
+        this.channels = new WeakHashMap<Player, PlayerChannel>();
 
     }
 
     public void update() {
         for (PlayerChannel channel : this.channels.values()) {
-            channel.update();
+            try {
+                channel.update();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
         }
 
         if (Starving.ticksElapsed.get() % 20 == 0) {
@@ -88,7 +92,7 @@ public class AmbientSoundManager {
 
     private Atmosphere determinateAtmospehre(Player key) {
         Block b = key.getWorld().getHighestBlockAt(key.getLocation());
-        if (b.getLocation().getY() > key.getLocation().getY()) {
+        if (b.getLocation().getY() > key.getEyeLocation().getY()) {
             if (key.getLocation().getY() < 50) {
                 return CAVE;
             } else {
