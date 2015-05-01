@@ -69,4 +69,8 @@ public class PlayerChannel {
     private static long timeStamp() {
         return System.currentTimeMillis();
     }
+
+    public Atmosphere getAtmosphere() {
+        return this.currentAtmosphere;
+    }
 }

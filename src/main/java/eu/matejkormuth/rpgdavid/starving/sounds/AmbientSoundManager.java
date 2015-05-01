@@ -86,7 +86,9 @@ public class AmbientSoundManager {
     public void updateAtmospheres() {
         for (Entry<Player, PlayerChannel> p : channels.entrySet()) {
             Atmosphere a = determinateAtmospehre(p.getKey());
-            p.getValue().setAtmosphere(a);
+            if(p.getValue().getAtmosphere() != a) {
+                p.getValue().setAtmosphere(a);
+            }
         }
     }
 
