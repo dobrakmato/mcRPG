@@ -120,6 +120,7 @@ import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushSizeCommandExecu
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushTypeCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterPropertyCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.zombie.TempZombieManager;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
 @NMSHooks(version = "v1_8_R2")
@@ -303,6 +304,8 @@ public class Starving implements Runnable, Listener {
                 .schedule(20L);
         this.register(new ScoreboardUpdater())
                 .schedule(20L);
+        this.register(new TempZombieManager())
+                .schedule(40L);
         this.register(new HallucinationsTask())
                 .schedule(200L);
 
