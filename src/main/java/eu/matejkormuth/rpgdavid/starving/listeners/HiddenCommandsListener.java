@@ -58,6 +58,7 @@ import eu.matejkormuth.rpgdavid.starving.items.comparators.ItemNameComparator;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
 import eu.matejkormuth.rpgdavid.starving.particles.ParticleEmitter;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
+import eu.matejkormuth.rpgdavid.starving.zombie.TempZombieManager;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieWithDog;
 
 public class HiddenCommandsListener implements Listener {
@@ -232,29 +233,76 @@ public class HiddenCommandsListener implements Listener {
             pe.setOffsets(0.5f, 0.1f, 0.5f);
             pe.setDirection(new Vector(0.1f, 0, 0.15f));
             Starving.getInstance().getParticleEmmiters().add(pe);
-            ParticleEmitter pe2 = new ParticleEmitter(new Location( 
+            ParticleEmitter pe2 = new ParticleEmitter(new Location(
                     Bukkit.getWorld("Beta"), 571.5, 68, -235.5), 1f, 80,
                     ParticleEffect.REDSTONE);
             pe2.setOffsets(0.5f, 0.1f, 0.5f);
             pe2.setColor(new ParticleEffect.OrdinaryColor(255, 0, 255));
-            //pe2.setDirection(new Vector(0.1f, 0, 0.15f));
+            // pe2.setDirection(new Vector(0.1f, 0, 0.15f));
             Starving.getInstance().getParticleEmmiters().add(pe2);
         }
         // Command for testing some random things.
         else if (event.getMessage().contains("/peclear")) {
-            Starving.getInstance().getParticleEmmiters().clear(); 
+            Starving.getInstance().getParticleEmmiters().clear();
         }
         // Command for testing some random things.
         else if (event.getMessage().contains("/ason")) {
-            Starving.getInstance().getAmbientSoundManager().addPlayer(event.getPlayer());
+            Starving.getInstance().getAmbientSoundManager().addPlayer(
+                    event.getPlayer());
         }
         // Command for testing some random things.
         else if (event.getMessage().contains("/asoff")) {
-            Starving.getInstance().getAmbientSoundManager().removePlayer(event.getPlayer());
+            Starving.getInstance().getAmbientSoundManager().removePlayer(
+                    event.getPlayer());
         }
         // Command for testing some random things.
         else if (event.getMessage().contains("/asclear")) {
             Starving.getInstance().getAmbientSoundManager().clear();
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/kokot")) {
+            new TempZombieManager().schedule(20L);
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/nearentites")) {
+            for (Entity e : event.getPlayer().getNearbyEntities(3, 3, 3)) {
+                event.getPlayer().sendMessage(
+                        e.getEntityId()
+                                + "|"
+                                + e.getType().name()
+                                + "|"
+                                + e.getLocation().distance(
+                                        event.getPlayer().getLocation()));
+            }
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/stack")) {
+            event.getPlayer().sendMessage("/stack <entity> <passenger>");
+            String[] parts = event.getMessage().split(" ");
+            int id1 = Integer.valueOf(parts[1]);
+            int id2 = Integer.valueOf(parts[2]);
+            Entity e1 = null;
+            Entity e2 = null;
+            for (Entity e : event.getPlayer().getWorld().getEntities()) {
+                if (e.getEntityId() == id1) {
+                    e1 = e;
+                }
+
+                if (e.getEntityId() == id2) {
+                    e2 = e;
+                }
+            }
+
+            if (e1 == null || e2 == null) {
+                event.getPlayer().sendMessage("Bad entity");
+            }
+
+            if (e1 == e2) {
+                event.getPlayer().sendMessage("Entities must not be same");
+                return;
+            }
+
+            e1.setPassenger(e2);
         }
     }
 }
