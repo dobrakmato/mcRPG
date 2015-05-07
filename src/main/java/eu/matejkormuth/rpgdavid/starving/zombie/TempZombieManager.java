@@ -21,20 +21,19 @@ package eu.matejkormuth.rpgdavid.starving.zombie;
 
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.util.Vector;
 
-import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.Region;
 import eu.matejkormuth.rpgdavid.starving.tasks.RepeatingTask;
 
 public class TempZombieManager extends RepeatingTask {
-    private World world = Worlds.by("Beta");
+    private World world = Bukkit.getWorld("Beta");
     private Vector regionStart = new Vector(558, 25, -269);
     private Vector regionEnd = new Vector(758, 70, -69);
     private Region region = new Region(regionStart, regionEnd, world);
@@ -42,8 +41,16 @@ public class TempZombieManager extends RepeatingTask {
 
     @Override
     public void run() {
+        if (this.world == null) {
+            this.world = Bukkit.getWorld("Beta");
+        }
+
+        if (Bukkit.getOnlinePlayers().size() < 1) {
+            return;
+        }
+
         int zcount = countZombies();
-        int target = 100;
+        int target = 30;
         int needed = target - zcount;
         for (int i = 0; i < needed; i++) {
             spawn();
@@ -58,30 +65,28 @@ public class TempZombieManager extends RepeatingTask {
     }
 
     private Location randLoc() {
-        int x = 0;
-        int z = 0;
-        if (random.nextBoolean()) {
-            if (random.nextBoolean()) {
-                x = this.region.getMinXFloor() + random.nextInt(10);
-                z = this.region.getMinZFloor() + random.nextInt(10);
-            } else {
-                x = this.region.getMaxXFloor() - random.nextInt(10);
-                z = this.region.getMaxZFloor() - random.nextInt(10);
-            }
-        } else {
-            if (random.nextBoolean()) {
-                x = this.region.getMinXFloor() + random.nextInt(10);
-                z = this.region.getMaxZFloor() - random.nextInt(10);
-            } else {
-                x = this.region.getMaxXFloor() - random.nextInt(10);
-                z = this.region.getMinZFloor() + random.nextInt(10);
-            }
-        }
+        int x = this.region.getMinXFloor() + random.nextInt(200);
+        int z = this.region.getMinZFloor() + random.nextInt(200);
+
+        /*
+         * int x = 0; int z = 0; if (random.nextBoolean()) { if
+         * (random.nextBoolean()) { x = this.region.getMinXFloor() +
+         * random.nextInt(this.region.getMaxXFloor() -
+         * this.region.getMinXFloor()); z = this.region.getMinZFloor() +
+         * random.nextInt(10); } else { x = this.region.getMaxXFloor() -
+         * random.nextInt(10); z = this.region.getMaxZFloor() -
+         * random.nextInt(10); } } else { if (random.nextBoolean()) { x =
+         * this.region.getMinXFloor() + random.nextInt(10); z =
+         * this.region.getMaxZFloor() - random.nextInt(10); } else { x =
+         * this.region.getMaxXFloor() - random.nextInt(10); z =
+         * this.region.getMinZFloor() + random.nextInt(10); } }
+         */
 
         int y = findY(x, z);
         if (y == -1) {
             return null;
         }
+        // int y = 80;
 
         return new Location(world, x, y, z);
     }
@@ -92,19 +97,13 @@ public class TempZombieManager extends RepeatingTask {
         for (; i < 255; i++) {
             b = world.getBlockAt(x, i, z);
             if (b.getType() == Material.GRASS) {
-                return i + 1;
+                return i + 2;
             }
         }
         return -1;
     }
 
     private int countZombies() {
-        int count = 0;
-        for (Entity z : world.getEntitiesByClasses(Zombie.class)) {
-            if (region.isInside(z.getLocation().toVector())) {
-                count++;
-            }
-        }
-        return count;
+        return world.getEntitiesByClasses(org.bukkit.entity.Zombie.class).size();
     }
 }

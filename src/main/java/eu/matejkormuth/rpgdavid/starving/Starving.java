@@ -305,7 +305,7 @@ public class Starving implements Runnable, Listener {
         this.register(new ScoreboardUpdater())
                 .schedule(20L);
         this.register(new TempZombieManager())
-                .schedule(40L);
+                .schedule(20 * 30L);
         this.register(new HallucinationsTask())
                 .schedule(200L);
 
