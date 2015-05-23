@@ -53,7 +53,7 @@ public class Crossbow extends Item {
         } else {
             // Player has no arrows.
             player.sendMessage(ChatColor.RED
-                    + "Crossbow is loaded with arrows!");
+                    + "You don't have any arrows!");
         }
 
         return InteractResult.transform();
