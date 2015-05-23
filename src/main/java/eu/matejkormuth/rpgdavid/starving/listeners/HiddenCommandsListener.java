@@ -264,7 +264,7 @@ public class HiddenCommandsListener implements Listener {
             new TempZombieManager().schedule(20L);
         }
         // Command for testing some random things.
-        else if (event.getMessage().contains("/nearentites")) {
+        else if (event.getMessage().contains("/nearentities")) {
             for (Entity e : event.getPlayer().getNearbyEntities(3, 3, 3)) {
                 event.getPlayer().sendMessage(
                         e.getEntityId()
