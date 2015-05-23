@@ -1255,7 +1255,7 @@ public enum ParticleEffect {
      * @author DarkBlade12
      * @since 1.6
      */
-    public static abstract class ParticleData {
+    public static class ParticleData {
         private final Material material;
         private final byte data;
         private final int[] packetData;

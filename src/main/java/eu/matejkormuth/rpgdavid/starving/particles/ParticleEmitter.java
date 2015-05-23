@@ -43,6 +43,8 @@ public class ParticleEmitter {
     private float offsetX;
     private float offsetY;
     private float offsetZ;
+    
+    private boolean showLines;
 
     public ParticleEmitter(Location location, float speed, int amount,
             ParticleEffect effect) {
@@ -170,6 +172,14 @@ public class ParticleEmitter {
         this.amount = amount;
     }
 
+    public void setShowLines(boolean showLines) {
+        this.showLines = showLines;
+    }
+    
+    public boolean isShowLines() {
+        return this.showLines;
+    }
+    
     public boolean isDirectional() {
         return this.effect.hasProperty(ParticleProperty.DIRECTIONAL);
     }
