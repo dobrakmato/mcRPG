@@ -23,9 +23,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 
 public class StaminaRegenerationTask extends RepeatingTask implements
         Persistable {
@@ -40,6 +41,11 @@ public class StaminaRegenerationTask extends RepeatingTask implements
     public void run() {
         Data d = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
+            
+            if(p.getGameMode() == Starving.ADMIN_MODE) {
+                continue;
+            }
+            
             d = Data.of(p);
             if (d.getStamina() + STAMINA_INCREMENT < d.getStaminaCapacity()) {
                 d.incrementStamina(STAMINA_INCREMENT);

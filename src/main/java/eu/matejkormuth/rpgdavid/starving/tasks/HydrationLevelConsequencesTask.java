@@ -23,12 +23,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public class HydrationLevelConsequencesTask extends RepeatingTask {
     @Override
     public void run() {
         Data d = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
+
+            if (p.getGameMode() == Starving.ADMIN_MODE) {
+                continue;
+            }
+
             d = Data.of(p);
 
             // Player gets hallucinations when dehydrated.

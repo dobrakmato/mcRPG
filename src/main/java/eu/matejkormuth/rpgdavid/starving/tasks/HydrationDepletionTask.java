@@ -37,6 +37,11 @@ public class HydrationDepletionTask extends RepeatingTask {
         // Lower hydration by one each second.
         Data d = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
+
+            if (p.getGameMode() == Starving.ADMIN_MODE) {
+                continue;
+            }
+
             d = Data.of(p);
 
             float hydration = d.getHydrationLevel();

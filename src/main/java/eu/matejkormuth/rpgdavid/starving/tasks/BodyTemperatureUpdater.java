@@ -25,9 +25,10 @@ import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.EnviromentType;
-import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
+import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 
 public class BodyTemperatureUpdater extends RepeatingTask implements
         Persistable {
@@ -45,6 +46,11 @@ public class BodyTemperatureUpdater extends RepeatingTask implements
     public void run() {
         Data d = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
+
+            if (p.getGameMode() == Starving.ADMIN_MODE) {
+                continue;
+            }
+
             d = Data.of(p);
             float temp = d.getBodyTemperature();
 

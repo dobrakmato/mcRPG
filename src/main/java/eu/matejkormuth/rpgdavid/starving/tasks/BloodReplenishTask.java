@@ -23,6 +23,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
@@ -34,6 +35,11 @@ public class BloodReplenishTask extends RepeatingTask implements Persistable {
     @Override
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
+
+            if (p.getGameMode() == Starving.ADMIN_MODE) {
+                continue;
+            }
+
             Data.of(p).incrementBloodLevel(BLOOD_REPLENISH_AMOUNT);
         }
     }

@@ -35,6 +35,11 @@ public class BloodLevelConsuquencesTask extends RepeatingTask {
     public void run() {
         float amount = 0;
         for (Player p : Bukkit.getOnlinePlayers()) {
+
+            if (p.getGameMode() == Starving.ADMIN_MODE) {
+                continue;
+            }
+
             amount = Data.of(p).getBloodLevel();
 
             if (amount < 2000) {

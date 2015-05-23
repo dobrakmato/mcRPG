@@ -45,6 +45,7 @@ import net.minecraft.server.v1_8_R2.PacketPlayOutUpdateTime;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
@@ -126,6 +127,7 @@ import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 @NMSHooks(version = "v1_8_R2")
 public class Starving implements Runnable, Listener {
 
+    public static final GameMode ADMIN_MODE = GameMode.CREATIVE;
     // Ticks elapsed since server start.
     public static AtomicLong ticksElapsed = new AtomicLong();
 

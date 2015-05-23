@@ -49,7 +49,7 @@ public class TablistFooterClockTask extends RepeatingTask {
         long timeOfDay = updater.getFullTime() % MINECRAFT_DAY_LENGTH;
         double time = timeOfDay / 1000;
         long hours = (long) Math.floor(time);
-        long minutes = (long) time - hours * 60;
+        long minutes = (long) (time - hours) * 60;
         if (hours < 10) {
             if (minutes < 10) {
                 return "0" + hours + ":0" + minutes;
