@@ -36,6 +36,11 @@ public class PlayerDeathListener implements Listener {
     @EventHandler
     private void onPlayerDeath(final EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {
+
+            Bukkit.broadcastMessage("Debug: Player "
+                    + event.getEntity().getName() + " died because "
+                    + event.getCause());
+
             if (((Damageable) event.getEntity()).getHealth()
                     - event.getDamage() <= 0) {
                 boolean canceled = this.shouldBeCanceled((Player) event
