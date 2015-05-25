@@ -443,6 +443,9 @@ public class Starving implements Runnable, Listener {
             this.warpsConfig.save();
         }
 
+        // Save particle emmiters.
+        this.particleEmmiters.save();
+        
         // Save all cached Data-s.
         for (Data d : Data.cached()) {
             d.save().uncache();

@@ -40,7 +40,9 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
+import eu.matejkormuth.rpgdavid.starving.Scheduler;
 import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.Time;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
 import eu.matejkormuth.rpgdavid.starving.items.base.BlockWithData;
 import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
@@ -391,11 +393,22 @@ public class ItemManager implements Listener {
             if (result.isUsed()) {
                 // If use all.
                 if (result.getUsedAmount() == -1) {
-                    event.getItem().setAmount(0);
+                    Scheduler.delay(() -> {
+                        event.getPlayer().getInventory().setItemInHand(null);
+                    }, Time.ofTicks(2));
+
                 } else {
-                    event.getItem().setAmount(
-                            event.getItem().getAmount()
-                                    - result.getUsedAmount());
+                    if (event.getItem().getAmount() <= 1) {
+                        Scheduler.delay(
+                                () -> {
+                                    event.getPlayer().getInventory().setItemInHand(
+                                            null);
+                                }, Time.ofTicks(2));
+                    } else {
+                        event.getItem().setAmount(
+                                event.getItem().getAmount()
+                                        - result.getUsedAmount());
+                    }
                 }
             }
 
@@ -423,6 +436,14 @@ public class ItemManager implements Listener {
         if (item != null) {
             if (item instanceof ConsumableItem) {
                 ((ConsumableItem) item).onConsume(event.getPlayer());
+
+                if (event.getPlayer().getItemInHand().getAmount() > 1) {
+                    event.getPlayer().getItemInHand().setAmount(
+                            event.getPlayer().getItemInHand().getAmount());
+                } else {
+                    event.getPlayer().setItemInHand(null);
+                }
+
                 event.setCancelled(true);
             }
         }

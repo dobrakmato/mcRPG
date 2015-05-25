@@ -36,10 +36,6 @@ import eu.matejkormuth.rpgdavid.starving.rockets.RocketUniverse;
 public class RPG7 extends Item {
 
     private static RocketUniverse mainUniverse = new RocketUniverse();
-    
-    static {
-        mainUniverse.startSimulation();
-    }
 
     public RPG7() {
         super(Mappings.RPG7, "RPG-7");
@@ -52,6 +48,10 @@ public class RPG7 extends Item {
     public InteractResult onInteract(Player player, Action action,
             Block clickedBlock, BlockFace clickedFace) {
         if (Actions.isRightClick(action)) {
+            if (!mainUniverse.isTimePassing()) {
+                mainUniverse.startSimulation();
+            }
+
             mainUniverse.addRocket(new Rocket(player, player.getEyeLocation(),
                     player.getEyeLocation().getDirection()));
         }

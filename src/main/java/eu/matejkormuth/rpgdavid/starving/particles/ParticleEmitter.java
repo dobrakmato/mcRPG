@@ -43,7 +43,7 @@ public class ParticleEmitter {
     private float offsetX;
     private float offsetY;
     private float offsetZ;
-    
+
     private boolean showLines;
 
     public ParticleEmitter(Location location, float speed, int amount,
@@ -71,10 +71,10 @@ public class ParticleEmitter {
     }
 
     public void emit() {
-        if(this.location == null) {
+        if (this.location == null) {
             System.out.println("Can't emit particle. Location null.");
         }
-        
+
         if (this.data != null) {
             if (this.direction != null) {
                 this.effect.display(data, direction, speed, this.location,
@@ -94,10 +94,30 @@ public class ParticleEmitter {
                         this.location, Double.MAX_VALUE);
             }
         }
+
+        if (Math.random() > 0.5f) {
+            for (float x = -1; x < 1; x += 0.2f) {
+                ParticleEffect.REDSTONE.display(
+                        new ParticleEffect.OrdinaryColor(255, 0, 0),
+                        this.location.clone().add(x, 0, 0), Double.MAX_VALUE);
+
+            }
+            for (float y = -1; y < 1; y += 0.2f) {
+                ParticleEffect.REDSTONE.display(
+                        new ParticleEffect.OrdinaryColor(1, 255, 1),
+                        this.location.clone().add(0, y, 0), Double.MAX_VALUE);
+
+            }
+            for (float z = -1; z < 1; z += 0.2f) { 
+                ParticleEffect.REDSTONE.display(
+                        new ParticleEffect.OrdinaryColor(1, 1, 255),
+                        this.location.clone().add(0, 0, z), Double.MAX_VALUE);
+            }
+        }
     }
 
     public ParticleColor getColor() {
-        return color;
+        return color;   
     }
 
     public void setColor(ParticleColor color) {
@@ -175,11 +195,11 @@ public class ParticleEmitter {
     public void setShowLines(boolean showLines) {
         this.showLines = showLines;
     }
-    
+
     public boolean isShowLines() {
         return this.showLines;
     }
-    
+
     public boolean isDirectional() {
         return this.effect.hasProperty(ParticleProperty.DIRECTIONAL);
     }

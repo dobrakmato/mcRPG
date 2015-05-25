@@ -60,6 +60,10 @@ public class RocketUniverse {
                 }, 1L, 1L);
     }
 
+    public boolean isTimePassing() {
+        return this.taskId != -1;
+    }
+    
     public void stopSimulation() {
         if (taskId == -1) {
             throw new RuntimeException("Simulation has not been yet started!");
