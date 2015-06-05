@@ -25,6 +25,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 
@@ -35,8 +36,10 @@ public class MoveListener extends AbstractPersistable implements Listener {
     // Performance critical code.
     @EventHandler
     private void onPlayerMove(final PlayerMoveEvent event) {
-        float dist = (float) event.getTo().distanceSquared(event.getFrom());
-        Data.of(event.getPlayer()).decrementStamina(dist);
+        if (event.getPlayer().getGameMode() != Starving.ADMIN_MODE) {
+            float dist = (float) event.getTo().distanceSquared(event.getFrom());
+            Data.of(event.getPlayer()).decrementStamina(dist);
+        }
     }
 
     @EventHandler
