@@ -47,8 +47,7 @@ public class Rocket {
 
     private static final float ROCKET_PARTICLES_RANDOMDIR_COEF = 0.1f;
     private static final float VELOCITY_MUL = 2;
-    private static final ItemStack ROCKET_ITEM = new ItemStack(
-            Material.YELLOW_FLOWER);
+    private static final ItemStack ROCKET_ITEM = new ItemStack(Material.SAND);
     private static final int MAX_LIFETIME = 20 * 10;
     private static final int MAX_Y = 384;
     private static final double EXPLOSION_RANGE = 4;

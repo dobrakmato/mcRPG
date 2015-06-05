@@ -31,9 +31,10 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 
-public class ZombieListener implements Listener {
+public class ZombieListener extends AbstractPersistable implements Listener {
 
     @Persist(key = "ZOMBIE_FOLLOW_RANGE")
     private static float ZOMBIE_FOLLOW_RANGE = 32f;
@@ -42,7 +43,7 @@ public class ZombieListener implements Listener {
     private static float ZOMBIE_MIN_SPEED = 0.2899999988f;
 
     @Persist(key = "ZOMBIE_MAX_SPEED")
-    private static float ZOMBIE_MAX_SPEED = 0.499999988f;
+    private static float ZOMBIE_MAX_SPEED = 0.359999988f;
 
     private static float ZOMBIE_SPEED_DIFF = ZOMBIE_MAX_SPEED
             - ZOMBIE_MIN_SPEED;

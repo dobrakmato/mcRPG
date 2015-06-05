@@ -71,6 +71,7 @@ import eu.matejkormuth.rpgdavid.starving.commands.WarpCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
+import eu.matejkormuth.rpgdavid.starving.items.explosives.RPG7;
 import eu.matejkormuth.rpgdavid.starving.listeners.AnimalDropsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.BlockFadeListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.BloodLevelDamageListener;
@@ -355,6 +356,9 @@ public class Starving implements Runnable, Listener {
         this.remoteConnectionServer.start();
 
         this.remoteDebugAppender = new RemoteDebugAppender();
+        
+        // Start Rocket universe.
+        RPG7.mainUniverse.startSimulation();
 
         // Start status server.
         this.statusServer = new StatusServer();
@@ -438,6 +442,9 @@ public class Starving implements Runnable, Listener {
             this.npcManager.shutdown();
         }
 
+        // Stop the simulation.
+        RPG7.mainUniverse.stopSimulation();
+        
         // Save configurations.
         if (this.warpsConfig != null) {
             this.warpsConfig.save();
