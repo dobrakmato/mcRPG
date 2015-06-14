@@ -38,9 +38,18 @@ public class Knife extends MeleeWeapon {
     public void onAttack(Player damager, LivingEntity entity, double damage) {
         // If player is behind the zombie, he get 20 HP damage bonus.
 
-        // TODO: Please implement.
-
-        super.onAttack(damager, entity, damage);
+        float yawDiff = damager.getEyeLocation().getYaw()
+                - entity.getLocation().getYaw();
+        if (Math.abs(yawDiff) < 15f) {
+            // This is insta-kill from behind.
+            super.onAttack(damager, entity, 20);
+        } else {
+            // We have still 40% chance to give insta-kill.
+            if (Math.random() > .6f) {
+                super.onAttack(damager, entity, 20);
+            } else {
+                super.onAttack(damager, entity, damage);
+            }
+        }
     }
-
 }
