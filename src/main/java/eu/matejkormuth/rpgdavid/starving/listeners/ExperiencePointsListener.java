@@ -21,6 +21,7 @@ package eu.matejkormuth.rpgdavid.starving.listeners;
 
 import java.util.EnumMap;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
@@ -29,9 +30,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 
 import eu.matejkormuth.rpgdavid.Profile;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.starving.Data;
 
 public class ExperiencePointsListener implements Listener {
     private static EnumMap<EntityType, Integer> xps;
@@ -95,5 +98,29 @@ public class ExperiencePointsListener implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    private void onExpChange(final PlayerExpChangeEvent event) {
+        // This is probably the best place to look for SP changes.
+        int skillPointsToAdd = 0;
+
+        int xpToNextLevel = event.getPlayer().getExpToLevel();
+        
+        if(xpToNextLevel <= event.getAmount()) {
+            // We do cross a level.
+            int oldLevel = event.getPlayer().getLevel();
+            int newLevel = oldLevel + 1;
+            
+            int tensChange = newLevel / 10 - oldLevel / 10;
+            
+            skillPointsToAdd += tensChange;
+        }
+
+        Data data = Data.of(event.getPlayer());
+        data.setSkillPoints(data.getSkillPoints() + skillPointsToAdd);
+
+        event.getPlayer().sendMessage(
+                ChatColor.YELLOW + "You've been awarded with one skill point!");
     }
 }
