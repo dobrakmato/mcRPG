@@ -24,7 +24,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
-import eu.matejkormuth.rpgdavid.starving.EnviromentType;
+import eu.matejkormuth.rpgdavid.starving.BiomeTemperature;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.persistence.Persist;
 import eu.matejkormuth.rpgdavid.starving.persistence.PersistInjector;
@@ -54,7 +54,7 @@ public class BodyTemperatureUpdater extends RepeatingTask implements
             d = Data.of(p);
             float temp = d.getBodyTemperature();
 
-            switch (EnviromentType.byBiome(this.getBiomeOfPlayer(p))) {
+            switch (BiomeTemperature.byBiome(this.getBiomeOfPlayer(p))) {
                 case COLD:
                     if (this.playerHasAnyClothing(p)) {
                         // Temperature is stable.

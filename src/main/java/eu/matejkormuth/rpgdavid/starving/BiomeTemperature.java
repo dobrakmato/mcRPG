@@ -21,10 +21,10 @@ package eu.matejkormuth.rpgdavid.starving;
 
 import org.bukkit.block.Biome;
 
-public enum EnviromentType {
+public enum BiomeTemperature {
     WARM, NORMAL, COLD;
 
-    public static final EnviromentType byBiome(Biome biome) {
+    public static final BiomeTemperature byBiome(Biome biome) {
         // Table by issue 33.
         switch (biome) {
             case OCEAN:

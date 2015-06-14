@@ -25,7 +25,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
-import eu.matejkormuth.rpgdavid.starving.EnviromentType;
+import eu.matejkormuth.rpgdavid.starving.BiomeTemperature;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.items.ClothingType;
 import eu.matejkormuth.rpgdavid.starving.items.base.ClothingItem;
@@ -46,7 +46,7 @@ public class HydrationDepletionTask extends RepeatingTask {
 
             float hydration = d.getHydrationLevel();
 
-            switch (EnviromentType.byBiome(this.getBiomeOfPlayer(p))) {
+            switch (BiomeTemperature.byBiome(this.getBiomeOfPlayer(p))) {
                 case COLD:
                     hydration -= 0.75F;
                     break;
