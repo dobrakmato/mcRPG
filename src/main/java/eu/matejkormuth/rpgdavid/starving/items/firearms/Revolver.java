@@ -31,7 +31,7 @@ public class Revolver extends Firearm {
     }
 
     public Revolver(Mapping mapping, String name) {
-        super(mapping, name);
+        super(mapping, name, Revolver.class);
         this.setAmmoType(AmunitionType.SHORT);
         this.setClipSize(6);
         this.setFireRate(1);

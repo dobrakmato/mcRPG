@@ -31,7 +31,7 @@ public class M16 extends Firearm {
     }
 
     public M16(Mapping mapping, String name) {
-        super(mapping, name);
+        super(mapping, name, M16.class);
         this.setAmmoType(AmunitionType.LONG);
         this.setClipSize(45);
         this.setFireRate(14);

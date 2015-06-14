@@ -31,7 +31,7 @@ public class MP5 extends Firearm {
     }
 
     public MP5(Mapping mapping, String name) {
-        super(mapping, name);
+        super(mapping, name, MP5.class);
         this.setAmmoType(AmunitionType.SHORT);
         this.setClipSize(30);
         this.setFireRate(10);

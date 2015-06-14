@@ -34,7 +34,7 @@ public class Dragunov extends Firearm {
     }
 
     public Dragunov(Mapping mapping, String name) {
-        super(mapping, name);
+        super(mapping, name, Dragunov.class);
         this.setAmmoType(AmunitionType.LONG);
         this.setClipSize(10);
         this.setFireRate(1);

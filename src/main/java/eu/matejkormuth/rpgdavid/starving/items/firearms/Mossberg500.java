@@ -39,7 +39,7 @@ public class Mossberg500 extends Firearm {
     }
 
     public Mossberg500(Mapping mapping, String name) {
-        super(mapping, name);
+        super(mapping, name, Mossberg500.class);
         this.setAmmoType(AmunitionType.LONG);
         this.setClipSize(6);
         this.setFireRate(1);

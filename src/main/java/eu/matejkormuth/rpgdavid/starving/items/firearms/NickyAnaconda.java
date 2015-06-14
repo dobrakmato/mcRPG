@@ -31,7 +31,7 @@ public class NickyAnaconda extends Firearm {
     }
 
     public NickyAnaconda(Mapping mapping, String name) {
-        super(mapping, name);
+        super(mapping, name, NickyAnaconda.class);
         this.setAmmoType(AmunitionType.SHORT);
         this.setClipSize(6);
         this.setFireRate(1);

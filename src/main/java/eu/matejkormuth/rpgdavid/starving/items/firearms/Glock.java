@@ -31,7 +31,7 @@ public class Glock extends Firearm {
     }
 
     public Glock(Mapping mapping, String name) {
-        super(mapping, name);
+        super(mapping, name, Glock.class);
         this.setAmmoType(AmunitionType.SHORT);
         this.setClipSize(10);
         this.setFireRate(1);

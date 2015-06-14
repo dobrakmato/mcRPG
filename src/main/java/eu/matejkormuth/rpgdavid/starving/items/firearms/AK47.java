@@ -30,7 +30,7 @@ public class AK47 extends Firearm {
     }
 
     public AK47(Mapping mapping, String name) {
-        super(mapping, name);
+        super(mapping, name, AK47.class);
         this.setAmmoType(AmunitionType.LONG);
         this.setClipSize(30);
         this.setFireRate(10);
