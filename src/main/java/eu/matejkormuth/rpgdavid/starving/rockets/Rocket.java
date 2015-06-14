@@ -45,8 +45,9 @@ import eu.matejkormuth.rpgdavid.starving.rockets.collisions.StepInterpolationInB
 
 public class Rocket {
 
+    private static final double BASE_DMG = 10D;
     private static final float ROCKET_PARTICLES_RANDOMDIR_COEF = 0.1f;
-    private static final float VELOCITY_MUL = 2;
+    private static final float VELOCITY_MUL = 1.12f;
     private static final ItemStack ROCKET_ITEM = new ItemStack(Material.SAND);
     private static final int MAX_LIFETIME = 20 * 10;
     private static final int MAX_Y = 384;
@@ -180,9 +181,9 @@ public class Rocket {
                     * EXPLOSION_RANGE * 2) {
                 if (e instanceof LivingEntity && !(e instanceof ArmorStand)) {
                     e.setVelocity(e.getLocation().subtract(this.loc).toVector().normalize());
-                    ((LivingEntity) e).damage(Math.abs(EXPLOSION_RANGE * 1.414)
-                            - this.loc.distance(e.getLocation())
-                            * 2D);
+                    ((LivingEntity) e).damage(Math.abs(this.loc.distance(e.getLocation())
+                            * BASE_DMG - EXPLOSION_RANGE * 1.414)
+                            );
                 }
             }
         }
