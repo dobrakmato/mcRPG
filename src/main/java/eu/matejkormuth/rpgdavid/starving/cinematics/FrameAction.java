@@ -20,8 +20,18 @@ package eu.matejkormuth.rpgdavid.starving.cinematics;
 
 import org.bukkit.entity.Player;
 
+/**
+ * Represents executable data / action, that is executed to play cinematic
+ * correctly. It could be data and code for camera position changing.
+ */
 public interface FrameAction {
+    /**
+     * Executes this action of specified player.
+     * 
+     * @param player player to execute action to
+     */
     void execute(Player player);
-    
+
+    // I can't remember use case of this, sorry.
     boolean isGlobal();
 }

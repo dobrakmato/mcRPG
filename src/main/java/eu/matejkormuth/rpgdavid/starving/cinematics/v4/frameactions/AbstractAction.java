@@ -23,10 +23,14 @@ import eu.matejkormuth.rpgdavid.starving.cinematics.FrameAction;
 import eu.matejkormuth.rpgdavid.starving.cinematics.v4.V4ClipPlayer;
 import eu.matejkormuth.rpgdavid.starving.cinematics.v4.V4Serializable;
 
+/**
+ * Abstract action. Implements {@link V4Serializable} and {@link FrameAction}.
+ * Contains useful field of {@link V4ClipPlayer}.
+ */
 public abstract class AbstractAction implements FrameAction, V4Serializable {
 
     private V4ClipPlayer clipPlayer;
-    
+
     public V4ClipPlayer getClipPlayer() {
         return clipPlayer;
     }
