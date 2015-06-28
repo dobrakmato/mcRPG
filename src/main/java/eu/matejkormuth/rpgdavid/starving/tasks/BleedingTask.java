@@ -46,6 +46,6 @@ public class BleedingTask extends RepeatingTask {
     private void displayBleedParticle(Player p) {
         ParticleEffect.BLOCK_CRACK.display(new ParticleEffect.BlockData(
                 Material.REDSTONE_BLOCK, (byte) 0), 0.15f, 0.15f, 0.15f, 1, 20,
-                p.getEyeLocation().add(0, -0.25, 0), 256);
+                p.getEyeLocation().add(0, -1.25, 0), 256);
     }
 }
