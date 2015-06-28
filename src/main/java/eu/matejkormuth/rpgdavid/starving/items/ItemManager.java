@@ -31,15 +31,18 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
+import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.Scheduler;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.Time;
@@ -48,6 +51,7 @@ import eu.matejkormuth.rpgdavid.starving.items.base.BlockWithData;
 import eu.matejkormuth.rpgdavid.starving.items.base.ChemicalItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.ConsumableItem;
 import eu.matejkormuth.rpgdavid.starving.items.base.Craftable;
+import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.items.base.MeleeWeapon;
 import eu.matejkormuth.rpgdavid.starving.items.blocks.Log2D12;
@@ -475,6 +479,21 @@ public class ItemManager implements Listener {
                         event.setCancelled(true);
                     }
                 }
+            }
+        }
+    }
+
+    // Used to unscope firearms, when changing slots.
+    @EventHandler
+    private void onSelectedSlotChanged(final PlayerItemHeldEvent event) {
+        Data data = Data.of(event.getPlayer());
+
+        if (data.isScoped()) {
+            Item item = findItem(event.getPlayer().getInventory().getItem(
+                    event.getPreviousSlot()));
+            if (item instanceof Firearm) {
+                // Unscope him.
+                item.onInteract(event.getPlayer(), Action.LEFT_CLICK_AIR, null, null);
             }
         }
     }
