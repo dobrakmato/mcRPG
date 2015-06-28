@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.party;
+package eu.matejkormuth.rpgdavid;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
-
-import eu.matejkormuth.rpgdavid.RpgPlugin;
 
 public class Party {
     private static List<Party> parties = new ArrayList<Party>();

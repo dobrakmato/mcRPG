@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -31,7 +32,6 @@ import com.google.common.base.Strings;
 
 import eu.matejkormuth.bukkit.inventory.Armor;
 import eu.matejkormuth.bukkit.inventory.ItemStackBuilder;
-import eu.matejkormuth.rpgdavid.items.QuestsBook;
 
 public class Character {
     private final String name;
@@ -44,6 +44,13 @@ public class Character {
 
     // Starving
     private float staminaCapacity;
+    
+    public static ItemStack unbreaking(ItemStack i, int level) {
+        ItemMeta im = i.getItemMeta();
+        im.addEnchant(Enchantment.DURABILITY, level, true);
+        i.setItemMeta(im);
+        return i;
+    }
 
     public Character(final String name, final String special,
             final Modifiers modifiers, final Armor armor,
@@ -108,9 +115,6 @@ public class Character {
         for (ItemStack item : this.items) {
             p.getInventory().addItem(item);
         }
-
-        // Give QuestsBook to every character.
-        p.getInventory().addItem(new QuestsBook());
 
         // Give 5 steaks to every character.
         p.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 5));

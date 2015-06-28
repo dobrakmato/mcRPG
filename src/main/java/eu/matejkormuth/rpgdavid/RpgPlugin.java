@@ -55,17 +55,13 @@ import org.bukkit.util.Vector;
 import eu.matejkormuth.bukkit.Potion;
 import eu.matejkormuth.rpgdavid.commands.CharacterCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.MoneyCommandExecutor;
-import eu.matejkormuth.rpgdavid.commands.NoCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.PartyCommandExecutor;
-import eu.matejkormuth.rpgdavid.commands.PlayerHeadCommandExecutor;
 import eu.matejkormuth.rpgdavid.commands.SetPortCommandExecutor;
-import eu.matejkormuth.rpgdavid.commands.YesCommandExecutor;
 import eu.matejkormuth.rpgdavid.inventorymenu.Action;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenu;
 import eu.matejkormuth.rpgdavid.inventorymenu.InventoryMenuItem;
 import eu.matejkormuth.rpgdavid.listeners.BanksListener;
 import eu.matejkormuth.rpgdavid.listeners.BookOfSpellsListener;
-import eu.matejkormuth.rpgdavid.listeners.QuestsBookListener;
 import eu.matejkormuth.rpgdavid.listeners.ShopListener;
 import eu.matejkormuth.rpgdavid.listeners.SpellsListener;
 import eu.matejkormuth.rpgdavid.listeners.PortListener;
@@ -78,8 +74,6 @@ import eu.matejkormuth.rpgdavid.listeners.characters.ModifiersListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.UndeadListener;
 import eu.matejkormuth.rpgdavid.listeners.characters.VampireListener;
 import eu.matejkormuth.rpgdavid.money.Currencies;
-import eu.matejkormuth.rpgdavid.party.Party;
-import eu.matejkormuth.rpgdavid.quests.QuestManager;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 
 public class RpgPlugin extends JavaPlugin implements Listener {
@@ -100,8 +94,6 @@ public class RpgPlugin extends JavaPlugin implements Listener {
     private Logger log;
     private String dataFolder;
     private Map<UUID, Profile> loadedProfiles;
-    private QuestManager questManager;
-    private ScoreboardsList scoreboardsList;
     private Cooldowns cooldowns;
     private MoneyBank moneyBank;
 
@@ -114,7 +106,6 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         instnace = this;
 
         // Initialize fields.
-        this.scoreboardsList = new ScoreboardsList();
         this.loadedProfiles = new HashMap<UUID, Profile>();
         this.cooldowns = new Cooldowns();
 
@@ -144,13 +135,9 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.createCharacterChooser();
 
         // Register commands.
-        this.getCommand("playerhead").setExecutor(
-                new PlayerHeadCommandExecutor());
         this.getCommand("party").setExecutor(new PartyCommandExecutor());
         this.getCommand("character")
                 .setExecutor(new CharacterCommandExecutor());
-        this.getCommand("yes").setExecutor(new YesCommandExecutor());
-        this.getCommand("no").setExecutor(new NoCommandExecutor());
         this.getCommand("money").setExecutor(new MoneyCommandExecutor());
         this.getCommand("setport").setExecutor(new SetPortCommandExecutor());
 
@@ -177,8 +164,6 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
             Bukkit.getPluginManager().registerEvents(
                     new BookOfSpellsListener(), this);
-            Bukkit.getPluginManager().registerEvents(new QuestsBookListener(),
-                    this);
 
             Bukkit.getPluginManager().registerEvents(new ShopListener(), this);
             Bukkit.getPluginManager().registerEvents(new XPListener(), this);
@@ -195,27 +180,13 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                     new TimeModifiersUpdater(), 0L, 20L);
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
                     new ManaUpdater(), 0L, 1L);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
-                    this.scoreboardsList, 0L, 5L);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
-                    new NoWaterWalkUpdater(), 0L, 10L);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
-                    new HunterArrowGivingUpdater(), 0L, 20 * 60L);
         }
-
-        // Load quests and QuestManager.
-        this.questManager = new QuestManager();
-        this.questManager.loadAll();
 
         this.moneyBank = new MoneyBank();
 
         // Register BungeeCord plugin channel.
         this.getServer().getMessenger()
                 .registerOutgoingPluginChannel(this, "BungeeCord");
-
-        if (this.getConfig().getBoolean("debug", false)) {
-            Debug.onEnable();
-        }
 
         if (this.getConfig().getBoolean("starving", false)) {
             this.getLogger().info("Enabling Starving...");
@@ -249,7 +220,6 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
         // Clear map and disable componenets.
         this.loadedProfiles.clear();
-        this.questManager.shutdown();
         this.moneyBank.shutdown();
         Party.clearParties();
         // Save config.
@@ -283,10 +253,6 @@ public class RpgPlugin extends JavaPlugin implements Listener {
 
     public File getFile(final String... more) {
         return this.getDataFolderPath(more).toFile();
-    }
-
-    public QuestManager getQuestManager() {
-        return this.questManager;
     }
 
     public Cooldowns getCooldowns() {
@@ -384,13 +350,6 @@ public class RpgPlugin extends JavaPlugin implements Listener {
             event.getPlayer().sendMessage(
                     "Welcome back! Current quest(s): " + ChatColor.LIGHT_PURPLE
                             + quests.toString());
-
-            if (!this.isStarving()) {
-                // Apply scoreboard.
-                PlayerStatsScoreboard scoreboard = new PlayerStatsScoreboard(
-                        event.getPlayer());
-                this.scoreboardsList.add(scoreboard);
-            }
         }
     }
 
@@ -399,11 +358,6 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         // Remove him from party if needed.
         if (Party.getParty(event.getPlayer()) != null) {
             Party.getParty(event.getPlayer()).removePlayer(event.getPlayer());
-        }
-
-        // Remove his scoreboard.
-        if (event.getPlayer().getScoreboard() != null) {
-            this.scoreboardsList.remove(event.getPlayer());
         }
 
         // Clear Cooldowns.
@@ -548,19 +502,12 @@ public class RpgPlugin extends JavaPlugin implements Listener {
                 RpgPlugin.getInstance().getProfile(player)
                         .setCharacter(this.character);
                 this.character.applyTo(player);
-                // Apply scoreboard.
-                PlayerStatsScoreboard scoreboard = new PlayerStatsScoreboard(
-                        player);
-                RpgPlugin.this.scoreboardsList.add(scoreboard);
-                player.sendMessage(ChatColor.GREEN
-                        + RpgPlugin.t("t_character_set") + ChatColor.GOLD
-                        + this.character.getName());
             }
         }
 
         List<InventoryMenuItem> items = new ArrayList<InventoryMenuItem>();
 
-        // Standart characters.
+        // Standard characters.
         items.add(new InventoryMenuItem(Characters.ADVENTURER
                 .getIcon(Material.IRON_CHESTPLATE), new SelectCharacterAction(
                 Characters.ADVENTURER), 0, true));

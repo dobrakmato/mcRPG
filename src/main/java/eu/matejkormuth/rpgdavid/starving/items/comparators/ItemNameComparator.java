@@ -23,6 +23,9 @@ import java.util.Comparator;
 
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 
+/**
+ * Compares by item names alphabetically.
+ */
 public class ItemNameComparator implements Comparator<Item> {
 
     @Override

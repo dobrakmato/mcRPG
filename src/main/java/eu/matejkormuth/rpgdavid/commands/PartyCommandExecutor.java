@@ -25,8 +25,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import eu.matejkormuth.rpgdavid.Party;
 import eu.matejkormuth.rpgdavid.RpgPlugin;
-import eu.matejkormuth.rpgdavid.party.Party;
 
 public class PartyCommandExecutor implements CommandExecutor {
 

@@ -17,14 +17,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving;
+package eu.matejkormuth.rpgdavid.starving.zombie;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
 import net.minecraft.server.v1_8_R2.EntityTypes;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
-import eu.matejkormuth.rpgdavid.starving.zombie.Zombie;
 
 @NMSHooks(version = "v1_8_R2")
 public class ServerZombiePatcher {

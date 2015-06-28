@@ -72,12 +72,10 @@ import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
 import eu.matejkormuth.rpgdavid.starving.items.explosives.RPG7;
-import eu.matejkormuth.rpgdavid.starving.listeners.AnimalDropsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.BlockFadeListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.BloodLevelDamageListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ChatPingListener;
-import eu.matejkormuth.rpgdavid.starving.listeners.ChunksListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ExperiencePointsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ExplosionListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.FractureListener;
@@ -122,6 +120,7 @@ import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushSizeCommandExecu
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushTypeCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterPropertyCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.zombie.ServerZombiePatcher;
 import eu.matejkormuth.rpgdavid.starving.zombie.TempZombieManager;
 import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
 
@@ -314,7 +313,6 @@ public class Starving implements Runnable, Listener {
 
         // Register starving listeners.
         this.register(new ZombieListener());
-        this.register(new AnimalDropsListener());
         this.register(new HeadshotListener());
         this.register(new ChatListener());
         this.register(new LootListener());
@@ -326,7 +324,6 @@ public class Starving implements Runnable, Listener {
         this.register(new FractureListener());
         this.register(new MobDropsListener());
         this.register(new ToolsListener());
-        this.register(new ChunksListener());
         this.register(new BlockFadeListener());
         this.register(new PlayerDropsListener());
         this.register(new ZombieCombustListener());
@@ -457,8 +454,6 @@ public class Starving implements Runnable, Listener {
         for (Data d : Data.cached()) {
             d.save().uncache();
         }
-
-        DataDefaults.get().saveConfiguration();
 
         // Save configuration of all persistables.
         for (Persistable persistable : this.persistablesList) {

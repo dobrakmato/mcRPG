@@ -10,7 +10,6 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-import eu.matejkormuth.rpgdavid.quests.Quest;
 import eu.matejkormuth.rpgdavid.starving.items.base.Item;
 import eu.matejkormuth.rpgdavid.starving.npc.types.HumanNPC;
 import eu.matejkormuth.rpgdavid.starving.quests.Mission;
@@ -20,7 +19,7 @@ public interface IScriptAPI {
     /* CONTEXT METHODS */
     Player currentPlayer();
 
-    Quest currentQuest();
+    Mission currentQuest();
 
     /* NULL CHECK METHOD */
     boolean exists(Object obj);

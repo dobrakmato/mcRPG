@@ -19,12 +19,16 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -49,6 +53,14 @@ public class PlayerDeathListener implements Listener {
             }
         }
 
+    }
+    
+    @EventHandler
+    private void onPlayerDeath(final PlayerDeathEvent event) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        new Exception("Stack trace").printStackTrace(pw);
+        Bukkit.broadcastMessage(sw.toString());
     }
 
     private boolean shouldBeCanceled(Player p) {

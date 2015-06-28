@@ -86,7 +86,7 @@ public class HumanNPC extends EntityPlayer implements NPC {
         // Set default gamemode.
         this.playerInteractManager.setGameMode(EnumGamemode.SURVIVAL);
 
-        // Create behaviour holder.
+        // Create behavior holder.
         this.holder = new BehaviourHolder();
 
         // Add to world.

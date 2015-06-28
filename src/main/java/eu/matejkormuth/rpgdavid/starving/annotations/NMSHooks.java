@@ -24,12 +24,12 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * This annotation tells that annotated class / method contains NMS
- * (net.minecraft.server) dependend code.
+ * (net.minecraft.server) dependent code.
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NMSHooks {
     /**
-     * Version of minecraft server this class is compactibile with.
+     * Version of Minecraft server this class is compatible with.
      */
-    public String version() default "";
+    public String version() default "not-specified!";
 }

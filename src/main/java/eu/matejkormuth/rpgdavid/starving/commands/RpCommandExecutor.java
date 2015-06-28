@@ -30,12 +30,22 @@ import eu.matejkormuth.rpgdavid.starving.Data;
 
 public class RpCommandExecutor implements CommandExecutor {
 
+    private static final String DEFAULT_RP_RESOULTION = "_128";
+    
     @Override
     public boolean onCommand(CommandSender sender, Command command,
             String label, String[] args) {
         if (sender instanceof Player) {
-            if (args.length == 1) {
+            if (args.length > 0) {
                 String type = args[0];
+                
+                String res = DEFAULT_RP_RESOULTION;
+                if(args.length == 2) {
+                    res = "_" + Integer.valueOf(args[1]);
+                }
+                
+                // TODO: Add resolutions.
+                
                 if (type.equalsIgnoreCase("players")) {
                     Data.of((Player) sender).setResourcePack("players");
                     ((Player) sender).setResourcePack("http://www.starving.eu/2/rp/latest.zip");
