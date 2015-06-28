@@ -31,7 +31,7 @@ import org.bukkit.util.EulerAngle;
 import eu.matejkormuth.rpgdavid.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.items.base.Firearm;
-import eu.matejkormuth.rpgdavid.starving.loot.ArmorStandSpawnableLoot;
+import eu.matejkormuth.rpgdavid.starving.loot.spawns.ArmorStandLootSpawn;
 
 public class PlayerDropsListener implements Listener {
 
@@ -55,7 +55,7 @@ public class PlayerDropsListener implements Listener {
                 minusY = 1.27f;
             }
 
-            armorStand.setMetadata(ArmorStandSpawnableLoot.METADATA_KEY,
+            armorStand.setMetadata(ArmorStandLootSpawn.METADATA_KEY,
                     new FlagMetadataValue());
 
             float finalMinusY = minusY;

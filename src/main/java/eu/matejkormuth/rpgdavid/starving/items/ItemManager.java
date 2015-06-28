@@ -20,7 +20,6 @@
 package eu.matejkormuth.rpgdavid.starving.items;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -144,9 +143,6 @@ import eu.matejkormuth.rpgdavid.starving.items.ranged.LoadedCrossbow;
 
 public class ItemManager implements Listener {
     private Set<Item> items;
-
-    private EnumMap<Rarity, List<Item>> rarityMapping;
-    private EnumMap<Category, List<Item>> categoryMapping;
 
     public ItemManager() {
         Starving.getInstance().getLogger().info("Initializing ItemManager...");
