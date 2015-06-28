@@ -322,7 +322,7 @@ public class ItemManager implements Listener {
 
     public ItemStack newItemStack(Class<? extends Item> clazz, int amount) {
         for (Item i : this.items) {
-            if (clazz.isInstance(i)) {
+            if (i.getClass().equals(clazz)) {
                 return i.toItemStack(amount);
             }
         }

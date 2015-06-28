@@ -81,8 +81,11 @@ public class FirearmTransformer {
                 + " with lore source " + metadataSource.toString());
         ItemStack newItemStack = createItemStack(clazz);
         ItemMeta newItemMeta = newItemStack.getItemMeta();
+        String name = newItemMeta.getDisplayName();
         newItemMeta.setLore(metadataSource.getItemMeta().getLore());
+        newItemMeta.setDisplayName(name);
         newItemStack.setItemMeta(newItemMeta);
+        
         return newItemStack;
     }
 
