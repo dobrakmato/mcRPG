@@ -35,8 +35,8 @@ public abstract class Item extends ItemBase {
     private Category category;
     private int maxStackAmount;
 
-    private float resistanceChange = 0.0f; // damage resistance in percents
-    private float biteProbabiltyChange = 00.0f;
+    // private float resistanceChange = 0.0f; // damage resistance in percents
+    // private float biteProbabiltyChange = 00.0f;
 
     public Item(Mapping mapping, String name) {
         super(mapping.getMaterial(), mapping.getData(), 1, name);

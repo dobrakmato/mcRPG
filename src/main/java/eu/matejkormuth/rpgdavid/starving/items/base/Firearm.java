@@ -81,7 +81,8 @@ public abstract class Firearm extends Item {
      * 
      * @param mapping
      * @param name
-     * @param soundSourceClass Class that should be used to determinate sounds from.
+     * @param soundSourceClass
+     *            Class that should be used to determinate sounds from.
      */
     public Firearm(Mapping mapping, String name, Class<?> soundSourceClass) {
         super(mapping, name);
@@ -400,45 +401,28 @@ public abstract class Firearm extends Item {
     }
 
     protected void toggleScope(Player player, ItemStack is, int slownessLevel) {
-        Bukkit.broadcastMessage("Player " + player.getName()
-                + " is toggling scope with current itemStack " + is.toString()
-                + " with slowness level: " + slownessLevel);
-        Bukkit.broadcastMessage("Executing in class "
-                + this.getClass().getSimpleName() + " and isScoped() = "
-                + this.isScoped());
-
         // Scope tha gun.
         if (this.isScoped()) {
             // Transform item.
             ItemStack nonScoped = FirearmTransformer
                     .fromScoped(is);
 
-            Bukkit.broadcastMessage("Created non-scoped itemstack: "
-                    + nonScoped.toString());
-
-            Bukkit.broadcastMessage("Scheduling setItemInHand() to 5 ticks...");
             Scheduler.delay(() -> {
-                Bukkit.broadcastMessage("Setting item in hand!");
-                player.setItemInHand(nonScoped);
-            }, Time.ofTicks(5));
+                // TODO: Convert to getInventory().setSlot().
+                    player.setItemInHand(nonScoped);
+                }, Time.ofTicks(5));
 
-            Bukkit.broadcastMessage("Removing slowness effect from player.");
             player.removePotionEffect(PotionEffectType.SLOW);
         } else {
             // Transform item.
             ItemStack scoped = FirearmTransformer
                     .toScoped(is);
 
-            Bukkit.broadcastMessage("Created scoped itemstack: "
-                    + scoped.toString());
-
-            Bukkit.broadcastMessage("Scheduling setItemInHand() to 5 ticks...");
             Scheduler.delay(() -> {
-                Bukkit.broadcastMessage("Setting item in hand!");
-                player.setItemInHand(scoped);
-            }, Time.ofTicks(5));
+                // TODO: Convert to getInventory().setSlot().
+                    player.setItemInHand(scoped);
+                }, Time.ofTicks(5));
 
-            Bukkit.broadcastMessage("Adding slowness effect to player.");
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
                     Time.ofMinutes(30).toTicks(), slownessLevel));
         }

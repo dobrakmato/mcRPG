@@ -19,7 +19,6 @@
  */
 package eu.matejkormuth.rpgdavid.starving.items.transformers;
 
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -49,9 +48,6 @@ public class FirearmTransformer {
         // Create new scoped and copy properties.
         Item item = Starving.getInstance().getItemManager().findItem(unscoped);
 
-        Bukkit.broadcastMessage("fromUnscoped arg: " + unscoped.toString()
-                + " is Item of: " + item.getName());
-
         if (AK47.class.equals(item.getClass())) {
             return createWithLore(ScopedAK47.class, unscoped);
         } else if (Revolver.class.equals(item.getClass())) {
@@ -77,8 +73,6 @@ public class FirearmTransformer {
 
     private static ItemStack createWithLore(Class<? extends Firearm> clazz,
             ItemStack metadataSource) {
-        Bukkit.broadcastMessage("Creating new " + clazz.getName()
-                + " with lore source " + metadataSource.toString());
         ItemStack newItemStack = createItemStack(clazz);
         ItemMeta newItemMeta = newItemStack.getItemMeta();
         String name = newItemMeta.getDisplayName();
@@ -96,9 +90,6 @@ public class FirearmTransformer {
     public static ItemStack fromScoped(ItemStack scoped) {
         // Create new unscoped and copy properties.
         Item item = Starving.getInstance().getItemManager().findItem(scoped);
-
-        Bukkit.broadcastMessage("fromScoped arg: " + scoped.toString()
-                + " is Item of: " + item.getName());
 
         if (ScopedAK47.class.equals(item.getClass())) {
             return createWithLore(AK47.class, scoped);
