@@ -22,8 +22,8 @@ package eu.matejkormuth.rpgdavid.starving;
 import org.bukkit.Bukkit;
 
 public class Scheduler {
-    public static void delay(Runnable runnable, Time delay) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(
+    public static int delay(Runnable runnable, Time delay) {
+        return Bukkit.getScheduler().scheduleSyncDelayedTask(
                 Starving.getInstance().getPlugin(), runnable,
                 delay.toLongTicks());
     }

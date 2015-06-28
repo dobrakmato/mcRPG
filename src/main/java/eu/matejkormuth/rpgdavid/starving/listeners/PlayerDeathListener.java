@@ -19,8 +19,8 @@
  */
 package eu.matejkormuth.rpgdavid.starving.listeners;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Damageable;
@@ -33,10 +33,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
-import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.Scheduler;
 import eu.matejkormuth.rpgdavid.starving.Time;
 
 public class PlayerDeathListener implements Listener {
+    private Map<Player, KillPlayerTask> tasks = new HashMap<>();
+    
     @EventHandler
     private void onPlayerDeath(final EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {
@@ -54,16 +56,16 @@ public class PlayerDeathListener implements Listener {
         }
 
     }
-    
+
     @EventHandler
     private void onPlayerDeath(final PlayerDeathEvent event) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        new Exception("Stack trace").printStackTrace(pw);
-        Bukkit.broadcastMessage(sw.toString());
+        if(tasks.containsKey(event.getEntity())) {
+            tasks.get(event.getEntity()).cancel();
+            tasks.remove(event.getEntity());
+        }
     }
 
-    private boolean shouldBeCanceled(Player p) {
+    private boolean shouldBeCanceled(final Player p) {
         if (Data.of(p).isUnconscious()) {
             return false;
         } else {
@@ -72,9 +74,9 @@ public class PlayerDeathListener implements Listener {
             p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Time
                     .ofMinutes(1).toTicks(), 4));
 
-            Bukkit.getScheduler().scheduleSyncDelayedTask(
-                    Starving.getInstance().getPlugin(), new KillPlayerTask(p),
-                    Time.ofMinutes(1).toLongTicks());
+            // We may need to cancel this task if player dies while it's waiting
+            // for execution.
+            new KillPlayerTask(p);
 
             return true;
         }
@@ -82,9 +84,16 @@ public class PlayerDeathListener implements Listener {
 
     private class KillPlayerTask implements Runnable {
         private Player player;
+        private final int taskId;
 
         public KillPlayerTask(Player player) {
             this.player = player;
+            // Schedule this task.
+            this.taskId = Scheduler.delay(this, Time.ofMinutes(1));
+        }
+
+        public void cancel() {
+            Bukkit.getScheduler().cancelTask(this.taskId);
         }
 
         @Override
