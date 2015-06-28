@@ -52,6 +52,7 @@ public class BlockFadeListener implements Listener {
 
     @EventHandler
     private void onBlockFade(final BlockFadeEvent event) {
+        Starving.getInstance().getLogger().info("BlockFadeEvent fired!");
         if (DISABLE_BLOCK_FADE) {
             event.setCancelled(true);
         }

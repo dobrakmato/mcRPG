@@ -561,5 +561,3 @@ public class RpgPlugin extends JavaPlugin implements Listener {
         this.ports.set(name + ".world", location.getWorld().getName());
     }
 }
-
-// lixko was here
