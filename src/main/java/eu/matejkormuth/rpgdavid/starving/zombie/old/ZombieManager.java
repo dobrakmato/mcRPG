@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.zombie;
+package eu.matejkormuth.rpgdavid.starving.zombie.old;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

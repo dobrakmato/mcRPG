@@ -25,9 +25,10 @@ import java.util.Map;
 import net.minecraft.server.v1_8_R2.EntityTypes;
 import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
+import eu.matejkormuth.rpgdavid.starving.zombie.old.Zombie;
 
 @NMSHooks(version = "v1_8_R2")
-public class ServerZombiePatcher {
+public class Patcher {
     public void patchAll() {
         Starving.getInstance().getLogger()
                 .info("[Patcher] Applying changes in server...");
