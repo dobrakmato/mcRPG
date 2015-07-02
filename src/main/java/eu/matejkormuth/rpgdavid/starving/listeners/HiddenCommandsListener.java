@@ -58,8 +58,8 @@ import eu.matejkormuth.rpgdavid.starving.items.comparators.ItemNameComparator;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
 import eu.matejkormuth.rpgdavid.starving.particles.ParticleEmitter;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
-import eu.matejkormuth.rpgdavid.starving.zombie.TempZombieManager;
-import eu.matejkormuth.rpgdavid.starving.zombie.ZombieWithDog;
+import eu.matejkormuth.rpgdavid.starving.zombie.old.TempZombieManager;
+import eu.matejkormuth.rpgdavid.starving.zombie.old.ZombieWithDog;
 
 public class HiddenCommandsListener implements Listener {
     @EventHandler

@@ -36,7 +36,8 @@ public class Zombie extends EntityZombie {
         setAttributes();
         try {
             clearPathfindingGoals();
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+        } catch (NoSuchFieldException | SecurityException |
+                IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         }
         setPathfindingGoals();
@@ -71,12 +72,7 @@ public class Zombie extends EntityZombie {
         // Random look around
         this.goalSelector.a(8, new PathfinderGoalRandomLookaround(this));
 
-        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityHuman.class, 1.0D, false));
-        this.goalSelector.a(7, new PathfinderGoalRandomStroll(this, 1.0D));
-        this.goalSelector.a(8, new PathfinderGoalRandomLookaround(this));
-
         // Choose EntityHuman by it's FOV.
-
         this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget<EntityHuman>(this, EntityHuman.class, true));
     }
 

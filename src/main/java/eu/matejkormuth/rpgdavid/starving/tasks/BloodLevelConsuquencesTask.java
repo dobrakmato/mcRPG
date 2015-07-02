@@ -29,7 +29,6 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.Time;
 
 public class BloodLevelConsuquencesTask extends RepeatingTask {
-    // private Map<Player, Long> lastDamage = new HashMap<>();
 
     @Override
     public void run() {

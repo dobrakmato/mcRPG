@@ -54,7 +54,6 @@ public class PlayerDeathListener implements Listener {
                 event.setCancelled(canceled);
             }
         }
-
     }
 
     @EventHandler
