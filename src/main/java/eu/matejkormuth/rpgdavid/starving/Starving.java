@@ -120,9 +120,9 @@ import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushSizeCommandExecu
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushTypeCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterPropertyCommandExecutor;
-import eu.matejkormuth.rpgdavid.starving.zombie.ServerZombiePatcher;
-import eu.matejkormuth.rpgdavid.starving.zombie.TempZombieManager;
-import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
+import eu.matejkormuth.rpgdavid.starving.zombie.Patcher;
+import eu.matejkormuth.rpgdavid.starving.zombie.old.TempZombieManager;
+import eu.matejkormuth.rpgdavid.starving.zombie.old.ZombieManager;
 
 @NMSHooks(version = "v1_8_R2")
 public class Starving implements Runnable, Listener {
@@ -221,8 +221,9 @@ public class Starving implements Runnable, Listener {
         this.dataFolder.mkdirs();
 
         // Check if server version is compatible.
+        this.getLogger().info("Starting compactibility check.");
         if (!isCompatibile()) {
-            this.getLogger().info("Starting compactibility check.");
+            this.getLogger().severe("This version is not compatibile!");
             Bukkit.getPluginManager().disablePlugin(RpgPlugin.getInstance());
             return;
         }
@@ -231,8 +232,7 @@ public class Starving implements Runnable, Listener {
         this.warpsConfig = new Configuration(this.getFile("warps.yml"));
 
         // Set game rules.
-        this.getLogger()
-                .info("Setting starving game rules...");
+        this.getLogger().info("Setting starving game rules...");
         for (World w : Bukkit.getWorlds()) {
             w.setGameRuleValue("doMobSpawning", "false");
         }
@@ -346,7 +346,7 @@ public class Starving implements Runnable, Listener {
         this.printImplementations();
 
         // Patch server.
-        new ServerZombiePatcher().patchAll();
+        new Patcher().patchAll();
 
         // Start remote connections.
         this.remoteConnectionServer = new RemoteConnectionServer();
