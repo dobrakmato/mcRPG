@@ -221,8 +221,9 @@ public class Starving implements Runnable, Listener {
         this.dataFolder.mkdirs();
 
         // Check if server version is compatible.
+        this.getLogger().info("Starting compatibility check.");
         if (!isCompatibile()) {
-            this.getLogger().info("Starting compactibility check.");
+            this.getLogger().severe("Current version is not compatibile!");
             Bukkit.getPluginManager().disablePlugin(RpgPlugin.getInstance());
             return;
         }
