@@ -39,7 +39,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import com.mojang.authlib.GameProfile;
 
-import eu.matejkormuth.rpgdavid.starving.Debug;
+import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.npc.K;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
@@ -164,10 +164,10 @@ public class HumanNPC extends EntityPlayer implements NPC {
     @Override
     public void setActive(boolean active) {
         if (active) {
-            Debug.log(ChatColor.GRAY + "NPC " + this.getUniqueID()
+            Starving.getInstance().getLogger().info(ChatColor.GRAY + "NPC " + this.getUniqueID()
                     + " is now activated!");
         } else {
-            Debug.log(ChatColor.DARK_GRAY + "NPC " + this.getUniqueID()
+            Starving.getInstance().getLogger().info(ChatColor.DARK_GRAY + "NPC " + this.getUniqueID()
                     + " is now deactivated!");
         }
         this.active = active;

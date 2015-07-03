@@ -48,6 +48,7 @@ import eu.matejkormuth.bukkit.Items;
 import eu.matejkormuth.bukkit.Worlds;
 import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.Starving;
+import eu.matejkormuth.rpgdavid.starving.StarvingLogger;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemical;
 import eu.matejkormuth.rpgdavid.starving.chemistry.ChemicalCompound;
 import eu.matejkormuth.rpgdavid.starving.chemistry.Chemicals;
@@ -262,6 +263,12 @@ public class HiddenCommandsListener implements Listener {
         // Command for testing some random things.
         else if (event.getMessage().contains("/kokot")) {
             new TempZombieManager().schedule(20L);
+        }
+        // Command for testing some random things.
+        else if (event.getMessage().contains("/console")) {
+            StarvingLogger.broadcast = !StarvingLogger.broadcast;
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "Console -> Chat is now "
+                    + (StarvingLogger.broadcast ? "on." : "off."));
         }
         // Command for testing some random things.
         else if (event.getMessage().contains("/nearentities")) {

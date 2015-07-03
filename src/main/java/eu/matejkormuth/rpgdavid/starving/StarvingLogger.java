@@ -22,8 +22,12 @@ package eu.matejkormuth.rpgdavid.starving;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+
 public class StarvingLogger extends Logger {
     private static final String prefix = "[Starving] ";
+    public static boolean broadcast = false;
 
     protected StarvingLogger() {
         super("Starving", null);
@@ -32,6 +36,9 @@ public class StarvingLogger extends Logger {
     @Override
     public void log(LogRecord record) {
         record.setMessage(prefix + record.getMessage());
+        if(broadcast) {
+            Bukkit.broadcastMessage(ChatColor.GRAY + record.getMessage());
+        }
         super.log(record);
     }
 }

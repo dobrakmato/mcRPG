@@ -20,9 +20,11 @@
 package eu.matejkormuth.rpgdavid.starving;
 
 public enum BodyTemperature {
-    HYPOTHERMIA(32, "Hypothermia"), LOW_TEMPERATURE(35, "Low temperature"), NORMAL_TEMPERATURE(
-            37, "Normal temperature"), HIGH_TEMPERATURE(39, "High temperature"), HYPERTHERMIA(
-            42, "Hyperthermia");
+    HYPOTHERMIA(32, "Hypothermia"),
+    LOW_TEMPERATURE(35, "Low temperature"),
+    NORMAL_TEMPERATURE(37, "Normal temperature"),
+    HIGH_TEMPERATURE(39, "High temperature"),
+    HYPERTHERMIA(42, "Hyperthermia");
 
     private String displayName;
     private float lowerLimit;

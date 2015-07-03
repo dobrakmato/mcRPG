@@ -40,7 +40,7 @@ public class PlayerSession {
     public PlayerSession(Player player) {
         this.player = player;
         this.maxDistance = 256;
-        this.brush = new CircleBrush(5);
+        this.brush = new SquareBrush(5);
         this.setFilter(new GrassFilter());
     }
 
