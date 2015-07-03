@@ -57,7 +57,7 @@ import eu.matejkormuth.rpgdavid.starving.items.comparators.ItemNameComparator;
 import eu.matejkormuth.rpgdavid.starving.npc.NPC;
 import eu.matejkormuth.rpgdavid.starving.particles.ParticleEmitter;
 import eu.matejkormuth.rpgdavid.starving.tasks.TimeUpdater;
-import eu.matejkormuth.rpgdavid.starving.zombie.old.TempZombieManager;
+import eu.matejkormuth.rpgdavid.starving.zombie.old.ZSpawnTask_BetaDedina;
 
 public class HiddenCommandsListener implements Listener {
     @EventHandler
@@ -220,7 +220,7 @@ public class HiddenCommandsListener implements Listener {
         }
         // Command for testing some random things.
         else if (event.getMessage().contains("/kokot")) {
-            new TempZombieManager().schedule(20L);
+            new ZSpawnTask_BetaDedina().schedule(20L);
         }
         // Command for testing some random things.
         else if (event.getMessage().contains("/nearentities")) {

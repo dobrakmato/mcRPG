@@ -120,7 +120,7 @@ import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushTypeCommandExecu
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterPropertyCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.zombie.Patcher;
-import eu.matejkormuth.rpgdavid.starving.zombie.old.TempZombieManager;
+import eu.matejkormuth.rpgdavid.starving.zombie.old.ZSpawnTask_BetaDedina;
 
 @NMSHooks(version = "v1_8_R2")
 public class Starving implements Runnable, Listener {
@@ -274,7 +274,7 @@ public class Starving implements Runnable, Listener {
         this.register(new HydrationLevelConsequencesTask()).schedule(20L);
         this.register(new BloodReplenishTask()).schedule(20L);
         this.register(new ScoreboardUpdater()).schedule(20L);
-        this.register(new TempZombieManager()).schedule(20 * 30L);
+        this.register(new ZSpawnTask_BetaDedina()).schedule(20 * 30L);
         this.register(new HallucinationsTask()).schedule(200L);
 
         // Register starving listeners.

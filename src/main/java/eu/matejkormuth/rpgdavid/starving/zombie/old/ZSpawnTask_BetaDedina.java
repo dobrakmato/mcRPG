@@ -32,7 +32,7 @@ import org.bukkit.util.Vector;
 import eu.matejkormuth.rpgdavid.starving.Region;
 import eu.matejkormuth.rpgdavid.starving.tasks.RepeatingTask;
 
-public class TempZombieManager extends RepeatingTask {
+public class ZSpawnTask_BetaDedina extends RepeatingTask {
     private World world = Bukkit.getWorld("Beta");
     private Vector regionStart = new Vector(558, 25, -269);
     private Vector regionEnd = new Vector(758, 70, -69);
@@ -67,20 +67,6 @@ public class TempZombieManager extends RepeatingTask {
     private Location randLoc() {
         int x = this.region.getMinXFloor() + random.nextInt(200);
         int z = this.region.getMinZFloor() + random.nextInt(200);
-
-        /*
-         * int x = 0; int z = 0; if (random.nextBoolean()) { if
-         * (random.nextBoolean()) { x = this.region.getMinXFloor() +
-         * random.nextInt(this.region.getMaxXFloor() -
-         * this.region.getMinXFloor()); z = this.region.getMinZFloor() +
-         * random.nextInt(10); } else { x = this.region.getMaxXFloor() -
-         * random.nextInt(10); z = this.region.getMaxZFloor() -
-         * random.nextInt(10); } } else { if (random.nextBoolean()) { x =
-         * this.region.getMinXFloor() + random.nextInt(10); z =
-         * this.region.getMaxZFloor() - random.nextInt(10); } else { x =
-         * this.region.getMaxXFloor() - random.nextInt(10); z =
-         * this.region.getMinZFloor() + random.nextInt(10); } }
-         */
 
         int y = findY(x, z);
         if (y == -1) {
