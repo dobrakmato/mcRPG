@@ -10,6 +10,7 @@ import net.minecraft.server.v1_8_R2.EntityHuman;
 import net.minecraft.server.v1_8_R2.EntityZombie;
 import net.minecraft.server.v1_8_R2.GenericAttributes;
 import net.minecraft.server.v1_8_R2.IAttribute;
+import net.minecraft.server.v1_8_R2.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_8_R2.PathfinderGoalMeleeAttack;
 import net.minecraft.server.v1_8_R2.PathfinderGoalNearestAttackableTarget;
 import net.minecraft.server.v1_8_R2.PathfinderGoalRandomLookaround;
@@ -63,9 +64,10 @@ public class Zombie extends EntityZombie {
     }
 
     private void setPathfindingGoals() {
-        // Attack EntityHuman
+        // Follow and Attack EntityHuman
         this.goalSelector.a(1, new PathfinderGoalMeleeAttack(this, EntityHuman.class, 1, false));
-        // Follow EntityHuman
+        // Look at player.
+        this.goalSelector.a(8, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
         
         // Random movement
         this.goalSelector.a(7, new PathfinderGoalRandomStroll(this, 1));
@@ -81,6 +83,7 @@ public class Zombie extends EntityZombie {
         this.getAttributeInstance(followRange).setValue(32D + random.nextInt(5));
         this.getAttributeInstance(movementSpeed).setValue(0.2899999988f + 
                 random.nextFloat() * 0.0499999892f);
+        this.getAttributeInstance(knockbackResitence).setValue(random.nextFloat());
         this.getAttributeInstance(attackDamage).setValue(1D + random.nextInt(3));
     }
 
