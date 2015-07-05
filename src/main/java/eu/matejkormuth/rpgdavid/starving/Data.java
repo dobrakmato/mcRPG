@@ -155,6 +155,9 @@ public class Data {
     
     @Persist(key = "skillPoints")
     private int skillPoints = 0;
+    
+    @Persist(key = "minutesPlayed")
+    private int minutesPlayed = 0;
 
     public StarvingScoreboard scoreboard;
 
@@ -247,6 +250,7 @@ public class Data {
         this.flashlightOn = false;
         this.resourcePack = "players";
         this.skillPoints = 0;
+        this.minutesPlayed = 0;
 
         // We not reset access key.
         if (resetPermanent) {
@@ -434,5 +438,17 @@ public class Data {
     
     public void setSkillPoints(int skillPoints) {
         this.skillPoints = skillPoints;
+    }
+    
+    public int getMinutesPlayed() {
+        return minutesPlayed;
+    }
+    
+    public void setMinutesPlayed(int minutesPlayed) {
+        this.minutesPlayed = minutesPlayed;
+    }
+    
+    public void incrementMinutesPlayed(int amount) { 
+        this.minutesPlayed += amount;
     }
 }

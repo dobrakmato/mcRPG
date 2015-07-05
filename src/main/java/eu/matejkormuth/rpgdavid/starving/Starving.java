@@ -62,12 +62,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.starving.achievements.Achievements;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.commands.CommandManager;
 import eu.matejkormuth.rpgdavid.starving.commands.RpCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.SetSpeedCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.SetWarpCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.WarpCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.events.time.MinuteTimeEvent;
 import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
@@ -339,9 +341,7 @@ public class Starving implements Runnable, Listener {
         this.register(this);
 
         // Register starving repeating tasks.
-        Bukkit.getScheduler()
-                .scheduleSyncRepeatingTask(
-                        RpgPlugin.getInstance(), this, 0L, 1L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(RpgPlugin.getInstance(), this, 0L, 1L);
 
         // Print some useful info.
         this.printImplementations();
@@ -358,6 +358,9 @@ public class Starving implements Runnable, Listener {
         // Start Rocket universe.
         RPG7.mainUniverse.startSimulation();
 
+        // Setup achievements.
+        Achievements.setup();
+        
         // Start status server.
         this.statusServer = new StatusServer();
         try {
@@ -464,8 +467,10 @@ public class Starving implements Runnable, Listener {
 
     public void run() {
         // Tick.
-        ticksElapsed.incrementAndGet();
-
+        if((ticksElapsed.incrementAndGet() % 20 * 60) == 0) {
+            Bukkit.getPluginManager().callEvent(new MinuteTimeEvent(ticksElapsed.get()));
+        }
+        
         // Update sounds.
         this.ambientSoundManager.update();
     }
