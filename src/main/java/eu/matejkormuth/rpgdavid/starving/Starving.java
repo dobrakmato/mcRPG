@@ -68,6 +68,7 @@ import eu.matejkormuth.rpgdavid.starving.commands.RpCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.SetSpeedCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.SetWarpCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.commands.WarpCommandExecutor;
+import eu.matejkormuth.rpgdavid.starving.events.time.MinuteTimeEvent;
 import eu.matejkormuth.rpgdavid.starving.impulses.BufferedImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.impulses.ImpulseProcessor;
 import eu.matejkormuth.rpgdavid.starving.items.ItemManager;
@@ -339,9 +340,7 @@ public class Starving implements Runnable, Listener {
         this.register(this);
 
         // Register starving repeating tasks.
-        Bukkit.getScheduler()
-                .scheduleSyncRepeatingTask(
-                        RpgPlugin.getInstance(), this, 0L, 1L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(RpgPlugin.getInstance(), this, 0L, 1L);
 
         // Print some useful info.
         this.printImplementations();
@@ -464,8 +463,10 @@ public class Starving implements Runnable, Listener {
 
     public void run() {
         // Tick.
-        ticksElapsed.incrementAndGet();
-
+        if((ticksElapsed.incrementAndGet() % 20 * 60) == 0) {
+            Bukkit.getPluginManager().callEvent(new MinuteTimeEvent(ticksElapsed.get()));
+        }
+        
         // Update sounds.
         this.ambientSoundManager.update();
     }
