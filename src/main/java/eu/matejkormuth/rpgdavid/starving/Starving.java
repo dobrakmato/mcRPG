@@ -62,6 +62,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.matejkormuth.rpgdavid.RpgPlugin;
+import eu.matejkormuth.rpgdavid.starving.achievements.Achievements;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 import eu.matejkormuth.rpgdavid.starving.commands.CommandManager;
 import eu.matejkormuth.rpgdavid.starving.commands.RpCommandExecutor;
@@ -357,6 +358,9 @@ public class Starving implements Runnable, Listener {
         // Start Rocket universe.
         RPG7.mainUniverse.startSimulation();
 
+        // Setup achievements.
+        Achievements.setup();
+        
         // Start status server.
         this.statusServer = new StatusServer();
         try {

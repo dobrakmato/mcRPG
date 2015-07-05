@@ -26,6 +26,11 @@ import org.bukkit.event.Listener;
 
 import eu.matejkormuth.rpgdavid.starving.Starving;
 
+/**
+ * Abstract class for simplified implementation of achievements.
+ * 
+ * @see OneDaySurvived
+ */
 public abstract class Achievement implements Listener {
     private final String name;
     private final String description;

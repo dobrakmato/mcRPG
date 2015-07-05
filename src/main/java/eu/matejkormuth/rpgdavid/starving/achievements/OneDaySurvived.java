@@ -27,7 +27,7 @@ import eu.matejkormuth.rpgdavid.starving.Data;
 import eu.matejkormuth.rpgdavid.starving.events.time.MinuteTimeEvent;
 
 public class OneDaySurvived extends Achievement {
-
+    
     public OneDaySurvived() {
         super("", "Survived more then 24 hours.");
     }
