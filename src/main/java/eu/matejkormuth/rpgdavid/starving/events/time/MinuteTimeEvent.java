@@ -24,7 +24,7 @@ import org.bukkit.event.HandlerList;
 import eu.matejkormuth.rpgdavid.starving.events.TimeEvent;
 
 public class MinuteTimeEvent extends TimeEvent {
-
+    
     private static final HandlerList handlers = new HandlerList();
     
     public MinuteTimeEvent(long l) {
@@ -33,6 +33,10 @@ public class MinuteTimeEvent extends TimeEvent {
 
     @Override
     public HandlerList getHandlers() {
+        return handlers;
+    }
+    
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
