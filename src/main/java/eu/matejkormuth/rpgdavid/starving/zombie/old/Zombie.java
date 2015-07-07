@@ -88,7 +88,7 @@ public class Zombie extends EntityZombie {
     @SuppressWarnings("rawtypes")
     private void removeAI() {
         try {
-            Field b = PathfinderGoalSelector.class.getDeclaredField("b");
+            Field b = PathfinderGoalSelector.class.getDeclaredField("distanceComparator");
             Field c = PathfinderGoalSelector.class.getDeclaredField("c");
             if (!b.isAccessible()) {
                 b.setAccessible(true);
