@@ -94,7 +94,6 @@ import eu.matejkormuth.rpgdavid.starving.listeners.TabListListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ToolsListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.VersionListener;
 import eu.matejkormuth.rpgdavid.starving.listeners.ZombieCombustListener;
-import eu.matejkormuth.rpgdavid.starving.listeners.ZombieListener;
 import eu.matejkormuth.rpgdavid.starving.npc.NPCManager;
 import eu.matejkormuth.rpgdavid.starving.particles.ParticleEmitters;
 import eu.matejkormuth.rpgdavid.starving.persistence.AbstractPersistable;
@@ -122,9 +121,8 @@ import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushSizeCommandExecu
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.BrushTypeCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterCommandExecutor;
 import eu.matejkormuth.rpgdavid.starving.worldgen.commands.FilterPropertyCommandExecutor;
-import eu.matejkormuth.rpgdavid.starving.zombie.ServerZombiePatcher;
-import eu.matejkormuth.rpgdavid.starving.zombie.TempZombieManager;
-import eu.matejkormuth.rpgdavid.starving.zombie.ZombieManager;
+import eu.matejkormuth.rpgdavid.starving.zombie.Patcher;
+import eu.matejkormuth.rpgdavid.starving.zombie.old.ZSpawnTask_BetaDedina;
 
 @NMSHooks(version = "v1_8_R2")
 public class Starving implements Runnable, Listener {
@@ -149,7 +147,6 @@ public class Starving implements Runnable, Listener {
 
     private Logger log;
     private File dataFolder;
-    private ZombieManager zombieManager;
     private AmbientSoundManager ambientSoundManager;
     private Plugin corePlugin;
     private ItemManager itemManager;
@@ -178,26 +175,19 @@ public class Starving implements Runnable, Listener {
     public static final boolean isCompatibile() {
         String nmsVersion = Starving.class.getAnnotation(NMSHooks.class).version();
         try {
-            Class.forName("net.minecraft.server." + nmsVersion
-                    + ".MinecraftServer");
+            Class.forName("net.minecraft.server." + nmsVersion + ".MinecraftServer");
         } catch (Exception ex) {
-            RpgPlugin.getInstance().getLogger().severe(
-                    "======================================");
-            RpgPlugin.getInstance().getLogger().severe(
-                    "Error while enabling Starvning!");
-            RpgPlugin.getInstance().getLogger().severe(
-                    "MinecraftServer class of version " + nmsVersion
-                            + " couldn't be found!");
+            RpgPlugin.getInstance().getLogger().severe("======================================");
+            RpgPlugin.getInstance().getLogger().severe("Error while enabling Starvning!");
+            RpgPlugin.getInstance().getLogger().severe("MinecraftServer class of version " + nmsVersion
+                    + " couldn't be found!");
             RpgPlugin.getInstance().getLogger().severe(
                     "This version of plugin is probably incompactibile with this Minecraft version.");
             RpgPlugin.getInstance().getLogger().severe(
-                    "Please downgrade to "
-                            + nmsVersion
+                    "Please downgrade to " + nmsVersion
                             + " or upgrade Starving plugin to match version of your server.");
-            RpgPlugin.getInstance().getLogger().severe(
-                    "======================================");
-            RpgPlugin.getInstance().getLogger().severe(
-                    "Disabling plugin...");
+            RpgPlugin.getInstance().getLogger().severe("======================================");
+            RpgPlugin.getInstance().getLogger().severe("Disabling plugin...");
             return false;
         }
         return true;
@@ -234,8 +224,7 @@ public class Starving implements Runnable, Listener {
         this.warpsConfig = new Configuration(this.getFile("warps.yml"));
 
         // Set game rules.
-        this.getLogger()
-                .info("Setting starving game rules...");
+        this.getLogger().info("Setting starving game rules...");
         for (World w : Bukkit.getWorlds()) {
             w.setGameRuleValue("doMobSpawning", "false");
         }
@@ -250,7 +239,6 @@ public class Starving implements Runnable, Listener {
                 .setConfigurationsFolder(confDirectory.getAbsolutePath());
 
         // Initialize all managers.
-        this.zombieManager = new ZombieManager();
         this.ambientSoundManager = new AmbientSoundManager();
         this.itemManager = new ItemManager();
 
@@ -263,59 +251,35 @@ public class Starving implements Runnable, Listener {
         this.particleEmmiters = new ParticleEmitters();
 
         // Register all command executors.
-        this.getPlugin().getCommand("warp").setExecutor(
-                new WarpCommandExecutor());
-        this.getPlugin().getCommand("setwarp").setExecutor(
-                new SetWarpCommandExecutor());
-        this.getPlugin().getCommand("setspeed").setExecutor(
-                new SetSpeedCommandExecutor());
+        this.getPlugin().getCommand("warp").setExecutor(new WarpCommandExecutor());
+        this.getPlugin().getCommand("setwarp").setExecutor(new SetWarpCommandExecutor());
+        this.getPlugin().getCommand("setspeed").setExecutor(new SetSpeedCommandExecutor());
         this.getPlugin().getCommand("rp").setExecutor(new RpCommandExecutor());
-        this.getPlugin().getCommand("bt").setExecutor(
-                new BrushTypeCommandExecutor());
-        this.getPlugin().getCommand("bs").setExecutor(
-                new BrushSizeCommandExecutor());
-        this.getPlugin().getCommand("f").setExecutor(
-                new FilterCommandExecutor());
-        this.getPlugin().getCommand("fp").setExecutor(
-                new FilterPropertyCommandExecutor());
-        this.getPlugin().getCommand("ar").setExecutor(
-                new ApplyRegionCommandExecutor());
+        this.getPlugin().getCommand("bt").setExecutor(new BrushTypeCommandExecutor());
+        this.getPlugin().getCommand("bs").setExecutor(new BrushSizeCommandExecutor());
+        this.getPlugin().getCommand("f").setExecutor(new FilterCommandExecutor());
+        this.getPlugin().getCommand("fp").setExecutor(new FilterPropertyCommandExecutor());
+        this.getPlugin().getCommand("ar").setExecutor(new ApplyRegionCommandExecutor());
 
         // Schedule all tasks.
-        this.register(new BleedingTask())
-                .schedule(1L);
-        this.register(new FlashlightTask())
-                .schedule(1L);
-        this.register(this.particleEmmiters)
-                .schedule(1L);
-        this.register(new TimeUpdater())
-                .schedule(2L);
+        this.register(new BleedingTask()).schedule(1L);
+        this.register(new FlashlightTask()).schedule(1L);
+        this.register(this.particleEmmiters).schedule(1L);
+        this.register(new TimeUpdater()).schedule(2L);
         // TablistFooterClockTask MUST be registered after TimeUpdater.
-        this.register(new TablistFooterClockTask())
-                .schedule(5L);
-        this.register(new LocalityTeller())
-                .schedule(20L);
-        this.register(new BodyTemperatureUpdater())
-                .schedule(20L);
-        this.register(new StaminaRegenerationTask())
-                .schedule(20L);
-        this.register(new BloodLevelConsuquencesTask())
-                .schedule(20L);
-        this.register(new HydrationDepletionTask())
-                .schedule(20L);
-        this.register(new HydrationLevelConsequencesTask())
-                .schedule(20L);
-        this.register(new BloodReplenishTask())
-                .schedule(20L);
-        this.register(new ScoreboardUpdater())
-                .schedule(20L);
-        this.register(new TempZombieManager())
-                .schedule(20 * 30L);
-        this.register(new HallucinationsTask())
-                .schedule(200L);
+        this.register(new TablistFooterClockTask()).schedule(5L);
+        this.register(new LocalityTeller()).schedule(20L);
+        this.register(new BodyTemperatureUpdater()).schedule(20L);
+        this.register(new StaminaRegenerationTask()).schedule(20L);
+        this.register(new BloodLevelConsuquencesTask()).schedule(20L);
+        this.register(new HydrationDepletionTask()).schedule(20L);
+        this.register(new HydrationLevelConsequencesTask()).schedule(20L);
+        this.register(new BloodReplenishTask()).schedule(20L);
+        this.register(new ScoreboardUpdater()).schedule(20L);
+        this.register(new ZSpawnTask_BetaDedina()).schedule(20 * 30L);
+        this.register(new HallucinationsTask()).schedule(200L);
 
         // Register starving listeners.
-        this.register(new ZombieListener());
         this.register(new HeadshotListener());
         this.register(new ChatListener());
         this.register(new LootListener());
@@ -347,15 +311,15 @@ public class Starving implements Runnable, Listener {
         this.printImplementations();
 
         // Patch server.
-        new ServerZombiePatcher().patchAll();
+        new Patcher().patchAll();
 
         // Start remote connections.
         this.remoteConnectionServer = new RemoteConnectionServer();
         this.remoteConnectionServer.start();
 
         this.remoteDebugAppender = new RemoteDebugAppender();
-        
-        // Start Rocket universe.
+
+        // Start Rocket universe simulation.
         RPG7.mainUniverse.startSimulation();
 
         // Setup achievements.
@@ -414,10 +378,6 @@ public class Starving implements Runnable, Listener {
                                         .getName());
         this.getLogger()
                 .info(
-                        " ZombieManager: " + this.zombieManager.getClass()
-                                .getName());
-        this.getLogger()
-                .info(
                         " aSoundManager: "
                                 + this.ambientSoundManager.getClass()
                                         .getName());
@@ -426,10 +386,6 @@ public class Starving implements Runnable, Listener {
     public void onDisable() {
         // Disable status server.
         this.statusServer.shutdown();
-
-        if (this.zombieManager != null) {
-            this.zombieManager.saveConfiguration();
-        }
 
         // Stop remote server.
         if (this.remoteConnectionServer != null) {
@@ -445,7 +401,7 @@ public class Starving implements Runnable, Listener {
 
         // Stop the simulation.
         RPG7.mainUniverse.stopSimulation();
-        
+
         // Save configurations.
         if (this.warpsConfig != null) {
             this.warpsConfig.save();
@@ -453,7 +409,7 @@ public class Starving implements Runnable, Listener {
 
         // Save particle emmiters.
         this.particleEmmiters.save();
-        
+
         // Save all cached Data-s.
         for (Data d : Data.cached()) {
             d.save().uncache();
@@ -515,10 +471,6 @@ public class Starving implements Runnable, Listener {
         return dataFolder;
     }
 
-    public ZombieManager getZombieManager() {
-        return this.zombieManager;
-    }
-
     public ItemManager getItemManager() {
         return this.itemManager;
     }
@@ -553,19 +505,13 @@ public class Starving implements Runnable, Listener {
         String rp = Data.of(event.getPlayer())
                 .getResourcePack();
         if (rp.equalsIgnoreCase("builders")) {
-            event.getPlayer()
-                    .setResourcePack(
-                            "http://www.starving.eu/2/rp/latest_builder.zip");
+            event.getPlayer().setResourcePack("http://www.starving.eu/2/rp/latest_builder.zip");
         } else if (rp.equalsIgnoreCase("players")) {
-            event.getPlayer()
-                    .setResourcePack(
-                            "http://www.starving.eu/2/rp/latest.zip");
+            event.getPlayer().setResourcePack("http://www.starving.eu/2/rp/latest.zip");
         } else {
-            event.getPlayer()
-                    .setResourcePack(
-                            "http://www.starving.eu/2/rp/empty.zip");
+            event.getPlayer().setResourcePack("http://www.starving.eu/2/rp/empty.zip");
         }
-        
+
         this.ambientSoundManager.addPlayer(event.getPlayer());
     }
 
@@ -575,18 +521,15 @@ public class Starving implements Runnable, Listener {
         Data.of(event.getPlayer())
                 .uncache()
                 .save();
-        
-       this.ambientSoundManager.removePlayer(event.getPlayer());
+
+        this.ambientSoundManager.removePlayer(event.getPlayer());
     }
 
     @EventHandler
     private void onPlayerRespawn(final PlayerRespawnEvent event) {
         // TODO: Load last savepoint instead.
-        event.getPlayer()
-                .sendMessage(
-                        ChatColor.YELLOW + "Data has been reseted!");
-        Data.of(event.getPlayer())
-                .reset();
+        event.getPlayer().sendMessage(ChatColor.YELLOW + "Data has been reseted!");
+        Data.of(event.getPlayer()).reset();
     }
 
     public JavaPlugin getPlugin() {

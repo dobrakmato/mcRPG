@@ -27,28 +27,24 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 import eu.matejkormuth.rpgdavid.starving.annotations.NMSHooks;
 
 @NMSHooks(version = "v1_8_R2")
-public class ServerZombiePatcher {
+public class Patcher {
     public void patchAll() {
-        Starving.getInstance().getLogger()
-                .info("[Patcher] Applying changes in server...");
+        Starving.getInstance().getLogger().info("[Patcher] Applying changes in server...");
         patchZombies();
     }
 
     private void patchZombies() {
-        Starving.getInstance().getLogger()
-                .info("[Patcher] Patching zombies...");
+        Starving.getInstance().getLogger().info("[Patcher] Patching zombies...");
         patchEntity(Zombie.class, "Zombie", 54);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void patchEntity(Class<?> entityClass, String name, int id) {
-        Starving.getInstance().getLogger()
-                .info("[Patcher] Patching entity: " + name);
+        Starving.getInstance().getLogger().info("[Patcher] Patching entity: " + name);
         // According to some online resource, we must put values in 'd' and 'f'
         // fields.
         ((Map) getField("d", EntityTypes.class, null)).put(entityClass, name);
-        ((Map) getField("f", EntityTypes.class, null)).put(entityClass,
-                Integer.valueOf(id));
+        ((Map) getField("f", EntityTypes.class, null)).put(entityClass, Integer.valueOf(id));
     }
 
     private Object getField(String fieldName, Class<?> clazz, Object object) {
