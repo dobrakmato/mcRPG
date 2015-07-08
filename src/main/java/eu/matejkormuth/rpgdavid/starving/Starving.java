@@ -423,7 +423,7 @@ public class Starving implements Runnable, Listener {
 
     public void run() {
         // Tick.
-        if((ticksElapsed.incrementAndGet() % 20 * 60) == 0) {
+        if((ticksElapsed.incrementAndGet() % (20 * 60)) == 0) {
             Bukkit.getPluginManager().callEvent(new MinuteTimeEvent(ticksElapsed.get()));
         }
         

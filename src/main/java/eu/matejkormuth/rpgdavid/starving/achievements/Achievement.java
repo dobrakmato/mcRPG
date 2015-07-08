@@ -87,7 +87,9 @@ public abstract class Achievement implements Listener {
         // TODO: Save next current progress.
 
         if (nextProgress == this.maxProgress) {
-            player.sendMessage(ChatColor.GREEN + "[ACHIEVEMENT] " + this.name + " completed!");
+            String str = ChatColor.GREEN + "Achievement " + ChatColor.YELLOW + this.name + ChatColor.GREEN
+                    + " completed!";
+            Starving.NMS.sendAboveActionBarMessage(player, str);
             this.onCompleted(player);
         }
     }
