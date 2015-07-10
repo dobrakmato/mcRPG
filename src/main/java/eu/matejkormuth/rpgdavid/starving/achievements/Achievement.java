@@ -29,7 +29,7 @@ import eu.matejkormuth.rpgdavid.starving.Starving;
 /**
  * Abstract class for simplified implementation of achievements.
  * 
- * @see OneDaySurvived
+ * @see HitLikeYouDo
  */
 public abstract class Achievement implements Listener {
     private final String name;
@@ -87,6 +87,8 @@ public abstract class Achievement implements Listener {
         // TODO: Save next current progress.
 
         if (nextProgress == this.maxProgress) {
+            // TODO: Make better message using on hover, etc...
+            
             String str = ChatColor.GREEN + "Achievement " + ChatColor.YELLOW + this.name + ChatColor.GREEN
                     + " completed!";
             Starving.NMS.sendAboveActionBarMessage(player, str);

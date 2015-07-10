@@ -324,7 +324,7 @@ public class Starving implements Runnable, Listener {
 
         // Setup achievements.
         Achievements.setup();
-        
+
         // Start status server.
         this.statusServer = new StatusServer();
         try {
@@ -423,10 +423,18 @@ public class Starving implements Runnable, Listener {
 
     public void run() {
         // Tick.
-        if((ticksElapsed.incrementAndGet() % (20 * 60)) == 0) {
+        if ((ticksElapsed.incrementAndGet() % (20 * 60)) == 0) {
+            // Increment playtime of online players.
+            Data data = null;
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                data = Data.of(p);
+                data.incrementMinutesPlayed(1);
+            }
+
+            // Call event.
             Bukkit.getPluginManager().callEvent(new MinuteTimeEvent(ticksElapsed.get()));
         }
-        
+
         // Update sounds.
         this.ambientSoundManager.update();
     }

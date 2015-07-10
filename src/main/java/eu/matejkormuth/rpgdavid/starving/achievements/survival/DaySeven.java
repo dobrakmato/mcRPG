@@ -17,19 +17,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package eu.matejkormuth.rpgdavid.starving.achievements;
+package eu.matejkormuth.rpgdavid.starving.achievements.survival;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 import eu.matejkormuth.rpgdavid.starving.Data;
+import eu.matejkormuth.rpgdavid.starving.achievements.Achievement;
 import eu.matejkormuth.rpgdavid.starving.events.time.MinuteTimeEvent;
 
-public class OneDaySurvived extends Achievement {
+public class DaySeven extends Achievement {
     
-    public OneDaySurvived() {
-        super("One Day Survived", "Survived more then 24 hours.");
+    public DaySeven() {
+        super("Day Seven", "Survived more then 7 days.");
     }
     
     @EventHandler
@@ -38,9 +39,8 @@ public class OneDaySurvived extends Achievement {
         for(Player p : Bukkit.getOnlinePlayers()) {
             data = Data.of(p);
             
-            data.incrementMinutesPlayed(1);
-            // By issue #25 day and night have 40 minutes.
-            if(data.getMinutesPlayed() >= 40) {
+            // By issue #25 day and night have 40 minutes. So 7 days is 40 * 7.
+            if(data.getMinutesPlayed() >= 280) {
                 this.complete(p);
             }
         }
